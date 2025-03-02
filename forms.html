@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Registro de Produtos</title>
+  </head>
+  <body>
+    <main>
+      <form id="produto-form">
+        Insira uma imagem do produto:
+        <input
+          type="file"
+          id="imagem-file"
+          aria-label="Imagem do produto"
+        />
+        <br />
+        Insira o código do produto:
+        <input
+          type="text"
+          id="codigo-input"
+          aria-label="Código do produto"
+          placeholder="Digite o descrição do produto"
+        />
+        <br />
+        Insira o nome do produto:
+        <input
+          type="text"
+          id="nome-input"
+          aria-label="Nome do produto"
+          placeholder="Digite o nome do produto"
+        />
+        <br />
+        Insira a data de validade:
+        <input
+          type="text"
+          id="data-input"
+          maxlength="10"
+          aria-label="Data de validade do produto"
+          placeholder="Digite a data de validade do produto"
+        />
+        <br />
+        Insira o valor de compra:
+        <input
+          type="number"
+          id="valor-compra-input"
+          aria-label="Valor de compra do produto"
+          placeholder="Digite o valor de compra do produto"
+        />
+        <br />
+        Insira o valor para venda:
+        <input
+          type="number"
+          id="valor-venda-input"
+          aria-label="Valor para venda do produto"
+          placeholder="Digite o valor para venda do produto"
+        />
+        <br />
+        Quantas unidades desse produto deseja cadastrar?
+        <input
+          type="number"
+          id="quantidade-input"
+          aria-label="Quantidade do produto a ser cadastrada"
+          placeholder="Digite a quantidade a ser cadastrada"
+        />
+        <br />
+        <!-- Selecione uma categoria:
+            <select name="categorias-" id="categorias-select">
+                <option value="#">---</option>
+                <option value=""></option>
+                <option value=""></option>
+            </select> <br>
+            Selecione um setor:
+            <select name="" id="">
+                <option value="#">---</option>
+                <option value=""></option>
+                <option value=""></option>
+            </select> <br> -->
+        <input 
+          type="checkbox" 
+          id="descricao-checkbox" 
+          aria-label="Adicionar uma descrição" onclick="adicionarDescricao()"/>
+        Adicionar descrição
+        <br />
+        <input
+          type="text"
+          id="descricao-input"
+          aria-label="Descrição do produto"
+          placeholder="Digite a descrição do produto"
+          style = "display: none;"
+        />
+        <br />
+        <button type="submit">Cadastrar</button>
+        <button onclick="cancelarCadastro()">Cancelar</button>
+      </form>
+
+      <section>
+        <ul id="produtos-list"></ul>
+      </section>
+    </main>
+  </body>
+  <script src="./script.js"></script>
+</html>

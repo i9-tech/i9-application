@@ -1,0 +1,34 @@
+:root {
+    --primary-color: #007bff;
+    --secundary-color: #005ec2;
+    --backgroud-color: #f4f4f4;
+    --primary-green: #4caf50;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    accent-color: var(--primary-color);
+  }
+  
+  body {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--backgroud-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  form {
+    background-color: aqua;
+  }
+  
+  section {
+    background-color: red;
+  }
+  
+  

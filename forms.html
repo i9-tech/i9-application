@@ -7,7 +7,7 @@
     <title>Registro de Produtos</title>
   </head>
   <body>
-    <main>
+    <main class="container">
       <form id="produto-form">
         Insira uma imagem do produto:
         <input
@@ -65,22 +65,10 @@
           placeholder="Digite a quantidade a ser cadastrada"
         />
         <br />
-        <!-- Selecione uma categoria:
-            <select name="categorias-" id="categorias-select">
-                <option value="#">---</option>
-                <option value=""></option>
-                <option value=""></option>
-            </select> <br>
-            Selecione um setor:
-            <select name="" id="">
-                <option value="#">---</option>
-                <option value=""></option>
-                <option value=""></option>
-            </select> <br> -->
         <input 
           type="checkbox" 
           id="descricao-checkbox" 
-          aria-label="Adicionar uma descrição" onclick="adicionarDescricao()"/>
+          aria-label="Adicionar uma descrição" onchange="adicionarDescricao()"/>
         Adicionar descrição
         <br />
         <input
@@ -91,8 +79,9 @@
           style = "display: none;"
         />
         <br />
-        <button type="submit">Cadastrar</button>
-        <button onclick="cancelarCadastro()">Voltar</button>
+          <button class="botoes-formulario" type="submit">Cadastrar</button>
+          <button class="botoes-formulario" onclick="cancelarCadastro()">Voltar</button>
+        
       </form>
 
       <section>

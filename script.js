@@ -14,18 +14,18 @@ let indexEdicao;
 
 window.addEventListener("load", () => {
   obterParametroProduto();
-  console.log("Oi")
+  // console.log("Oi")
 });
 
 const obterParametroProduto = () => {
   const params = new URLSearchParams(window.location.search);
   const indexProduto = params.get("produto");
   const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-  console.log(indexProduto, produtos)
+  // console.log(indexProduto, produtos)
 
   if (!indexProduto) {
     indexEdicao = -1;
-    console.log("saindo")
+    // console.log("saindo")
     return;
   }
 
@@ -47,9 +47,13 @@ const editarProduto = (produto) => {
   valorCompraInput.value = produto.compra;
   valorVendaInput.value = produto.venda;
   qtdCadastroInput.value = produto.quantidadeCadastro;
-  descricaoCheckbox.value = produto.descricao;
-
-  console.log(produto)
+  
+  if((produto.descricao).length > 0) {
+    descricaoInput.value = produto.descricao;
+    descricaoCheckbox.checked = true;
+    descricaoInput.style.display = "flex";
+  }
+  // console.log(produto)
 }
 
 
@@ -91,6 +95,7 @@ const adicionarDescricao = () => {
   if (addDesc) {
     descricaoInput.style.display = "flex";
   } else {
+    descricaoInput.value = ''; 
     descricaoInput.style.display = "none";
   }
 };
@@ -221,6 +226,9 @@ const limparForms = () => {
   valorVendaInput.value = '';
   qtdCadastroInput.value = '';
   descricaoCheckbox.value = '';
+  descricaoCheckbox.checked = false;
+  descricaoInput.style.display = "none";
+
   indexEdicao = -1;
   window.history.replaceState(null, "", window.location.pathname);
 

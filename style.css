@@ -1,28 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 :root {
-    --primary-color: #007bff;
-    --secundary-color: #005ec2;
-    --backgroud-color: #f4f4f4;
-    --primary-green: #4caf50;
+    --texto-preto:#040B28;
+    --hovers: #0E2361;
+    --destaque: #0F14B8;
+    --background: #E9EFF4;
+    --background-white: #FBFEFF;
   }
   
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Inter", sans-serif;;
     accent-color: var(--primary-color);
+    background-color: var(--backgroud-color);
   }
   
   body {
     width: 100vw;
     height: 100vh;
-    background-color: var(--backgroud-color);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
   
+  .container {
+  padding: 16px;
+  background-color: white;
+  width: 40%;
+  border-radius: 15px;
+  max-height: 80vh;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
+  #add-produto {
+    width: 100%;
+  }
+    
+  #produtos-list {
+    list-style: none;
+    padding: 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 50vh;
+    overflow-y: auto;
+  
+    .produto-lista-item {
+      display: flex;
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      justify-content: space-between;
+    }
+  }
+
+  .botoes-formulario {
+    width: 100%;
+  }
+
+}
+
+
+
   form {
     background-color: aqua;
   }
@@ -31,4 +72,14 @@
     background-color: red;
   }
   
+  button {
+    color: var(--background-white);
+    background-color: var(--destaque);
+  }
+
+  button:hover {
+    background-color: var(--hovers);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
   

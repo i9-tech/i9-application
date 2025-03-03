@@ -14,9 +14,33 @@ const descricaoInput = document.querySelector("#descricao-input");
 produtoForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const listaProdutos = document.createElement("li");
-  cadastrarProduto(listaProdutos);
+  validarDados();
 });
+
+const validarDados = () => {
+  if (
+    !codigoInput.value.trim() ||
+    !nomeInput.value.trim() ||
+    !dataInput.value.trim() ||
+    !valorCompraInput.value.trim() ||
+    !valorVendaInput.value.trim() ||
+    !qtdCadastroInput.value.trim()
+  ) {
+    alert("campos em branco!");
+    return false;
+  }
+
+  if (
+    valorCompraInput.value <= 0 ||
+    valorVendaInput.value <= 0 ||
+    qtdCadastroInput.value <= 0
+  ) {
+    alert("valores numéricos precisam ser maiores que 0!");
+    return false;
+  }
+
+  cadastrarProduto();
+};
 
 // ATIVAR E DESATIVAR O INPUT DE DESCRIÇÃO DE PRODUTO
 const adicionarDescricao = () => {
@@ -30,109 +54,81 @@ const adicionarDescricao = () => {
 };
 
 // FORMATAR DATA CONFORME O USUÁRIO DIGITA
+// * a fazer *
 
-const cadastrarProduto = (listaProdutos, produto) => {
-  const codigo = codigoInput.value;
-  const imagem = imagemFile.value;
-  const nome = nomeInput.value;
-  const validade = dataInput.value;
-  const compra = Number(valorCompraInput.value);
-  const venda = Number(valorVendaInput.value);
-  const quantidadeCadastro = Number(qtdCadastroInput.value);
-  const descricao = descricaoInput.value;
+const cadastrarProduto = () => {
+  const produto = {
+    codigo: codigoInput.value,
+    imagem: imagemFile.value,
+    nome: nomeInput.value,
+    validade: dataInput.value,
+    compra: Number(valorCompraInput.value),
+    venda: Number(valorVendaInput.value),
+    quantidadeCadastro: Number(qtdCadastroInput.value),
+    descricao: descricaoInput.value,
+    dtHora: new Date().toLocaleString(),
+  };
 
-  listaProdutos.classList.add("produto-lista-item");
+  console.log("cadastrarProduto: ", produto);
 
-  const spanCodigo = document.createElement("span");
-  const spanImagem = document.createElement("span");
-  const spanNome = document.createElement("span");
-  const spanValidade = document.createElement("span");
-  const spanCompra = document.createElement("span");
-  const spanVenda = document.createElement("span");
-  const spanQtdCadastro = document.createElement("span");
-  const spanDescricao = document.createElement("span");
-
-  spanCodigo.innerText = produto ? produto.codigo : codigo;
-  spanImagem.innerText = produto ? produto.imagem : imagem;
-  spanNome.innerText = produto ? produto.nome : nome;
-  spanValidade.innerText = produto ? produto.validade : validade;
-  spanCompra.innerText = produto ? produto.compra : compra;
-  spanVenda.innerText = produto ? produto.venda : venda;
-  spanQtdCadastro.innerText = produto
-    ? produto.quantidadeCadastro
-    : quantidadeCadastro;
-  spanDescricao.innerText = produto ? produto.descricao : descricao;
-
-  listaProdutos.appendChild(spanCodigo);
-  listaProdutos.appendChild(spanImagem);
-  listaProdutos.appendChild(spanNome);
-  listaProdutos.appendChild(spanValidade);
-  listaProdutos.appendChild(spanCompra);
-  listaProdutos.appendChild(spanVenda);
-  listaProdutos.appendChild(spanQtdCadastro);
-  listaProdutos.appendChild(spanDescricao);
-
-  produtosList.appendChild(listaProdutos);
-
-  tratarDados(listaProdutos);
+  tratarDados(produto);
 };
 
-const tratarDados = (listaProdutos) => {
+const tratarDados = (dadosProduto) => {
   // TRATAR DATA
+// * a fazer *
 
   // ADICIONAR DATA E HORA DE REGISTRO
+// * a fazer *
 
   // ADICIONAR USUÁRIO QUE REGISTROU
+// * a fazer *
 
-  salvarProduto();
+  // APÓS FORMATAR OS DADOS, ELES FICARÃO ARMAZENADOS AQUI
+  const dadosFormatados = dadosProduto;
+
+  console.log("dadosFormatados: ", dadosFormatados);
+  salvarProduto(dadosFormatados);
 };
 
-window.addEventListener("load", () => {
-  getProdutos();
-});
 
-getProdutos = () => { 
+const salvarProduto = (dadosFormatados) => {
+
+  const jsonProduto = {
+    codigo: dadosFormatados.codigo,
+    imagem: dadosFormatados.imagem,
+    nome: dadosFormatados.nome,
+    validade: dadosFormatados.validade,
+    compra: dadosFormatados.compra,
+    venda: dadosFormatados.venda,
+    quantidadeCadastro: dadosFormatados.quantidadeCadastro,
+    descricao: dadosFormatados.descricao,
+    dtRegistro: dadosFormatados.dtHora,
+  };
+
+  // precisa primeiro recuperar o json para adicionar o iten, senão ele vai ser sobrescrito toda vez
   const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+  produtos.push(jsonProduto);
+  console.log("PRODUTOS: ", produtos);
 
-  produtos.forEach((produto) => {
-    const newItem = document.createElement("li");
-    cadastrarProduto(newItem, produto);
-  });
-};
-
-const salvarProduto = () => {
-  const produto = [...produtosList.children];
-
-  const mapearInfosProduto = produto.map((li) => {
-    const codigoProduto = li.querySelector("span:nth-child(1)").textContent;
-    const imagemProduto = li.querySelector("span:nth-child(2)").textContent;
-    const nomeProduto = li.querySelector("span:nth-child(3)").textContent;
-    const dtValidadePoduto = li.querySelector("span:nth-child(4)").textContent;
-    const vlrCompra = li.querySelector("span:nth-child(5)").textContent;
-    const vlrVenda = li.querySelector("span:nth-child(6)").textContent;
-    const qtdCadastro = li.querySelector("span:nth-child(7)").textContent;
-    const descricaoProduto = li.querySelector("span:nth-child(8)").textContent;
-
-    const jsonProduto = {
-      codigo: codigoProduto,
-      imagem: imagemProduto,
-      nome: nomeProduto,
-      validade: dtValidadePoduto,
-      compra: vlrCompra,
-      venda: vlrVenda,
-      quantidadeCadastro: qtdCadastro,
-      descricao: descricaoProduto,
-    };
-
-    return jsonProduto;
-  });
-
-  console.log(mapearInfosProduto);
-
-  localStorage.setItem("produtos", JSON.stringify(mapearInfosProduto));
+  localStorage.setItem("produtos", JSON.stringify(produtos));
 };
 
 const cancelarCadastro = () => {
+  event.preventDefault();
+
+  if(
+    !codigoInput.value.trim() &&
+    !nomeInput.value.trim() &&
+    !dataInput.value.trim() &&
+    !valorCompraInput.value.trim() &&
+    !valorVendaInput.value.trim() &&
+    !qtdCadastroInput.value.trim()
+  ) {
+    window.location = "./estoque.html";
+    return;
+  }
+
   const confirmacao = confirm("Deseja cancelar o cadastro?");
 
   if (confirmacao) {

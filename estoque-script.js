@@ -7,22 +7,23 @@ window.addEventListener("load", () => {
 });
 
 const produtosList = document.querySelector("#produtos-list");
+let indexEdicao;
 
 getProdutos = () => {
   const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
 
-  produtos.forEach((produto) => {
+  produtos.forEach((produto, index) => {
     const newItem = document.createElement("li");
-    mapearProdutos(newItem, produto);
+    mapearProdutos(newItem, produto, index);
   });
 };
 
-const mapearProdutos = (listaProdutos, produto) => {
+const mapearProdutos = (listaProdutos, produto, index) => {
   const codigo = produto.codigo;
   const imagem = produto.imagem;
   const nome = produto.nome; 
   const validade = produto.validade; 
-  const compra = produto.vompra; 
+  const compra = produto.compra; 
   const venda = produto.venda; 
   const quantidadeCadastro = produto.quantidadeCadastro;
   const descricao = produto.descricao; 
@@ -38,6 +39,10 @@ const mapearProdutos = (listaProdutos, produto) => {
   const spanQtdCadastro = document.createElement("span");
   const spanDescricao = document.createElement("span");
 
+  const buttonEdit = document.createElement("button");
+  const buttonDelete = document.createElement("button");
+  
+  
   spanCodigo.innerText = produto ? produto.codigo : codigo;
   spanImagem.innerText = produto ? produto.imagem : imagem;
   spanNome.innerText = produto ? produto.nome : nome;
@@ -49,6 +54,24 @@ const mapearProdutos = (listaProdutos, produto) => {
     : quantidadeCadastro;
   spanDescricao.innerText = produto ? produto.descricao : descricao;
 
+  buttonEdit.innerHTML = "✏️";
+  buttonDelete.innerHTML = "🗑️";
+
+  buttonEdit.setAttribute("data-index", index);
+
+  // fazendo a edição de uma tarefa
+  buttonEdit.addEventListener("click", () => {
+
+    window.location.href = `./forms.html?produto=${index}`;
+
+  });
+
+  // fazendo a exclusão de uma tarefa
+  buttonDelete.addEventListener("click", () => {
+    deletarTarefa(listaProdutos);
+  });
+
+
   listaProdutos.appendChild(spanCodigo);
   listaProdutos.appendChild(spanImagem);
   listaProdutos.appendChild(spanNome);
@@ -57,6 +80,14 @@ const mapearProdutos = (listaProdutos, produto) => {
   listaProdutos.appendChild(spanVenda);
   listaProdutos.appendChild(spanQtdCadastro);
   listaProdutos.appendChild(spanDescricao);
+  listaProdutos.appendChild(buttonEdit);
+  listaProdutos.appendChild(buttonDelete);
+
 
   produtosList.appendChild(listaProdutos);
 };
+
+
+const deletarTarefa = (tarefaSelecionada) => {
+  alert("deletando tarefa" + tarefaSelecionada)
+}

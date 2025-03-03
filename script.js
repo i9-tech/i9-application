@@ -10,6 +10,48 @@ const valorVendaInput = document.querySelector("#valor-venda-input");
 const qtdCadastroInput = document.querySelector("#quantidade-input");
 const descricaoCheckbox = document.querySelector("#descricao-checkbox");
 const descricaoInput = document.querySelector("#descricao-input");
+let indexEdicao;
+
+window.addEventListener("load", () => {
+  obterParametroProduto();
+  console.log("Oi")
+});
+
+const obterParametroProduto = () => {
+  const params = new URLSearchParams(window.location.search);
+  const indexProduto = params.get("produto");
+  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+  console.log(indexProduto, produtos)
+
+  if (!indexProduto) {
+    indexEdicao = -1;
+    console.log("saindo")
+    return;
+  }
+
+  // indice vem como string pela url, preciso converter pra numero
+  indexEdicao = Number(indexProduto);
+
+  produtos.forEach((p, index) => {
+    if (index === indexEdicao) {
+      editarProduto(p);
+    }
+  })
+}
+
+const editarProduto = (produto) => {
+  codigoInput.value = produto.codigo;
+  imagemFile.value = produto.imagem;
+  nomeInput.value = produto.nome;
+  dataInput.value = produto.validade;
+  valorCompraInput.value = produto.compra;
+  valorVendaInput.value = produto.venda;
+  qtdCadastroInput.value = produto.quantidadeCadastro;
+  descricaoCheckbox.value = produto.descricao;
+
+  console.log(produto)
+}
+
 
 produtoForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -94,6 +136,10 @@ const tratarDados = (dadosProduto) => {
 
 const salvarProduto = (dadosFormatados) => {
 
+  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+  console.log("DADOS FORMATADOS: " + dadosFormatados);
+
+  if (indexEdicao == -1) {
   const jsonProduto = {
     codigo: dadosFormatados.codigo,
     imagem: dadosFormatados.imagem,
@@ -107,11 +153,40 @@ const salvarProduto = (dadosFormatados) => {
   };
 
   // precisa primeiro recuperar o json para adicionar o iten, senão ele vai ser sobrescrito toda vez
-  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+  // const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
   produtos.push(jsonProduto);
   console.log("PRODUTOS: ", produtos);
 
   localStorage.setItem("produtos", JSON.stringify(produtos));
+  limparForms();
+  return;
+  }
+
+  if(indexEdicao !== -1) {
+    console.log("INDEX: " + indexEdicao)
+    console.log(produtos[indexEdicao])
+
+    const edicao = {
+      codigo: dadosFormatados.codigo,
+      imagem: dadosFormatados.imagem,
+      nome: dadosFormatados.nome,
+      validade: dadosFormatados.validade,
+      compra: dadosFormatados.compra,
+      venda: dadosFormatados.venda,
+      quantidadeCadastro: dadosFormatados.quantidadeCadastro,
+      descricao: dadosFormatados.descricao,
+      dtRegistro: dadosFormatados.dtHora,
+
+    };
+
+    produtos[indexEdicao] = edicao;
+    console.log("edição concluida!");
+    localStorage.setItem("produtos", JSON.stringify(produtos));
+    limparForms();
+    return;
+  }
+
+
 };
 
 const cancelarCadastro = () => {
@@ -135,3 +210,19 @@ const cancelarCadastro = () => {
     window.location = "./estoque.html";
   }
 };
+
+const limparForms = () => {
+  alert("dados registrados!")
+  codigoInput.value = '';
+  imagemFile.value = '';
+  nomeInput.value = '';
+  dataInput.value = '';
+  valorCompraInput.value = '';
+  valorVendaInput.value = '';
+  qtdCadastroInput.value = '';
+  descricaoCheckbox.value = '';
+  indexEdicao = -1;
+  window.history.replaceState(null, "", window.location.pathname);
+
+}
+

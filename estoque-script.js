@@ -21,12 +21,12 @@ getProdutos = () => {
 const mapearProdutos = (listaProdutos, produto, index) => {
   const codigo = produto.codigo;
   const imagem = produto.imagem;
-  const nome = produto.nome; 
-  const validade = produto.validade; 
-  const compra = produto.compra; 
-  const venda = produto.venda; 
+  const nome = produto.nome;
+  const validade = produto.validade;
+  const compra = produto.compra;
+  const venda = produto.venda;
   const quantidadeCadastro = produto.quantidadeCadastro;
-  const descricao = produto.descricao; 
+  const descricao = produto.descricao;
 
   listaProdutos.classList.add("produto-lista-item");
 
@@ -41,8 +41,7 @@ const mapearProdutos = (listaProdutos, produto, index) => {
 
   const buttonEdit = document.createElement("button");
   const buttonDelete = document.createElement("button");
-  
-  
+
   spanCodigo.innerText = produto ? produto.codigo : codigo;
   spanImagem.innerText = produto ? produto.imagem : imagem;
   spanNome.innerText = produto ? produto.nome : nome;
@@ -61,16 +60,20 @@ const mapearProdutos = (listaProdutos, produto, index) => {
 
   // fazendo a edição de uma tarefa
   buttonEdit.addEventListener("click", () => {
-
     window.location.href = `./forms.html?produto=${index}`;
-
   });
 
   // fazendo a exclusão de uma tarefa
   buttonDelete.addEventListener("click", () => {
-    deletarTarefa(listaProdutos);
-  });
 
+    const confirmacao = confirm("Deseja confirmar a exclusão?");
+
+    if (confirmacao) {
+      produtosList.removeChild(listaProdutos);
+      alert("Produto excluído com sucesso!");
+    }
+  
+  });
 
   listaProdutos.appendChild(spanCodigo);
   listaProdutos.appendChild(spanImagem);
@@ -83,11 +86,9 @@ const mapearProdutos = (listaProdutos, produto, index) => {
   listaProdutos.appendChild(buttonEdit);
   listaProdutos.appendChild(buttonDelete);
 
-
   produtosList.appendChild(listaProdutos);
 };
 
-
 const deletarTarefa = (tarefaSelecionada) => {
-  alert("deletando tarefa" + tarefaSelecionada)
-}
+  alert("deletando tarefa" + tarefaSelecionada);
+};

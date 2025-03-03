@@ -1,46 +1,3 @@
-let usuarioAtual = 1;
-let produtosArmazenados = {
-  nomeProduto: "pastel",
-  valorUnitario: 20.0,
-  quantidade: 100,
-  categoria: "Lanche",
-  setorAlimenticio: "Pastelaria",
-  descricao: "descricao_ccea61fe1443",
-  dataVencimento: "2025-02-28",
-  dtRegistro: "2025-02-28",
-  quantidadeMin: 15,
-  quantidadeMax: 100,
-  idRegistro: 1,
-};
-sessionStorage.USUARIO = usuarioAtual;
-localStorage.PRODUTOS = produtosArmazenados;
-
-// private int id;
-// private String nomeProduto;
-// private double valorUnitario;
-// private int quantidade;
-// private String categoria;
-// private String setorAlimenticio;
-// private String descricao;
-// private LocalDate dataVencimento;
-// private LocalDate dtRegistro;
-// private int quantidadeMin;
-// private int quantidadeMax;
-// private int idRegistro;
-
-let id;
-let nomeProduto;
-let valorUnitario;
-let quantidade;
-let categoria;
-let setorAlimenticio;
-let descricao;
-let dataVencimento;
-let dtRegistro;
-let quantidadeMin;
-let quantidadeMax;
-let idRegistro = usuarioAtual;
-
 const produtoForm = document.getElementById("produto-form");
 const produtosList = document.querySelector("#produtos-list");
 
@@ -97,7 +54,7 @@ const cadastrarProduto = (listaProdutos, produto) => {
 
   spanCodigo.innerText = produto ? produto.codigo : codigo;
   spanImagem.innerText = produto ? produto.imagem : imagem;
-  spanNome.innerText = produto ? produto.codigo : nome;
+  spanNome.innerText = produto ? produto.nome : nome;
   spanValidade.innerText = produto ? produto.validade : validade;
   spanCompra.innerText = produto ? produto.compra : compra;
   spanVenda.innerText = produto ? produto.venda : venda;
@@ -116,6 +73,63 @@ const cadastrarProduto = (listaProdutos, produto) => {
   listaProdutos.appendChild(spanDescricao);
 
   produtosList.appendChild(listaProdutos);
+
+  tratarDados(listaProdutos);
+};
+
+const tratarDados = (listaProdutos) => {
+  // TRATAR DATA
+
+  // ADICIONAR DATA E HORA DE REGISTRO
+
+  // ADICIONAR USUÁRIO QUE REGISTROU
+
+  salvarProduto();
+};
+
+window.addEventListener("load", () => {
+  getProdutos();
+});
+
+getProdutos = () => { 
+  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+
+  produtos.forEach((produto) => {
+    const newItem = document.createElement("li");
+    cadastrarProduto(newItem, produto);
+  });
+};
+
+const salvarProduto = () => {
+  const produto = [...produtosList.children];
+
+  const mapearInfosProduto = produto.map((li) => {
+    const codigoProduto = li.querySelector("span:nth-child(1)").textContent;
+    const imagemProduto = li.querySelector("span:nth-child(2)").textContent;
+    const nomeProduto = li.querySelector("span:nth-child(3)").textContent;
+    const dtValidadePoduto = li.querySelector("span:nth-child(4)").textContent;
+    const vlrCompra = li.querySelector("span:nth-child(5)").textContent;
+    const vlrVenda = li.querySelector("span:nth-child(6)").textContent;
+    const qtdCadastro = li.querySelector("span:nth-child(7)").textContent;
+    const descricaoProduto = li.querySelector("span:nth-child(8)").textContent;
+
+    const jsonProduto = {
+      codigo: codigoProduto,
+      imagem: imagemProduto,
+      nome: nomeProduto,
+      validade: dtValidadePoduto,
+      compra: vlrCompra,
+      venda: vlrVenda,
+      quantidadeCadastro: qtdCadastro,
+      descricao: descricaoProduto,
+    };
+
+    return jsonProduto;
+  });
+
+  console.log(mapearInfosProduto);
+
+  localStorage.setItem("produtos", JSON.stringify(mapearInfosProduto));
 };
 
 const cancelarCadastro = () => {

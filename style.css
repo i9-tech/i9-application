@@ -53,7 +53,15 @@
       padding: 12px;
       font-size: 15px;
       justify-content: space-between;
+    
     }
+    .codigo-produto {
+      background-color: yellow;
+      max-width: 8%;
+      overflow-x: hidden;
+    }
+
+    
   }
 
   .botoes-formulario {

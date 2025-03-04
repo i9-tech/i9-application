@@ -14,30 +14,44 @@ let indexEdicao;
 
 window.addEventListener("load", () => {
   obterParametroProduto();
-  // console.log("Oi")
+  console.log("Oi")
 });
 
 const obterParametroProduto = () => {
   const params = new URLSearchParams(window.location.search);
   const indexProduto = params.get("produto");
-  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-  // console.log(indexProduto, produtos)
+  console.log(indexProduto)
 
   if (!indexProduto) {
     indexEdicao = -1;
-    // console.log("saindo")
+    console.log("saindo")
     return;
   }
 
-  // indice vem como string pela url, preciso converter pra numero
+  // por padrão os parametros vem como string, preciso deixar como numero
   indexEdicao = Number(indexProduto);
 
-  produtos.forEach((p, index) => {
-    if (index === indexEdicao) {
-      editarProduto(p);
-    }
+  fetch(`http://localhost:3000/Produto/${indexProduto}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
-}
+    .then((resposta) => {
+      if (resposta.ok) {
+        return resposta.json();
+      } else {
+        throw new Error("Houve um erro ao tentar trazer o resultado");
+      }
+    })
+    .then((produto) => {
+      console.log("Produto encontrado: ", produto);
+      editarProduto(produto);
+    })
+    .catch((erro) => {
+      console.error(`#ERRO: ${erro}`);
+    });
+};
 
 const editarProduto = (produto) => {
   codigoInput.value = produto.codigo;
@@ -47,15 +61,13 @@ const editarProduto = (produto) => {
   valorCompraInput.value = produto.compra;
   valorVendaInput.value = produto.venda;
   qtdCadastroInput.value = produto.quantidadeCadastro;
-  
-  if((produto.descricao).length > 0) {
+
+  if (produto.descricao.length > 0) {
     descricaoInput.value = produto.descricao;
     descricaoCheckbox.checked = true;
     descricaoInput.style.display = "flex";
   }
-  // console.log(produto)
-}
-
+};
 
 produtoForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -95,7 +107,7 @@ const adicionarDescricao = () => {
   if (addDesc) {
     descricaoInput.style.display = "flex";
   } else {
-    descricaoInput.value = ''; 
+    descricaoInput.value = "";
     descricaoInput.style.display = "none";
   }
 };
@@ -103,6 +115,7 @@ const adicionarDescricao = () => {
 // FORMATAR DATA CONFORME O USUÁRIO DIGITA
 // * a fazer *
 
+// MAPEANDO OS DADOS
 const cadastrarProduto = () => {
   const produto = {
     codigo: codigoInput.value,
@@ -121,15 +134,16 @@ const cadastrarProduto = () => {
   tratarDados(produto);
 };
 
+// FAZENDO O TRATAMENTO DESSES DADOS
 const tratarDados = (dadosProduto) => {
   // TRATAR DATA
-// * a fazer *
+  // * a fazer *
 
   // ADICIONAR DATA E HORA DE REGISTRO
-// * a fazer *
+  // * a fazer *
 
   // ADICIONAR USUÁRIO QUE REGISTROU
-// * a fazer *
+  // * a fazer *
 
   // APÓS FORMATAR OS DADOS, ELES FICARÃO ARMAZENADOS AQUI
   const dadosFormatados = dadosProduto;
@@ -139,65 +153,98 @@ const tratarDados = (dadosProduto) => {
 };
 
 
+// SALVANDO OU EDITANDO O PRODUTO
 const salvarProduto = (dadosFormatados) => {
-
-  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
   console.log("DADOS FORMATADOS: " + dadosFormatados);
 
+  // CADASTRO
   if (indexEdicao == -1) {
-  const jsonProduto = {
-    codigo: dadosFormatados.codigo,
-    imagem: dadosFormatados.imagem,
-    nome: dadosFormatados.nome,
-    validade: dadosFormatados.validade,
-    compra: dadosFormatados.compra,
-    venda: dadosFormatados.venda,
-    quantidadeCadastro: dadosFormatados.quantidadeCadastro,
-    descricao: dadosFormatados.descricao,
-    dtRegistro: dadosFormatados.dtHora,
-  };
+    fetch(`http://localhost:3000/Produto/${indexEdicao}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        codigo: dadosFormatados.codigo,
+        imagem: dadosFormatados.imagem,
+        nome: dadosFormatados.nome,
+        validade: dadosFormatados.validade,
+        compra: dadosFormatados.compra,
+        venda: dadosFormatados.venda,
+        quantidadeCadastro: dadosFormatados.quantidadeCadastro,
+        descricao: dadosFormatados.descricao,
+        dtRegistro: dadosFormatados.dtHora,
+      }),
+    })
+      .then(function (resposta) {
+        console.log("ESTOU NO THEN DO function()!");
 
-  // precisa primeiro recuperar o json para adicionar o iten, senão ele vai ser sobrescrito toda vez
-  // const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-  produtos.push(jsonProduto);
-  console.log("PRODUTOS: ", produtos);
+        if (resposta.ok) {
+          console.log(resposta);
+          alert("produto salvo com sucesso!");
+          limparForms();
+          return;
+        } else {
+          console.log(
+            "Houve um erro ao tentar realizar o cadastro de produto!"
+          );
+          alert("Produto não registrado!");
 
-  localStorage.setItem("produtos", JSON.stringify(produtos));
-  limparForms();
-  return;
-  }
+          resposta.text().then((texto) => {
+            console.error(`#ERRO: ${texto}`);
+          });
+        }
+      })
+      .catch(function (erro) {
+        console.log(erro);
+      });
 
-  if(indexEdicao !== -1) {
-    console.log("INDEX: " + indexEdicao)
-    console.log(produtos[indexEdicao])
-
-    const edicao = {
-      codigo: dadosFormatados.codigo,
-      imagem: dadosFormatados.imagem,
-      nome: dadosFormatados.nome,
-      validade: dadosFormatados.validade,
-      compra: dadosFormatados.compra,
-      venda: dadosFormatados.venda,
-      quantidadeCadastro: dadosFormatados.quantidadeCadastro,
-      descricao: dadosFormatados.descricao,
-      dtRegistro: dadosFormatados.dtHora,
-
-    };
-
-    produtos[indexEdicao] = edicao;
-    console.log("edição concluida!");
-    localStorage.setItem("produtos", JSON.stringify(produtos));
-    limparForms();
     return;
   }
 
-
+  if (indexEdicao !== -1) {
+    // ATUALIZAÇÃO
+    fetch(`http://localhost:3000/Produto/${indexEdicao}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        codigo: dadosFormatados.codigo,
+        imagem: dadosFormatados.imagem,
+        nome: dadosFormatados.nome,
+        validade: dadosFormatados.validade,
+        compra: dadosFormatados.compra,
+        venda: dadosFormatados.venda,
+        quantidadeCadastro: dadosFormatados.quantidadeCadastro,
+        descricao: dadosFormatados.descricao,
+        dtRegistro: dadosFormatados.dtHora,
+      }),
+    })
+      .then((resposta) => {
+        if (resposta.ok) {
+          return resposta.json();
+        } else {
+          throw new Error("Houve um erro ao atualizar o produto!");
+        }
+      })
+      .then((data) => {
+        alert("Produto atualizado com sucesso!");
+        limparForms();
+      })
+      .catch((erro) => {
+        console.log(`#ERRO: ${erro.message}`);
+        alert(erro.message);
+      });
+    return;
+  }
 };
 
+// CANCELAR CADASTRO/ATUALIZAÇÃO
 const cancelarCadastro = () => {
   event.preventDefault();
 
-  if(
+  if (
     !codigoInput.value.trim() &&
     !nomeInput.value.trim() &&
     !dataInput.value.trim() &&
@@ -216,21 +263,21 @@ const cancelarCadastro = () => {
   }
 };
 
+
+// LIMPA O FORMS APÓS REGISTRO DE DADOS
 const limparForms = () => {
-  alert("dados registrados!")
-  codigoInput.value = '';
-  imagemFile.value = '';
-  nomeInput.value = '';
-  dataInput.value = '';
-  valorCompraInput.value = '';
-  valorVendaInput.value = '';
-  qtdCadastroInput.value = '';
-  descricaoCheckbox.value = '';
+  console.log("dados registrados!! limpando aqui")
+  codigoInput.value = "";
+  imagemFile.value = "";
+  nomeInput.value = "";
+  dataInput.value = "";
+  valorCompraInput.value = "";
+  valorVendaInput.value = "";
+  qtdCadastroInput.value = "";
+  descricaoCheckbox.value = "";
   descricaoCheckbox.checked = false;
   descricaoInput.style.display = "none";
 
   indexEdicao = -1;
   window.history.replaceState(null, "", window.location.pathname);
-
-}
-
+};

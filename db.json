@@ -1,0 +1,73 @@
+{
+  "Empresa": [
+    {
+      "id": "1",
+      "CNPJ": "13992811000168",
+      "endereco": "Rua Haddock Lobo, 595 - 04826057",
+      "data_ativacao": "03/03/25"
+    }
+  ],
+  "Funcionario": [
+    {
+      "id": "1",
+      "nome": "Maykon",
+      "CPF": "01223455314",
+      "cargo": "Master",
+      "dt_admissao": "11/02/22",
+      "fk_empresa": "1"
+    }
+  ],
+  "Usuario": [
+    {
+      "id": "1",
+      "email": "maykon@gmail.com",
+      "senha": "1011020",
+      "status": "ativo"
+    }
+  ],
+  "Produto": [
+    {
+      "id": "1",
+      "codigo": "0122351",
+      "imagem": "",
+      "nome": "Arroz",
+      "validade": "11/02/26",
+      "compra": 15,
+      "venda": 25,
+      "quantidadeCadastro": 7,
+      "descricao": "Arroz branco",
+      "dtRegistro": "04/03/2025, 09:04:58"
+    },
+    {
+      "id": "2",
+      "codigo": "03944755",
+      "imagem": "",
+      "nome": "Batata",
+      "validade": "07/06/25",
+      "compra": 2.5,
+      "venda": 5.5,
+      "quantidadeCadastro": 12,
+      "descricao": "",
+      "dtRegistro": "04/03/2025, 09:03:32"
+    }
+  ],
+  "Pratos": [
+    {
+      "id": "1",
+      "nome_prato": "Bife a role",
+      "valor_prato": 18.00,
+      "descricao_prato": "Prato preparado com bifes finos de carne bovina recheados com cenoura, bacon, linguiça, pimentão e ovos cozidos. Os bifes são enrolados, presos com palitos e cozidos em um molho de tomate, cebola, alho e temperos até ficarem macios. Ideal para servir com arroz branco, purê de batata ou polenta."
+    }
+  ],
+  "PedidoComanda": [
+    {
+      "id": "1",
+      "dt_pedido": "04/03/2025",
+      "qtd_pedido": 1,
+      "id_caixa": "1",
+      "observacoes": "Prato sem rolê",
+      "status": "Finalizado",
+      "id_chefe": "2"
+    }
+  ]
+}

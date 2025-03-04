@@ -10,15 +10,37 @@ const produtosList = document.querySelector("#produtos-list");
 let indexEdicao;
 
 getProdutos = () => {
-  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-
-  produtos.forEach((produto, index) => {
-    const newItem = document.createElement("li");
-    mapearProdutos(newItem, produto, index);
-  });
+  fetch(`http://localhost:3000/Produto`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        return resposta.json();
+      } else {
+        throw new Error("Houve um erro ao tentar trazer o resultado");
+      }
+    })
+    .then(function (data) {
+      if (data.length === 0) {
+        console.warn("Nenhum resultado encontrado");
+        return;
+      }
+      console.log(data)
+      data.forEach((produto) => {
+        console.log(produto)
+        const newItem = document.createElement("li");
+        mapearProdutos(newItem, produto);
+      });
+    })
+    .catch(function (erro) {
+      console.error(`#ERRO: ${erro}`);
+    });
 };
 
-const mapearProdutos = (listaProdutos, produto, index) => {
+const mapearProdutos = (listaProdutos, produto) => {
   const codigo = produto.codigo;
   const imagem = produto.imagem;
   const nome = produto.nome;
@@ -39,6 +61,8 @@ const mapearProdutos = (listaProdutos, produto, index) => {
   const spanQtdCadastro = document.createElement("span");
   const spanDescricao = document.createElement("span");
 
+  spanCodigo.classList.add("codigo-produto");
+
   const buttonEdit = document.createElement("button");
   const buttonDelete = document.createElement("button");
 
@@ -56,23 +80,21 @@ const mapearProdutos = (listaProdutos, produto, index) => {
   buttonEdit.innerHTML = "✏️";
   buttonDelete.innerHTML = "🗑️";
 
-  buttonEdit.setAttribute("data-index", index);
+  // buttonEdit.setAttribute("data-index", index);
 
   // fazendo a edição de uma tarefa
   buttonEdit.addEventListener("click", () => {
-    window.location.href = `./forms.html?produto=${index}`;
+    window.location.href = `./forms.html?produto=${produto.id}`;
   });
 
   // fazendo a exclusão de uma tarefa
   buttonDelete.addEventListener("click", () => {
-
     const confirmacao = confirm("Deseja confirmar a exclusão?");
 
     if (confirmacao) {
       produtosList.removeChild(listaProdutos);
       alert("Produto excluído com sucesso!");
     }
-  
   });
 
   listaProdutos.appendChild(spanCodigo);

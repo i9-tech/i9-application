@@ -28,9 +28,9 @@ getProdutos = () => {
         console.warn("Nenhum resultado encontrado");
         return;
       }
-      console.log(data)
+      console.log(data);
       data.forEach((produto) => {
-        console.log(produto)
+        console.log(produto);
         const newItem = document.createElement("li");
         mapearProdutos(newItem, produto);
       });
@@ -92,8 +92,30 @@ const mapearProdutos = (listaProdutos, produto) => {
     const confirmacao = confirm("Deseja confirmar a exclusão?");
 
     if (confirmacao) {
+      fetch(`http://localhost:3000/Produto/${produto.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            window.alert("Produto deletado com sucesso!");
+          } else if (resposta.status == 404) {
+            window.alert("Deu 404!");
+          } else {
+            throw (
+              "Houve um erro ao tentar realizar a exclusão! Código da resposta: " +
+              resposta.status
+            );
+          }
+        })
+        .catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
+
       produtosList.removeChild(listaProdutos);
-      alert("Produto excluído com sucesso!");
+      // alert("Produto excluído com sucesso!");
     }
   });
 

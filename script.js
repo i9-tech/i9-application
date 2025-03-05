@@ -8,21 +8,28 @@ const valorCompraInput = document.querySelector("#valor-compra-input");
 const valorVendaInput = document.querySelector("#valor-venda-input");
 const qtdCadastroInput = document.querySelector("#quantidade-input");
 const descricaoInput = document.querySelector("#descricao-input");
+const modais = document.querySelectorAll(".modal");
+console.log("MODAIS ENCONTRADOS: ", modais);
 let indexEdicao;
+modais.forEach((modal) => (modal.style.display = "none"));
 
 window.addEventListener("load", () => {
+  console.log(
+    "MODAIS APAGADOS: " +
+      modais.forEach((modal) => (modal.style.display = "none"))
+  );
+
   obterParametroProduto();
-  console.log("Oi")
 });
 
 const obterParametroProduto = () => {
   const params = new URLSearchParams(window.location.search);
   const indexProduto = params.get("produto");
-  console.log(indexProduto)
+  console.log(indexProduto);
 
   if (!indexProduto) {
     indexEdicao = -1;
-    console.log("saindo")
+    console.log("saindo");
     return;
   }
 
@@ -60,7 +67,6 @@ const editarProduto = (produto) => {
   valorVendaInput.value = produto.venda;
   qtdCadastroInput.value = produto.quantidadeCadastro;
   descricaoInput.value = produto.descricao;
-
 };
 
 produtoForm.addEventListener("submit", (event) => {
@@ -70,6 +76,8 @@ produtoForm.addEventListener("submit", (event) => {
 });
 
 const validarDados = () => {
+  let status;
+
   if (
     !codigoInput.value.trim() ||
     !nomeInput.value.trim() ||
@@ -78,20 +86,22 @@ const validarDados = () => {
     !valorVendaInput.value.trim() ||
     !qtdCadastroInput.value.trim()
   ) {
-    alert("campos em branco!");
-    return false;
-  }
-
-  if (
+    status = 400;
+    console.log("to aqui no 400");
+  } else if (
     valorCompraInput.value <= 0 ||
     valorVendaInput.value <= 0 ||
     qtdCadastroInput.value <= 0
   ) {
-    alert("valores numéricos precisam ser maiores que 0!");
-    return false;
+    status = 422;
+    console.log("to aqui no 422");
   }
 
-  cadastrarProduto();
+  if (status > 399) {
+    statusModal(status);
+  } else {
+    cadastrarProduto();
+  }
 };
 
 // FORMATAR DATA CONFORME O USUÁRIO DIGITA
@@ -134,14 +144,13 @@ const tratarDados = (dadosProduto) => {
   salvarProduto(dadosFormatados);
 };
 
-
 // SALVANDO OU EDITANDO O PRODUTO
 const salvarProduto = (dadosFormatados) => {
   console.log("DADOS FORMATADOS: " + dadosFormatados);
 
   // CADASTRO
   if (indexEdicao == -1) {
-    fetch(`http://localhost:3000/Produto/${indexEdicao}`, {
+    fetch(`http://localhost:3000/Produto/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -162,9 +171,7 @@ const salvarProduto = (dadosFormatados) => {
         console.log("ESTOU NO THEN DO function()!");
 
         if (resposta.ok) {
-          console.log(resposta);
-          alert("produto salvo com sucesso!");
-          limparForms();
+          statusModal(201);
           return;
         } else {
           console.log(
@@ -211,8 +218,7 @@ const salvarProduto = (dadosFormatados) => {
         }
       })
       .then((data) => {
-        alert("Produto atualizado com sucesso!");
-        limparForms();
+        statusModal(200);
       })
       .catch((erro) => {
         console.log(`#ERRO: ${erro.message}`);
@@ -245,10 +251,62 @@ const cancelarCadastro = () => {
   }
 };
 
+const statusModal = (status) => {
+  modais.forEach((modal) => (modal.style.display = "block"));
+  const tituloModal = document.querySelector("#status-modal");
+  const conteudoModal = document.querySelector("#txtstatus-modal");
+  let exito = false;
+
+  console.log("status da requisição: ", status);
+
+  if (status > 199 && status < 300) {
+    exito = true;
+
+    if (status == 200) {
+      tituloModal.innerHTML = "DADOS ATUALIZADOS";
+      conteudoModal.innerHTML =
+        "Os novos dados do produto foram atualizados com sucesso! Para visualizar as alterações, acesse a tela de estoque";
+    }
+
+    if (status == 201) {
+      tituloModal.innerHTML = "PRODUTO REGISTRADO";
+      conteudoModal.innerHTML =
+        "Seu produto foi registrado com sucesso e já se encontra disponível para visualização na tela de estoque";
+    }
+  } else if (status > 399) {
+    tituloModal.innerHTML = "ERRO AO CADASTRAR";
+    console.log("to no erro");
+
+    if (status == 400) {
+      conteudoModal.innerHTML =
+        "Por favor, preencha todos os campos corretamente para continuar";
+    }
+
+    if (status == 422) {
+      conteudoModal.innerHTML =
+        "Os valores numéricos não podem ser iguais ou inferiores a zero. Por favor, digite números válidos";
+    }
+  }
+
+  setTimeout(function () {
+    sumirModal(exito);
+  }, 3000);
+};
+
+const sumirModal = (exito) => {
+  modais.forEach((modal) => (modal.style.display = "none"));
+
+  if (exito === true) {
+    limparForms();
+    return true;
+  }
+
+  return false;
+};
 
 // LIMPA O FORMS APÓS REGISTRO DE DADOS
 const limparForms = () => {
-  console.log("dados registrados!! limpando aqui")
+  console.log("dados registrados!! limpando aqui");
   codigoInput.value = "";
   imagemFile.value = "";
   nomeInput.value = "";

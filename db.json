@@ -35,7 +35,7 @@
       "venda": 25,
       "quantidadeCadastro": 7,
       "descricao": "Arroz branco",
-      "dtRegistro": "05/03/2025, 09:53:49",
+      "dtRegistro": "05/03/2025, 12:47:41",
       "id": "1"
     },
     {
@@ -49,6 +49,30 @@
       "quantidadeCadastro": 12,
       "descricao": "",
       "dtRegistro": "04/03/2025, 09:03:32"
+    },
+    {
+      "id": "db06",
+      "codigo": "1",
+      "imagem": "",
+      "nome": "1",
+      "validade": "1",
+      "compra": 1,
+      "venda": 1,
+      "quantidadeCadastro": 1,
+      "descricao": "1",
+      "dtRegistro": "05/03/2025, 12:41:25"
+    },
+    {
+      "id": "c14c",
+      "codigo": "1",
+      "imagem": "",
+      "nome": "1",
+      "validade": "1",
+      "compra": 1,
+      "venda": 1,
+      "quantidadeCadastro": 1,
+      "descricao": "1",
+      "dtRegistro": "05/03/2025, 12:47:58"
     }
   ],
   "Pratos": [

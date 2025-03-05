@@ -1,5 +1,4 @@
 const produtoForm = document.getElementById("produto-form");
-const produtosList = document.querySelector("#produtos-list");
 
 const codigoInput = document.querySelector("#codigo-input");
 const imagemFile = document.querySelector("#imagem-file");
@@ -8,7 +7,6 @@ const dataInput = document.querySelector("#data-input");
 const valorCompraInput = document.querySelector("#valor-compra-input");
 const valorVendaInput = document.querySelector("#valor-venda-input");
 const qtdCadastroInput = document.querySelector("#quantidade-input");
-const descricaoCheckbox = document.querySelector("#descricao-checkbox");
 const descricaoInput = document.querySelector("#descricao-input");
 let indexEdicao;
 
@@ -61,12 +59,8 @@ const editarProduto = (produto) => {
   valorCompraInput.value = produto.compra;
   valorVendaInput.value = produto.venda;
   qtdCadastroInput.value = produto.quantidadeCadastro;
+  descricaoInput.value = produto.descricao;
 
-  if (produto.descricao.length > 0) {
-    descricaoInput.value = produto.descricao;
-    descricaoCheckbox.checked = true;
-    descricaoInput.style.display = "flex";
-  }
 };
 
 produtoForm.addEventListener("submit", (event) => {
@@ -98,18 +92,6 @@ const validarDados = () => {
   }
 
   cadastrarProduto();
-};
-
-// ATIVAR E DESATIVAR O INPUT DE DESCRIÇÃO DE PRODUTO
-const adicionarDescricao = () => {
-  const addDesc = descricaoCheckbox.checked ? true : false;
-
-  if (addDesc) {
-    descricaoInput.style.display = "flex";
-  } else {
-    descricaoInput.value = "";
-    descricaoInput.style.display = "none";
-  }
 };
 
 // FORMATAR DATA CONFORME O USUÁRIO DIGITA
@@ -274,9 +256,7 @@ const limparForms = () => {
   valorCompraInput.value = "";
   valorVendaInput.value = "";
   qtdCadastroInput.value = "";
-  descricaoCheckbox.value = "";
-  descricaoCheckbox.checked = false;
-  descricaoInput.style.display = "none";
+  descricaoInput.value = "";
 
   indexEdicao = -1;
   window.history.replaceState(null, "", window.location.pathname);

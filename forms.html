@@ -7,86 +7,133 @@
     <title>Registro de Produtos</title>
   </head>
   <body>
+    <aside class="menu-lateral">
+      <div>
+        
+      </div>
+    </aside>
     <main class="container">
+      <header class="titulo-form">
+        <h1>Cadastro de Estoque</h1>
+        <span
+          >Preencha o formulário abaixo para adicionar novos produtos e
+          informações ao seu estoque!
+        </span>
+      </header>
+
       <form id="produto-form">
-        Insira uma imagem do produto:
-        <input
-          type="file"
-          id="imagem-file"
-          aria-label="Imagem do produto"
-        />
-        <br />
-        Insira o código do produto:
-        <input
-          type="text"
-          id="codigo-input"
-          aria-label="Código do produto"
-          placeholder="Digite o descrição do produto"
-        />
-        <br />
-        Insira o nome do produto:
-        <input
-          type="text"
-          id="nome-input"
-          aria-label="Nome do produto"
-          placeholder="Digite o nome do produto"
-        />
-        <br />
-        Insira a data de validade:
-        <input
-          type="text"
-          id="data-input"
-          maxlength="10"
-          aria-label="Data de validade do produto"
-          placeholder="Digite a data de validade do produto"
-        />
-        <br />
-        Insira o valor de compra:
-        <input
+        <div id="formulario-esquerda">
+        <div class="input-forms">
+          <label for="codigo-input"> Código do Produto * </label>
+          <input
+            type="text"
+            id="codigo-input"
+            aria-label="Código do produto"
+            placeholder="00000000"
+          />
+        </div>
+
+        <div class="input-forms">
+          <label for="nome-input"> Nome do produto * </label>
+          <input
+            type="text"
+            id="nome-input"
+            aria-label="Nome do produto"
+            placeholder="Digite o nome do produto a ser cadastrado"
+          />
+        </div>
+
+        <div class="input-forms">
+          <label for="quantidade-input"> Quantidade para Cadastro * </label>
+          <input
+            type="number"
+            id="quantidade-input"
+            aria-label="Quantidade do produto a ser cadastrada"
+            placeholder="Informe quantos produtos desse tipo deseja cadastrar"
+          />
+        </div>
+
+        <div class="input-forms">
+          <label for="data-input"> Data de Validade * </label>
+          <input
+            type="text"
+            id="data-input"
+            maxlength="10"
+            aria-label="Data de validade do produto"
+            placeholder="DD/MM/AAAA"
+          />
+        </div>
+
+        <div class="input-forms">
+          <label for="valor-compra-input"> Valor de Compra * </label>
+          <input
           type="number"
           id="valor-compra-input"
           aria-label="Valor de compra do produto"
-          placeholder="Digite o valor de compra do produto"
-        />
-        <br />
-        Insira o valor para venda:
-        <input
-          type="number"
-          id="valor-venda-input"
-          aria-label="Valor para venda do produto"
-          placeholder="Digite o valor para venda do produto"
-        />
-        <br />
-        Quantas unidades desse produto deseja cadastrar?
-        <input
-          type="number"
-          id="quantidade-input"
-          aria-label="Quantidade do produto a ser cadastrada"
-          placeholder="Digite a quantidade a ser cadastrada"
-        />
-        <br />
-        <input 
-          type="checkbox" 
-          id="descricao-checkbox" 
-          aria-label="Adicionar uma descrição" onchange="adicionarDescricao()"/>
-        Adicionar descrição
-        <br />
-        <input
-          type="text"
-          id="descricao-input"
-          aria-label="Descrição do produto"
-          placeholder="Digite a descrição do produto"
-          style = "display: none;"
-        />
-        <br />
-          <button class="botoes-formulario" type="submit">Cadastrar</button>
-          <button class="botoes-formulario" onclick="cancelarCadastro()">Voltar</button>
-        
-      </form>
+          placeholder="R$ 00,00"
+          />
+          
+          <label for="valor-venda-input"> Valor de Venda * </label>
+          <input
+            type="number"
+            id="valor-venda-input"
+            aria-label="Valor para venda do produto"
+            placeholder="R$ 00,00"
+          />
+        </div>
 
-      <section>
-        <ul id="produtos-list"></ul>
-      </section>
+        <div class="input-forms">
+          <label for="maximo-estoque-input">
+            Quantidade Mínima para Estoque do Produto*
+          </label>
+          <input
+            type="number"
+            id="maximo-estoque-input"
+            aria-label="Quantidade mínima do produto no estoque"
+            placeholder="Informe quantos produtos desse tipo deseja cadastrar"
+          />
+        </div>
+
+        <div class="input-forms">
+          <label for="minimo-estoque-input"> 
+            Quantidade Máxima para Estoque do Produto*
+          </label>
+          <input
+            type="number"
+            id="minimo-estoque-input"
+            aria-label="Quantidade máxima do produto no estoque"
+            placeholder="Digite o valor para venda do produto"
+          />
+        </div>
+        
+        <div class="botoes-formulario">
+          <button onclick="cancelarCadastro()">
+            Cancelar
+          </button>
+          <button id="enviar-forms" type="submit">Cadastrar</button>
+        </div>
+
+      </div>
+
+      <div id="formulario-direita">
+
+        <div class="opcional-forms">
+          <label for="imagem-file"> Foto do Produto </label> <br />
+          <input type="file" id="imagem-file" aria-label="Imagem do produto" />
+        </div>
+
+        <div class="opcional-forms">
+          <label for="descricao-input"> Descrição </label> <br />
+          <input
+            type="text"
+            id="descricao-input"
+            aria-label="Descrição do produto"
+            placeholder="Digite a descrição do produto"
+            />
+          </div>
+        </div>
+
+      </form>
     </main>
   </body>
   <script src="./script.js"></script>

@@ -27,16 +27,16 @@
   ],
   "Produto": [
     {
-      "id": "1",
       "codigo": "0122351",
       "imagem": "",
       "nome": "Arroz",
-      "validade": "11/02/26",
+      "validade": "22/32/23",
       "compra": 15,
       "venda": 25,
       "quantidadeCadastro": 7,
       "descricao": "Arroz branco",
-      "dtRegistro": "04/03/2025, 09:04:58"
+      "dtRegistro": "05/03/2025, 09:53:49",
+      "id": "1"
     },
     {
       "id": "2",
@@ -55,7 +55,7 @@
     {
       "id": "1",
       "nome_prato": "Bife a role",
-      "valor_prato": 18.00,
+      "valor_prato": 18,
       "descricao_prato": "Prato preparado com bifes finos de carne bovina recheados com cenoura, bacon, linguiça, pimentão e ovos cozidos. Os bifes são enrolados, presos com palitos e cozidos em um molho de tomate, cebola, alho e temperos até ficarem macios. Ideal para servir com arroz branco, purê de batata ou polenta."
     }
   ],

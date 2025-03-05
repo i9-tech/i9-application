@@ -45,4 +45,6 @@ Ao realizar operações de **adicionar**, **visualizar**, **atualizar** ou **del
 * A interface atual **não é responsiva** e foi desenvolvida considerando uma resolução de **90% de zoom no navegador**.
 * Para uma melhor visualização, recomendamos ajustar o zoom do navegador para **90%**.
 
+
+
 &copy; 2025 i9tech. Todos os direitos reservados. 

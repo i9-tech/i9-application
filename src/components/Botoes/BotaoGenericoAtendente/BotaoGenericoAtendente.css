@@ -1,0 +1,16 @@
+.botao-generico-atendente{
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--background);
+    background-color: var(--cor-secundaria); 
+    width: max-content;
+}
+
+
+.botao-generico-atendente:hover{
+    background-color: var(--destaque); 
+}

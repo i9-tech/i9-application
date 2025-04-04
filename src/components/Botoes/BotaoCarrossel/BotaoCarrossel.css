@@ -1,0 +1,20 @@
+.botao-carrossel {
+    padding: 20px 20px;
+    border: none;
+    border-radius: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 500;
+    color: white;
+    background-color: var(--destaque);
+
+    img {
+        width: 20px;
+        height: 20px;
+        margin-bottom: -4px
+    }
+}
+
+.botao-carrossel:hover {
+    background-color: var(--hovers);
+}

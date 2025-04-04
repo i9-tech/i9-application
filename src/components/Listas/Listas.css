@@ -1,0 +1,128 @@
+:root {
+    --texto-preto: #040B28;
+    --hovers: #0E2361;
+    --destaque: #0F14B8;
+    --background: #FAFAFA;
+    --background-white: #FBFEFF;
+}
+
+section.secao4 {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: medium;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+
+        .header {
+            text-align: center;
+            font-weight: bold;
+            background-color: #E8ECF8;
+            border: 1px solid #000;            
+
+            .item-cabecalho {
+                padding: 16px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+
+        .lista-item {
+            width: 100%;
+
+            td {
+                padding: 12px;
+                text-align: center;
+                vertical-align: middle;
+                white-space: nowrap;
+                
+                button {
+                    padding: 4px;
+                    margin: 0 4px 0 0;
+                    border-radius: 8px;
+                    border: 1px solid #000;
+                    transition: all 0.3s;
+                    white-space: nowrap;
+
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: var(--hovers);
+                    }
+                }
+
+                
+                span {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: block;
+                    max-width: 100%;
+                }
+            }
+        }
+        
+        .item2 {
+            background-color: #E8ECF8;
+        }
+        
+        .imagem {
+            border: #000 solid 1px;
+            border-radius: 0.5rem;
+            background-color: #fff;
+            padding: 2px;
+            
+            img {
+                object-fit: contain; 
+                max-width: 64%;
+            }
+        }
+        
+        
+
+        
+    }
+
+    .table-produtos {
+        width: 88%;
+        margin: 16px 0;
+
+        .lista-item {
+            td {
+                width: 18%;
+
+                button {
+                    width: 40%;
+                    height: 50%;
+                    border-radius: 6px;
+                    border: #000 solid 1px;
+                }
+            }
+        }
+    }
+
+    .table-funcionarios {
+        width: 20%;
+        font-size: small;
+
+        .lista-item {
+            height: 64px;
+            td {
+                width: fit-content;
+                box-sizing: border-box;
+
+                button {
+                    border-radius: 6px;
+                    border: #000 solid 1px;
+                }
+            }
+        }
+    }
+}

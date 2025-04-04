@@ -1,0 +1,19 @@
+.botaoMudar {
+    width: 20%;
+    height: 40px;
+    border-radius: 1rem;
+    font-size: 18px;
+    background-color: #83A1FF;
+    color: white;
+    border: none;
+    margin-bottom: 40px;
+    position: fixed;
+    top: 24%;
+
+    &:hover{
+        cursor: pointer;
+        background-color: #0F14B8;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+}

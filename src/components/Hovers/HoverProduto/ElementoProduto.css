@@ -1,0 +1,48 @@
+.botao-elemento-produto {
+    background-color: #FAFAFA;
+    padding: 12px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 26vw !important;
+    font-weight: 500;
+    margin-bottom: 20px;
+
+    article {
+        background-color: yellow;
+        font-size: 16px;
+        display: flex;
+        width: 100%; 
+        
+        .conteudo-card {
+            background-color: red;
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            gap: 10px;
+
+            span {
+                display: flex;
+            }
+        }
+        
+        .conteudo-imagem {
+            background-color: aqua;
+            width: 26%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .conteudo-botao {
+            background-color: orange;
+            width: 4%;
+            display: flex;
+            flex-direction: column;
+        }
+
+    }
+
+}

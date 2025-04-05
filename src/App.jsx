@@ -6,6 +6,8 @@ import './App.css'
 import { Funcionarios } from './pages/Funcionarios/Funcionarios';
 import { Estoque } from './pages/Estoque/Estoque';
 import { Cozinha } from './pages/Cozinha/Cozinha';
+import { Institucional } from './pages/Institucional/Institucional';
+import { Login } from './pages/Login/Login';
 
 function App() {
 
@@ -19,6 +21,8 @@ function App() {
         <Route path='/cozinha' element={<Cozinha/>} />
         <Route path='/estoque' element={<Estoque/>} />
         <Route path='/funcionarios' element={<Funcionarios/>} />
+        <Route path='/institucional' element={<Institucional/>} />
+        <Route path='/login' element={<Login/>} />
       </Routes>
     </main>
     </>

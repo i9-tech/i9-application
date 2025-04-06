@@ -1,9 +1,12 @@
+import CardSobreposto from '../../components/CardSobreposto/CardSobreposto';
 import './Institucional.css';
 
 export function Institucional() {
   return (
     <>
-    <div>Você está no site institucional</div>
+    <section className='institucional'>
+      <CardSobreposto/>
+    </section>
     </>
   )
 }

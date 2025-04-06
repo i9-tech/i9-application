@@ -3,8 +3,24 @@ import BotaoConfirmar from '../../components/Botoes/BotaoConfirmar/BotaoConfirma
 import ElementoTotal from '../../components/Hovers/HoverTotalProduto/ElementoTotal'
 import LupaPesquisa from '../../assets/lupa-pesquisa.svg'
 import ElementoProduto from '../../components/Hovers/HoverProduto/ElementoProduto'
+import ProdutoComanda from '../../components/Botoes/ProdutoComanda/ProdutoComanda'
+import { useState } from 'react';
+
 
 export function Atendente(props) {
+
+    const [quantidades, setQuantidades] = useState({});
+
+    function atualizarQuantidade(produto, quantidade) {
+        setQuantidades((prev) => ({
+            ...prev,
+            [produto]: quantidade
+        }));
+    }
+
+    const totalItens = Object.values(quantidades).reduce((acc, q) => acc + q, 0);
+
+
     return (
         <>
             <section className="menu-atendente">
@@ -49,8 +65,15 @@ export function Atendente(props) {
                     <h1>Comandas</h1>
                 </header>
 
+                <div className="produtos-adicionados-comanda">
+
+                <ProdutoComanda produto="Pastel" preco={9.00}  atualizarQuantidade={atualizarQuantidade} />
+                <ProdutoComanda produto="Lanche Natural" preco={12.00}  atualizarQuantidade={atualizarQuantidade} />
+                <ProdutoComanda produto="X-Calabresa Artesanal" preco={20.00}  atualizarQuantidade={atualizarQuantidade} />
+
+                </div>
                 <section className="botao-confirmar">
-                    <BotaoConfirmar />
+                    <BotaoConfirmar quantidade={totalItens} />               
                 </section>
             </aside>
         </>

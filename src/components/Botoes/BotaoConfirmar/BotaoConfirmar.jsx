@@ -1,11 +1,11 @@
 import './BotaoConfirmar.css'
 
-export function BotaoConfirmar () {
+export function BotaoConfirmar (props) {
     return (
         <>
         <div className="botao-confirmar-pedido">
                 <div className="info-pedido">
-                    <span id="qtd-itens">0 itens</span>
+                    <span id="qtd-itens">{props.quantidade} itens</span>
                     <span id="valor-total">R$00,00</span>
                 </div>
                 <button className="button-confirmar">

@@ -1,9 +1,10 @@
 import "./ElementoProduto.css";
+import ImagemProduto from '../../../assets/pastel.png';
 
 export function ElementoProduto(props) {
   return (
     <>
-      <div className="botao-elemento-produto">
+      <div className="elemento-produto">
         <article>
           <div className="conteudo-card">
             <h2>Produto</h2>
@@ -16,7 +17,7 @@ export function ElementoProduto(props) {
             </span>
           </div>
           <div className="conteudo-imagem">
-            <img src="" alt="imagem" />
+            <img src={ImagemProduto} alt="Imagem Produto" />
           </div>
           <div className="conteudo-botao">
             <button>+</button>

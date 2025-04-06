@@ -1,5 +1,5 @@
 import './ElementoTotal.css'
-import ImagemProduto from '../../assets/lanche.png';
+import ImagemProduto from '../../../assets/lanche.png';
 
 export function ElementoTotal(props) {
     return (

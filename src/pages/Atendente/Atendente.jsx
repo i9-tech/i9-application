@@ -1,8 +1,10 @@
 import './Atendente.css'
 import BotaoConfirmar from '../../components/Botoes/BotaoConfirmar/BotaoConfirmar'
-import ElementoTotal from '../../components/HoverTotalProduto/ElementoTotal'
+import ElementoTotal from '../../components/Hovers/HoverTotalProduto/ElementoTotal'
+import LupaPesquisa from '../../assets/lupa-pesquisa.svg'
+import ElementoProduto from '../../components/Hovers/HoverProduto/ElementoProduto'
 
-export function Atendente() {
+export function Atendente(props) {
     return (
         <>
             <section className="menu-atendente">
@@ -16,6 +18,30 @@ export function Atendente() {
                     <ElementoTotal />
                 </div>
 
+                <div className="header-container">
+                    <h1>{props.categoria}</h1>
+                    <div className="barra-pesquisa">
+                        <input type="text" placeholder="Procurar Produto" className="input-pesquisa-produtos" />
+                        <button className="lupa-pesquisa">
+                            <img src={LupaPesquisa} alt="Pesquisar" />
+                        </button>
+                    </div>
+                </div>
+
+                <div className='todos-produtos'>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                <ElementoProduto/>
+                </div>
             </section>
 
             <aside className="menu-comanda">

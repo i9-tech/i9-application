@@ -1,5 +1,5 @@
 .navbar {
-    width: 3rem;
+    width: 4rem;
     height: 100vh;
     background: #ffffff;
     font-size: 0.8rem;
@@ -12,7 +12,7 @@
     box-shadow: 5px 0px 15px rgba(7, 6, 6, 0.2);
 
     img {
-        width: 30px;
+        width: 40px;
     }
 
     ul {
@@ -64,7 +64,7 @@
         align-items: center;
 
         i img {
-            width: 35px !important;
+            width: 45px !important;
             margin-right: 10px;
         }
     }

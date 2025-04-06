@@ -11,6 +11,7 @@
     background-color: #fff;
     width: 80%;
     height: 96%;
+    gap: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,11 +28,37 @@
       margin-top: 6%;
     }
 
+    .info-funcionamento {
+        background-color: brown;
+        width: 88%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        
+        hov {
+            color: red;
+        }
+        
+    }
+
+
     /* DISPLAY DESKTOP */
     @media (min-width: 744px) {
       .imagens-dispositivos {
         background-color: red;
         height: 40%;
+      }
+
+      .info-funcionamento {
+        gap: 40px;
+        h2 {
+            font-size: 48px;
+        }
+
+        p {
+            font-size: 20px;
+        }
       }
     }
 
@@ -41,6 +68,18 @@
         background-color: green;
         height: 24%;
       }
+
+      .info-funcionamento {
+        gap: 24px;
+
+        h2 {
+            font-size: 36px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+      }
     }
 
     /* DISPLAY MOBILE */
@@ -48,6 +87,18 @@
       .imagens-dispositivos {
         background-color: blue;
         height: 16%;
+      }
+
+      .info-funcionamento {
+        gap: 16px;
+
+        h2 {
+            font-size: 32px;
+        }
+
+        p {
+            font-size: 12px;
+        }
       }
     }
   }

@@ -54,3 +54,13 @@
         }
     }
 }
+
+.elemento-produto:hover {
+    background-color: var(--azul-escuro);
+    color: var(--card-branco);
+
+    .conteudo-botao button{
+        background-color: var(--card-branco);
+        color: var(--azul-escuro); 
+    }
+}

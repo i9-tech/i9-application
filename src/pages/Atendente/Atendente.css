@@ -8,84 +8,80 @@ body {
 
 .menu-atendente{
     display: flex;
-    padding-top: 1rem;       
-}
-
-.menu-atendente h1{
-    width: 91%;
-}
-
-.setores{
-    width: 91%;
-    display: flex;
-    gap: 1rem;
-    margin: 20px;
-    flex-wrap: wrap;
-}
-
-.header-container {
-    width: 91%;
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-}
-
-.barra-pesquisa {
-    display: flex;
-    align-items: center; 
-}
-
-
-.barra-pesquisa {
-    display: flex;
-    align-items: center;
-    border-radius: 8px;
-    border: 1.5px solid var(--azul-claro); 
-    background-color: white; 
-    padding: 2px;
-}
-
-.input-pesquisa-produtos {
-    border: none;
-    outline: none;
-    padding: 10px;
-    flex: 1;
-    font-size: 16px;
-    color: #000000;
-}
-
-.lupa-pesquisa {
-    background-color: #5179EF; 
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    padding: 8px;
-    margin-left: 8px;
-}
-
-.lupa-pesquisa img {
-    width: 20px;
-    height: 20px;
-}
-
-.todos-produtos {
-    margin-left: 4rem;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-top: 20px;
-}
-
-.menu-atendente {
-    display: flex;
     flex-direction: column;
     align-items: center;
     width: 76vw; 
     height: 100vh;
     overflow-y: scroll;
     margin-right: 20vw;
+    padding-top: 1rem;      
+    
+    h1{
+        width: 91%;
+
+    }
+
+    .setores{
+        width: 91%;
+        display: flex;
+        gap: 1rem;
+        margin: 20px;
+        flex-wrap: wrap;
+    }
+    .header-container {
+        width: 91%;
+        display: flex;
+        justify-content: space-between; 
+        align-items: center; 
+    }
+    
+    .barra-pesquisa {
+        display: flex;
+        align-items: center; 
+    }
+    
+    
+    .barra-pesquisa {
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
+        border: 1.5px solid var(--azul-claro); 
+        background-color: white; 
+        padding: 2px;
+    }
+    
+    .input-pesquisa-produtos {
+        border: none;
+        outline: none;
+        padding: 10px;
+        flex: 1;
+        font-size: 16px;
+        color: #000000;
+    }
+    
+    .lupa-pesquisa {
+        background-color: #5179EF; 
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        padding: 8px;
+        margin-left: 8px;
+    }
+    
+    .lupa-pesquisa img {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .todos-produtos {
+        margin-left: 4rem;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-top: 20px;
+    }
 }
 
 .menu-atendente::-webkit-scrollbar {
@@ -117,19 +113,19 @@ body {
     position: fixed;
     right: 0;
     top: 0;
-}
 
-.menu-comanda .header-comanda {
-    padding: 20px;
-    text-align: center;
-}
+    .header-comanda {
+        padding: 20px;
+        text-align: center;
+    }
 
-.menu-comanda .botao-confirmar {
-    border-top: 3px solid rgba(43, 43, 43, 0.1);
-    margin-top: auto;
-    margin-bottom: 20px;
-    width: auto;
-    display: flex;
-    justify-content: center;
-    padding: 10px 0px 0px 0px;
+    .botao-confirmar {
+        border-top: 3px solid rgba(43, 43, 43, 0.1);
+        margin-top: auto;
+        margin-bottom: 20px;
+        width: auto;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0px 0px 0px;
+    }
 }

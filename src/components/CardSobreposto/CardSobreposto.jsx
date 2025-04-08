@@ -1,5 +1,6 @@
 import Dispositivos from '../../components/Dispositivos/Dispositivos';
 import DescCardSobreposto from '../DescCardSobreposto/DescCardSobreposto';
+import OpcoesCardSobreposto from '../OpcoesCardSobreposto/OpcoesCardSobreposto';
 
 
 export default function CardSobreposto() {
@@ -7,7 +8,8 @@ export default function CardSobreposto() {
     <>
     <article className="card-sobreposto">
         <Dispositivos/>
-        <DescCardSobreposto/>    
+        <DescCardSobreposto/>
+        <OpcoesCardSobreposto/>    
     </article>
     </>
   )

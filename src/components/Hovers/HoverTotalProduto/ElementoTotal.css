@@ -1,0 +1,28 @@
+.card-total {
+    background-color: var(--card-branco);
+    width: 8vw;
+    height: 16vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    small {
+        display: flex;
+        justify-content: center; 
+    }
+
+    .lanche {
+        width: 80%;
+    }
+
+    &:hover {
+        background-color: var(--azul-escuro);
+        color: var(--card-branco);
+    }
+}

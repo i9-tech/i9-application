@@ -19,6 +19,15 @@
         transition: all 0.2s;
         border-radius: 20px;
         cursor: pointer;
+        margin: 10px;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        text-align: center;
+        color: #fff;
+        font-size: 24px;
+        padding: 24px;
     }
 
     &:hover .overlay {

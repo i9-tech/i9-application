@@ -1,5 +1,6 @@
 import BotaoOpcao from "../Hovers/HoverBotoes/BotaoOpcao";
 import ElementoImagem from "../Hovers/HoverImagem/ElementoImagem";
+import IMAGEM_PDV from "../../assets/frente_caixa.png"
 
 export default function OpcoesCardSobreposto() {
   return (
@@ -23,7 +24,7 @@ export default function OpcoesCardSobreposto() {
             <BotaoOpcao texto={"Controle de Vendas"} />
           </div>
           <div className="imagem-opcao">
-            <ElementoImagem />
+            <ElementoImagem imagemSecao={IMAGEM_PDV} />
           </div>
         </span>
       </article>

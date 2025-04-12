@@ -1,5 +1,55 @@
+.nav-institucional{
+  height: 16vh;
+  width: 100vw;
+  background-color: #ffffff80;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: fixed;
+
+  .opcoes-nav {
+    display: flex;
+    width: 32%;
+    justify-content: space-evenly;
+
+    div:hover {
+      cursor: pointer;
+      color: var(--destaque);
+    }
+  }
+  
+  .entrar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 24%;
+
+    button {
+      width: 132px;
+      height: 40px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #fff;
+      background-color: var(--destaque);
+      border: none;
+      border-radius: 0.4rem;
+      
+      &:hover {
+        cursor: pointer;
+        background-color: var(--botao-fundo-clicado);
+        transition: all 0.3s; 
+      }
+    }
+
+    hov {
+      color: var(--destaque);
+    }
+  }
+}
+
+
+
 .institucional {
-  background-color: yellow;
   width: 100vw;
   height: 220vh;
   display: flex;
@@ -293,7 +343,6 @@
         }
   
         .resposta {
-          background-color: red;
           width: 100%;
           padding: 4%;
           font-size: 18px;

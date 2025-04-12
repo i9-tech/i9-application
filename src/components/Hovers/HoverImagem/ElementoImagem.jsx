@@ -7,7 +7,7 @@ export function ElementoImagem({imagemSecao}) {
             <article>
                 <div className='elemento-imagem'>
                     <img src={imagemSecao} alt="Imagem Comida" />
-                    <div class="overlay">Registrar um pedido é rápido e fácil, evitando erros e melhorando a comunicação da equipe para um atendimento mais eficiente.</div>
+                    <div className="overlay">Registrar um pedido é rápido e fácil, evitando erros e melhorando a comunicação da equipe para um atendimento mais eficiente.</div>
                 </div>
             </article>
         </>

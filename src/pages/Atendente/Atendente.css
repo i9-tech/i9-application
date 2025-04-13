@@ -73,13 +73,12 @@ body {
     }
     
     .todos-produtos {
-        margin-left: 4rem;
+        margin: 0rem 0rem 4rem 4rem;
         display: flex;
         align-items: center;
         flex-direction: row;
         flex-wrap: wrap;
         gap: 1.5rem;
-        margin-top: 20px;
     }
 }
 
@@ -159,4 +158,3 @@ body {
         }
     }
 }
-

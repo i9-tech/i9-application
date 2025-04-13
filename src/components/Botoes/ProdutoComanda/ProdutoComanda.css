@@ -1,6 +1,6 @@
 .card-produto {
-    min-width: 18vw;
-    min-height: 10vh;
+    min-width: 370px;
+    min-height: 90px;
     display: flex;
     align-items: center;
     background-color: #ffffff;

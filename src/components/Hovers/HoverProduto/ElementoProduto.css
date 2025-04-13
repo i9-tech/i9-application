@@ -12,6 +12,11 @@
     font-weight: 500;
   }
 
+  .elemento-produto.desabilitado {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
   .conteudo-card {
     width: 85%;
     display: flex;

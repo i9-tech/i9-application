@@ -2,16 +2,20 @@ import './ProdutoComanda.css';
 import LancheNatural from '../../../assets/lanche.png';
 import { useState, useEffect } from 'react';
 
-export function ProdutoComanda({ produto, preco, atualizarQuantidade, onClick = () => {} }) {
-    const [quantidade, setQuantidade] = useState(1);
+export function ProdutoComanda({ produto, preco, quantidade: quantidadeInicial, atualizarQuantidade, onClick = () => {} }) {
+    const [quantidade, setQuantidade] = useState(quantidadeInicial || 1);
+
+    useEffect(() => {
+        setQuantidade(quantidadeInicial);
+    }, [quantidadeInicial]);
 
     function diminuir() {
         if (quantidade > 1) {
-            setQuantidade(quantidade - 1);
+            setQuantidade(qtd => qtd - 1);
         }
     }
     function aumentar() {
-        setQuantidade(quantidade + 1);
+        setQuantidade(qtd => qtd + 1);
     }
 
     useEffect(() => {
@@ -25,7 +29,10 @@ export function ProdutoComanda({ produto, preco, atualizarQuantidade, onClick = 
             <img src={LancheNatural} alt="Lanche Natural" className="imagem-produto" />
             <div className="detalhes-produto">
                 <span className="nome-produto">{produto}</span>
-                <span className="preco-produto">R$ {(preco * quantidade).toFixed(2)}</span>
+                <span className="preco-produto">R$ {(preco * quantidade).toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })}</span>
             </div>
             <div className="controles-quantidade" onClick={e => e.stopPropagation()}>
                 <button className="btn-diminuir" onClick={diminuir}>-</button>

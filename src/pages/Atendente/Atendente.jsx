@@ -19,6 +19,7 @@ export function Atendente(props) {
     const [comanda, setComanda] = useState([]);
 
     const [produtos, setProdutos] = useState([]);
+    const [setores, setSetores] = useState([]);
 
     useEffect(() => {
         const dadosProdutos = [
@@ -35,7 +36,26 @@ export function Atendente(props) {
             { nome: "Pamonha", descricao: "Pamonha de milho fresco, servido com uma xícara de café e um toque de canela. A pamonha é feita com um milho fresco, picado e misturado com um ovo, uma cebola picada e um pouco de farinha de trigo. A pamonha é frita em uma panela de azeite quente e servida com uma xícara de café e um toque de canela.", preco: 12.00, disabled: false },
         ]
         setProdutos(dadosProdutos);
+
+        const dadosSetores = [
+            { nome: "Restaurante", quantidade: 20 },
+            { nome: "Pastelaria", quantidade: 20 },
+            { nome: "Lanchonete", quantidade: 50 },
+            { nome: "Mercado", quantidade: 20 },
+        ]
+        setSetores(dadosSetores);
     }, []);
+
+
+
+    const [pesquisa, setPesquisa] = useState("");
+    const handlePesquisaChange = (event) => {
+        setPesquisa(event.target.value);
+    };
+
+    const produtosFiltrados = produtos.filter((produto) =>
+        produto.nome.toLowerCase().includes(pesquisa.toLowerCase())
+    );
 
     const adicionarNaComanda = (produto) => {
         setComanda((prev) => {
@@ -92,7 +112,6 @@ export function Atendente(props) {
 
     function fecharModal() {
         setModalAberto(false);
-        setProdutoSelecionado(null);
     }
 
     const abrirModalConfirmarPedido = () => {
@@ -154,17 +173,21 @@ export function Atendente(props) {
                 <div className='todos-produtos'>
                     <h1>Escolha o Setor</h1>
                     <div className="setores">
-                        <ElementoTotal nome="Todos" quantidade={20} />
-                        <ElementoTotal nome="Restaurante" quantidade={150} />
-                        <ElementoTotal nome="Pastelaria" quantidade={100} />
-                        <ElementoTotal nome="Lanchonete" quantidade={50} />
-                        <ElementoTotal nome="Mercado" quantidade={20} />
+                        <ElementoTotal nome="Todos" quantidade={setores.reduce((acc, setor) => acc + setor.quantidade, 0)} />
+                     
+                        {setores.map((setor, index) => (
+                            <ElementoTotal
+                                key={index}
+                                nome={setor.nome}
+                                quantidade={setor.quantidade}
+                            />
+                        ))}
                     </div>
 
                     <div className="header-container">
                         <h1>{props.categoria}</h1>
                         <div className="barra-pesquisa">
-                            <input type="text" placeholder="Procurar Produto" className="input-pesquisa-produtos" />
+                            <input type="text" placeholder="Procurar Produto" className="input-pesquisa-produtos"  value={pesquisa}  onChange={handlePesquisaChange}/>
                             <button className="lupa-pesquisa">
                                 <img src={LupaPesquisa} alt="Pesquisar" />
                             </button>
@@ -172,16 +195,20 @@ export function Atendente(props) {
                     </div>
 
 
-                    {produtos.map((produto, index) => (
-                        <ElementoProduto
-                            key={index}
-                            nome={produto.nome}
-                            descricao={produto.descricao}
-                            preco={produto.preco}
-                            onAdicionar={adicionarNaComanda}
-                            disabled={produto.disabled}
-                        />
-                    ))}
+                    {produtosFiltrados.length === 0 ? (
+                        <p>Nenhum produto encontrado</p>
+                    ) : (
+                        produtosFiltrados.map((produto, index) => (
+                            <ElementoProduto
+                                key={index}
+                                nome={produto.nome}
+                                descricao={produto.descricao}
+                                preco={produto.preco}
+                                onAdicionar={() => adicionarNaComanda(produto)}
+                                disabled={produto.disabled}
+                            />
+                        ))
+                    )}
                 </div>
             </section>
 

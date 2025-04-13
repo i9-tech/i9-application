@@ -2,8 +2,7 @@ import './ProdutoComanda.css';
 import LancheNatural from '../../../assets/lanche.png';
 import { useState, useEffect } from 'react';
 
-
-export function ProdutoComanda(props) {
+export function ProdutoComanda({ produto, preco, atualizarQuantidade, onClick = () => {} }) {
     const [quantidade, setQuantidade] = useState(1);
 
     function diminuir() {
@@ -16,20 +15,19 @@ export function ProdutoComanda(props) {
     }
 
     useEffect(() => {
-        if (props.atualizarQuantidade) {
-            props.atualizarQuantidade(props.produto, quantidade);
+        if (atualizarQuantidade) {
+            atualizarQuantidade(produto, quantidade);
         }
     }, [quantidade]);
 
-
     return (
-        <div className="card-produto">
+        <div className="card-produto" onClick={() => onClick(produto, quantidade)}>
             <img src={LancheNatural} alt="Lanche Natural" className="imagem-produto" />
             <div className="detalhes-produto">
-                <span className="nome-produto">{props.produto} </span>
-                <span className="preco-produto">R$ {(props.preco * quantidade).toFixed(2)}</span>
+                <span className="nome-produto">{produto}</span>
+                <span className="preco-produto">R$ {(preco * quantidade).toFixed(2)}</span>
             </div>
-            <div className="controles-quantidade">
+            <div className="controles-quantidade" onClick={e => e.stopPropagation()}>
                 <button className="btn-diminuir" onClick={diminuir}>-</button>
                 <span className="quantidade">{quantidade}</span>
                 <button className="btn-aumentar" onClick={aumentar}>+</button>
@@ -39,4 +37,3 @@ export function ProdutoComanda(props) {
 }
 
 export default ProdutoComanda;
-

@@ -2,7 +2,7 @@
     width: 4rem;
     height: 100vh;
     background: #ffffff;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 400;
     position: fixed;
     top: 0;
@@ -10,6 +10,7 @@
     transition: width 0.3s ease;
     overflow: hidden;
     box-shadow: 5px 0px 15px rgba(7, 6, 6, 0.2);
+    z-index: 1;
 
     img {
         width: 40px;
@@ -20,7 +21,7 @@
         padding: 5px;
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        gap: 15px;
 
         a {
             text-decoration: none;
@@ -29,7 +30,7 @@
             li {
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 15px;
                 cursor: pointer;
                 text-align: left;
                 white-space: nowrap;

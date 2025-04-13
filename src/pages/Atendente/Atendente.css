@@ -22,14 +22,13 @@ body {
     }
 
     .setores{
-        width: 91%;
         display: flex;
         gap: 1rem;
-        margin: 20px;
         flex-wrap: wrap;
     }
+    
     .header-container {
-        width: 91%;
+        width: 96%;
         display: flex;
         justify-content: space-between; 
         align-items: center; 

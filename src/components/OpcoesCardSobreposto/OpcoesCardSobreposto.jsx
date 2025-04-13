@@ -4,6 +4,7 @@ import IMAGEM_COMANDAS from "../../assets/frente_caixa.png";
 import IMAGEM_PDV from "../../assets/frente_caixa.png";
 import IMAGEM_ESTOQUE from "../../assets/frente_caixa.png";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function OpcoesCardSobreposto() {
   const [blocoAtual, setBlocoAtual] = useState(0);
@@ -115,25 +116,38 @@ export default function OpcoesCardSobreposto() {
           </button>
         </span>
         <span className="infos-sistema">
-          <div className="botoes-opcoes">
-            <p>{bloco.introducao}</p>
-            {bloco.opcoes.map((op, index) => (
-              <BotaoOpcao
-                key={index}
-                texto={op.opcao}
-                onClick={() =>
-                  setOpcaoSelecionada(opcaoSelecionada === index ? null : index)
-                }
-                selecionado={opcaoSelecionada === index}
-              />
-            ))}
-          </div>
-          <div className="imagem-opcao">
-            <ElementoImagem
-              imagemSecao={bloco.imagem}
-              respostaPergunta={respostaPergunta}
-            />
-          </div>
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={blocoAtual}
+              className="infos"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0}}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <div className="botoes-opcoes">
+                <p>{bloco.introducao}</p>
+                {bloco.opcoes.map((op, index) => (
+                  <BotaoOpcao
+                    key={index}
+                    texto={op.opcao}
+                    onClick={() =>
+                      setOpcaoSelecionada(
+                        opcaoSelecionada === index ? null : index
+                      )
+                    }
+                    selecionado={opcaoSelecionada === index}
+                  />
+                ))}
+              </div>
+              <div className="imagem-opcao">
+                <ElementoImagem
+                  imagemSecao={bloco.imagem}
+                  respostaPergunta={respostaPergunta}
+                />
+              </div>
+            </motion.span>
+          </AnimatePresence>
         </span>
       </article>
       <article className="opcoes-tablet">tamanho tablet</article>

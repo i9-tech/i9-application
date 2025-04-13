@@ -1,3 +1,5 @@
+import { motion, AnimatePresence } from "motion/react";
+
 export default function ListaPerguntas({
 tipoPergunta, respostaPergunta, aberta, aoClicar, selecionado
 }) {
@@ -9,11 +11,22 @@ tipoPergunta, respostaPergunta, aberta, aoClicar, selecionado
           +
         </button>
       </span>
+      <AnimatePresence>
       {aberta && (
-        <div className="resposta" style={{ display: "flex" }}>
+      <motion.div
+      key="resposta"
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      style={{ overflow: "hidden" }}
+      >
+        <div className="resposta">
           {respostaPergunta}
         </div>
+      </motion.div>
       )}
+      </AnimatePresence>
     </>
   );
 }

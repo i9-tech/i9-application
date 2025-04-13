@@ -163,7 +163,10 @@
           /* flex-direction: column; */
           justify-content: center;
           /* align-items: center; */
-          /* background-color: red; */
+
+          .infos {
+            display: flex;
+          }
 
           .botoes-opcoes {
             /* background-color: blue; */

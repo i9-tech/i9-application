@@ -1,0 +1,84 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-container {
+  background-color: white;
+  width: 400px;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.modal-container h2 {
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.modal-info {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.modal-info p {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.25rem 0;
+}
+
+
+.modal-subtotal {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.modal-botao {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-itens {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-nome {
+  flex: 2;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-quantidade {
+  flex: 1;
+  text-align: center;
+}
+
+.item-total {
+  flex: 1;
+  text-align: right;
+}

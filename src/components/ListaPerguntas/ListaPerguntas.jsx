@@ -1,11 +1,11 @@
 export default function ListaPerguntas({
-tipoPergunta, respostaPergunta, aberta, aoClicar,
+tipoPergunta, respostaPergunta, aberta, aoClicar, selecionado
 }) {
   return (
     <>
-      <span className="pergunta">
+      <span className={`pergunta ${selecionado ? 'selected' : ''}`}>
         <div className="tipo">{tipoPergunta}</div>
-        <button className="acionar" onClick={aoClicar}>
+        <button className={`acionar ${selecionado ? 'selecao' : ''}`} onClick={aoClicar}>
           +
         </button>
       </span>

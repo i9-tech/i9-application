@@ -1,12 +1,14 @@
-import './BotaoOpcao.css'
+import "./BotaoOpcao.css";
 
-export function BotaoOpcao (props) {
-    return (
-        <>
-            <button className="botao-opcao" alt={`Botão ${props.texto}`}>
-                {props.texto}
-            </button>
-        </>
-    )
+export function BotaoOpcao({ texto, onClick, selecionado }) {
+  return (
+    <button
+      className={`botao-opcao ${selecionado ? "selecionado" : ""}`}
+      onClick={onClick}
+    >
+      {texto}
+    </button>
+  );
 }
-export default BotaoOpcao
+
+export default BotaoOpcao;

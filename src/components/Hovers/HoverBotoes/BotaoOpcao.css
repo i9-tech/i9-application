@@ -15,3 +15,9 @@
     color: var(--card-branco);
     transition: all 0.3s; 
 } 
+
+.botao-opcao.selecionado {
+    background-color: var(--botao-fundo-clicado);
+    color: var(--card-branco);
+    transition: all 0.3s; 
+} 

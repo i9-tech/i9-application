@@ -1,18 +1,19 @@
-import './ElementoImagem.css'
-import ImagemComida from '../assets/comida.png'
+import "./ElementoImagem.css";
+import ImagemComida from "../assets/comida.png";
 
-export function ElementoImagem({imagemSecao}) {
-    return (
-        <>
-            <article>
-                <div className='elemento-imagem'>
-                    <img src={imagemSecao} alt="Imagem Comida" />
-                    <div className="overlay">Registrar um pedido é rápido e fácil, evitando erros e melhorando a comunicação da equipe para um atendimento mais eficiente.</div>
-                </div>
-            </article>
-        </>
-    )
+export function ElementoImagem({ imagemSecao, respostaPergunta }) {
+  return (
+    <>
+      <article className="artigo-imagem">
+        <div className="elemento-imagem">
+          <img src={imagemSecao} alt="Imagem Comida" />
+          {respostaPergunta && (
+            <div className={`overlay ${respostaPergunta ? 'visivel' : ''}`}>{respostaPergunta}</div>
+          )}
+        </div>
+      </article>
+    </>
+  );
 }
 
-export default ElementoImagem
-
+export default ElementoImagem;

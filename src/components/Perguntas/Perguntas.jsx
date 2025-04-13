@@ -47,6 +47,7 @@ export default function Perguntas() {
             aoClicar={() =>
               setIndiceAberto(indiceAberto === i ? null : i)
             }
+            selecionado={indiceAberto === i}
           />
         ))}
       </span>

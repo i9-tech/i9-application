@@ -10,7 +10,7 @@ export default function NavInstitucional() {
         </span>
         <span className="entrar">
         <div><hov>Entre em contato conosco</hov></div>
-        <div className="botao-enter"><button>Entrar ></button></div>
+        <div className="botao-enter"><button>Entrar</button></div>
         </span>
     </section>
     )

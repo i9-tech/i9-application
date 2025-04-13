@@ -3,7 +3,7 @@ import BotaoConfirmar from '../../components/Botoes/BotaoConfirmar/BotaoConfirma
 import ElementoTotal from '../../components/Hovers/HoverTotalProduto/ElementoTotal'
 import LupaPesquisa from '../../assets/lupa-pesquisa.svg'
 import ElementoProduto from '../../components/Hovers/HoverProduto/ElementoProduto'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ModalObservacoes from '../../components/Botoes/ModalObservacoes/ModalObservacoes'
 import ProdutoComanda from '../../components/Botoes/ProdutoComanda/ProdutoComanda'
 import ModalConfirmarPedido from '../../components/Botoes/ModalConfirmarPedido/ModalConfirmarPedido'
@@ -17,6 +17,25 @@ export function Atendente(props) {
     const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
 
     const [comanda, setComanda] = useState([]);
+
+    const [produtos, setProdutos] = useState([]);
+
+    useEffect(() => {
+        const dadosProdutos = [
+            { nome: "Pastel de Frango Com Catupiry", descricao: "Pastel de Frango recheado com Catupiry cremoso, servido com uma xícara de café e um toque de canela. O pastel é feito com uma massa leve e crocante, recheado com um delicioso frango moído e um queijo derretido. O Catupiry é feito com um creme de leite fresco e um queijo parmesão ralado, o que lhe confere um sabor aveludado e um aroma intenso. O café é servido em uma xícara de porcelana branca e decorada com um desenho de um café.", preco: 9.00, disabled: false },
+            { nome: "Pastel de Frango", descricao: "Pastel de Frango de casa, servido com uma xícara de café e um toque de canela. O pastel é feito com uma massa leve e crocante, recheado com um delicioso frango moído. O café é servido em uma xícara de porcelana branca e decorada com um desenho de um café.", preco: 9.00, disabled: false },
+            { nome: "Bolinho de Bacalhau", descricao: "Bolinho de Bacalhau fresco, servido com uma xícara de café e um toque de limão. O bolinho é feito com um bacalhau fresco, picado e misturado com um ovo, uma cebola picada e um pouco de farinha de trigo. O bolinho é frito em uma panela de azeite quente e servido com uma xícara de café e um toque de limão.", preco: 12.00, disabled: false },
+            { nome: "X-Calabresa Artesanal", descricao: "X-Calabresa Artesanal com queijo, servido com uma xícara de café e um toque de queijo. A X-Calabresa é feita com uma massa leve e crocante, recheada com um delicioso queijo parmesão ralado e um presunto picado. O queijo é servido em uma xícara de porcelana branca e decorada com um desenho de um queijo.", preco: 20.00, disabled: false },
+            { nome: "Lanche Natural", descricao: "Lanche Natural com queijo, servido com uma xícara de café e um toque de queijo. O lanche é feito com uma massa leve e crocante, recheado com um delicioso queijo parmesão ralado e um presunto picado. O queijo é servido em uma xícara de porcelana branca e decorada com um desenho de um queijo.", preco: 15.00, disabled: true },
+            { nome: "Salada de Frutas", descricao: "Salada de Frutas frescas, servido com uma xícara de café e um toque de limão. A salada é feita com uma mistura de frutas frescas, como maçã, banana, mirtilo, abacaxi e kiwi. As frutas são picadas e misturadas com um pouco de açúcar e um toque de limão.", preco: 10.00, disabled: false },
+            { nome: "Feijoada", descricao: "Feijoada caseira com arroz e farofa, servido com uma xícara de café e um toque de queijo. A feijoada é feita com uma mistura de feijão preto, carne de porco, carne de bovino e temperos. O arroz é servido ao lado da feijoada e é feito com um arroz branco e um toque de queijo. A farofa é feita com uma mistura de farinha de milho e um pouco de açúcar.", preco: 25.00, disabled: false },
+            { nome: "Coxinha de Frango", descricao: "Coxinha de Frango com Catupiry, servido com uma xícara de café e um toque de queijo. A coxinha é feita com uma massa leve e crocante, recheada com um delicioso frango moído e um queijo derretido. O Catupiry é feito com um creme de leite fresco e um queijo parmesão ralado, o que lhe confere um sabor aveludado e um aroma intenso.", preco: 8.00, disabled: false },
+            { nome: "Pao de Queijo", descricao: "Pao de Queijo fresco, servido com uma xícara de café e um toque de queijo. O pão é feito com uma massa leve e crocante, recheado com um delicioso queijo parmesão ralado. O queijo é servido em uma xícara de porcelana branca e decorada com um desenho de um queijo.", preco: 5.00, disabled: false },
+            { nome: "Acafe", descricao: "Acafe caseiro com leite, servido com uma xícara de café e um toque de canela. O acafe é feito com uma mistura de café, leite e um toque de canela. O leite é servido em uma xícara de porcelana branca e decorada com um desenho de um café.", preco: 10.00, disabled: false },
+            { nome: "Pamonha", descricao: "Pamonha de milho fresco, servido com uma xícara de café e um toque de canela. A pamonha é feita com um milho fresco, picado e misturado com um ovo, uma cebola picada e um pouco de farinha de trigo. A pamonha é frita em uma panela de azeite quente e servida com uma xícara de café e um toque de canela.", preco: 12.00, disabled: false },
+        ]
+        setProdutos(dadosProdutos);
+    }, []);
 
     const adicionarNaComanda = (produto) => {
         setComanda((prev) => {
@@ -41,7 +60,6 @@ export function Atendente(props) {
         });
     };
 
-
     function atualizarQuantidade(produto, quantidade) {
         setQuantidades((prev) => ({
             ...prev,
@@ -65,7 +83,6 @@ export function Atendente(props) {
             return prev;
         });
     }
-
 
     function abrirModal(produto, quantidade) {
         setProdutoSelecionado({ nome: produto });
@@ -104,7 +121,6 @@ export function Atendente(props) {
     const totalItens = Object.values(quantidades).reduce((acc, q) => acc + q, 0);
     const totalPedido = comanda.reduce((total, item) => total + item.precoTotal, 0);
 
-
     const comandaExpandida = [];
 
     comanda.forEach((item) => {
@@ -120,11 +136,9 @@ export function Atendente(props) {
         }
     });
 
-
     return (
         <>
             <section className="menu-atendente">
-
                 {modalAberto && produtoSelecionado && (
                     <ModalObservacoes
                         produto={produtoSelecionado}
@@ -136,7 +150,6 @@ export function Atendente(props) {
                 {confirmarPedido && (
                     <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} />
                 )}
-
 
                 <div className='todos-produtos'>
                     <h1>Escolha o Setor</h1>
@@ -158,18 +171,17 @@ export function Atendente(props) {
                         </div>
                     </div>
 
-                    <ElementoProduto nome="Pastel de Frango Com Catupiry" prato="2" descricao="Pastel de Frango com Catupiry cremoso, feito com ingredientes selecionados e uma massa crocante, perfeito para um lanche rápido." preco={9.00} onAdicionar={adicionarNaComanda} disabled={false} />
-                    <ElementoProduto nome="Pastel de Frango" descricao="Pastel de Frango de casa, com Catupiry e temperos especiais. Um sabor irresistível que derrete na boca." preco={9.00} onAdicionar={adicionarNaComanda} disabled={false} />
-                    <ElementoProduto nome="Pastel" descricao="Pastel de Frango com Catupiry cremoso, ideal para quem busca um lanche rápido e saboroso." preco={9.50} onAdicionar={adicionarNaComanda} disabled={false} />
-                    <ElementoProduto nome="Bolinho de Bacalhau" descricao="Bolinho de Bacalhau fresco, feito com bacalhau de alta qualidade e temperos especiais, ideal para qualquer ocasião." preco={12.00} onAdicionar={adicionarNaComanda} disabled={false}/>
-                    <ElementoProduto nome="X-Calabresa Artesanal" descricao="X-Calabresa Artesanal com queijo e calabresa, uma combinação perfeita para os amantes de sabores intensos." preco={20.00} onAdicionar={adicionarNaComanda} disabled={false}/>
-                    <ElementoProduto nome="Lanche Natural" descricao="Lanche Natural com queijo e presunto, preparado com ingredientes frescos, ideal para uma alimentação leve e saudável." preco={15.00} onAdicionar={adicionarNaComanda} disabled={true} />
-                    <ElementoProduto nome="Salada de Frutas" descricao="Salada de Frutas frescas, uma explosão de sabores e cores, perfeita para refrescar o seu dia." preco={10.00} onAdicionar={adicionarNaComanda} disabled={false} />
-                    <ElementoProduto nome="Feijoada" descricao="Feijoada caseira com arroz e farofa, um prato tradicional que traz o verdadeiro sabor da culinária brasileira." preco={25.00} onAdicionar={adicionarNaComanda} disabled={false} />
-                    <ElementoProduto nome="Coxinha de Frango" descricao="Coxinha de Frango com Catupiry cremoso, um clássico dos salgados que agrada a todos os paladares." preco={8.00} onAdicionar={adicionarNaComanda} disabled={false} />
-                    <ElementoProduto nome="Pao de Queijo" descricao="Pao de Queijo fresco, macio e saboroso, ideal para acompanhar um café ou chá." preco={5.00} onAdicionar={adicionarNaComanda} disabled={false} />
-                    <ElementoProduto nome="Acafe" descricao="Acafe caseiro com leite e açúcar, uma bebida reconfortante para aquecer os dias frios." preco={10.00} onAdicionar={adicionarNaComanda} disabled={false} />
-                    <ElementoProduto nome="Pamonha" descricao="Pamonha de milho fresco, um doce típico que traz o sabor autêntico do campo." preco={12.00} onAdicionar={adicionarNaComanda} />
+
+                    {produtos.map((produto, index) => (
+                        <ElementoProduto
+                            key={index}
+                            nome={produto.nome}
+                            descricao={produto.descricao}
+                            preco={produto.preco}
+                            onAdicionar={adicionarNaComanda}
+                            disabled={produto.disabled}
+                        />
+                    ))}
                 </div>
             </section>
 
@@ -177,7 +189,6 @@ export function Atendente(props) {
                 <header className="header-comanda">
                     <h1>Comandas</h1>
                 </header>
-
 
                 <div className="produtos-adicionados-comanda">
                     {comanda.map((item, index) => (
@@ -188,13 +199,12 @@ export function Atendente(props) {
                             quantidade={item.quantidade}
                             atualizarQuantidade={atualizarQuantidade}
                             onClick={abrirModal}
-
                         />
                     ))}
-                    {console.log('comanda', comanda)}
-                    {console.log('comandaExpandida', comandaExpandida)}
+                      {console.log('comanda', comanda)}
+                      {console.log('comandaExpandida', comandaExpandida)}
 
-
+                      
                     {/*
                     <ProdutoComanda produto="Pastel" preco={9.00} atualizarQuantidade={atualizarQuantidade} onClick={abrirModal} />
                     <ProdutoComanda produto="Lanche Natural" preco={12.00} atualizarQuantidade={atualizarQuantidade} onClick={abrirModal} />
@@ -205,9 +215,7 @@ export function Atendente(props) {
                 <section className="botao-confirmar">
                     <BotaoConfirmar quantidade={totalItens} totalPedido={totalPedido} onClick={abrirModalConfirmarPedido} />
                 </section>
-
             </aside>
-
         </>
     )
 }

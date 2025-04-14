@@ -19,7 +19,10 @@ export function Options () {
         <li><i> <img src={iconeCozinha} alt="Icone de Cozinha" /> </i> <span>Cozinha</span></li>
         </Link>
         <Link to="/estoque">
-        <li><i> <img src={iconeEstoque} alt="Icone de Estoque" /> </i> <span>Estoque</span></li>
+        <li><i> <img src={iconeEstoque} alt="Icone de Estoque" /> </i> <span>Estoque Produtos</span></li>
+        </Link>
+        <Link to="/">
+        <li><i> <img src={iconeEstoque} alt="Icone de Estoque" /> </i> <span>Estoque Pratos</span></li>
         </Link>
         <Link to="/funcionarios">
         <li><i> <img src={iconeEquipe} alt="Icone de Equipe" /> </i> <span>Equipe</span></li>

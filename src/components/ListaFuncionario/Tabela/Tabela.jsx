@@ -9,19 +9,6 @@ export function Tabela({ tipoLista }) {
       </thead>
       <tbody>
         <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
-        <Corpo tipoLista="Estoque" />
       </tbody>
     </table>
   ) : (
@@ -39,5 +26,3 @@ export function Tabela({ tipoLista }) {
 }
 
 export default Tabela;
-export { Cabecalho } from './Cabecalho/Cabecalho';
-export { Corpo } from './Corpo/Corpo'; 

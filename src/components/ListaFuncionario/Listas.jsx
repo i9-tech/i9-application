@@ -1,10 +1,10 @@
 import './Listas.css';
-import { Tabela, Cabecalho, Corpo } from './Tabela/Tabela'; 
+import { Tabela } from './Tabela/Tabela';
 
 import { useState } from 'react';
 
 export function Listas () {
-    const [tipoLista] = useState('Estoque');
+    const [tipoLista] = useState('Funcionario');
 
     // const mudarTipo = () => {
     //     setTipoLista(tipoLista === 'Estoque' ? 'Funcionario' : 'Estoque');
@@ -21,4 +21,3 @@ export function Listas () {
 }
 
 export default Listas;
-export { Cabecalho, Corpo }; 

@@ -1,8 +1,8 @@
 import BotaoOpcao from "../Hovers/HoverBotoes/BotaoOpcao";
 import ElementoImagem from "../Hovers/HoverImagem/ElementoImagem";
-import IMAGEM_COMANDAS from "../../assets/frente_caixa.png";
+import IMAGEM_COMANDAS from "../../assets/imagem-gestao-comandas.png";
 import IMAGEM_PDV from "../../assets/frente_caixa.png";
-import IMAGEM_ESTOQUE from "../../assets/frente_caixa.png";
+import IMAGEM_ESTOQUE from "../../assets/imagem-gestao-estoque.png";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -67,12 +67,12 @@ export default function OpcoesCardSobreposto() {
         {
           opcao: "Cardápio Personalizável",
           resposta:
-            "Registrar um pedido é rápido e fácil, evitando erros e melhorando a comunicação da equipe para um atendimento mais eficiente.",
+            "Adapte o cardápio com facilidade, ajustando itens, preços e promoções rapidamente para mais flexibilidade na operação.",
         },
         {
           opcao: "Controle de Vendas",
           resposta:
-            "Registrar um pedido é rápido e fácil, evitando erros e melhorando a comunicação da equipe para um atendimento mais eficiente.",
+            "Monitore vendas em tempo real com precisão, obtenha insights detalhados e tome decisões estratégicas com mais segurança.",
         },
       ],
       imagem: IMAGEM_ESTOQUE,

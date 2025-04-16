@@ -1,5 +1,5 @@
 import ElementoImagem from "../Hovers/HoverImagem/ElementoImagem";
-import IMAGEM_PDV from "../../assets/frente_caixa.png";
+import IMAGEM_PERGUNTAS from "../../assets/imagem-perguntas-frequentes.png";
 import ListaPerguntas from "../ListaPerguntas/ListaPerguntas";
 import { useState } from "react";
 
@@ -35,7 +35,7 @@ export default function Perguntas() {
       </div>
       <span className="dados">
         <div className="imagem-dados">
-          <ElementoImagem imagemSecao={IMAGEM_PDV} />
+          <ElementoImagem imagemSecao={IMAGEM_PERGUNTAS} />
         </div>
         <span className="lista-perguntas">
         {perguntas.map((p, i) => (

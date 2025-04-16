@@ -1,7 +1,7 @@
 .nav-institucional{
   height: 16vh;
   width: 100vw;
-  background-color: #ffffff80;
+  background-color: #ffffffe4;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -25,10 +25,14 @@
     display: flex;
     width: 32%;
     justify-content: space-evenly;
+    
+    div {
+      transition: all 0.3s;
 
-    div:hover {
-      cursor: pointer;
-      color: var(--destaque);
+      &:hover {
+        cursor: pointer;
+        color: var(--destaque);
+      }
     }
   }
   
@@ -58,6 +62,13 @@
   }
 }
 
+.institucional-home {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
 .institucional {

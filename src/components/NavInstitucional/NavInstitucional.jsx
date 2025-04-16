@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-// import LOGO from "../../assets/logo-i9.jpg";
-import LOGO from "../../assets/icon-i9.png";
+import LOGO from "../../assets/logo-i9.png";
 
 export default function NavInstitucional() {
   const navigate = useNavigate();

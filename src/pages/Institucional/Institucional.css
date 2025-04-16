@@ -8,6 +8,19 @@
   position: fixed;
   z-index: 100;
 
+  .nav-logo {
+    background-color: var(--background-white);
+    width: 4%;
+    height: 50%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; 
+      display: block;
+    }
+  }
+
   .opcoes-nav {
     display: flex;
     width: 32%;
@@ -42,9 +55,6 @@
       }
     }
 
-    hov {
-      color: var(--destaque);
-    }
   }
 }
 
@@ -93,9 +103,6 @@
       align-items: center;
       text-align: center;
 
-      hov {
-        color: var(--destaque);
-      }
     }
   }
 
@@ -290,11 +297,7 @@
       flex-direction: column;
       padding: 5%;
       font-weight: bold;
-      
-  
-      hov {
-            color: var(--destaque);
-      }
+
   
     }
     .dados {

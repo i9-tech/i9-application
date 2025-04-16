@@ -36,3 +36,7 @@ body {
   width: 100%;
   overflow-x: hidden;
 }
+
+hov {
+  color: var(--destaque);
+}

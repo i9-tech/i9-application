@@ -8,10 +8,10 @@ export function Institucional() {
   return (
     <>
     <NavInstitucional/>
-    <section className='institucional'>
+    <section className='institucional' id='solucoes'>
       <CardSobreposto/>
     </section>
-    <section className='institucional-perguntas'>
+    <section className='institucional-perguntas' id='sobre'>
       <Perguntas/>
     </section>
     </>

@@ -1,5 +1,3 @@
-import "./siteInicio.css";
-
 const DesktopInicio = () => {
   return (
     <>

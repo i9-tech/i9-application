@@ -1,5 +1,4 @@
 import React from 'react';
-import './siteContato.css';
 
 const DesktopContato = () => {
   return (

@@ -9,8 +9,9 @@ export default function CardSobreposto() {
     <article className="card-sobreposto">
         <Dispositivos/>
         <DescCardSobreposto/>
-        <OpcoesCardSobreposto/>    
+        <OpcoesCardSobreposto/>   
     </article>
+    <div className="card" /> 
     </>
   )
 }

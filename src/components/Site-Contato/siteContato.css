@@ -1,0 +1,91 @@
+.contato {
+  background-color: #edf2f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 20px;
+  text-align: center;
+  min-height: 60vh;
+}
+
+.contato-conteudo h1 {
+  font-weight: 700;
+  font-size: 3.5rem;
+  line-height: 3.5rem;
+  text-align: center;
+  letter-spacing: -2px;
+  color: #0e2361;
+}
+
+.contato-conteudo p {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  text-align: center;
+  letter-spacing: 0.2px;
+
+  color: #040b28;
+}
+
+.contato-conteudo span {
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  text-align: center;
+  letter-spacing: 0.2px;
+
+  color: #0f14b8;
+}
+
+.email-formulario {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.email-formulario input {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  gap: 10px;
+  width: 339px;
+  height: 35px;
+  background: rgba(15, 20, 184, 0.16);
+  border-radius: 5px;
+  text-align: center;
+}
+
+.email-formulario ::placeholder {
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  color: #fbfeff;
+}
+
+.email-formulario button {
+    display: flex;
+    border: none;
+    color: #fbfeff;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 19px;
+    gap: 10px;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    letter-spacing: 0.6px;
+    width: 111px;
+    height: 35px;
+    background: #0f14b8;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.email-formulario button:hover {
+  background-color: #0e2361;
+}

@@ -1,0 +1,121 @@
+.pedidos {
+    background: #F4F4F4;
+    min-width: 461px;
+    height: 572px;
+    border-radius: 15px;
+    padding: 20px 20px 30px 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.pedidoInfo {
+
+    padding: 2px 20px 20px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 190px;
+}
+
+.pedidoInfo h3 {
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.pedidoInfo p {
+    margin-top: 2px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.579);
+    
+}
+
+.btn-info {
+    background: #0F14B8;
+    color: #F4F4F4;
+    border: none;
+    min-width: 45px;
+    height: 45px;
+    font-weight: bold;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.btn-info:hover {
+    background-color: #0E2361;
+}
+
+.pedidoItens {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0px;
+}
+
+.item {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 0px 10px;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    height: 71px;
+}
+
+.imagem {
+    min-width: 96px;
+    height: 69px;
+    border-radius: 5px;
+    margin-left: 10px;
+    background-color: #0F14B8;
+}
+
+.itemInfo {
+    flex-grow: 1;
+    margin-left: 10px;
+    text-align: left;
+}
+
+.itemInfo h4 {
+    font-size: 20px;
+    font-weight:normal;
+    color: #04041f;
+}
+
+.itemInfo p {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.500);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 220px; 
+}
+
+.itemInfo span {
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.itemInfo .observacao {
+    font-size: 16px;
+    color: red;
+}
+
+.itemInfo .observacao span {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.pedidoFinal {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    gap: 190px;
+}
+
+.itensQtd {
+    font-size: 16px;
+    color: red;
+}

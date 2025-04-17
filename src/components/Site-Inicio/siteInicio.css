@@ -1,0 +1,126 @@
+.inicio {
+  display: flex;
+  height: 110vh;
+  align-items: center;
+  justify-content: center;
+  padding: 80px;
+  background-color: #e9eff4;
+  gap: 40px;
+  flex-wrap: wrap;
+  
+}
+
+.inicioConteudo {
+  justify-content: center;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  margin-top: -70px;
+
+}
+
+.titulo-container {
+  width: 608px;
+  
+}
+
+.titulo1,
+.titulo2 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 3.5rem;
+  letter-spacing: -2px;
+}
+
+.titulo1 {
+  color: #040b28;
+  margin-bottom: 10px;
+}
+
+.titulo2 {
+  color: #0f14b8;
+}
+
+.frase {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  letter-spacing: 0.2px;
+  color: #040b28;
+  margin: 20px 0;
+}
+
+.inicioBotoes {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.btnUm {
+  display: flex;
+  border: none;
+  color: #fbfeff;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3px 19px;
+  gap: 10px;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  letter-spacing: 0.6px;
+  width: 111px;
+  height: 35px;
+  background: #0f14b8;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btnDois {
+  height: 24px;
+  font-weight: 500;
+  font-size: 1.125rem;
+  color: rgba(15, 20, 184, 0.5);
+}
+
+.inicioImagem {
+  background-color: #0f14b8;
+  width: 456px;
+  height: 366px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-top: -70px;
+  justify-content: center;
+  border-radius: 17px 0px;
+}
+
+.inicioImagem img {
+  background-image: url("top-viewtop-view-manager-employee-doing-teamwork-business-office-looking-charts-laptop-display (1).jpg");
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.saibaMais {
+  display: flex;
+  justify-content: center;
+  margin-top: -180px;
+}
+
+.saiba-mais {
+  font-weight: 600;
+  color: #0f14b8;
+  text-decoration: none;
+  font-size: 1rem;
+  text-align: center;
+  line-height: 28px;
+  letter-spacing: 0.2px;
+  transition: color 0.3s ease;
+}
+
+.saiba-mais:hover {
+  color: rgba(14, 35, 97, 0.8);
+}

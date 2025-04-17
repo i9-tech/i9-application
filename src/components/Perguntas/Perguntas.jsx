@@ -10,20 +10,20 @@ export default function Perguntas() {
   const perguntas = [
     {
       tipo: "Qualquer um terá acesso ao sistema de forma livre?",
-      resposta: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet, omnis fugit. Cumque quidem quis numquam, voluptatem sunt accusantium fugiat ipsum, sed possimus magni ratione. Dolorem ullam ipsa facere laborum corrupti."
+      resposta: "Nosso sistema é projetado para ser simples e intuitivo, mas o acesso não é totalmente livre — é necessário criar uma conta para utilizar os recursos. Porém, uma vez cadastrado, você terá um painel completo para registrar pedidos, gerenciar estoque e acompanhar suas vendas de maneira eficiente e segura."
     },
     {
       tipo: "Eu não sou muito chegado a tecnologia, ainda assim conseguirei mexer?",
       resposta:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, deserunt veritatis repellendus..."
+        "Sim! Pensamos exatamente em você ao desenvolver o sistema. Com um registro simplificado de pedidos, interface intuitiva e cardápio personalizável, tudo é feito de forma prática e sem complicação, mesmo para quem não tem familiaridade com tecnologia"
     },
     {
       tipo: "Como posso acompanhar o registro das minhas vendas e pedidos?",
-      resposta: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci beatae nostrum non impedit assumenda quam corrupti saepe ullam! Ut assumenda possimus beatae nostrum quibusdam perspiciatis esse dicta unde nisi delectus?"
+      resposta: "Você poderá acompanhar tudo em tempo real! Nosso sistema oferece: Acompanhamento em tempo real das vendas e do fluxo de caixa; Histórico de pedidos com dados como lucro e volume de vendas; Controle detalhado de vendas, com insights que te ajudam a tomar decisões com mais segurança."
     },
     {
       tipo: "Como será feita a gestão do estoque dos meus produtos?",
-      resposta: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus quidem possimus, harum eos, ullam culpa sequi tenetur commodi, illo vero eaque omnis dolorum? Quisquam aliquid illum quis dolor sed commodi."
+      resposta: "A gestão é feita de forma automatizada e eficiente: Controle de entrada e saída de produtos em tempo real; Alertas automáticos de estoque baixo; Monitoramento da validade dos produtos, evitando desperdícios."
     }
   ];
   

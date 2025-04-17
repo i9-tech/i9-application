@@ -4,13 +4,14 @@ import '../../index.css'
 import Perguntas from '../../components/Perguntas/Perguntas';
 import NavInstitucional from '../../components/NavInstitucional/NavInstitucional';
 import CardsSobreNos from '../../components/CardsSobreNos/CardsSobreNos';
+import DesktopInicio from '../../components/DesktopInicio/DesktopInicio';
 
 export function Institucional() {
   return (
     <>
     {/* <NavInstitucional/> */}
     <section className='institucional-home' id='inicio'>
-    [TELA HOME]
+    <DesktopInicio/>
     </section>
     <section className='institucional' id='solucoes'>
       <CardSobreposto/>

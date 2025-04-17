@@ -3,7 +3,7 @@ import "./siteInicio.css";
 const DesktopInicio = () => {
   return (
     <>
-      <section className="inicio">
+      <article className="inicio">
         <div className="inicioConteudo">
           <div className="titulo-container">
             <h1 className="titulo1">
@@ -28,7 +28,7 @@ const DesktopInicio = () => {
         <div className="inicioImagem">
           <img src="src\assets\top-viewtop-view-manager-employee-doing-teamwork-business-office-looking-charts-laptop-display (1) 1.png" alt="Gestão Empresarial" />
         </div>
-      </section>
+      </article>
 
       <div className="saibaMais">
         <a href="#" className="saiba-mais">

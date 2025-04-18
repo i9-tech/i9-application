@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import React from 'react'
 
 export default function FormularioLogin() {
+  const navigate = useNavigate();
   return (
     <forms className='login-forms'>
         <div className='login-input'>
@@ -14,7 +16,7 @@ export default function FormularioLogin() {
         <span></span>
         </div>
         <div className='login-entrar'>
-        <button>Entrar</button>
+        <button onClick={() => navigate("/atendente")}>Entrar</button>
         <p><hov>Você esqueceu a senha?</hov></p>
         </div>
     </forms>

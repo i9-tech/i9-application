@@ -10,6 +10,7 @@
     padding: 16px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     font-weight: 500;
+
   }
 
   .elemento-produto.desabilitado {
@@ -105,4 +106,3 @@
         color: var(--azul-escuro); 
     }
 }
-  

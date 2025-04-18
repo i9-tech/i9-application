@@ -2,7 +2,7 @@ import './ProdutoComanda.css';
 import LancheNatural from '../../../assets/lanche.png';
 import { useState, useEffect } from 'react';
 
-export function ProdutoComanda({ produto, preco, quantidade: quantidadeInicial, atualizarQuantidade, onClick = () => {} }) {
+export function ProdutoComanda({ produto, preco, quantidade: quantidadeInicial, removerProduto, atualizarQuantidade, onClick = () => {} }) {
     const [quantidade, setQuantidade] = useState(quantidadeInicial || 1);
 
     useEffect(() => {
@@ -11,9 +11,12 @@ export function ProdutoComanda({ produto, preco, quantidade: quantidadeInicial, 
 
     function diminuir() {
         if (quantidade > 1) {
-            setQuantidade(qtd => qtd - 1);
+          setQuantidade(qtd => qtd - 1);
+        } else {
+          removerProduto(produto);
         }
-    }
+      }
+      
     function aumentar() {
         setQuantidade(qtd => qtd + 1);
     }

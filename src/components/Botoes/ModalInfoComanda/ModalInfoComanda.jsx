@@ -17,7 +17,7 @@ export function ModalInfoComanda({ pedido, onClose }) {
         <div className="modal-itens">
   {pedido.itens.map((item, index) => (
     <div className="item-linha" key={index}>
-      <span className="item-nome">{index + 1}). {item.nome}</span>
+      <span className="item-nome" title={item.nome}>{index + 1}). {item.nome}</span>
       <span className="item-quantidade">{item.quantidade}</span>
       <span className="item-total">R${item.total}</span>
     </div>

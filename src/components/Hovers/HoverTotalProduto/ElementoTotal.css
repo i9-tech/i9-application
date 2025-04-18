@@ -1,7 +1,7 @@
 .card-total {
     background-color: white;
-    width: 130px !important;
-    height: 130px;
+    width: 110px !important;
+    height: 110px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -24,7 +24,7 @@
 }
 
 .card-total .lanche {
-    width: 80%;
+    width: 70%;
 }
 
 .card-total:hover {

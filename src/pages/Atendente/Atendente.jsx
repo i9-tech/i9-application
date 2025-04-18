@@ -154,6 +154,11 @@ export function Atendente(props) {
     });
   }
 
+  function removerProdutoDaComanda(nomeProduto) {
+    setComanda((prev) => prev.filter((item) => item.nome !== nomeProduto));
+  }
+  
+
   function abrirModal(produto, quantidade) {
     setProdutoSelecionado({ nome: produto });
     setQuantidadeSelecionada(quantidade);
@@ -276,6 +281,7 @@ export function Atendente(props) {
               quantidade={item.quantidade}
               atualizarQuantidade={atualizarQuantidade}
               onClick={abrirModal}
+              removerProduto={removerProdutoDaComanda}
             />
           ))}
           {console.log("comanda", comanda)}

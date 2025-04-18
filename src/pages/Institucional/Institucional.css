@@ -1,5 +1,5 @@
 .nav-institucional {
-  height: 16vh;
+  height: 10vh;
   width: 100vw;
   background-color: var(--background-blue);
   display: flex;
@@ -10,8 +10,8 @@
 
   .nav-logo {
     background-color: var(--background-blue);
-    width: 4%;
-    height: 50%;
+    width: 5%;
+    height: 70%;
 
     img {
       width: 100%;

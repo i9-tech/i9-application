@@ -3,7 +3,7 @@ import ComandaHeader from "../ComandaHeader/ComandaHeader";
 import ComandaBody from "../ComandaBody/ComandaBody";
 import ComandaFooter from "../ComandaFooter/ComandaFooter";
 
-export default function Comanda({ pedido }) {
+export default function Comanda({ pedido, index }) {
   return (
     <div className="comanda">
       <div className="cabecalho-comanda">
@@ -32,7 +32,7 @@ export default function Comanda({ pedido }) {
       </div>
 
       <div className="rodape-comanda">
-        <ComandaFooter />
+        <ComandaFooter qtdItens={pedido.itens.length} index={index}/>
       </div>
     </div>
   );

@@ -26,7 +26,7 @@ export function Cozinha() {
         {
           titulo: "1x Lanche Natural",
           descricao: "Pão, Alface, Tomate e Molho.",
-        }, 
+        },
       ],
       qtdItens: 4,
     },
@@ -54,13 +54,16 @@ export function Cozinha() {
       <section className="cozinha">
         <header className="titulo">
           <h1>Preparo de Pedidos</h1>
-          <p>{pedidos.length === 1 ? pedidos.length + " pedido" : pedidos.length + " pedidos"
-          }</p>
+          <p>
+            {pedidos.length === 1
+              ? pedidos.length + " pedido"
+              : pedidos.length + " pedidos"}
+          </p>
         </header>
 
         <article className="tela-comandas">
           {pedidos.map((pedido, index) => (
-            <Comanda key={index} pedido={pedido} />
+            <Comanda key={index} pedido={pedido} index={index} />
           ))}
         </article>
       </section>

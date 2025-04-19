@@ -1,16 +1,16 @@
 import './ModalConfirmarPedido.css';
 import BotaoGenericoAtendente from '../BotaoGenericoAtendente/BotaoGenericoAtendente';
 import ModalInfoComanda from '../ModalInfoComanda/ModalInfoComanda';
-import { useState } from 'react';
-export function ModalConfirmarPedido({ onClose }) {
+import { useEffect, useState } from 'react';
+export function ModalConfirmarPedido({ onClose, statusModal}) {
   const [modalAbertoInfoComanda, setModalAbertoInfoComanda] = useState(false);
-
   const abrirModalInforComanda = () => {
     setModalAbertoInfoComanda(true);
   }
 
   const fecharModalInforComanda = () => {
     setModalAbertoInfoComanda(false);
+    statusModal(false);
   }
 
   return (
@@ -36,7 +36,7 @@ export function ModalConfirmarPedido({ onClose }) {
         onClose={() => fecharModalInforComanda()} />
       )}
 
-      <div className="modal">
+      <div className={`modal ${statusModal && modalAbertoInfoComanda ? 'confirmar' : ''}`}>
         <button className="botao-fechar" onClick={onClose}>x</button>
         <div className="modal-header">
           <h2>Informações Sobre o Pedido</h2>

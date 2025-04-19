@@ -22,6 +22,11 @@
     position: relative;
     z-index: 999;
     overflow: auto;
+
+  }
+  
+  .modal.confirmar{
+    display: none;
   }
   
   .botao-fechar {

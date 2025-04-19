@@ -1,9 +1,10 @@
 .card-total {
     background-color: white;
-    width: 110px !important;
-    height: 110px;
+    width: 155px;
+    height: 145px;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     text-align: center;
     gap: 0.5rem;

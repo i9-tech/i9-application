@@ -227,7 +227,7 @@ export function Atendente(props) {
           />
         )}
         {confirmarPedido && (
-          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} />
+          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} statusModal={setConfirmarPedido}/>
         )}
 
         <div className="todos-produtos">

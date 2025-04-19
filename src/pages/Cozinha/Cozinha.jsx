@@ -8,6 +8,9 @@ export function Cozinha() {
   const [pedidos, setPedidos] = useState([
     {
       numeroPedido: 250,
+      cliente: 'Jhonattan',
+      mesa: 5,
+      pagamento: 'Dinheiro',
       dataHora: "19 Mar 2025, 16:54",
       itens: [
         {
@@ -32,6 +35,9 @@ export function Cozinha() {
     },
     {
       numeroPedido: 251,
+      cliente: 'Betina',
+      mesa: 13,
+      pagamento: 'Cartão',
       dataHora: "20 Mar 2025, 16:58",
       itens: [
         {

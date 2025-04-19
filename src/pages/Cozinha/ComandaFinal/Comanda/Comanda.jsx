@@ -2,6 +2,7 @@ import React from "react";
 import ComandaHeader from "../ComandaHeader/ComandaHeader";
 import ComandaBody from "../ComandaBody/ComandaBody";
 import ComandaFooter from "../ComandaFooter/ComandaFooter";
+import ComandaInfo from "../ComandaInfo/ComandaInfo";
 
 export default function Comanda({ pedido, index }) {
   return (
@@ -29,6 +30,15 @@ export default function Comanda({ pedido, index }) {
             pedidoId={pedido.numeroPedido}
           />
         ))}
+        
+          <ComandaInfo
+            key={index}
+            cliente={pedido.cliente}
+            mesa={pedido.mesa}
+            pagamento={pedido.pagamento}
+            index={index}
+          />
+        
       </div>
 
       <div className="rodape-comanda">

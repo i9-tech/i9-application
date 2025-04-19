@@ -8,7 +8,6 @@ export default function ComandaHeader({numeroPedido, dataHora, index}) {
             <h3>Pedido #{numeroPedido}</h3>
             <p>{dataHora}</p>
           </div>
-            <button className="btn-info">i</button>
         </div>
     </>
   )

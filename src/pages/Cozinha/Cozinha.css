@@ -60,6 +60,7 @@
           }
         }
       }
+
       .corpo-comanda {
         background-color: chocolate;
         width: 100%;
@@ -68,6 +69,25 @@
         flex-direction: column;
         padding: 8px;
         gap: 10px;
+
+        .pedidoCliente {
+          border-bottom: 1px solid #ddd;
+          border-top: 1px solid #ddd;
+          padding: 8px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          
+
+          p {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 20px;
+          }
+        }
+
 
         .corpo-conteudo {
           display: flex;
@@ -103,7 +123,8 @@
         background-color: hsl(276, 100%, 50%);
         width: 100%;
         display: flex;
-        padding: 4px 8px 0 8px;
+        padding: 10px;
+        padding-left: 14px;
 
         .rodape-conteudo {
           display: flex;

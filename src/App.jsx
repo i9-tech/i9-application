@@ -14,15 +14,13 @@ function App() {
   return (
     <>
     <main>
-    <Navbar/>
       <Routes>
-        <Route path='/' element={<Dashboard/>} />
+        <Route path='/' element={<Institucional/>} />
+        <Route path='/login' element={<Login/>} />
         <Route path='/atendente' element={<Atendente  categoria={"Todos os Produtos"}/>} />
         <Route path='/cozinha' element={<Cozinha/>} />
         <Route path='/estoque' element={<Estoque/>} />
         <Route path='/funcionarios' element={<Funcionarios/>} />
-        <Route path='/institucional' element={<Institucional/>} />
-        <Route path='/login' element={<Login/>} />
       </Routes>
     </main>
     </>

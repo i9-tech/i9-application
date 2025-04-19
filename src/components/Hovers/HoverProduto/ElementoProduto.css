@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     background-color: white;
-    width: 425px;
+    width: 350px;
     height: 160px;
     border-radius: 1rem;
     padding: 16px;
@@ -26,12 +26,11 @@
     padding: 5px;
   }
 
-
   .conteudo-card h2 {
     position: absolute;
     top: 25px;
     font-size: 18px;
-    width: 300px;
+    width: 280px;
     font-weight: bold;
     word-wrap: break-word;
     overflow: hidden;
@@ -42,7 +41,6 @@
     white-space: normal;
     line-height: 1.2;
     max-height: 2.4em;
-
   }
   
   .conteudo-card .descricao {
@@ -98,11 +96,10 @@
 
   .elemento-produto:hover {
     background-color: var(--azul-escuro);
-    color: var(--card-branco) !important;
+    color: var(--card-branco);
 
     .botao-adicionar{
         background-color: var(--card-branco);
         color: var(--azul-escuro); 
     }
 }
-  

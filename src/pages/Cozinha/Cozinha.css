@@ -1,88 +1,117 @@
 .cozinha {
-    width: 100vw;
-    height: 100vh;
-    /* background-color: blueviolet; */
+  width: 100vw;
+  height: 100vh;
+  /* background-color: blueviolet; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2%;
+
+  .titulo {
+    width: 90%;
+    height: 8%;
+    /* background-color: aqua; */
     display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 2%;
+    align-items: end;
+    gap: 8px;
+  }
 
-    .titulo {
-        width: 90%;
-        height: 8%;
-        /* background-color: aqua; */
+  .tela-comandas {
+    width: 90%;
+    height: auto;
+    background-color: brown;
+    gap: 3.33%;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    .comanda {
+      background-color: yellow;
+      width: 30%;
+      height: auto;
+
+      .cabecalho-comanda {
+        background-color: springgreen;
+        width: 100%;
+        padding: 13px;
         display: flex;
-        align-items: end;
-        gap: 8px;
-    }
 
-    .tela-comandas {
-        width: 90%;
-        height: 90%;
-        background-color: brown;
-        gap: 3.33%;
-        display: flex;
-        flex-wrap: wrap;
-        overflow-x: scroll;
+        .cabecalho-conteudo {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          align-items: center;
 
-        .comanda {
-            background-color: yellow;
-            width: 30%;
-            height: 500px;
+          .btn-info {
+            background: #0f14b8;
+            color: #f4f4f4;
+            border: none;
+            min-width: 45px;
+            height: 45px;
+            font-weight: bold;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+          }
 
-            .cabecalho-comanda {
-                background-color: springgreen;
-                width: 100%;
-                padding: 2px 20px 20px; 
-                display: flex;
-
-                .cabecalho-conteudo {
-                    display: flex;
-                    width: 100%;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-            }
-            .corpo-comanda {
-                background-color: chocolate;
-                width: 100%;
-                height: auto;
-                display: flex;
-                flex-direction: column;
-                gap: 2%;
-                padding: 2px 20px;
-
-                .corpo-conteudo {
-                    display: flex;
-                    width: 100%;
-                    justify-content: space-evenly;
-
-                    .imagem {
-                        min-width: 96px;
-                        height: 69px;
-                        border-radius: 5px;
-                        margin-left: 10px;
-                        background-color: #0F14B8;
-                    }
-                }
-            }
-            .rodape-comanda {
-                background-color: hsl(276, 100%, 50%);
-                width: 100%;
-                display: flex;
-                padding: 2px 20px 20px;
-
-                .rodape-conteudo {
-                    display: flex;
-                    width: 100%;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-            }
+          .btn-info:hover {
+            background-color: #0e2361;
+          }
         }
+      }
+      .corpo-comanda {
+        background-color: chocolate;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        gap: 10px;
 
+        .corpo-conteudo {
+          display: flex;
+          width: 100%;
+          height: auto;
+          gap: 4px;
+
+          .imagem {
+            width: 25%;
+            height: 69px;
+            border-radius: 5px;
+            background-color: #0f14b8;
+          }
+
+          .itemInfo {
+            background-color: yellow;
+            width: 60%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .btn-check {
+            width: 15%;
+            display: flex;
+            justify-content: center;
+            background-color: purple;
+          }
+        }
+      }
+
+      .rodape-comanda {
+        background-color: hsl(276, 100%, 50%);
+        width: 100%;
+        display: flex;
+        padding: 4px 8px 0 8px;
+
+        .rodape-conteudo {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
     }
-    
+  }
 }
-
-

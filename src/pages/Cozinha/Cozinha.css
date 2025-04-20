@@ -27,12 +27,13 @@
     overflow-x: hidden;
 
     .comanda {
-      background-color: yellow;
+      background: #F4F4F4;
       width: 30%;
       height: auto;
+      border-radius: 2%;
 
       .cabecalho-comanda {
-        background-color: springgreen;
+        /* background-color: springgreen; */
         width: 100%;
         padding: 13px;
         display: flex;
@@ -42,27 +43,11 @@
           width: 100%;
           justify-content: space-between;
           align-items: center;
-
-          .btn-info {
-            background: #0f14b8;
-            color: #f4f4f4;
-            border: none;
-            min-width: 45px;
-            height: 45px;
-            font-weight: bold;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-          }
-
-          .btn-info:hover {
-            background-color: #0e2361;
-          }
         }
       }
 
       .corpo-comanda {
-        background-color: chocolate;
+        /* background-color: chocolate; */
         width: 100%;
         height: auto;
         display: flex;
@@ -78,7 +63,6 @@
           display: flex;
           flex-direction: column;
           gap: 10px;
-          
 
           p {
             display: flex;
@@ -103,7 +87,7 @@
           }
 
           .itemInfo {
-            background-color: yellow;
+            /* background-color: yellow; */
             width: 60%;
             overflow: hidden;
             display: flex;
@@ -114,13 +98,13 @@
             width: 15%;
             display: flex;
             justify-content: center;
-            background-color: purple;
+            /* background-color: purple; */
           }
         }
       }
 
       .rodape-comanda {
-        background-color: hsl(276, 100%, 50%);
+        /* background-color: hsl(276, 100%, 50%); */
         width: 100%;
         display: flex;
         padding: 10px;

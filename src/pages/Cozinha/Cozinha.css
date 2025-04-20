@@ -35,14 +35,14 @@
       .cabecalho-comanda {
         /* background-color: springgreen; */
         width: 100%;
-        padding: 13px;
+        padding: 8px;
         display: flex;
-
+        
         .cabecalho-conteudo {
           display: flex;
           width: 100%;
-          justify-content: space-between;
-          align-items: center;
+          padding: 8px;
+          border-bottom: 1px solid #ddd;
         }
       }
 
@@ -78,6 +78,7 @@
           width: 100%;
           height: auto;
           gap: 4px;
+          padding-left: 8px;
 
           .imagem {
             width: 25%;
@@ -92,6 +93,9 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            padding-left: 4px;
+
+            
           }
 
           .btn-check {
@@ -108,13 +112,17 @@
         width: 100%;
         display: flex;
         padding: 10px;
-        padding-left: 14px;
+        padding-left: 16px;
 
         .rodape-conteudo {
           display: flex;
           width: 100%;
           justify-content: space-between;
           align-items: center;
+          
+          p{
+            color: red;
+          }
         }
       }
     }

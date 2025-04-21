@@ -6,31 +6,32 @@ import ComandaInfo from "../ComandaInfo/ComandaInfo";
 
 export default function Comanda({ pedido, index }) {
   return (
-    <div className="comanda">
-      <div className="cabecalho-comanda">
-        <ComandaHeader
-          numeroPedido={pedido.numeroPedido}
-          dataHora={pedido.dataHora}
-        />
-      </div>
-
-      <div className="corpo-comanda">
-        {pedido.itens.map((item, index) => (
-          <ComandaBody
-            key={index}
-            titulo={
-              <>
-                <span>{item.titulo.split(" ")[0]}</span>{" "}
-                {item.titulo.split(" ").slice(1).join(" ")}
-              </>
-            }
-            descricao={item.descricao}
-            observacao={item.observacao}
-            index={index}
-            pedidoId={pedido.numeroPedido}
+    <div className="comanda-container">
+      <div className="comanda">
+        <div className="cabecalho-comanda">
+          <ComandaHeader
+            numeroPedido={pedido.numeroPedido}
+            dataHora={pedido.dataHora}
           />
-        ))}
-        
+        </div>
+
+        <div className="corpo-comanda">
+          {pedido.itens.map((item, index) => (
+            <ComandaBody
+              key={index}
+              titulo={
+                <>
+                  <span>{item.titulo.split(" ")[0]}</span>{" "}
+                  {item.titulo.split(" ").slice(1).join(" ")}
+                </>
+              }
+              descricao={item.descricao}
+              observacao={item.observacao}
+              index={index}
+              pedidoId={pedido.numeroPedido}
+            />
+          ))}
+
           <ComandaInfo
             key={index}
             cliente={pedido.cliente}
@@ -38,11 +39,11 @@ export default function Comanda({ pedido, index }) {
             pagamento={pedido.pagamento}
             index={index}
           />
-        
-      </div>
+        </div>
 
-      <div className="rodape-comanda">
-        <ComandaFooter qtdItens={pedido.itens.length} index={index}/>
+        <div className="rodape-comanda">
+          <ComandaFooter qtdItens={pedido.itens.length} index={index} />
+        </div>
       </div>
     </div>
   );

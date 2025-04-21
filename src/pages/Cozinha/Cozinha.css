@@ -26,102 +26,114 @@
     overflow-y: scroll;
     overflow-x: hidden;
 
-    .comanda {
-      background: #F4F4F4;
+    .comanda-container {
       width: 30%;
       height: auto;
-      border-radius: 2%;
 
-      .cabecalho-comanda {
-        /* background-color: springgreen; */
-        width: 100%;
-        padding: 8px;
-        display: flex;
-        
-        .cabecalho-conteudo {
-          display: flex;
-          width: 100%;
-          padding: 8px;
-          border-bottom: 1px solid #ddd;
-        }
-      }
-
-      .corpo-comanda {
-        /* background-color: chocolate; */
+      .comanda {
         width: 100%;
         height: auto;
-        display: flex;
-        flex-direction: column;
-        padding: 8px;
-        gap: 10px;
+        background: #f4f4f4;
+        border-radius: 2%;
 
-        .pedidoCliente {
-          border-bottom: 1px solid #ddd;
-          border-top: 1px solid #ddd;
+        .cabecalho-comanda {
+          /* background-color: springgreen; */
+          width: 100%;
           padding: 8px;
-          overflow: hidden;
           display: flex;
-          flex-direction: column;
-          gap: 10px;
 
-          p {
+          .cabecalho-conteudo {
             display: flex;
-            justify-content: space-between;
             width: 100%;
-            font-size: 20px;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
           }
         }
 
-
-        .corpo-conteudo {
-          display: flex;
+        .corpo-comanda {
+          /* background-color: chocolate; */
           width: 100%;
           height: auto;
-          gap: 4px;
-          padding-left: 8px;
+          display: flex;
+          flex-direction: column;
+          padding: 8px;
+          gap: 10px;
 
-          .imagem {
-            width: 25%;
-            height: 69px;
-            border-radius: 5px;
-            background-color: #0f14b8;
-          }
-
-          .itemInfo {
-            /* background-color: yellow; */
-            width: 60%;
+          .pedidoCliente {
+            border-bottom: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+            padding: 8px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            padding-left: 4px;
+            gap: 10px;
 
-            
+            p {
+              display: flex;
+              justify-content: space-between;
+              width: 100%;
+              font-size: 20px;
+            }
           }
 
-          .btn-check {
-            width: 15%;
+          .corpo-conteudo {
             display: flex;
-            justify-content: center;
-            /* background-color: purple; */
+            width: 100%;
+            height: auto;
+            gap: 4px;
+            padding-left: 8px;
+
+            .imagem {
+              width: 25%;
+              height: 69px;
+              border-radius: 5px;
+              background-color: #0f14b8;
+            }
+
+            .itemInfo {
+              /* background-color: yellow; */
+              width: 60%;
+              overflow: hidden;
+              display: flex;
+              flex-direction: column;
+              padding-left: 4px;
+
+              .observacao {
+                font-size: 16px;
+                color: red;
+                
+                span {
+                  font-weight: bold;
+                  font-size: 16px;
+                }
+              }
+            }
+
+            .btn-check {
+              width: 15%;
+              display: flex;
+              justify-content: center;
+              /* background-color: purple; */
+            }
           }
         }
-      }
 
-      .rodape-comanda {
-        /* background-color: hsl(276, 100%, 50%); */
-        width: 100%;
-        display: flex;
-        padding: 10px;
-        padding-left: 16px;
-
-        .rodape-conteudo {
-          display: flex;
+        .rodape-comanda {
+          /* background-color: hsl(276, 100%, 50%); */
           width: 100%;
-          justify-content: space-between;
-          align-items: center;
-          
-          p{
-            color: red;
+          display: flex;
+          padding: 10px;
+          padding-left: 16px;
+
+          .rodape-conteudo {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+
+            p {
+              color: red;
+            }
           }
         }
       }

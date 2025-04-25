@@ -10,98 +10,242 @@ import ModalConfirmarPedido from "../../components/Botoes/ModalConfirmarPedido/M
 import Navbar from "../../components/Navbar/Navbar";
 
 export function Atendente(props) {
-  const [quantidades, setQuantidades] = useState({});
-  const [modalAberto, setModalAberto] = useState(false);
-  const [confirmarPedido, setConfirmarPedido] = useState(false);
+  const [produtos, setProdutos] = useState([]);
+  const [setores, setSetores] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [setorSelecionado, setSetorSelecionado] = useState("Todos");
 
-  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
-  const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
+  const [buscaProduto, setBuscaProduto] = useState("");
 
   const [comanda, setComanda] = useState([]);
 
-  const [produtos, setProdutos] = useState([]);
+  const [quantidades, setQuantidades] = useState({});
+  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
+  const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
+
+
+  const [modalAberto, setModalAberto] = useState(false);
+  const [confirmarPedido, setConfirmarPedido] = useState(false);
 
   useEffect(() => {
     const dadosProdutos = [
       {
+        id: 1,
+        codigo: 1001,
         nome: "Pastel de Frango Com Catupiry",
-        descricao:
-          "Pastel de Frango recheado com Catupiry cremoso, servido com uma xícara de café e um toque de canela. O pastel é feito com uma massa leve e crocante, recheado com um delicioso frango moído e um queijo derretido. O Catupiry é feito com um creme de leite fresco e um queijo parmesão ralado, o que lhe confere um sabor aveludado e um aroma intenso. O café é servido em uma xícara de porcelana branca e decorada com um desenho de um café.",
+        quantidade: 10,
+        dataVencimento: "2025-12-31",
+        valorCompra: 5.0,
+        valorUnitario: 9.0,
+        quantidadeMin: 2,
+        quantidadeMax: 50,
+        descricao: "Pastel de Frango recheado com Catupiry, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Pastelaria",
+        setor: "Lanchonete",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 1, nome: "Yasmim" },
         preco: 9.0,
         disabled: false,
       },
       {
+        id: 2,
+        codigo: 1002,
         nome: "Pastel de Frango",
-        descricao:
-          "Pastel de Frango de casa, servido com uma xícara de café e um toque de canela. O pastel é feito com uma massa leve e crocante, recheado com um delicioso frango moído. O café é servido em uma xícara de porcelana branca e decorada com um desenho de um café.",
+        quantidade: 10,
+        dataVencimento: "2025-12-31",
+        valorCompra: 4.5,
+        valorUnitario: 9.0,
+        quantidadeMin: 2,
+        quantidadeMax: 50,
+        descricao: "Pastel de Frango de casa, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Pastelaria",
+        setor: "Lanchonete",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 1, nome: "Yasmim" },
         preco: 9.0,
         disabled: false,
       },
       {
+        id: 3,
+        codigo: 1003,
         nome: "Bolinho de Bacalhau",
-        descricao:
-          "Bolinho de Bacalhau fresco, servido com uma xícara de café e um toque de limão. O bolinho é feito com um bacalhau fresco, picado e misturado com um ovo, uma cebola picada e um pouco de farinha de trigo. O bolinho é frito em uma panela de azeite quente e servido com uma xícara de café e um toque de limão.",
+        quantidade: 15,
+        dataVencimento: "2025-12-31",
+        valorCompra: 6.0,
+        valorUnitario: 12.0,
+        quantidadeMin: 3,
+        quantidadeMax: 40,
+        descricao: "Bolinho de Bacalhau fresco, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Salgado",
+        setor: "Restaurante",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 2, nome: "Carlos" },
         preco: 12.0,
         disabled: false,
       },
       {
+        id: 4,
+        codigo: 1004,
         nome: "X-Calabresa Artesanal",
-        descricao:
-          "X-Calabresa Artesanal com queijo, servido com uma xícara de café e um toque de queijo. A X-Calabresa é feita com uma massa leve e crocante, recheada com um delicioso queijo parmesão ralado e um presunto picado. O queijo é servido em uma xícara de porcelana branca e decorada com um desenho de um queijo.",
+        quantidade: 8,
+        dataVencimento: "2025-12-31",
+        valorCompra: 12.0,
+        valorUnitario: 20.0,
+        quantidadeMin: 1,
+        quantidadeMax: 20,
+        descricao: "X-Calabresa Artesanal com queijo, feita com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Lanche",
+        setor: "Lanchonete",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 3, nome: "Ana" },
         preco: 20.0,
         disabled: false,
       },
       {
+        id: 5,
+        codigo: 1005,
         nome: "Lanche Natural",
-        descricao:
-          "Lanche Natural com queijo, servido com uma xícara de café e um toque de queijo. O lanche é feito com uma massa leve e crocante, recheado com um delicioso queijo parmesão ralado e um presunto picado. O queijo é servido em uma xícara de porcelana branca e decorada com um desenho de um queijo.",
+        quantidade: 12,
+        dataVencimento: "2025-12-31",
+        valorCompra: 8.0,
+        valorUnitario: 15.0,
+        quantidadeMin: 2,
+        quantidadeMax: 30,
+        descricao: "Lanche Natural com queijo, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Lanche",
+        setor: "Lanchonete",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 4, nome: "Bruno" },
         preco: 15.0,
         disabled: true,
       },
       {
+        id: 6,
+        codigo: 1006,
         nome: "Salada de Frutas",
-        descricao:
-          "Salada de Frutas frescas, servido com uma xícara de café e um toque de limão. A salada é feita com uma mistura de frutas frescas, como maçã, banana, mirtilo, abacaxi e kiwi. As frutas são picadas e misturadas com um pouco de açúcar e um toque de limão.",
+        quantidade: 10,
+        dataVencimento: "2025-12-31",
+        valorCompra: 6.0,
+        valorUnitario: 10.0,
+        quantidadeMin: 2,
+        quantidadeMax: 30,
+        descricao: "Salada de Frutas frescas, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Salgado",
+        setor: "Restaurante",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 5, nome: "Laura" },
         preco: 10.0,
         disabled: false,
       },
       {
+        id: 7,
+        codigo: 1007,
         nome: "Feijoada",
-        descricao:
-          "Feijoada caseira com arroz e farofa, servido com uma xícara de café e um toque de queijo. A feijoada é feita com uma mistura de feijão preto, carne de porco, carne de bovino e temperos. O arroz é servido ao lado da feijoada e é feito com um arroz branco e um toque de queijo. A farofa é feita com uma mistura de farinha de milho e um pouco de açúcar.",
+        quantidade: 7,
+        dataVencimento: "2025-12-31",
+        valorCompra: 15.0,
+        valorUnitario: 25.0,
+        quantidadeMin: 1,
+        quantidadeMax: 15,
+        descricao: "Feijoada caseira com arroz e farofa, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Salgado",
+        setor: "Restaurante",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 6, nome: "Marcos" },
         preco: 25.0,
         disabled: false,
       },
       {
+        id: 8,
+        codigo: 1008,
         nome: "Coxinha de Frango",
-        descricao:
-          "Coxinha de Frango com Catupiry, servido com uma xícara de café e um toque de queijo. A coxinha é feita com uma massa leve e crocante, recheada com um delicioso frango moído e um queijo derretido. O Catupiry é feito com um creme de leite fresco e um queijo parmesão ralado, o que lhe confere um sabor aveludado e um aroma intenso.",
+        quantidade: 25,
+        dataVencimento: "2025-12-31",
+        valorCompra: 4.0,
+        valorUnitario: 8.0,
+        quantidadeMin: 5,
+        quantidadeMax: 100,
+        descricao: "Coxinha de Frango com Catupiry,  feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Salgado",
+        setor: "Pastelaria",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 7, nome: "Joana" },
         preco: 8.0,
         disabled: false,
       },
       {
+        id: 9,
+        codigo: 1009,
         nome: "Pao de Queijo",
-        descricao:
-          "Pao de Queijo fresco, servido com uma xícara de café e um toque de queijo. O pão é feito com uma massa leve e crocante, recheado com um delicioso queijo parmesão ralado. O queijo é servido em uma xícara de porcelana branca e decorada com um desenho de um queijo.",
+        quantidade: 30,
+        dataVencimento: "2025-12-31",
+        valorCompra: 3.0,
+        valorUnitario: 5.0,
+        quantidadeMin: 5,
+        quantidadeMax: 100,
+        descricao: "Pao de Queijo fresco, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Salgado",
+        setor: "Lanchonete",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 1, nome: "Yasmim" },
         preco: 5.0,
         disabled: false,
       },
       {
+        id: 10,
+        codigo: 1010,
         nome: "Acafe",
-        descricao:
-          "Acafe caseiro com leite, servido com uma xícara de café e um toque de canela. O acafe é feito com uma mistura de café, leite e um toque de canela. O leite é servido em uma xícara de porcelana branca e decorada com um desenho de um café.",
+        quantidade: 15,
+        dataVencimento: "2025-12-31",
+        valorCompra: 6.0,
+        valorUnitario: 10.0,
+        quantidadeMin: 3,
+        quantidadeMax: 50,
+        descricao: "Acafe caseiro com leite, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Bebida",
+        setor: "Lanchonete",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 8, nome: "Ricardo" },
         preco: 10.0,
         disabled: false,
       },
       {
+        id: 11,
+        codigo: 1011,
         nome: "Pamonha",
-        descricao:
-          "Pamonha de milho fresco, servido com uma xícara de café e um toque de canela. A pamonha é feita com um milho fresco, picado e misturado com um ovo, uma cebola picada e um pouco de farinha de trigo. A pamonha é frita em uma panela de azeite quente e servida com uma xícara de café e um toque de canela.",
+        quantidade: 5,
+        dataVencimento: "2025-12-31",
+        valorCompra: 8.0,
+        valorUnitario: 12.0,
+        quantidadeMin: 1,
+        quantidadeMax: 20,
+        descricao: "Pamonha de milho fresco, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
+        categoria: "Doce",
+        setor: "Lanchonete",
+        dataRegistro: "2024-04-25",
+        funcionario: { id: 9, nome: "Fernanda" },
         preco: 12.0,
         disabled: false,
       },
     ];
+
+    const dadosSetores = [
+      { id: 2, nome: "Restaurante", empresa: { id: 1, nome: "Minha Empresa" } },
+      { id: 3, nome: "Pastelaria", empresa: { id: 1, nome: "Minha Empresa" } },
+      { id: 4, nome: "Lanchonete", empresa: { id: 1, nome: "Minha Empresa" } },
+      { id: 5, nome: "Mercado", empresa: { id: 1, nome: "Minha Empresa" } },
+    ];
+
+    const categorias = [
+      { id: 1, nome: "Pastelaria" },
+      { id: 2, nome: "Doce" },
+      { id: 3, nome: "Salgado" },
+      { id: 4, nome: "Lanche" },
+      { id: 5, nome: "Bebida" },
+    ];
     setProdutos(dadosProdutos);
+    setSetores(dadosSetores);
+    setCategorias(categorias);
   }, []);
 
   const adicionarNaComanda = (produto) => {
@@ -157,7 +301,6 @@ export function Atendente(props) {
   function removerProdutoDaComanda(nomeProduto) {
     setComanda((prev) => prev.filter((item) => item.nome !== nomeProduto));
   }
-  
 
   function abrirModal(produto, quantidade) {
     setProdutoSelecionado({ nome: produto });
@@ -227,26 +370,39 @@ export function Atendente(props) {
           />
         )}
         {confirmarPedido && (
-          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} statusModal={setConfirmarPedido}/>
+          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} statusModal={setConfirmarPedido} />
         )}
 
         <div className="todos-produtos">
           <h1>Escolha o Setor</h1>
           <div className="setores">
-            <ElementoTotal nome="Todos" quantidade={20} />
-            <ElementoTotal nome="Restaurante" quantidade={150} />
-            <ElementoTotal nome="Pastelaria" quantidade={100} />
-            <ElementoTotal nome="Lanchonete" quantidade={50} />
-            <ElementoTotal nome="Mercado" quantidade={20} />
+            <ElementoTotal
+              key="todos"
+              nome="Todos"
+              quantidade={produtos.length}
+              onClick={() => setSetorSelecionado("Todos")}
+            />
+            {setores.map((setor) => (
+              <ElementoTotal
+                key={setor.id}
+                nome={setor.nome}
+                quantidade={
+                  produtos.filter((p) => p.setor === setor.nome).length
+                }
+                onClick={() => setSetorSelecionado(setor.nome)}
+              />
+            ))}
           </div>
 
           <div className="header-container">
-            <h1>{props.categoria}</h1>
+            <h1>Todas Categorias</h1>
             <div className="barra-pesquisa">
               <input
                 type="text"
                 placeholder="Procurar Produto"
                 className="input-pesquisa-produtos"
+                value={buscaProduto}
+                onChange={(e) => setBuscaProduto(e.target.value)}
               />
               <button className="lupa-pesquisa">
                 <img src={LupaPesquisa} alt="Pesquisar" />
@@ -254,16 +410,43 @@ export function Atendente(props) {
             </div>
           </div>
 
-          {produtos.map((produto, index) => (
-            <ElementoProduto
-              key={index}
-              nome={produto.nome}
-              descricao={produto.descricao}
-              preco={produto.preco}
-              onAdicionar={adicionarNaComanda}
-              disabled={produto.disabled}
-            />
-          ))}
+          <div className="produtos-por-categoria">
+            {categorias.map((categoria) => {
+              const produtosFiltrados = produtos.filter((produto) => {
+                const mesmoSetor =
+                  setorSelecionado === "Todos" ||
+                  produto.setor.trim().toLowerCase() === setorSelecionado.trim().toLowerCase();
+                const mesmaCategoria =
+                  produto.categoria.trim().toLowerCase() === categoria.nome.trim().toLowerCase();
+                const nomeCombina =
+                  produto.nome.toLowerCase().includes(buscaProduto.toLowerCase());
+
+                return mesmoSetor && mesmaCategoria && nomeCombina;
+              });
+
+
+              if (produtosFiltrados.length === 0) return null;
+
+              return (
+                <div key={categoria.id} className="categoria">
+                  <h1>{categoria.nome}</h1>
+                  <div className="produtos-da-categoria">
+                    {produtosFiltrados.map((produto) => (
+                      <ElementoProduto
+                        key={produto.id}
+                        nome={produto.nome}
+                        descricao={produto.descricao}
+                        preco={produto.preco}
+                        onAdicionar={adicionarNaComanda}
+                        disabled={produto.disabled}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
         </div>
       </section>
 
@@ -287,10 +470,6 @@ export function Atendente(props) {
           {console.log("comanda", comanda)}
           {console.log("comandaExpandida", comandaExpandida)}
 
-          {/*
-                    <ProdutoComanda produto="Pastel" preco={9.00} atualizarQuantidade={atualizarQuantidade} onClick={abrirModal} />
-                    <ProdutoComanda produto="Lanche Natural" preco={12.00} atualizarQuantidade={atualizarQuantidade} onClick={abrirModal} />
-                    <ProdutoComanda produto="X-Calabresa Artesanal" preco={20.00} atualizarQuantidade={atualizarQuantidade} onClick={abrirModal} /> */}
         </div>
 
         <section className="botao-confirmar">

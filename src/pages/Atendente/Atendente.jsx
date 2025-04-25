@@ -10,21 +10,22 @@ import ModalConfirmarPedido from "../../components/Botoes/ModalConfirmarPedido/M
 import Navbar from "../../components/Navbar/Navbar";
 
 export function Atendente(props) {
-  const [quantidades, setQuantidades] = useState({});
-  const [modalAberto, setModalAberto] = useState(false);
-  const [confirmarPedido, setConfirmarPedido] = useState(false);
-
-  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
-  const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
-
-  const [comanda, setComanda] = useState([]);
-
   const [produtos, setProdutos] = useState([]);
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
-
   const [setorSelecionado, setSetorSelecionado] = useState("Todos");
 
+  const [buscaProduto, setBuscaProduto] = useState("");
+
+  const [comanda, setComanda] = useState([]);
+
+  const [quantidades, setQuantidades] = useState({});
+  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
+  const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
+
+
+  const [modalAberto, setModalAberto] = useState(false);
+  const [confirmarPedido, setConfirmarPedido] = useState(false);
 
   useEffect(() => {
     const dadosProdutos = [
@@ -75,7 +76,7 @@ export function Atendente(props) {
         quantidadeMin: 3,
         quantidadeMax: 40,
         descricao: "Bolinho de Bacalhau fresco, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
-        categoria: "Petisco",
+        categoria: "Salgado",
         setor: "Restaurante",
         dataRegistro: "2024-04-25",
         funcionario: { id: 2, nome: "Carlos" },
@@ -129,7 +130,7 @@ export function Atendente(props) {
         quantidadeMin: 2,
         quantidadeMax: 30,
         descricao: "Salada de Frutas frescas, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
-        categoria: "Sobremesa",
+        categoria: "Salgado",
         setor: "Restaurante",
         dataRegistro: "2024-04-25",
         funcionario: { id: 5, nome: "Laura" },
@@ -147,7 +148,7 @@ export function Atendente(props) {
         quantidadeMin: 1,
         quantidadeMax: 15,
         descricao: "Feijoada caseira com arroz e farofa, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
-        categoria: "Prato Principal",
+        categoria: "Salgado",
         setor: "Restaurante",
         dataRegistro: "2024-04-25",
         funcionario: { id: 6, nome: "Marcos" },
@@ -236,13 +237,12 @@ export function Atendente(props) {
     ];
 
     const categorias = [
-      { id: 1, nome: "Todos" },
-      { id: 2, nome: "Doce"},
+      { id: 1, nome: "Pastelaria" },
+      { id: 2, nome: "Doce" },
       { id: 3, nome: "Salgado" },
       { id: 4, nome: "Lanche" },
       { id: 5, nome: "Bebida" },
     ];
-    
     setProdutos(dadosProdutos);
     setSetores(dadosSetores);
     setCategorias(categorias);
@@ -357,8 +357,6 @@ export function Atendente(props) {
     }
   });
 
-  
-
   return (
     <>
       <Navbar />
@@ -372,7 +370,7 @@ export function Atendente(props) {
           />
         )}
         {confirmarPedido && (
-          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} statusModal={setConfirmarPedido}/>
+          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} statusModal={setConfirmarPedido} />
         )}
 
         <div className="todos-produtos">
@@ -397,12 +395,14 @@ export function Atendente(props) {
           </div>
 
           <div className="header-container">
-            <h1>{props.categoria}</h1>
+            <h1>Todas Categorias</h1>
             <div className="barra-pesquisa">
               <input
                 type="text"
                 placeholder="Procurar Produto"
                 className="input-pesquisa-produtos"
+                value={buscaProduto}
+                onChange={(e) => setBuscaProduto(e.target.value)}
               />
               <button className="lupa-pesquisa">
                 <img src={LupaPesquisa} alt="Pesquisar" />
@@ -410,22 +410,43 @@ export function Atendente(props) {
             </div>
           </div>
 
-          {produtos
-              .filter((produto) =>
-                setorSelecionado === "Todos"
-                  ? true
-                  : produto.setor.trim().toLowerCase() === setorSelecionado.trim().toLowerCase()
-              )
-            .map((produto) => (
-              <ElementoProduto
-                key={produto.id}
-                nome={produto.nome}
-                descricao={produto.descricao}
-                preco={produto.preco}
-                onAdicionar={adicionarNaComanda}
-                disabled={produto.disabled}
-              />
-          ))}
+          <div className="produtos-por-categoria">
+            {categorias.map((categoria) => {
+              const produtosFiltrados = produtos.filter((produto) => {
+                const mesmoSetor =
+                  setorSelecionado === "Todos" ||
+                  produto.setor.trim().toLowerCase() === setorSelecionado.trim().toLowerCase();
+                const mesmaCategoria =
+                  produto.categoria.trim().toLowerCase() === categoria.nome.trim().toLowerCase();
+                const nomeCombina =
+                  produto.nome.toLowerCase().includes(buscaProduto.toLowerCase());
+
+                return mesmoSetor && mesmaCategoria && nomeCombina;
+              });
+
+
+              if (produtosFiltrados.length === 0) return null;
+
+              return (
+                <div key={categoria.id} className="categoria">
+                  <h1>{categoria.nome}</h1>
+                  <div className="produtos-da-categoria">
+                    {produtosFiltrados.map((produto) => (
+                      <ElementoProduto
+                        key={produto.id}
+                        nome={produto.nome}
+                        descricao={produto.descricao}
+                        preco={produto.preco}
+                        onAdicionar={adicionarNaComanda}
+                        disabled={produto.disabled}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
         </div>
       </section>
 

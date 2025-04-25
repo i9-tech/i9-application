@@ -64,7 +64,7 @@
         height: 20px;
     }
     
-    .todos-produtos {
+    .todos-produtos{
         margin: 0rem 0rem 4rem 4rem;
         display: flex;
         align-items: center;
@@ -73,6 +73,13 @@
         gap: 1rem;
     }
 
+    .produtos-da-categoria{
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
 
 }
 

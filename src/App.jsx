@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Institucional/>} />
         <Route path='/login' element={<Login/>} />
-        <Route path='/atendente' element={<Atendente  categoria={"Todos os Produtos"}/>} />
+        <Route path='/atendente' element={<Atendente/>} />
         <Route path='/cozinha' element={<Cozinha/>} />
         <Route path='/estoque' element={<Estoque/>} />
         <Route path='/funcionarios' element={<Funcionarios/>} />

@@ -15,6 +15,19 @@
   .elemento-produto.desabilitado {
     opacity: 0.6;
     cursor: not-allowed;
+    background-color: var(--card-branco);
+  }
+
+  .elemento-produto.desabilitado:hover {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--card-branco);
+    color: black;
+
+    .botao-adicionar{
+        background-color: var(--azul-escuro);
+        color: var(--card-branco);
+    }
   }
   
   .conteudo-card {

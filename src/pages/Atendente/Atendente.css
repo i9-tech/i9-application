@@ -10,7 +10,6 @@
     
     h1{
         width: 91%;
-
     }
 
     .setores{
@@ -79,6 +78,18 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: 1rem;
+    }
+
+    .categoria{
+        margin: 0px 0px 30px 0px;
+        display: flex;
+        flex-direction: column;
+
+        h1{
+            position: relative;
+            margin: 0px 0px 10px 0px;
+            left: 10px;
+        }
     }
 
 }

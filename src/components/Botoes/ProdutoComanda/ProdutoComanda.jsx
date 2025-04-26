@@ -29,9 +29,12 @@ export function ProdutoComanda({ produto, preco, quantidade: quantidadeInicial, 
 
     return (
         <div className="card-produto" onClick={() => onClick(produto, quantidade)}>
-            <img src={LancheNatural} alt="Lanche Natural" className="imagem-produto" />
+            <div className='img-obs'>
+                <img src={LancheNatural} alt="Lanche Natural" className="imagem-produto" />
+                <span className="observacao-produto">Observação</span>
+            </div>
             <div className="detalhes-produto">
-                <span className="nome-produto">{produto}</span>
+                <span className="nome-produto" title={produto}>{produto}</span>
                 <span className="preco-produto">R$ {(preco * quantidade).toLocaleString('pt-BR', {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2
@@ -41,8 +44,11 @@ export function ProdutoComanda({ produto, preco, quantidade: quantidadeInicial, 
                 <button className="btn-diminuir" onClick={diminuir}>-</button>
                 <span className="quantidade">{quantidade}</span>
                 <button className="btn-aumentar" onClick={aumentar}>+</button>
+                <br></br>
+                
             </div>
-        </div>
+           
+        </div> 
     );
 }
 

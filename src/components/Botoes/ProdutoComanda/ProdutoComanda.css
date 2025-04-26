@@ -8,6 +8,21 @@
     padding-right: 20px;
     border: 1.5px solid var(--cor-secundaria);
     border-left: 20px solid var(--cor-secundaria);
+    cursor: pointer;
+}
+
+.img-obs{
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+}
+
+.observacao-produto{
+    color: grey;
+    font-style: italic; 
+    text-decoration: underline; 
+    font-size: 10px;
+    align-self: center;
 }
 
 .imagem-produto {

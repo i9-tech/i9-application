@@ -10,12 +10,18 @@
     padding: 16px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     font-weight: 500;
+    cursor: pointer;
   }
 
   .elemento-produto.desabilitado {
     opacity: 0.6;
     cursor: not-allowed;
     background-color: var(--card-branco);
+
+    .botao-adicionar{
+      background-color: red;
+      color: var(--card-branco);
+  }
   }
 
   .elemento-produto.desabilitado:hover {
@@ -25,7 +31,7 @@
     color: black;
 
     .botao-adicionar{
-        background-color: var(--azul-escuro);
+        background-color: red;
         color: var(--card-branco);
     }
   }

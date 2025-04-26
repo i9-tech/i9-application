@@ -22,7 +22,7 @@ export function ModalObservacoes({ produto, quantidade, onClose, onSalvarObserva
   };
 
   return (
-    <div className="container">
+    <div className="container-observacao">
 
       <div className="modal">
         <button className="botao-fechar" onClick={onClose}>x</button>

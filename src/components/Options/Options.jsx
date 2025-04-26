@@ -24,6 +24,9 @@ export function Options () {
         <Link to="/funcionarios">
         <li><i> <img src={iconeEquipe} alt="Icone de Equipe" /> </i> <span>Equipe</span></li>
         </Link>
+        <Link to="/setor">
+        <li><i> <img src={iconeSair} alt="Icone de Sair" /> </i> <span>Setor - Categoria</span></li> 
+        </Link> 
         <Link to="/">
         <li><i> <img src={iconeSair} alt="Icone de Sair" /> </i> <span>Sair</span></li> 
         </Link> 

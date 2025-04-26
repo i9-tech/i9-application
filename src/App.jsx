@@ -1,13 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
 import { Atendente } from './pages/Atendente/Atendente';
 import { Dashboard } from './pages/Dashboard/Dashboard';
-import Navbar from './components/Navbar/Navbar';
 import './App.css'
 import { Funcionarios } from './pages/Funcionarios/Funcionarios';
 import { Estoque } from './pages/Estoque/Estoque';
 import { Cozinha } from './pages/Cozinha/Cozinha';
 import { Institucional } from './pages/Institucional/Institucional';
 import { Login } from './pages/Login/Login';
+import { SetorCategoria } from './pages/SetorCategoria/SetorCategoria';
 
 function App() {
 
@@ -18,9 +18,11 @@ function App() {
         <Route path='/' element={<Institucional/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/atendente' element={<Atendente/>} />
+        <Route path='/dashboard' element={<Dashboard/>} />
         <Route path='/cozinha' element={<Cozinha/>} />
         <Route path='/estoque' element={<Estoque/>} />
         <Route path='/funcionarios' element={<Funcionarios/>} />
+        <Route path='/setor' element={<SetorCategoria/>} />
       </Routes>
     </main>
     </>

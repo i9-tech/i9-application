@@ -1,0 +1,182 @@
+{
+    "empresas": [
+      {
+        "id": 1,
+        "nome": "Empresa Exemplo",
+        "CNPJ": "12.345.678/0001-00",
+        "endereco": "Rua das Acácias, 123",
+        "data_cadastro": "2023-01-01",
+        "ativo": true
+      },
+      {
+        "id": 2,
+        "nome": "Outra Empresa",
+        "CNPJ": "98.765.432/0001-01",
+        "endereco": "Avenida Central, 456",
+        "data_cadastro": "2022-06-15",
+        "ativo": true
+      },
+      {
+        "id": 3,
+        "nome": "Empresa Inativa",
+        "CNPJ": "11.222.333/0001-02",
+        "endereco": "Rua Secundária, 789",
+        "data_cadastro": "2023-03-10",
+        "ativo": false
+      }
+    ],
+    "colaboradores": [
+      {
+        "id": 1,
+        "nome": "João Silva",
+        "cpf": "123.456.789-00",
+        "cargo": "Gerente",
+        "data_admissao": "2023-05-15",
+        "acesso_setor_cozinha": true,
+        "acesso_setor_estoque": true,
+        "acesso_setor_atendimento": true,
+        "proprietario": true,
+        "ativo": true,
+        "senha": "senha123",
+        "empresa_id": 1
+      },
+      {
+        "id": 2,
+        "nome": "Maria Oliveira",
+        "cpf": "987.654.321-11",
+        "cargo": "Atendente",
+        "data_admissao": "2023-08-20",
+        "acesso_setor_cozinha": false,
+        "acesso_setor_estoque": false,
+        "acesso_setor_atendimento": true,
+        "proprietario": false,
+        "ativo": true,
+        "senha": "senha456",
+        "empresa_id": 1
+      },
+      {
+        "id": 3,
+        "nome": "Pedro Santos",
+        "cpf": "111.222.333-44",
+        "cargo": "Estoquista",
+        "data_admissao": "2022-12-10",
+        "acesso_setor_cozinha": false,
+        "acesso_setor_estoque": true,
+        "acesso_setor_atendimento": false,
+        "proprietario": false,
+        "ativo": true,
+        "senha": "senha789",
+        "empresa_id": 3
+      },
+      {
+        "id": 4,
+        "nome": "Ana Paula",
+        "cpf": "555.666.777-88",
+        "cargo": "Auxiliar",
+        "data_admissao": "2024-01-05",
+        "acesso_setor_cozinha": false,
+        "acesso_setor_estoque": false,
+        "acesso_setor_atendimento": false,
+        "proprietario": false,
+        "ativo": true,
+        "senha": "senha012",
+        "empresa_id": 2
+      }
+    ],
+    "setores": [
+      { "id": 1, "nome": "Cozinha Quente", "funcionario_id": 1 },
+      { "id": 2, "nome": "Cozinha Fria", "funcionario_id": 1 },
+      { "id": 3, "nome": "Estoque de Alimentos", "funcionario_id": 3 },
+      { "id": 4, "nome": "Atendimento ao Cliente", "funcionario_id": 2 },
+      { "id": 5, "nome": "Delivery", "funcionario_id": 2 },
+      { "id": 6, "nome": "Higienização", "funcionario_id": 4 }
+    ],
+    "categorias": [
+      { "id": 1, "nome": "Carnes e Proteínas", "funcionario_id": 1 },
+      { "id": 2, "nome": "Massas e Pizzas", "funcionario_id": 1 },
+      { "id": 3, "nome": "Bebidas", "funcionario_id": 2 },
+      { "id": 4, "nome": "Sobremesas", "funcionario_id": 2 },
+      { "id": 5, "nome": "Frituras e Salgados", "funcionario_id": 3 },
+      { "id": 6, "nome": "Ingredientes Básicos", "funcionario_id": 3 },
+      { "id": 7, "nome": "Descartáveis e Embalagens", "funcionario_id": 4 },
+      { "id": 8, "nome": "Produtos de Limpeza", "funcionario_id": 4 }
+    ],
+    "produtos": [
+      {
+        "id": 1,
+        "codigo": 1001,
+        "data_registro": "2025-04-11",
+        "funcionario_id": 1,
+        "quantidade": 50,
+        "quantidade_max": 100,
+        "quantidade_min": 80,
+        "valor_compra": 15.90,
+        "valor_unitario": 22.00,
+        "categoria_id": 1,
+        "descricao": "Arroz tipo 1 de ótima qualidade",
+        "nome": "Arroz Branco Tipo 1",
+        "setor_id": 1
+      },
+      {
+        "id": 2,
+        "codigo": 1002,
+        "data_registro": "2025-04-11",
+        "funcionario_id": 1,
+        "quantidade": 30,
+        "quantidade_max": 20,
+        "quantidade_min": 5,
+        "valor_compra": 8.50,
+        "valor_unitario": 12.00,
+        "categoria_id": 2,
+        "descricao": "Feijão carioca grão selecionado",
+        "nome": "Feijão Carioca",
+        "setor_id": 1
+      },
+      {
+        "id": 3,
+        "codigo": 1003,
+        "data_registro": "2025-04-11",
+        "funcionario_id": 3,
+        "quantidade": 80,
+        "quantidade_max": 50,
+        "quantidade_min": 20,
+        "valor_compra": 1.20,
+        "valor_unitario": 2.50,
+        "categoria_id": 3,
+        "descricao": "Detergente para limpeza geral",
+        "nome": "Detergente Neutro",
+        "setor_id": 2
+      },
+      {
+        "id": 4,
+        "codigo": 1004,
+        "data_registro": "2025-04-11",
+        "funcionario_id": 3,
+        "quantidade": 200,
+        "quantidade_max": 300,
+        "quantidade_min": 50,
+        "valor_compra": 0.90,
+        "valor_unitario": 1.50,
+        "categoria_id": 1,
+        "descricao": "Água mineral sem gás",
+        "nome": "Água Mineral 500ml",
+        "setor_id": 3
+      },
+      {
+        "id": 5,
+        "codigo": 1005,
+        "data_registro": "2025-04-11",
+        "funcionario_id": 4,
+        "quantidade": 40,
+        "quantidade_max": 70,
+        "quantidade_min": 10,
+        "valor_compra": 2.80,
+        "valor_unitario": 4.50,
+        "categoria_id": 2,
+        "descricao": "Rolo de papel toalha absorvente",
+        "nome": "Papel Toalha",
+        "setor_id": 1
+      }
+    ]
+  }
+  

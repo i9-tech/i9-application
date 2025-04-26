@@ -1,0 +1,67 @@
+.container-nao-autorizado {
+  width: 100vw;
+  height: 100vh;
+  background-color: red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: not-allowed;
+
+  .container-header-nao-autorizado {
+    width: 100%;
+    height: 34%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    text-align: center;
+
+    h1 {
+      font-size: 80px;
+      color: #fff;
+    }
+  }
+
+  .container-texto-nao-autorizado {
+    width: 100%;
+    height: 56%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 4%;
+    align-items: center;
+    text-align: center;
+    gap: 8%;
+    p {
+      color: #fff;
+      font-size: 20px;
+    }
+
+    button {
+      border-radius: 4rem;
+      width: 20%;
+      height: 16%;
+      font-size: 20px;
+      font-weight: bolder;
+      border: none;
+      background-color: black;
+      color: #ffffffcc;
+      transition: all 0.3s;
+
+      &:hover {
+        cursor: pointer;
+        background-color: var(--destaque);
+      }
+    }
+  }
+
+  .container-footer-nao-autorizado {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 12px;
+  }
+}

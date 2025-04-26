@@ -8,8 +8,14 @@ import ModalObservacoes from "../../components/Botoes/ModalObservacoes/ModalObse
 import ProdutoComanda from "../../components/Botoes/ProdutoComanda/ProdutoComanda";
 import ModalConfirmarPedido from "../../components/Botoes/ModalConfirmarPedido/ModalConfirmarPedido";
 import Navbar from "../../components/Navbar/Navbar";
+import { getFuncionario } from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 export function Atendente(props) {
+  const funcionario = getFuncionario();
+  if(!funcionario) {
+    navigate("/unauthorized");
+  }
   const [produtos, setProdutos] = useState([]);
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
@@ -426,24 +432,6 @@ export function Atendente(props) {
         disabled: false,
       },
       {
-        id: 23,
-        codigo: 1023,
-        nome: "Salada de Frutas",
-        quantidade: 10,
-        dataVencimento: "2025-12-31",
-        valorCompra: 6.0,
-        valorUnitario: 10.0,
-        quantidadeMin: 2,
-        quantidadeMax: 30,
-        descricao: "Salada de Frutas frescas, feito com amor e carinho, utilizando a melhor qualidade de ingredientes...",
-        categoria: "Saladas",
-        setor: "Restaurante",
-        dataRegistro: "2024-04-25",
-        funcionario: { id: 5, nome: "Laura" },
-        preco: 10.0,
-        disabled: false,
-      },
-      {
         id: 24,
         codigo: 1028,
         nome: "Salada de Maionese",
@@ -670,24 +658,6 @@ export function Atendente(props) {
         quantidadeMin: 1,
         quantidadeMax: 20,
         descricao: "Tortinha doce com recheio cremoso de limão e cobertura de merengue.",
-        categoria: "Doces",
-        setor: "Lanchonete",
-        dataRegistro: "2024-04-25",
-        funcionario: { id: 4, nome: "Bruno" },
-        preco: 10.0,
-        disabled: false,
-      },
-      {
-        id: 35,
-        codigo: 1035,
-        nome: "Coxinha de Chocolate",
-        quantidade: 10,
-        dataVencimento: "2025-12-31",
-        valorCompra: 6.0,
-        valorUnitario: 10.0,
-        quantidadeMin: 1,
-        quantidadeMax: 20,
-        descricao: "Coxinha de Chocolate com recheio cremoso e cobertura de merengue.",
         categoria: "Doces",
         setor: "Lanchonete",
         dataRegistro: "2024-04-25",

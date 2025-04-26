@@ -749,9 +749,14 @@
 
         .footer-esquerdo {
           .logo {
-            width: 25px;
-            height: 25px;
-            background-color: #0000ff;
+            width: 50px;
+            height: 50px;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+              display: block;
+            }
           }
 
           h3 {

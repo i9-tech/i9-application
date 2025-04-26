@@ -1,0 +1,11 @@
+.cabecalho-funcionarios {
+    border: 1px solid black;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.cabecalho-funcionarios th {
+    padding: 10px;
+    text-align: center;
+    width: 33%;
+}

@@ -1,0 +1,57 @@
+.cabecalho-estoque {
+  background-color: #f9f9f9;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.cabecalho-estoque th {
+  padding: 10px 12px;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: left;
+  color: #333;
+  border-bottom: 2px solid #ccc;
+  /* white-space: nowrap; */
+  vertical-align: middle;
+}
+
+.cabecalho-estoque tr {
+  border-radius: 8px;
+}
+
+.cabecalho-estoque th:nth-child(1) {
+  width: 100px;
+} /* Cód. */
+
+.cabecalho-estoque th:nth-child(2) {
+  width: 150px;
+} /* Imagem */
+
+.cabecalho-estoque th:nth-child(3) {
+  width: 180px;
+} /* Nome */
+
+.cabecalho-estoque th:nth-child(4) {
+  width: 100px;
+} /* Compra */
+
+.cabecalho-estoque th:nth-child(5) {
+  width: 100px;
+} /* Venda */
+
+.cabecalho-estoque th:nth-child(6) {
+  width: 100px;
+} /* Estoque */
+
+.cabecalho-estoque th:nth-child(7) {
+  width: 140px;
+} /* Registro */
+
+.cabecalho-estoque th:nth-child(8) {
+  width: 220px;
+} /* Descrição */
+
+.cabecalho-estoque th:nth-child(9) {
+  width: 100px;
+} /* Status */

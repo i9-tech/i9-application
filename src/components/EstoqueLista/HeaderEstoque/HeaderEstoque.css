@@ -1,0 +1,21 @@
+.header-estoque {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  gap: 12px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.titulo-estoque {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.subtitulo-estoque {
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
+}

@@ -1,0 +1,29 @@
+.linha-funcionario td {
+  background-color: #e6ecf8;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 2px solid white;
+  cursor: pointer;
+}
+
+.linha-funcionario div {
+  margin: 2px 0;
+}
+
+.acoes {
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.acoes button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.acoes button:hover {
+  opacity: 0.7;
+}

@@ -14,7 +14,7 @@ export function ModalConfirmarPedido({ onClose, statusModal}) {
   }
 
   return (
-    <div className="container">
+    <div className="container-modal">
       {modalAbertoInfoComanda && (
         <ModalInfoComanda  pedido={{
           numero: 250,

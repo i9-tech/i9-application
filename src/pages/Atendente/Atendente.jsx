@@ -81,7 +81,7 @@ export function Atendente(props) {
         dataRegistro: "2024-04-25",
         funcionario: { id: 1, nome: "Yasmim" },
         preco: 11.0,
-        disabled: true,
+        disabled: false,
       },
       {
         id: 4,
@@ -99,7 +99,7 @@ export function Atendente(props) {
         dataRegistro: "2024-04-25",
         funcionario: { id: 1, nome: "Yasmim" },
         preco: 12.0,
-        disabled: true,
+        disabled: false,
       },
       {
         id: 5,
@@ -117,7 +117,7 @@ export function Atendente(props) {
         dataRegistro: "2024-04-25",
         funcionario: { id: 1, nome: "Yasmim" },
         preco: 10.0,
-        disabled: true,
+        disabled: false,
       },
       {
         id: 6,
@@ -315,7 +315,7 @@ export function Atendente(props) {
         dataRegistro: "2024-04-25",
         funcionario: { id: 9, nome: "Fernanda" },
         preco: 20.0,
-        disabled: false,
+        disabled: true,
       },
       {
         id: 18,
@@ -441,7 +441,7 @@ export function Atendente(props) {
         dataRegistro: "2024-04-25",
         funcionario: { id: 5, nome: "Laura" },
         preco: 10.0,
-        disabled: false,
+        disabled: true,
       },
       {
         id: 24,
@@ -495,7 +495,7 @@ export function Atendente(props) {
         dataRegistro: "2024-05-02",
         funcionario: { id: 7, nome: "Ana" },
         preco: 9.0,
-        disabled: false,
+        disabled: true,
       },
       {
         id: 30,

@@ -11,106 +11,82 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     font-weight: 500;
     cursor: pointer;
-  }
 
-  .elemento-produto.desabilitado {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: var(--card-branco);
+    .conteudo-card {
+      width: 85%;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      overflow: hidden;
+      padding: 5px;
 
-    .botao-adicionar{
-      background-color: red;
-      color: var(--card-branco);
-  }
-  }
+      h2 {
+        position: absolute;
+        top: 25px;
+        font-size: 18px;
+        width: 280px;
+        font-weight: bold;
+        word-wrap: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+        line-height: 1.2;
+        max-height: 2.4em;
+      }
 
-  .elemento-produto.desabilitado:hover {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: var(--card-branco);
-    color: black;
+      .descricao {
+        font-size: 14px;
+        line-height: 1.2;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        opacity: 0.7;
+      }
 
-    .botao-adicionar{
-        background-color: red;
-        color: var(--card-branco);
+      .preco {
+        font-weight: bold;
+        font-size: 16px;
+        position: absolute;
+        top: 120px;
+        margin: 0;
+        display: flex;
+    
+         p {
+            color: #FF6868;
+        }
+      }
     }
-  }
-  
-  .conteudo-card {
-    width: 85%;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    overflow: hidden;
-    padding: 5px;
-  }
 
-  .conteudo-card h2 {
-    position: absolute;
-    top: 25px;
-    font-size: 18px;
-    width: 280px;
-    font-weight: bold;
-    word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    white-space: normal;
-    line-height: 1.2;
-    max-height: 2.4em;
-  }
-  
-  .conteudo-card .descricao {
-    font-size: 14px;
-    line-height: 1.2;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    opacity: 0.7;
-  }
+    .conteudo-imagem {
+      width: 130px;
+      height: 130px;
+      margin-left: 2px;
 
-  
-  .preco {
-    font-weight: bold;
-    font-size: 16px;
-    position: absolute;
-    top: 120px;
-    margin: 0;
-    display: flex;
-
-     p {
-        color: #FF6868;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
     }
-  }
-  
-  .conteudo-imagem {
-    width: 130px;
-    height: 130px;
-    margin-left: 2px;
-  }
-  
-  .conteudo-imagem img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  
-  .botao-adicionar {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    background-color: var(--azul-escuro);
-    color: white;
-    font-size: x-large;
-    border: none;
-    border-radius: 0rem 0.8rem;
-    width: 45px;
-    height: 35px;
-    cursor: pointer;
+
+    .botao-adicionar {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      background-color: var(--azul-escuro);
+      color: white;
+      font-size: x-large;
+      border: none;
+      border-radius: 0rem 0.8rem;
+      width: 45px;
+      height: 35px;
+      cursor: pointer;
+    }
   }
 
   .elemento-produto:hover {
@@ -121,4 +97,28 @@
         background-color: var(--card-branco);
         color: var(--azul-escuro); 
     }
+}
+
+
+.elemento-produto.desabilitado {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--card-branco);
+
+  .botao-adicionar{
+    background-color: red;
+    color: var(--card-branco);
+ }
+}
+
+.elemento-produto.desabilitado:hover {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--card-branco);
+  color: black;
+
+  .botao-adicionar{
+      background-color: red;
+      color: var(--card-branco);
+  }
 }

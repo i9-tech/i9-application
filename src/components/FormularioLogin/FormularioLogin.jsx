@@ -36,11 +36,11 @@ export default function FormularioLogin() {
     return true;
   };
 
-  const testeToken = async () => {
+  const enviarDados = async (usuario, senha) => {
 
     api.post("colaboradores/login", {
-      cpf: "123.456.789-00",
-      senha: "12345678900@taua",
+      cpf: usuario,
+      senha: senha,
     })
     .then((res) => {
       console.log("Resposta do servidor:", res.data);
@@ -58,37 +58,6 @@ export default function FormularioLogin() {
       setLoading(false);
     }
   );
-  }
-
-  const enviarDados = async (usuario, senha) => {
-    api
-      .get("/colaboradores")
-      .then((res) => {
-        const usuarioValido = 
-        res.data.find(
-          (user) => 
-            user.cpf === usuario && 
-            user.senha === senha
-        );
-        if (usuarioValido) {
-          localStorage.setItem("token", token);
-          console.log("Token:", token);
-          setTimeout(() => {
-            setLoading(false);
-            navigate("/atendente");
-          }, 1000);
-        } else {
-          setTimeout(() => {
-            setLoading(false);
-            setErroLogin(true);
-          }, 1000);
-        }
-      })
-      .catch((err) => {
-        console.error("Erro ao validar usuário:", err);
-        setErroLogin(true);
-        setLoading(false);
-      });
   };
 
   const navigate = useNavigate();
@@ -141,8 +110,7 @@ export default function FormularioLogin() {
         <button
           onClick={(e) => {
             e.preventDefault();
-            // validarDados();
-            testeToken();
+            validarDados();
           }}
         >
           Entrar

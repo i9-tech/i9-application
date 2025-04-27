@@ -8,12 +8,12 @@ import ModalObservacoes from "../../components/Botoes/ModalObservacoes/ModalObse
 import ProdutoComanda from "../../components/Botoes/ProdutoComanda/ProdutoComanda";
 import ModalConfirmarPedido from "../../components/Botoes/ModalConfirmarPedido/ModalConfirmarPedido";
 import Navbar from "../../components/Navbar/Navbar";
-import { getFuncionario } from "../../utils/auth";
+import { getPermissoes } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 
 export function Atendente(props) {
-  const funcionario = getFuncionario();
-  if(!funcionario) {
+  const permissao = getPermissoes();
+  if(permissao.length === 0) {
     navigate("/unauthorized");
   }
   const [produtos, setProdutos] = useState([]);

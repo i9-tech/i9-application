@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import api from "../../provider/api.js";
+import { a } from "motion/react-client";
 
 export default function FormularioLogin() {
   const [usuario, setUsuario] = React.useState("");
@@ -35,6 +36,30 @@ export default function FormularioLogin() {
     return true;
   };
 
+  const testeToken = async () => {
+
+    api.post("colaboradores/login", {
+      cpf: "123.456.789-00",
+      senha: "12345678900@taua",
+    })
+    .then((res) => {
+      console.log("Resposta do servidor:", res.data);
+      const token = res.data.token;
+      console.log("Token:", token);
+      localStorage.setItem("token", token);
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/atendente");
+      }, 1000);
+    })
+    .catch((err) => {
+      console.error("Erro ao validar usuário:", err);
+      setErroLogin(true);
+      setLoading(false);
+    }
+  );
+  }
+
   const enviarDados = async (usuario, senha) => {
     api
       .get("/colaboradores")
@@ -46,9 +71,8 @@ export default function FormularioLogin() {
             user.senha === senha
         );
         if (usuarioValido) {
-          // localStorage.setItem("token", token);
-          localStorage.setItem("funcionario", JSON.stringify(usuarioValido));
-
+          localStorage.setItem("token", token);
+          console.log("Token:", token);
           setTimeout(() => {
             setLoading(false);
             navigate("/atendente");
@@ -117,7 +141,8 @@ export default function FormularioLogin() {
         <button
           onClick={(e) => {
             e.preventDefault();
-            validarDados();
+            // validarDados();
+            testeToken();
           }}
         >
           Entrar

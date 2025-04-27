@@ -2,8 +2,12 @@ import React from "react";
 import "./CadastroFuncionarioFormulario.css";
 import { useState } from "react";
 import api from "../../../provider/api";
+import { getFuncionario } from "../../../utils/auth";
 
 const CadastroFuncionarioFormulario = () => {
+
+  const funcionario = getFuncionario();
+
   const [nomeFuncionario, setNomeFuncionario] = useState("");
   const [errorNome, setErrorNome] = useState(false);
   const [cpfFuncionario, setCpfFuncionario] = useState("");
@@ -67,7 +71,7 @@ const CadastroFuncionarioFormulario = () => {
     console.log("Cadastrando funcionário:", { nome, cpf, data, setores });
     console.log("Token:", localStorage.getItem("token")),
       api
-        .post("/colaboradores/1", {
+        .post(`/colaboradores/${funcionario.userId}`, {
           nome: nome,
           cpf: cpf,
           cargo: "Funcionário",

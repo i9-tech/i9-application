@@ -9,6 +9,7 @@ import { Institucional } from "./pages/Institucional/Institucional";
 import { Login } from "./pages/Login/Login";
 import RotaPrivada from "./routes/RotaPrivada";
 import NaoAutorizado from "./pages/NaoAutorizado/NaoAutorizado";
+import { CadastroSetorCategoria } from "./pages/CadastroSetorCategoria/CadastroSetorCategoria";
 
 
 function App() {
@@ -44,6 +45,14 @@ function App() {
               </RotaPrivada>
             }
           />
+            <Route
+            path="/setor-categoria"
+            element={
+              <RotaPrivada permissao="proprietario">
+                <CadastroSetorCategoria />
+              </RotaPrivada>
+            }
+          />
           <Route
             path="/funcionarios"
             element={
@@ -52,6 +61,16 @@ function App() {
               </RotaPrivada>
             }
           />
+
+          <Route
+            path="/dashboard"
+            element={
+              <RotaPrivada permissao="proprietario">
+                <Dashboard />
+              </RotaPrivada>
+            }
+          />
+        
           <Route
             path="/unauthorized"
             element={<NaoAutorizado />}

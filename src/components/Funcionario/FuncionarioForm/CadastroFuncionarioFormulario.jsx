@@ -3,6 +3,7 @@ import "./CadastroFuncionarioFormulario.css";
 import { useState } from "react";
 import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
+import BaseModais from "../../Modais/BaseModais";
 
 const CadastroFuncionarioFormulario = () => {
 
@@ -20,6 +21,10 @@ const CadastroFuncionarioFormulario = () => {
     atendimento: false,
   });
   const [errorSetor, setErrorSetor] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalMensagem, setModalMensagem] = useState("");
+
 
   const removerFormatacaoCpf = (cpf) => {
     return cpf.replace(/\D/g, ""); 
@@ -90,7 +95,9 @@ const CadastroFuncionarioFormulario = () => {
       )
         .then((response) => {
           console.log("Funcionário cadastrado com sucesso:", response.data);
-          // Aqui você pode adicionar lógica para atualizar a lista de funcionários ou exibir uma mensagem de sucesso
+          setShowModal(true);
+          setModalMensagem("Funcionário cadastrado com sucesso!");
+          setTimeout(() => window.location.reload(), 20000); 
         })
         .catch((error) => {
           console.error("Erro ao cadastrar funcionário:", error);
@@ -210,6 +217,12 @@ const CadastroFuncionarioFormulario = () => {
           </button>
         </div>
       </form>
+
+      {showModal && (
+        <BaseModais titulo="Sucesso!" >
+          {modalMensagem}
+        </BaseModais>
+      )}
     </div>
   );
 };

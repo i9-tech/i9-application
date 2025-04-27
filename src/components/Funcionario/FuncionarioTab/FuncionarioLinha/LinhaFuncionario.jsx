@@ -11,9 +11,9 @@ const LinhaFuncionario = ({
     <tr className="linha-funcionario" onClick={() => onSelecionar(funcionario)}>
       <td>{funcionario.nome}</td>
       <td>
-        {funcionario.setores.map((setor, index) => (
-          <div key={index}>{setor}</div>
-        ))}
+        <div>{funcionario.acessoSetorCozinha && "Cozinha"}</div>
+        <div>{funcionario.acessoSetorEstoque && "Estoque"}</div>
+        <div>{funcionario.acessoSetorAtendimento && "Atendimento"}</div>
       </td>
       <td className="acoes" onClick={(e) => e.stopPropagation()}>
         <button onClick={() => onEditar(funcionario)}>✏️</button>

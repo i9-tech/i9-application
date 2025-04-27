@@ -9,7 +9,11 @@ function ResumoFuncionario({ funcionario }) {
       </p>
       <p>
         <strong>Data de admissão:</strong>{" "}
-        {funcionario ? funcionario.dataAdmissao : ""}
+        {funcionario
+          ? new Intl.DateTimeFormat("pt-BR").format(
+              new Date(funcionario.dataAdmissao)
+            )
+          : ""}
       </p>
     </div>
   );

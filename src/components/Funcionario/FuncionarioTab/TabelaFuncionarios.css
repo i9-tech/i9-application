@@ -1,0 +1,50 @@
+.tabela-funcionarios {
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  width: 350px;
+  margin: 20px auto;
+  background-color: white;
+}
+
+.tabela-funcionarios > table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.corpo-tabela table {
+  width: 95%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.corpo-tabela {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.corpo-tabela table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+td,
+th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.corpo-tabela tr {
+  background-color: #e6ecf8;
+}
+
+table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}

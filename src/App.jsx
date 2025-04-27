@@ -24,7 +24,7 @@ function App() {
           <Route
             path="/atendente"
             element={
-              <RotaPrivada permissao="acesso_setor_atendimento">
+              <RotaPrivada permissao="ROLE_ATENDIMENTO">
                 <Atendente />
               </RotaPrivada>
             }
@@ -32,7 +32,7 @@ function App() {
           <Route
             path="/cozinha"
             element={
-              <RotaPrivada permissao="acesso_setor_cozinha">
+              <RotaPrivada permissao="ROLE_COZINHA">
                 <Cozinha />
               </RotaPrivada>
             }
@@ -40,7 +40,7 @@ function App() {
           <Route
             path="/estoque"
             element={
-              <RotaPrivada permissao="acesso_setor_estoque">
+              <RotaPrivada permissao="ROLE_ESTOQUE">
                 <Estoque />
               </RotaPrivada>
             }
@@ -56,7 +56,7 @@ function App() {
           <Route
             path="/funcionarios"
             element={
-              <RotaPrivada permissao="proprietario">
+              <RotaPrivada permissao="ROLE_PROPRIETARIO">
                 <Funcionarios />
               </RotaPrivada>
             }

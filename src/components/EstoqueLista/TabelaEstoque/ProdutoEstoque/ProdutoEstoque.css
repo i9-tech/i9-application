@@ -1,0 +1,100 @@
+.linha-produto td {
+  padding: 10px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+  color: #222;
+  white-space: nowrap;
+  justify-content: space-between;
+  vertical-align: middle;
+}
+
+.imagem-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #999;
+  border-radius: 8px;
+  padding: 4px;
+  height: 60px;
+  width: 80px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.imagem-container img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* botãozinhos */
+.acoes button {
+  background: none;
+  border: none;
+  color: #0077cc;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.acoes button:hover {
+  text-decoration: underline;
+}
+
+
+/* Cód. */
+.linha-produto td:nth-child(1) {
+  width: 100px;
+}
+
+/* Imagem */
+.linha-produto td:nth-child(2) {
+  width: 150px;
+  /* background-color: #0077cc; */
+}
+
+/* Nome */
+.linha-produto td:nth-child(3) {
+  width: 180px;
+}
+
+/* Validade */
+/* .linha-produto td:nth-child(4) {
+  width: 120px;
+} */
+
+/* Compra */
+.linha-produto td:nth-child(4) {
+  width: 100px;
+}
+
+/* Venda */
+.linha-produto td:nth-child(5) {
+  width: 100px;
+}
+
+/* Estoque */
+.linha-produto td:nth-child(6) {
+  width: 100px;
+}
+
+/* Registro */
+.linha-produto td:nth-child(7) {
+  width: 140px;
+}
+
+/* Descrição */
+.linha-produto td:nth-child(8) {
+  width: 190px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* Status */
+.linha-produto td:nth-child(9) {
+  width: 50px;
+}

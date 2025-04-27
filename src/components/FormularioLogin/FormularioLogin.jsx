@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import api from "../../provider/api.js";
+import { a } from "motion/react-client";
 
 export default function FormularioLogin() {
   const [usuario, setUsuario] = React.useState("");
@@ -36,35 +37,30 @@ export default function FormularioLogin() {
   };
 
   const enviarDados = async (usuario, senha) => {
-    api
-      .get("/colaboradores")
-      .then((res) => {
-        const usuarioValido = 
-        res.data.find(
-          (user) => 
-            user.cpf === usuario && 
-            user.senha === senha
-        );
-        if (usuarioValido) {
-          // localStorage.setItem("token", token);
-          localStorage.setItem("funcionario", JSON.stringify(usuarioValido));
 
-          setTimeout(() => {
-            setLoading(false);
-            navigate("/atendente");
-          }, 1000);
-        } else {
-          setTimeout(() => {
-            setLoading(false);
-            setErroLogin(true);
-          }, 1000);
-        }
-      })
-      .catch((err) => {
-        console.error("Erro ao validar usuário:", err);
-        setErroLogin(true);
+    api.post("colaboradores/login", {
+      cpf: usuario,
+      senha: senha,
+    })
+    .then((res) => {
+      console.log("Resposta do servidor:", res.data);
+      const token = res.data.token;
+      const funcionario = res.data;
+      console.log("Token:", token);
+      localStorage.setItem("token", token);
+      localStorage.setItem("funcionario", JSON.stringify(funcionario));
+      console.log("Funcionário:", funcionario);
+      setTimeout(() => {
         setLoading(false);
-      });
+        navigate("/atendente");
+      }, 1000);
+    })
+    .catch((err) => {
+      console.error("Erro ao validar usuário:", err);
+      setErroLogin(true);
+      setLoading(false);
+    }
+  );
   };
 
   const navigate = useNavigate();

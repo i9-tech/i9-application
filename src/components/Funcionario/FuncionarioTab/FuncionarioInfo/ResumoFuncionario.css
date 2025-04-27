@@ -1,0 +1,14 @@
+.resumo-funcionario {
+  background-color: #e6ecf8;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.resumo-funcionario p {
+  margin: 5px 0;
+  color: black;
+  text-align: center;
+}

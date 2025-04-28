@@ -1,5 +1,5 @@
 import React from 'react'
-import CheckboxCozinha from '../../../../components/Botoes/CheckboxCozinha/CheckboxCozinha'
+import CheckboxCozinha from '../../Botoes/CheckboxCozinha/CheckboxCozinha'
 
 export default function ComandaFooter({ qtdItens, index }) {
   const checkboxId = `checkbox-footer-${index}` 

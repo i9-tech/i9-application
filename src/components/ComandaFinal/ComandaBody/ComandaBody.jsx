@@ -1,5 +1,5 @@
 import React from 'react'
-import CheckboxPedidoCozinha from '../../../../components/Botoes/CheckboxPedidoCozinha/CheckboxPedidoCozinha'
+import CheckboxPedidoCozinha from '../../Botoes/CheckboxPedidoCozinha/CheckboxPedidoCozinha'
 
 export default function ComandaBody({ imagem, titulo, descricao, observacao, index, pedidoId }) {
   const checkboxId = `checkbox-${pedidoId}-${index}`

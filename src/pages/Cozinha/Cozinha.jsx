@@ -2,7 +2,10 @@ import "./Cozinha.css";
 
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import Comanda from "./ComandaFinal/Comanda/Comanda";
+import Comanda from "../../components/ComandaFinal/Comanda/Comanda";
+
+import LancheNatural from "../../assets/sandwich.png";
+import ChickenJr  from "../../assets/ChickenJr.png";
 
 export function Cozinha() {
   const [pedidos, setPedidos] = useState([
@@ -14,19 +17,23 @@ export function Cozinha() {
       dataHora: "19 Mar 2025, 16:54",
       itens: [
         {
+          imagem: LancheNatural,
           titulo: "1x Lanche Natural",
           descricao: "Pão, Alface, Tomate e Molho.",
           observacao: "SEM TOMATE",
         },
         {
+          imagem: LancheNatural,
           titulo: "1x Lanche Natural",
           descricao: "Pão, Alface, Tomate e Molho.",
         },
         {
+          imagem: ChickenJr,
           titulo: "1x Chicken Jr.",
           descricao: "Pão de hambúrguer, frango empanado, queijo, presunto...",
         },
         {
+          imagem: LancheNatural,
           titulo: "1x Lanche Natural",
           descricao: "Pão, Alface, Tomate e Molho.",
         },
@@ -41,11 +48,13 @@ export function Cozinha() {
       dataHora: "20 Mar 2025, 16:58",
       itens: [
         {
+          imagem: LancheNatural,
           titulo: "1x Lanche Natural",
           descricao: "Pão, Alface, Tomate e Molho.",
           observacao: "SEM TOMATE",
         },
         {
+          imagem: LancheNatural,
           titulo: "1x Lanche Natural",
           descricao: "Pão, Alface, Tomate e Molho.",
         },

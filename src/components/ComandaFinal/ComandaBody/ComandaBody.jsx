@@ -1,12 +1,14 @@
 import React from 'react'
-import CheckboxPedidoCozinha from '../../../../components/Botoes/CheckboxPedidoCozinha/CheckboxPedidoCozinha'
+import CheckboxPedidoCozinha from '../../Botoes/CheckboxPedidoCozinha/CheckboxPedidoCozinha'
 
-export default function ComandaBody({ titulo, descricao, observacao, index, pedidoId }) {
+export default function ComandaBody({ imagem, titulo, descricao, observacao, index, pedidoId }) {
   const checkboxId = `checkbox-${pedidoId}-${index}`
 
   return (
     <div className="corpo-conteudo">
-      <div className='imagem'></div>
+      <div className='imagem'>
+        <img src={imagem} alt="" />
+      </div>
       <div className="itemInfo">
         <h4>{titulo}</h4>
         <p>{descricao}</p>

@@ -97,7 +97,7 @@ const CadastroFuncionarioFormulario = () => {
           console.log("Funcionário cadastrado com sucesso:", response.data);
           setShowModal(true);
           setModalMensagem("Funcionário cadastrado com sucesso!");
-          setTimeout(() => window.location.reload(), 20000); 
+          setTimeout(() => window.location.reload(), 2000); 
         })
         .catch((error) => {
           console.error("Erro ao cadastrar funcionário:", error);
@@ -196,12 +196,12 @@ const CadastroFuncionarioFormulario = () => {
         </div>
 
         <div className="botoes-funcionario">
-          <button type="button" className="btn-cancelar">
+          <button type="button" className="btn-cancelar-funcionario">
             Cancelar
           </button>
           <button
             type="submit"
-            className="btn-cadastrar"
+            className="btn-cadastrar-funcionario"
             onClick={(e) => {
               e.preventDefault();
               validarDados(

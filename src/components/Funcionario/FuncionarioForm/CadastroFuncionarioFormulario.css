@@ -100,8 +100,8 @@
   margin-top: 50px;
 }
 
-.btn-cancelar,
-.btn-cadastrar {
+.btn-cancelar-funcionario,
+.btn-cadastrar-funcionario {
   width: 48%;
   padding: 14px;
   font-size: 17px;
@@ -111,22 +111,22 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.btn-cancelar {
+.btn-cancelar-funcionario {
   background: none;
   border: 1px solid #000;
   color: #000;
 }
 
-.btn-cancelar:hover {
+.btn-cancelar-funcionario:hover {
   background-color: #f2f2f2;
 }
 
-.btn-cadastrar {
+.btn-cadastrar-funcionario {
   background-color: #0050ff;
   color: #fff;
   border: none;
 }
 
-.btn-cadastrar:hover {
+.btn-cadastrar-funcionario:hover {
   background-color: #003bb3;
 }

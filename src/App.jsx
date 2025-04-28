@@ -48,7 +48,7 @@ function App() {
             <Route
             path="/setor-categoria"
             element={
-              <RotaPrivada permissao="proprietario">
+              <RotaPrivada permissao="ROLE_PROPRIETARIO">
                 <CadastroSetorCategoria />
               </RotaPrivada>
             }
@@ -65,7 +65,7 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              <RotaPrivada permissao="proprietario">
+              <RotaPrivada permissao="ROLE_PROPRIETARIO">
                 <Dashboard />
               </RotaPrivada>
             }

@@ -19,7 +19,7 @@
   .tela-comandas {
     width: 90%;
     height: auto;
-    background-color: brown;
+    /* background-color: brown; */
     gap: 3.33%;
     display: flex;
     flex-wrap: wrap;

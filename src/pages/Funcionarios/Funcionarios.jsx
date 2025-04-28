@@ -34,6 +34,7 @@ export function Funcionarios() {
   };
 
   const handleEditar = (funcionario) => {
+    setFuncionarioSelecionado(funcionario);
     console.log("Editar", funcionario);
   };
 
@@ -47,7 +48,7 @@ export function Funcionarios() {
       <Navbar />
       <div className="container-funcionario">
         <div className="coluna-esquerda">
-          <CadastroFuncionarioFormulario />
+          <CadastroFuncionarioFormulario funcionarioSelecionado={funcionarioSelecionado} />
         </div>
 
         <div className="coluna-meio">

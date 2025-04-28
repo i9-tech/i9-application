@@ -2,131 +2,133 @@
   margin: 0;
   padding: 40px;
   max-width: 700px;
-}
-
-.titulo-funcionario {
-  font-size: 28px;
-  font-weight: 800;
-  color: #222;
-  margin-bottom: 8px;
-}
-
-.descricao-funcionario {
-  font-size: 18px;
-  color: #555;
-  margin-bottom: 40px;
-  text-align: left;
-}
-
-.formulario-funcionario {
   width: 100%;
-}
 
-.grupo-inputs {
-  margin-bottom: 30px;
-}
+  .titulo-funcionario {
+    font-size: 28px;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 8px;
+  }
 
-.grupo-inputs label {
-  font-weight: 600;
-  margin-bottom: 6px;
-  display: block;
-  font-size: 15px;
-}
+  .descricao-funcionario {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 40px;
+    text-align: left;
+  }
 
-.grupo-inputs input[type="text"],
-.grupo-inputs input[type="date"] {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
-  background-color: #f9f9f9;
-}
+  .formulario-inputs {
+    width: 100%;
 
-.grupo-checkbox input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #007bff;
-  border-radius: 4px;
-  background-color: white;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.2s ease;
-}
+    .grupo-inputs {
+      margin-bottom: 30px;
 
-.grupo-checkbox input[type="checkbox"]:checked {
-  background-color: #007bff;
-  border-color: #007bff;
-}
+      label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+        font-size: 15px;
+      }
 
-.grupo-checkbox input[type="checkbox"]:checked::after {
-  content: "✓";
-  color: white;
-  font-size: 14px;
-  position: absolute;
-  bottom: 0;
-  right: 4px;
-}
+      input[type="text"],
+      input[type="date"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        background-color: #f9f9f9;
+      }
+    }
+  }
 
-.grupo-checkbox {
-  margin: 40px 0 30px;
-}
+  .grupo-checkbox {
+    margin: 40px 0 30px;
 
-.grupo-checkbox span {
-  display: block;
-  font-weight: 600;
-  font-size: 15px;
-  margin-bottom: 10px;
-}
+    span {
+      display: block;
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
 
-.checkboxes-funcionario {
-  display: flex;
-  gap: 40px;
-  margin-top: 20px;
-}
+    .checkboxes-funcionario {
+      display: flex;
+      gap: 40px;
+      margin-top: 20px;
 
-.checkboxes-funcionario label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 15px;
-}
+      label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 15px;
 
-.botoes-funcionario {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 50px;
-}
+        input[type="checkbox"] {
+          display: block;
+          appearance: none;
+          -webkit-appearance: none;
+          width: 20px;
+          height: 20px;
+          border: 2px solid #007bff;
+          border-radius: 4px;
+          background-color: white;
+          cursor: pointer;
+          position: relative;
+          transition: all 0.2s ease;
 
-.btn-cancelar-funcionario,
-.btn-cadastrar-funcionario {
-  width: 48%;
-  padding: 14px;
-  font-size: 17px;
-  font-weight: bold;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+          &:checked {
+            background-color: #007bff;
+            border-color: #007bff;
 
-.btn-cancelar-funcionario {
-  background: none;
-  border: 1px solid #000;
-  color: #000;
-}
+            &::after {
+              content: "✓";
+              color: white;
+              font-size: 14px;
+              position: absolute;
+              bottom: 0;
+              right: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
 
-.btn-cancelar-funcionario:hover {
-  background-color: #f2f2f2;
-}
+  .botoes-funcionario {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
 
-.btn-cadastrar-funcionario {
-  background-color: #0050ff;
-  color: #fff;
-  border: none;
-}
+    .btn-cancelar-funcionario,
+    .btn-cadastrar-funcionario {
+      width: 48%;
+      padding: 14px;
+      font-size: 17px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-.btn-cadastrar-funcionario:hover {
-  background-color: #003bb3;
+    .btn-cancelar-funcionario {
+      background: none;
+      border: 1px solid #000;
+      color: #000;
+
+      &:hover {
+        background-color: #f2f2f2;
+      }
+    }
+
+    .btn-cadastrar-funcionario {
+      background-color: #0050ff;
+      color: white;
+      border: none;
+
+      &:hover {
+        background-color: #003bb3;
+      }
+    }
+  }
 }

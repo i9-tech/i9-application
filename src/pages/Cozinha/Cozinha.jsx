@@ -3,6 +3,7 @@ import "./Cozinha.css";
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Comanda from "./ComandaFinal/Comanda/Comanda";
+import LANCHE_NATURAL from "../../assets/lanche.png";
 
 export function Cozinha() {
   const [pedidos, setPedidos] = useState([
@@ -14,6 +15,7 @@ export function Cozinha() {
       dataHora: "19 Mar 2025, 16:54",
       itens: [
         {
+          imagem: LANCHE_NATURAL,
           titulo: "1x Lanche Natural",
           descricao: "Pão, Alface, Tomate e Molho.",
           observacao: "SEM TOMATE",

@@ -18,6 +18,7 @@ export default function Comanda({ pedido, index }) {
         <div className="corpo-comanda">
           {pedido.itens.map((item, index) => (
             <ComandaBody
+              imagem={item.imagem}
               key={index}
               titulo={
                 <>

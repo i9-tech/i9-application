@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./ModalCadastroSetor.css";
 import { getFuncionario } from "../../../utils/auth";
 import api from "../../../provider/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const ModalCadastroSetor = ({ onCancelar, onSalvar, setorSelecionado }) => {
   const funcionario = getFuncionario();
@@ -39,10 +42,11 @@ const ModalCadastroSetor = ({ onCancelar, onSalvar, setorSelecionado }) => {
       })
       .then((response) => {
         console.log("Setor cadastrado com sucesso:", response.data);
-        alert("Setor cadastrado com sucesso!");
+        toast.success("Setor cadastrado com sucesso!");
         setTimeout(() => window.location.reload(), 2000);
       })
       .catch((error) => {
+        toast.error("Erro ao cadastrar setor!");
         console.error("Erro ao cadastrar setor:", error);
       });
   };
@@ -61,10 +65,11 @@ const ModalCadastroSetor = ({ onCancelar, onSalvar, setorSelecionado }) => {
       })
       .then((response) => {
         console.log("Setor atualizado com sucesso:", response.data);
-        alert("Setor atualizado com sucesso!");
+        toast.success("Setor atualizado com sucesso!");
         setTimeout(() => window.location.reload(), 2000);
       })
       .catch((error) => {
+        toast.success("Erro ao atualizar setor!");
         console.error("Erro ao atualizar setor:", error);
       });
   };
@@ -97,6 +102,13 @@ const ModalCadastroSetor = ({ onCancelar, onSalvar, setorSelecionado }) => {
 
         </div>
       </form>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        theme="light"
+      />
+      
     </div>
   );
 };

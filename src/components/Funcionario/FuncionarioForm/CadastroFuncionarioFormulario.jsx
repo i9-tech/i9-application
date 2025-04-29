@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./CadastroFuncionarioFormulario.css";
 import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
-import BaseModais from "../../Modais/BaseModais";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioSelecionado }) => {
   const funcionario = getFuncionario();
@@ -122,12 +123,12 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
         )
         .then((response) => {
           console.log("Funcionário cadastrado com sucesso:", response.data);
-          setShowModal(true);
-          setModalMensagem("Funcionário cadastrado com sucesso!");
+          toast.success("Funcionário cadastrado com sucesso!");
           setTimeout(() => window.location.reload(), 2000);
         })
         .catch((error) => {
           console.error("Erro ao cadastrar funcionário:", error);
+          toast.error("Erro ao cadastrar funcionário!");
         });
   };
 
@@ -155,12 +156,12 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
         })
       .then((response) => {
         console.log("Funcionário editado com sucesso:", response.data);
-        setShowModal(true);
-        setModalMensagem("Funcionário editado com sucesso!");
+        toast.success("Funcionário editado com sucesso!");
         setTimeout(() => window.location.reload(), 2000);
       })
       .catch((error) => {
         console.error("Erro ao editar funcionário:", error);
+        toast.error("Erro ao editar funcionário!");
       });
   };
 
@@ -258,9 +259,6 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
         </div>
 
         <div className="botoes-funcionario">
-          <button type="button" className="btn-cancelar-funcionario" onClick={limparFormulario}>
-            Cancelar
-          </button>
           <button
             type="submit"
             className="btn-cadastrar-funcionario"
@@ -271,14 +269,18 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
           >
             {funcionarioSelecionado ? "Editar" : "Cadastrar"}
           </button>
+
+          <button type="button" className="btn-cancelar-funcionario" onClick={limparFormulario}>
+            Cancelar
+          </button>
         </div>
       </form>
 
-      {showModal && (
-        <BaseModais titulo="Sucesso!" >
-          {modalMensagem}
-        </BaseModais>
-      )}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        theme="light"
+      />
     </div>
   );
 };

@@ -1,0 +1,89 @@
+.setor-formulario {
+    margin: 0 auto;
+    max-width: 500px;
+    width: 100%;
+}
+
+  
+  .titulo-cadastro {
+    font-size: 28px;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  
+  .descricao-cadastro {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .formulario-inputs {
+    width: 100%;
+  }
+  
+  .grupo-inputs {
+    margin-bottom: 30px;
+  }
+  
+  .grupo-inputs label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    font-size: 15px;
+  }
+  
+  .grupo-inputs input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+  }
+  
+  .grupo-inputs input[type="text"]:focus {
+    border-color: #0050ff;
+    outline: none;
+    background-color: #fff;
+  }
+  
+  .botoes-formulario {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+  
+  .btn-cancelar-cadastro,
+  .btn-cadastrar {
+    width: 48%;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .btn-cancelar-cadastro {
+    background: none;
+    border: 1px solid #000;
+    color: #000;
+  }
+  
+  .btn-cancelar-cadastro:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .btn-cadastrar {
+    background-color: #0050ff;
+    color: white;
+    border: none;
+  }
+  
+  .btn-cadastrar:hover {
+    background-color: #003bb3;
+  }
+  

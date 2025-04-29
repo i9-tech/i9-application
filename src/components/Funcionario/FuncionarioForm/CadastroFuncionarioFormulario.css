@@ -41,6 +41,13 @@
         background-color: #f9f9f9;
       }
     }
+
+    input:disabled {
+      background-color: #f2f2f2;
+      color: #999;
+      cursor: not-allowed;
+      border: 1px solid #ccc;
+    }
   }
 
   .grupo-checkbox {

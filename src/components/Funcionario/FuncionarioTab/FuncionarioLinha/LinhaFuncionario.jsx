@@ -18,7 +18,7 @@ const LinhaFuncionario = ({
       <td className="acoes" onClick={(e) => e.stopPropagation()}>
         <button onClick={() => onEditar(funcionario)}>✏️</button>
         <span> | </span>
-        <button onClick={() => onDeletar(funcionario.id)}>🗑️</button>
+        <button onClick={() => onDeletar(funcionario)}>🗑️</button>
       </td>
     </tr>
   );

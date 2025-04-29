@@ -20,8 +20,22 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
   });
   const [errorSetor, setErrorSetor] = useState(false);
 
+
+  const limparFormulario = () => {
+    setNomeFuncionario("");
+    setCpfFuncionario("");
+    setDataAdmissao("");
+    setSetorFuncionario({
+      cozinha: false,
+      estoque: false,
+      atendimento: false,
+    });
+    setFuncionarioSelecionado(null); 
+  };
+  
   const [showModal, setShowModal] = useState(false);
   const [modalMensagem, setModalMensagem] = useState("");
+
 
   useEffect(() => {
     if (funcionarioSelecionado) {
@@ -37,7 +51,7 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
   }, [funcionarioSelecionado]);
 
   const removerFormatacaoCpf = (cpf) => {
-    return cpf.replace(/\D/g, ""); 
+    return cpf.replace(/\D/g, "");
   };
 
   const validarDados = (nome, cpf, data, setores) => {
@@ -79,7 +93,7 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
       editarFuncionario(nome, cpf, data, setores, cpfSemFormatacao);
     } else {
       cadastrarFuncionario(nome, cpf, data, setores, cpfSemFormatacao);
-    }  
+    }
   };
 
   const cadastrarFuncionario = (nome, cpf, data, setores, cpfSemFormatacao) => {
@@ -88,65 +102,66 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
     console.log("Cadastrando funcionário:", { nome, cpf, data, setores });
     console.log("Token:", localStorage.getItem("token")),
 
-    api
-      .post(`/colaboradores/${funcionario.empresaId}`, {
-        nome: nome,
-        cpf: cpf,
-        cargo: "Funcionário",
-        dataAdmissao: data,
-        acessoSetorCozinha: setores.cozinha,
-        acessoSetorEstoque: setores.estoque,
-        acessoSetorAtendimento: setores.atendimento,
-        proprietario: false,
-        senha: `${cpfSemFormatacao}@taua`,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      api
+        .post(`/colaboradores/${funcionario.empresaId}`, {
+          nome: nome,
+          cpf: cpf,
+          cargo: "Funcionário",
+          dataAdmissao: data,
+          acessoSetorCozinha: setores.cozinha,
+          acessoSetorEstoque: setores.estoque,
+          acessoSetorAtendimento: setores.atendimento,
+          proprietario: false,
+          senha: `${cpfSemFormatacao}@taua`,
         },
-      }
-      )
-      .then((response) => {
-        console.log("Funcionário cadastrado com sucesso:", response.data);
-        setShowModal(true);
-        setModalMensagem("Funcionário cadastrado com sucesso!");
-        setTimeout(() => window.location.reload(), 2000); 
-      })
-      .catch((error) => {
-        console.error("Erro ao cadastrar funcionário:", error);
-      });
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Funcionário cadastrado com sucesso:", response.data);
+          setShowModal(true);
+          setModalMensagem("Funcionário cadastrado com sucesso!");
+          setTimeout(() => window.location.reload(), 2000);
+        })
+        .catch((error) => {
+          console.error("Erro ao cadastrar funcionário:", error);
+        });
   };
 
   const editarFuncionario = (nome, cpf, data, setores, cpfSemFormatacao) => {
     const token = localStorage.getItem("token");
 
+    console.log("Funcionario selecionado:", funcionarioSelecionado.id);
     console.log("Editando funcionário:", { nome, cpf, data, setores });
     api
-    .patch(`/colaboradores/${funcionarioSelecionado.id}/${funcionario.empresaId}`, {
-      nome: nomeFuncionario,
-      cpf: cpfFuncionario,
-      cargo: "Funcionario",
-      dataAdmissao: dataAdmissao, 
-      acessoSetorCozinha: setorFuncionario.cozinha,
-      acessoSetorEstoque: setorFuncionario.estoque,
-      acessoSetorAtendimento: setorFuncionario.atendimento,
-      proprietario: false,
-      senha: `${cpfSemFormatacao}@taua`, 
-      }, 
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
+      .patch(`/colaboradores/${funcionarioSelecionado.id}/${funcionario.empresaId}`, {
+        nome: nomeFuncionario,
+        cpf: cpfFuncionario,
+        cargo: "Funcionario",
+        dataAdmissao: dataAdmissao,
+        acessoSetorCozinha: setorFuncionario.cozinha,
+        acessoSetorEstoque: setorFuncionario.estoque,
+        acessoSetorAtendimento: setorFuncionario.atendimento,
+        proprietario: false,
+        senha: `${cpfSemFormatacao}@taua`,
       },
-    })
-    .then((response) => {
-      console.log("Funcionário editado com sucesso:", response.data);
-      setShowModal(true);
-      setModalMensagem("Funcionário editado com sucesso!");
-      setTimeout(() => window.location.reload(), 2000); 
-    })
-    .catch((error) => {
-      console.error("Erro ao editar funcionário:", error);
-    });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      .then((response) => {
+        console.log("Funcionário editado com sucesso:", response.data);
+        setShowModal(true);
+        setModalMensagem("Funcionário editado com sucesso!");
+        setTimeout(() => window.location.reload(), 2000);
+      })
+      .catch((error) => {
+        console.error("Erro ao editar funcionário:", error);
+      });
   };
 
   return (
@@ -179,6 +194,7 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
             onChange={(e) => setCpfFuncionario(e.target.value)}
             required
             pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+            disabled={!!funcionarioSelecionado}
           />
         </div>
 
@@ -192,6 +208,7 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
             onChange={(e) => setDataAdmissao(e.target.value)}
             required
             max={new Date().toISOString().split("T")[0]} // Data máxima é a data atual
+            disabled={!!funcionarioSelecionado}
           />
         </div>
 
@@ -241,7 +258,7 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
         </div>
 
         <div className="botoes-funcionario">
-          <button type="button" className="btn-cancelar-funcionario">
+          <button type="button" className="btn-cancelar-funcionario" onClick={limparFormulario}>
             Cancelar
           </button>
           <button

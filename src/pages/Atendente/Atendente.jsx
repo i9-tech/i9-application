@@ -10,6 +10,8 @@ import ModalConfirmarPedido from "../../components/Botoes/ModalConfirmarPedido/M
 import Navbar from "../../components/Navbar/Navbar";
 import { getPermissoes } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
+import { image } from "motion/react-client";
+import Ygona from "../../assets/ygona.jpg";
 
 export function Atendente(props) {
   const permissao = getPermissoes();
@@ -70,6 +72,7 @@ export function Atendente(props) {
         funcionario: { id: 1, nome: "Yasmim" },
         preco: 9.0,
         disabled: false,
+
       },
       {
         id: 3,
@@ -375,7 +378,7 @@ export function Atendente(props) {
         dataRegistro: "2024-04-25",
         funcionario: { id: 2, nome: "Carlos" },
         preco: 12.0,
-        disabled: false,
+        disabled: false
       },
       {
         id: 21,
@@ -949,12 +952,13 @@ export function Atendente(props) {
                   <div className="produtos-da-categoria">
                     {produtosFiltrados.map((produto) => (
                       <ElementoProduto
-                        key={produto.id}
-                        nome={produto.nome}
-                        descricao={produto.descricao}
-                        preco={produto.preco}
-                        onAdicionar={adicionarNaComanda}
-                        disabled={produto.disabled}
+                      key={produto.id}
+                      nome={produto.nome}
+                      descricao={produto.descricao}
+                      preco={produto.preco}
+                      onAdicionar={adicionarNaComanda}
+                      disabled={produto.disabled}
+                      imagem={produto.imagem} // <-- passando a imagem específica de cada produto
                       />
                     ))}
                   </div>

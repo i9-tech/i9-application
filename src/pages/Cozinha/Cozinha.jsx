@@ -2,18 +2,19 @@ import "./Cozinha.css";
 
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import Comanda from "../../components/ComandaFinal/Comanda/Comanda";
+import Comanda from "../../components/ComandaFinal/Comanda/Comanda"
+import LayoutTela from "../../components/LayoutTela/LayoutTela";
 
 import LancheNatural from "../../assets/sandwich.png";
-import ChickenJr  from "../../assets/ChickenJr.png";
+import ChickenJr from "../../assets/ChickenJr.png";
 
 export function Cozinha() {
   const [pedidos, setPedidos] = useState([
     {
       numeroPedido: 250,
-      cliente: 'Jhonattan',
+      cliente: "Jhonattan",
       mesa: 5,
-      pagamento: 'Dinheiro',
+      pagamento: "Dinheiro",
       dataHora: "19 Mar 2025, 16:54",
       itens: [
         {
@@ -42,9 +43,9 @@ export function Cozinha() {
     },
     {
       numeroPedido: 251,
-      cliente: 'Betina',
+      cliente: "Betina",
       mesa: 13,
-      pagamento: 'Cartão',
+      pagamento: "Cartão",
       dataHora: "20 Mar 2025, 16:58",
       itens: [
         {
@@ -65,23 +66,22 @@ export function Cozinha() {
 
   return (
     <>
-      <Navbar />
-      <section className="cozinha">
-        <header className="titulo">
-          <h1>Preparo de Pedidos</h1>
+      <LayoutTela
+        titulo="Preparo de Pedidos"
+        adicional={
           <p>
             {pedidos.length === 1
               ? pedidos.length + " pedido"
               : pedidos.length + " pedidos"}
           </p>
-        </header>
-
+        }
+      >
         <article className="tela-comandas">
           {pedidos.map((pedido, index) => (
             <Comanda key={index} pedido={pedido} index={index} />
           ))}
         </article>
-      </section>
+      </LayoutTela>
     </>
   );
 }

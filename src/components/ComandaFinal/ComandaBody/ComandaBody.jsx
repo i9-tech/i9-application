@@ -11,7 +11,7 @@ export default function ComandaBody({ imagem, titulo, descricao, observacao, ind
       </div>
       <div className="itemInfo">
         <h4>{titulo}</h4>
-        <p>{descricao}</p>
+        <p className='itemDescricao'>{descricao}</p>
         {observacao && <p className="observacao">Observação: <span>{observacao}</span></p>}
       </div>
       <CheckboxPedidoCozinha id={checkboxId} />

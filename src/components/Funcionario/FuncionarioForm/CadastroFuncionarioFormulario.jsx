@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./CadastroFuncionarioFormulario.css";
-import { useState } from "react";
 import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
 import BaseModais from "../../Modais/BaseModais";
 
-const CadastroFuncionarioFormulario = () => {
-
+const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioSelecionado }) => {
   const funcionario = getFuncionario();
 
   const [nomeFuncionario, setNomeFuncionario] = useState("");
@@ -22,12 +20,38 @@ const CadastroFuncionarioFormulario = () => {
   });
   const [errorSetor, setErrorSetor] = useState(false);
 
+
+  const limparFormulario = () => {
+    setNomeFuncionario("");
+    setCpfFuncionario("");
+    setDataAdmissao("");
+    setSetorFuncionario({
+      cozinha: false,
+      estoque: false,
+      atendimento: false,
+    });
+    setFuncionarioSelecionado(null); 
+  };
+  
   const [showModal, setShowModal] = useState(false);
   const [modalMensagem, setModalMensagem] = useState("");
 
 
+  useEffect(() => {
+    if (funcionarioSelecionado) {
+      setNomeFuncionario(funcionarioSelecionado.nome);
+      setCpfFuncionario(funcionarioSelecionado.cpf);
+      setDataAdmissao(funcionarioSelecionado.dataAdmissao);
+      setSetorFuncionario({
+        cozinha: funcionarioSelecionado.acessoSetorCozinha,
+        estoque: funcionarioSelecionado.acessoSetorEstoque,
+        atendimento: funcionarioSelecionado.acessoSetorAtendimento,
+      });
+    }
+  }, [funcionarioSelecionado]);
+
   const removerFormatacaoCpf = (cpf) => {
-    return cpf.replace(/\D/g, ""); 
+    return cpf.replace(/\D/g, "");
   };
 
   const validarDados = (nome, cpf, data, setores) => {
@@ -65,50 +89,86 @@ const CadastroFuncionarioFormulario = () => {
       return false;
     }
 
-    cadastrarFuncionario(nome, cpf, data, setores, cpfSemFormatacao);
+    if (funcionarioSelecionado) {
+      editarFuncionario(nome, cpf, data, setores, cpfSemFormatacao);
+    } else {
+      cadastrarFuncionario(nome, cpf, data, setores, cpfSemFormatacao);
+    }
   };
-  
 
   const cadastrarFuncionario = (nome, cpf, data, setores, cpfSemFormatacao) => {
     const token = localStorage.getItem("token");
 
-
     console.log("Cadastrando funcionário:", { nome, cpf, data, setores });
     console.log("Token:", localStorage.getItem("token")),
+
       api
-        .post(`/colaboradores/${funcionario.userId}`, {
+        .post(`/colaboradores/${funcionario.empresaId}`, {
           nome: nome,
           cpf: cpf,
           cargo: "Funcionário",
-          dataAdmissao: "2025-04-25",
+          dataAdmissao: data,
           acessoSetorCozinha: setores.cozinha,
           acessoSetorEstoque: setores.estoque,
           acessoSetorAtendimento: setores.atendimento,
           proprietario: false,
-          senha: `${cpfSemFormatacao}@taua`, 
+          senha: `${cpfSemFormatacao}@taua`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((response) => {
           console.log("Funcionário cadastrado com sucesso:", response.data);
           setShowModal(true);
           setModalMensagem("Funcionário cadastrado com sucesso!");
-          setTimeout(() => window.location.reload(), 2000); 
+          setTimeout(() => window.location.reload(), 2000);
         })
         .catch((error) => {
           console.error("Erro ao cadastrar funcionário:", error);
         });
   };
 
+  const editarFuncionario = (nome, cpf, data, setores, cpfSemFormatacao) => {
+    const token = localStorage.getItem("token");
+
+    console.log("Funcionario selecionado:", funcionarioSelecionado.id);
+    console.log("Editando funcionário:", { nome, cpf, data, setores });
+    api
+      .patch(`/colaboradores/${funcionarioSelecionado.id}/${funcionario.empresaId}`, {
+        nome: nomeFuncionario,
+        cpf: cpfFuncionario,
+        cargo: "Funcionario",
+        dataAdmissao: dataAdmissao,
+        acessoSetorCozinha: setorFuncionario.cozinha,
+        acessoSetorEstoque: setorFuncionario.estoque,
+        acessoSetorAtendimento: setorFuncionario.atendimento,
+        proprietario: false,
+        senha: `${cpfSemFormatacao}@taua`,
+      },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      .then((response) => {
+        console.log("Funcionário editado com sucesso:", response.data);
+        setShowModal(true);
+        setModalMensagem("Funcionário editado com sucesso!");
+        setTimeout(() => window.location.reload(), 2000);
+      })
+      .catch((error) => {
+        console.error("Erro ao editar funcionário:", error);
+      });
+  };
+
   return (
     <div className="formulario-funcionario">
-      <h1 className="titulo-funcionario">Cadastro de Funcionário</h1>
+      <h1 className="titulo-funcionario">{funcionarioSelecionado ? "Editar Funcionário" : "Cadastro de Funcionário"}</h1>
       <p className="descricao-funcionario">
-        Preencha o formulário abaixo para adicionar novos funcionários.
+        Preencha o formulário abaixo para {funcionarioSelecionado ? "editar" : "adicionar"} funcionários.
       </p>
 
       <form className="formulario-inputs">
@@ -117,7 +177,7 @@ const CadastroFuncionarioFormulario = () => {
           <input
             id="nome"
             type="text"
-            placeholder="Informe o nome do funcionário a ser cadastrado"
+            placeholder="Informe o nome do funcionário"
             value={nomeFuncionario}
             onChange={(e) => setNomeFuncionario(e.target.value)}
             required
@@ -134,6 +194,7 @@ const CadastroFuncionarioFormulario = () => {
             onChange={(e) => setCpfFuncionario(e.target.value)}
             required
             pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+            disabled={!!funcionarioSelecionado}
           />
         </div>
 
@@ -147,6 +208,7 @@ const CadastroFuncionarioFormulario = () => {
             onChange={(e) => setDataAdmissao(e.target.value)}
             required
             max={new Date().toISOString().split("T")[0]} // Data máxima é a data atual
+            disabled={!!funcionarioSelecionado}
           />
         </div>
 
@@ -196,7 +258,7 @@ const CadastroFuncionarioFormulario = () => {
         </div>
 
         <div className="botoes-funcionario">
-          <button type="button" className="btn-cancelar-funcionario">
+          <button type="button" className="btn-cancelar-funcionario" onClick={limparFormulario}>
             Cancelar
           </button>
           <button
@@ -204,16 +266,10 @@ const CadastroFuncionarioFormulario = () => {
             className="btn-cadastrar-funcionario"
             onClick={(e) => {
               e.preventDefault();
-              validarDados(
-                nomeFuncionario,
-                cpfFuncionario,
-                dataAdmissao,
-                setorFuncionario
-              );
-              // testePost();
+              validarDados(nomeFuncionario, cpfFuncionario, dataAdmissao, setorFuncionario);
             }}
           >
-            Cadastrar
+            {funcionarioSelecionado ? "Editar" : "Cadastrar"}
           </button>
         </div>
       </form>

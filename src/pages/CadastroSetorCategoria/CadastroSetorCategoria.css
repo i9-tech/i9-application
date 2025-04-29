@@ -1,10 +1,40 @@
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+  }
+  
+
 .container-setor-categoria {
     display: flex;
     gap: 5rem;
 
+    .cadastro-setor, .cadastro-categoria {
+        width: 500px;
+        max-width: 500px;
+    }
+
     .container-pesquisa {
         display: flex;
         justify-content: space-between;
+        gap: 10px;
 
 
         .barra-pesquisa {
@@ -15,6 +45,7 @@
             background-color: white;
             padding: 2px;
             gap: 8px;
+            width: 80%;
 
             .input-pesquisa-produtos {
                 border: none;
@@ -31,7 +62,7 @@
                 border-radius: 10px;
                 cursor: pointer;
                 padding: 8px;
-                margin-left: 8px;
+                margin-left: 5px;
 
                 img {
                     width: 20px;

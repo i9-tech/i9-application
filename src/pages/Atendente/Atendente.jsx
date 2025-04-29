@@ -11,7 +11,8 @@ import Navbar from "../../components/Navbar/Navbar";
 import { getPermissoes } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { image } from "motion/react-client";
-import Ygona from "../../assets/ygona.jpg";
+import croissantChocolate from "../../assets/croissant-chocolate.jpg";
+import tortinhaLimão from "../../assets/tortinha-limao.jpg";
 
 export function Atendente(props) {
   const permissao = getPermissoes();
@@ -667,6 +668,7 @@ export function Atendente(props) {
         funcionario: { id: 4, nome: "Bruno" },
         preco: 10.0,
         disabled: false,
+        imagem: tortinhaLimão,
       },
       {
         id: 36,
@@ -703,6 +705,7 @@ export function Atendente(props) {
         funcionario: { id: 8, nome: "Ricardo" },
         preco: 11.0,
         disabled: false,
+        imagem: croissantChocolate,
       },
       {
         id: 38,

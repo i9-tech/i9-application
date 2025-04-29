@@ -6,15 +6,15 @@ import api from "../../provider/api";
 import { getFuncionario } from "../../utils/auth";
 import ModalCadastroSetor from "../../components/Modais/ModalCadastroSetor/ModalCadastroSetor";
 import ModalCadastroCategoria from "../../components/Modais/ModalCadastroCategoria/ModalCadastroCategoria";
-import BaseModais from "../../components/Modais/BaseModais";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+
 
 export function CadastroSetorCategoria() {
     const funcionario = getFuncionario();
     const [setores, setSetores] = useState([]);
     const [categorias, setCategorias] = useState([]);
-
-    const [showModal, setShowModal] = useState(false);
-    const [modalMensagem, setModalMensagem] = useState("");
 
     const [setorSelecionado, setSetorSelecionado] = useState(null);
     const [modalSetorOpen, setModalSetorOpen] = useState(false);
@@ -57,33 +57,43 @@ export function CadastroSetorCategoria() {
     const handleEditarSetor = (setor) => {
         setSetorSelecionado(setor);
         setModalSetorOpen(true);
-    };
+    }
 
     const handleDeletarSetor = (setor) => {
-        const confirmacao = window.confirm(`Tem certeza que deseja excluir o setor ${setor.nome}?`);
+        Swal.fire({
+            title: "Tem certeza?",
+            text: `Deseja excluir o setor ${setor.nome}?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim, excluir",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn-aceitar',
+                cancelButton: 'btn-cancelar',
+            },
+            buttonsStyling: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const token = localStorage.getItem("token");
 
-        if (!confirmacao) return;
-
-        const token = localStorage.getItem("token");
-        console.log(funcionario.empresaId);
-
-        api
-            .delete(`/setores/${setor.id}/${funcionario.userId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then((response) => {
-                console.log("Setor deletado com sucesso:", response.data);
-                setShowModal(true);
-                setModalMensagem("Setor deletado com sucesso!");
-                setTimeout(() => window.location.reload(), 2000);
-            })
-            .catch((error) => {
-                console.error("Erro ao deletar setor:", error);
-            });
+                api
+                    .delete(`/setores/${setor.id}/${funcionario.userId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
+                    .then((response) => {
+                        console.log("Setor deletado com sucesso:", response.data);
+                        toast.success("Setor deletado com sucesso!");
+                        setTimeout(() => window.location.reload(), 2000);
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao deletar setor:", error);
+                        toast.error("Erro ao deletar setor!");
+                    });
+            }
+        });
     };
-
 
     const handleEditarCategoria = (categoria) => {
         console.log("Editar categoria:", categoria);
@@ -92,29 +102,39 @@ export function CadastroSetorCategoria() {
     };
 
     const handleDeletarCategoria = (categoria) => {
-        const confirmacao = window.confirm(`Tem certeza que deseja excluir a categoria ${categoria.nome}?`);
+        Swal.fire({
+            title: "Tem certeza?",
+            text: `Deseja excluir a categoria ${categoria.nome}?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim, excluir",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn-aceitar',
+                cancelButton: 'btn-cancelar',
+            },
+            buttonsStyling: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const token = localStorage.getItem("token");
 
-        if (!confirmacao) return;
-
-        const token = localStorage.getItem("token");
-        console.log(funcionario.empresaId);
-
-        api
-            .delete(`/categorias/${categoria.id}/${funcionario.userId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then((response) => {
-                console.log("Categoria deletado com sucesso:", response.data);
-                setShowModal(true);
-                setModalMensagem("Categoria deletada com sucesso!");
-                setTimeout(() => window.location.reload(), 2000);
-
-            })
-            .catch((error) => {
-                console.error("Erro ao deletar setor:", error);
-            });
+                api
+                    .delete(`/categorias/${categoria.id}/${funcionario.userId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
+                    .then((response) => {
+                        console.log("Categoria deletada com sucesso:", response.data);
+                        toast.success("Categoria deletada com sucesso!");
+                        setTimeout(() => window.location.reload(), 2000);
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao deletar categoria:", error);
+                        toast.error("Erro ao deletar categoria!");
+                    });
+            }
+        });
     };
 
     return (
@@ -202,11 +222,11 @@ export function CadastroSetorCategoria() {
                     </table>
                 </div>
 
-                {showModal && (
-                    <BaseModais titulo="Sucesso!" >
-                        {modalMensagem}
-                    </BaseModais>
-                )}
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    theme="light"
+                />
             </div>
 
             {modalSetorOpen && (
@@ -244,7 +264,6 @@ export function CadastroSetorCategoria() {
                     </div>
                 </div>
             )}
-
 
         </>
     );

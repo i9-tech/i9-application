@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./ModalCadastroCategoria.css";
 import { getFuncionario } from "../../../utils/auth";
 import api from "../../../provider/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const ModalCadastroCategoria = ({ onCancelar, onSalvar, categoriaSelecionada }) => {
   const funcionario = getFuncionario();
@@ -39,10 +42,11 @@ const ModalCadastroCategoria = ({ onCancelar, onSalvar, categoriaSelecionada }) 
       })
       .then((response) => {
         console.log("Categoria cadastrado com sucesso:", response.data);
-        alert("Categoria cadastrado com sucesso!");
-        setTimeout(() => window.location.reload(), 2000);
+        toast.success("Categoria cadastrada com sucesso!");
+        setTimeout(() => window.location.reload(), 3000);
       })
       .catch((error) => {
+        toast.error("Erro ao cadastrar categoria!");
         console.error("Erro ao cadastrar categoria:", error);
       });
   };
@@ -61,10 +65,11 @@ const ModalCadastroCategoria = ({ onCancelar, onSalvar, categoriaSelecionada }) 
       })
       .then((response) => {
         console.log("Categoria atualizado com sucesso:", response.data);
-        alert("Categoria atualizado com sucesso!");
-        setTimeout(() => window.location.reload(), 2000);
+        toast.success("Categoria atualizada com sucesso!");
+        setTimeout(() => window.location.reload(), 3000);
       })
       .catch((error) => {
+        toast.error("Erro ao atualizar categoria!");
         console.error("Erro ao atualizar categoria:", error);
       });
   };
@@ -97,7 +102,15 @@ const ModalCadastroCategoria = ({ onCancelar, onSalvar, categoriaSelecionada }) 
 
         </div>
       </form>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        theme="light"
+      />
     </div>
+
+    
   );
 };
 

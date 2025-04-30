@@ -5,7 +5,10 @@ import { getFuncionario } from "../../../utils/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioSelecionado }) => {
+const CadastroFuncionarioFormulario = ({
+  funcionarioSelecionado,
+  setFuncionarioSelecionado,
+}) => {
   const funcionario = getFuncionario();
 
   const [nomeFuncionario, setNomeFuncionario] = useState("");
@@ -21,7 +24,6 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
   });
   const [errorSetor, setErrorSetor] = useState(false);
 
-
   const limparFormulario = () => {
     setNomeFuncionario("");
     setCpfFuncionario("");
@@ -31,12 +33,11 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
       estoque: false,
       atendimento: false,
     });
-    setFuncionarioSelecionado(null); 
+    setFuncionarioSelecionado(null);
   };
-  
+
   const [showModal, setShowModal] = useState(false);
   const [modalMensagem, setModalMensagem] = useState("");
-
 
   useEffect(() => {
     if (funcionarioSelecionado) {
@@ -102,19 +103,20 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
 
     console.log("Cadastrando funcionário:", { nome, cpf, data, setores });
     console.log("Token:", localStorage.getItem("token")),
-
       api
-        .post(`/colaboradores/${funcionario.empresaId}`, {
-          nome: nome,
-          cpf: cpf,
-          cargo: "Funcionário",
-          dataAdmissao: data,
-          acessoSetorCozinha: setores.cozinha,
-          acessoSetorEstoque: setores.estoque,
-          acessoSetorAtendimento: setores.atendimento,
-          proprietario: false,
-          senha: `${cpfSemFormatacao}@taua`,
-        },
+        .post(
+          `/colaboradores/${funcionario.empresaId}`,
+          {
+            nome: nome,
+            cpf: cpf,
+            cargo: "Funcionário",
+            dataAdmissao: data,
+            acessoSetorCozinha: setores.cozinha,
+            acessoSetorEstoque: setores.estoque,
+            acessoSetorAtendimento: setores.atendimento,
+            proprietario: false,
+            senha: `${cpfSemFormatacao}@taua`,
+          },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -138,22 +140,25 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
     console.log("Funcionario selecionado:", funcionarioSelecionado.id);
     console.log("Editando funcionário:", { nome, cpf, data, setores });
     api
-      .patch(`/colaboradores/${funcionarioSelecionado.id}/${funcionario.empresaId}`, {
-        nome: nomeFuncionario,
-        cpf: cpfFuncionario,
-        cargo: "Funcionario",
-        dataAdmissao: dataAdmissao,
-        acessoSetorCozinha: setorFuncionario.cozinha,
-        acessoSetorEstoque: setorFuncionario.estoque,
-        acessoSetorAtendimento: setorFuncionario.atendimento,
-        proprietario: false,
-        senha: `${cpfSemFormatacao}@taua`,
-      },
+      .patch(
+        `/colaboradores/${funcionarioSelecionado.id}/${funcionario.empresaId}`,
+        {
+          nome: nomeFuncionario,
+          cpf: cpfFuncionario,
+          cargo: "Funcionario",
+          dataAdmissao: dataAdmissao,
+          acessoSetorCozinha: setorFuncionario.cozinha,
+          acessoSetorEstoque: setorFuncionario.estoque,
+          acessoSetorAtendimento: setorFuncionario.atendimento,
+          proprietario: false,
+          senha: `${cpfSemFormatacao}@taua`,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        })
+        }
+      )
       .then((response) => {
         console.log("Funcionário editado com sucesso:", response.data);
         toast.success("Funcionário editado com sucesso!");
@@ -168,7 +173,8 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
   return (
     <div className="formulario-funcionario">
       <p className="descricao-funcionario">
-        Preencha o formulário abaixo para {funcionarioSelecionado ? "editar" : "adicionar"} funcionários.
+        Preencha o formulário abaixo para{" "}
+        {funcionarioSelecionado ? "editar" : "adicionar"} funcionários.
       </p>
 
       <form className="formulario-inputs">
@@ -191,7 +197,15 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
             type="text"
             placeholder="000.000.000-00"
             value={cpfFuncionario}
-            onChange={(e) => setCpfFuncionario(e.target.value)}
+            maxLength={14}
+            onChange={(e) => {
+              let valor = e.target.value;
+              valor = valor.replace(/\D/g, ""); 
+              valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+              valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+              valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+              setCpfFuncionario(valor); 
+            }}
             required
             pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
             disabled={!!funcionarioSelecionado}
@@ -263,23 +277,28 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
             className="btn-cadastrar-funcionario"
             onClick={(e) => {
               e.preventDefault();
-              validarDados(nomeFuncionario, cpfFuncionario, dataAdmissao, setorFuncionario);
+              validarDados(
+                nomeFuncionario,
+                cpfFuncionario,
+                dataAdmissao,
+                setorFuncionario
+              );
             }}
           >
             {funcionarioSelecionado ? "Editar" : "Cadastrar"}
           </button>
 
-          <button type="button" className="btn-cancelar-funcionario" onClick={limparFormulario}>
+          <button
+            type="button"
+            className="btn-cancelar-funcionario"
+            onClick={limparFormulario}
+          >
             Cancelar
           </button>
         </div>
       </form>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        theme="light"
-      />
+      <ToastContainer position="top-right" autoClose={3000} theme="light" />
     </div>
   );
 };

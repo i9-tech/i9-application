@@ -63,10 +63,10 @@ export function MenuComanda(props) {
                 </header>
 
                 <div className="produtos-adicionados-comanda">
-
+{/* 
                     <ProdutoComanda produto="Pastel" preco={9.00} atualizarQuantidade={atualizarQuantidade} onClick={abrirModal} />
                     <ProdutoComanda produto="Lanche Natural" preco={12.00} atualizarQuantidade={atualizarQuantidade} onClick={abrirModal} />
-                    <ProdutoComanda produto="X-Calabresa Artesanal" preco={20.00} atualizarQuantidade={atualizarQuantidade} onClick={abrirModal} />
+                    <ProdutoComanda produto="X-Calabresa Artesanal" preco={20.00} atualizarQuantidade={atualizarQuantidade} onClick={abrirModal} /> */}
 
                 </div>
 

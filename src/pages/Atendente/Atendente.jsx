@@ -11,8 +11,13 @@ import Navbar from "../../components/Navbar/Navbar";
 import { getPermissoes } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { image } from "motion/react-client";
-import croissantChocolate from "../../assets/croissant-chocolate.jpg";
-import tortinhaLimão from "../../assets/tortinha-limao.jpg";
+import croissantChocolate from "../../assets/croissant-chocolate.png";
+import tortinhaLimão from "../../assets/tortinha-limao.png";
+import mercado from "../../assets/mercado.png";
+import restaurante from "../../assets/restaurante.png";
+import lanchonete from "../../assets/lancheSetor.png";
+import pastelaria from '../../assets/pastel.png';
+import todos from '../../assets/todos.png';
 
 export function Atendente(props) {
   const permissao = getPermissoes();
@@ -746,10 +751,10 @@ export function Atendente(props) {
     ];
 
     const dadosSetores = [
-      { id: 2, nome: "Restaurante", empresa: { id: 1, nome: "Minha Empresa" } },
-      { id: 3, nome: "Pastelaria", empresa: { id: 1, nome: "Minha Empresa" } },
-      { id: 4, nome: "Lanchonete", empresa: { id: 1, nome: "Minha Empresa" } },
-      { id: 5, nome: "Mercado", empresa: { id: 1, nome: "Minha Empresa" } },
+      { id: 2, nome: "Restaurante", imagem: restaurante, empresa: { id: 1, nome: "Minha Empresa" }, },
+      { id: 3, nome: "Pastelaria", imagem: pastelaria, empresa: { id: 1, nome: "Minha Empresa" } },
+      { id: 4, nome: "Lanchonete", imagem: lanchonete, empresa: { id: 1, nome: "Minha Empresa" }},
+      { id: 5, nome: "Mercado", imagem: mercado, empresa: { id: 1, nome: "Minha Empresa" } },
     ];
 
     const categorias = [
@@ -901,6 +906,7 @@ export function Atendente(props) {
             <ElementoTotal
               key="todos"
               nome="Todos"
+              imagem={todos}
               quantidade={produtos.length}
               onClick={() => setSetorSelecionado("Todos")}
             />
@@ -908,6 +914,7 @@ export function Atendente(props) {
               <ElementoTotal
                 key={setor.id}
                 nome={setor.nome}
+                imagem={setor.imagem}
                 quantidade={
                   produtos.filter((p) => p.setor === setor.nome).length
                 }

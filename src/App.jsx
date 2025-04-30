@@ -14,7 +14,6 @@ import LayoutTela from "./components/LayoutTela/LayoutTela";
 
 
 function App() {
-
   return (
     <>
       <main>

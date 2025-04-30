@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import ComandaHeader from "../ComandaHeader/ComandaHeader";
 import ComandaBody from "../ComandaBody/ComandaBody";
 import ComandaFooter from "../ComandaFooter/ComandaFooter";
 import ComandaInfo from "../ComandaInfo/ComandaInfo";
 
 export default function Comanda({ pedido, index }) {
+  const [visivel, setVisivel] = useState(true);
+
+  const handleCompletar = () => {
+    setVisivel(false);
+  };
+
+  if (!visivel) return null;
+
   return (
     <div className="comanda-container">
       <div className="comanda">
@@ -43,7 +51,7 @@ export default function Comanda({ pedido, index }) {
         </div>
 
         <div className="rodape-comanda">
-          <ComandaFooter qtdItens={pedido.itens.length} index={index} />
+          <ComandaFooter qtdItens={pedido.itens.length} index={index} onCompletar={handleCompletar} />
         </div>
       </div>
     </div>

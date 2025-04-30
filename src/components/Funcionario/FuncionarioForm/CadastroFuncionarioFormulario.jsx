@@ -167,7 +167,6 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
 
   return (
     <div className="formulario-funcionario">
-      <h1 className="titulo-funcionario">{funcionarioSelecionado ? "Editar Funcionário" : "Cadastro de Funcionário"}</h1>
       <p className="descricao-funcionario">
         Preencha o formulário abaixo para {funcionarioSelecionado ? "editar" : "adicionar"} funcionários.
       </p>

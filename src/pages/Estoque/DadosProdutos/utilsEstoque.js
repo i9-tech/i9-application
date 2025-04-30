@@ -12,6 +12,13 @@ export function calcularResumoEstoque(produtos) {
     return acc + preco * p.estoque;
   }, 0);
 
+  // Valor final da venda do estoque = (preço de compra) * (quantidade em estoque)
+  // Converte o valor de string para número usando parseFloat e substitui vírgula por ponto.
+  const valorVenda = produtos.reduce((acc, p) => {
+    const venda = parseFloat(p.venda.replace("R$", "").replace(",", "."));
+    return acc + venda * p.estoque;
+  }, 0);
+
   // Lucro previsto = (preço de venda - preço de compra) * (quantidade em estoque)
   // Também converte as strings de preços para número
   const lucroPrevisto = produtos.reduce((acc, p) => {
@@ -42,6 +49,7 @@ export function calcularResumoEstoque(produtos) {
 
   return {
     valorEstoque,
+    valorVenda,
     lucroPrevisto,
     estoqueBaixo,
     semEstoque,

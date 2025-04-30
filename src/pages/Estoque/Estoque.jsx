@@ -7,6 +7,7 @@ import { ResumoEstoque } from "../../components/EstoqueLista/ResumoEstoque/Resum
 import TabelaEstoque from "../../components/EstoqueLista/TabelaEstoque/TabelaEstoque";
 import { calcularResumoEstoque } from "./DadosProdutos/utilsEstoque";
 import Navbar from "../../components/Navbar/Navbar";
+import LayoutTela from "../../components/LayoutTela/LayoutTela";
 
 export function Estoque() {
   const [products, setProducts] = useState([]);
@@ -34,9 +35,9 @@ export function Estoque() {
 
   return (
     <>
-    <Navbar />
+    <LayoutTela titulo="Estoque de Produtos" adicional={`${products.length} itens cadastrados`}>
+
       <div className="estoque">
-        <HeaderEstoque totalItens={products.length} />
         <FiltrosEstoque
           onAdicionarProduto={handleAddProduct}
           filtroStatus={filtroStatus}
@@ -49,6 +50,8 @@ export function Estoque() {
           filtroStatus={filtroStatus}
         />
       </div>
+    </LayoutTela>
+
     </>
   );
 }

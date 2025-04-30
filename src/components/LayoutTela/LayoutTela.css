@@ -22,7 +22,7 @@
 
       .content-header-layout {
         display: flex;
-        align-items: end;
+        align-items: last baseline;
         gap: 8px;
 
         h1 {
@@ -30,11 +30,6 @@
           font-weight: 800;
           color: #222;
         }
-
-        p {
-            margin-bottom: 3px;
-        }
-
         
       }
     }

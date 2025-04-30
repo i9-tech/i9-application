@@ -3,6 +3,7 @@ import "./ResumoEstoque.css";
 
 export function ResumoEstoque({
   valorEstoque = 0,
+  valorVenda = 0,
   lucroPrevisto = 0,
   estoqueBaixo = 0,
   semEstoque = 0,
@@ -20,7 +21,17 @@ export function ResumoEstoque({
                 currency: "BRL",
               })}
             </span>
-            <span className="resumo-label">Valor em Estoque</span>
+            <span className="resumo-label">Valor total do Estoque</span>
+          </div>
+
+          <div className="resumo-item">
+            <span className="resumo-valor">
+              {valorVenda.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })}
+            </span>
+            <span className="resumo-label">Valor estimado de venda</span>
           </div>
 
           <div className="resumo-item">
@@ -31,7 +42,7 @@ export function ResumoEstoque({
               })}
             </span>
 
-            <span className="resumo-label">Lucro Previsto</span>
+            <span className="resumo-label">Lucro bruto esperado</span>
           </div>
         </div>
 

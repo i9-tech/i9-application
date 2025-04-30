@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CadastroFuncionarioFormulario from "../../components/Funcionario/FuncionarioForm/CadastroFuncionarioFormulario";
 import TabelaFuncionarios from "../../components/Funcionario/FuncionarioTab/TabelaFuncionarios";
 import Navbar from "../../components/Navbar/Navbar";
+import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import "./Funcionarios.css";
 import FuncionarioFoto from "../../components/Funcionario/FuncionarioFoto/FuncionarioFoto";
 import api from "../../provider/api";
@@ -92,7 +93,7 @@ export function Funcionarios() {
 
   return (
     <>
-      <Navbar />
+      <LayoutTela titulo={"Cadastro de Funcionário"}>
       <div className="container-funcionario">
         <div className="coluna-esquerda">
           <CadastroFuncionarioFormulario funcionarioSelecionado={funcionarioSelecionado} setFuncionarioSelecionado={setFuncionarioSelecionado} />
@@ -112,6 +113,7 @@ export function Funcionarios() {
           />
         </div>
       </div>
+      </LayoutTela>
 
       <ToastContainer
         position="top-right"

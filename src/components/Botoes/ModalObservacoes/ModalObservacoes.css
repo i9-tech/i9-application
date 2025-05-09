@@ -1,92 +1,93 @@
 .container-observacao {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
 
-    .modal {
-      background-color: white;
-      border-radius: 8px;
-      padding: 20px;
-      width: 500px;
-      height: max-content;
-      max-height: 50%;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      position: relative;
-      z-index: 999;
-      overflow: auto;
+  .modal {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 500px;
+    height: max-content;
+    max-height: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 999;
+    overflow: auto;
 
-      .botao-fechar {
-        margin: 5px;
-        position: absolute;
-        top: 10px;
-        right: 20px;
-        background: none;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
-        padding: 4px 11px ;
-        border: 1px solid var(--azul-claro);
-        border-radius: 100%;
-        color: var(--azul-claro);
+    .botao-fechar {
+      margin: 5px;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 11px ;
+      border: 1px solid var(--azul-claro);
+      border-radius: 100%;
+      color: var(--azul-claro);
 
-        &:hover{
-          color: white;
-          background-color: var(--azul-escuro);
-        }
-      }
-    
-      .modal-header {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      #observacoes-container {
-        margin-bottom: 20px;
-
-        label {
-          display: block;
-          margin-bottom: 5px;
-          font-weight: bold;
-        }
-
-        input[type="text"] {
-          width: 100%;
-          padding: 8px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-      }
-      
-      #observacoes-container div {
-        margin-bottom: 15px;
-      }
-
-
-      .botoes-modal {
-        text-align: center;
-      }
-      
-      #adicionar-btn {
-        background-color: var(--azul-claro); 
+      &:hover{
         color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-      }
-      
-      #adicionar-btn:hover {
-        background-color: var(--azul-escuro); 
+        background-color: var(--azul-escuro);
       }
     }
+
+    .modal-header {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #observacoes-container {
+      text-align: start;
+      margin-bottom: 20px;
+      width: 100%;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    }
+
+    #observacoes-container div {
+      margin-bottom: 15px;
+    }
+
+
+    .botoes-modal {
+      text-align: center;
+    }
+
+    #adicionar-btn {
+      background-color: var(--azul-claro); 
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #adicionar-btn:hover {
+      background-color: var(--azul-escuro); 
+    }
   }
-  
-  
+}

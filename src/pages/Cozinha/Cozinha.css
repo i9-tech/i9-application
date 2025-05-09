@@ -1,7 +1,149 @@
-body {
-    width: 100%;
-    height: 100%;
+.cozinha {
+  width: 100vw;
+  height: 100vh;
+  /* background-color: blueviolet; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2%;
+
+  .titulo {
+    width: 90%;
+    height: 8%;
+    /* background-color: aqua; */
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: end;
+    gap: 8px;
+  }
+
+}
+.tela-comandas {
+  width: 95%;
+  height: auto;
+  /* background-color: brown; */
+  gap: 3.33%;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  .comanda-container {
+    width: 30%;
+    height: auto;
+
+    .comanda {
+      width: 100%;
+      height: auto;
+      background: #f4f4f4;
+      border-radius: 2%;
+
+      .cabecalho-comanda {
+        /* background-color: springgreen; */
+        width: 100%;
+        padding: 8px;
+        display: flex;
+
+        .cabecalho-conteudo {
+          display: flex;
+          width: 100%;
+          padding: 8px;
+          border-bottom: 1px solid #ddd;
+        }
+      }
+
+      .corpo-comanda {
+        /* background-color: chocolate; */
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        gap: 10px;
+
+        .pedidoCliente {
+          border-bottom: 1px solid #ddd;
+          border-top: 1px solid #ddd;
+          padding: 8px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          p {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 20px;
+          }
+        }
+
+        .corpo-conteudo {
+          display: flex;
+          width: 100%;
+          height: auto;
+          gap: 4px;
+          padding-left: 8px;
+          
+          .imagem {
+            width: 25%;
+            height: 69px;
+            border-radius: 5px;
+            /* background-color: #0f14b8; */
+            
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 5px;
+            }
+          }
+          
+          .itemInfo {
+            /* background-color: yellow; */
+            width: 60%;
+            overflow: hidden;
+            display: flex;
+            /* background-color: yellow; */
+            flex-direction: column;
+            padding-left: 4px;
+            
+            .observacao {
+              font-size: 16px;
+              color: red;
+              
+              span {
+                font-weight: bold;
+                font-size: 16px;
+              }
+            }
+          }
+
+          .btn-check {
+            width: 15%;
+            display: flex;
+            justify-content: center;
+            /* background-color: purple; */
+          }
+        }
+      }
+
+      .rodape-comanda {
+        /* background-color: hsl(276, 100%, 50%); */
+        width: 100%;
+        display: flex;
+        padding: 10px;
+        padding-left: 16px;
+
+        .rodape-conteudo {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          align-items: center;
+
+          p {
+            color: red;
+          }
+        }
+      }
+    }
+  }
 }

@@ -33,9 +33,67 @@ body {
   background-color: var(--background-blue);
   min-height: 100vh;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow-x: hidden;
 }
 
 hov {
   color: var(--destaque);
+}
+
+.Toastify__progress-bar--success {
+  background-color: var(--azul-escuro) !important;
+}
+
+.Toastify__progress-bar--error {
+  background-color: #e53935 !important;
+}
+
+.Toastify__toast--success .Toastify__toast-icon svg {
+  fill: var(--azul-escuro) !important;
+  color: var(--azul-escuro) !important;
+}
+
+
+.swal2-actions {
+  display: flex !important;
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+}
+
+
+
+.btn-cancelar,
+.btn-aceitar{
+  padding: 14px;
+  font-size: 17px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-cancelar {
+  width: 40% !important;
+  background: none;
+  border: 1px solid #000;
+  color: #000;
+}
+
+.btn-cancelar:hover {
+  background-color: #f2f2f2;
+}
+
+.btn-aceitar {
+  width: 40% !important;
+  background-color: #0050ff;
+  color: white;
+  border: none;
+}
+
+.btn-aceitar:hover {
+  background-color: #003bb3;
 }

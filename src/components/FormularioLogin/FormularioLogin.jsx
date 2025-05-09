@@ -45,8 +45,11 @@ export default function FormularioLogin() {
     .then((res) => {
       console.log("Resposta do servidor:", res.data);
       const token = res.data.token;
+      const funcionario = res.data;
       console.log("Token:", token);
       localStorage.setItem("token", token);
+      localStorage.setItem("funcionario", JSON.stringify(funcionario));
+      console.log("Funcionário:", funcionario);
       setTimeout(() => {
         setLoading(false);
         navigate("/atendente");

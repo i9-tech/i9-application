@@ -5,6 +5,7 @@ import iconeCozinha from "../../assets/cozinha-icone-colorido-escuro.svg";
 import iconeEstoque from "../../assets/estoque-icone-colorido-escuro.svg";
 import iconeEquipe from "../../assets/equipe-icone-colorido-escuro.svg";
 import iconeSair from "../../assets/sair-icone-colorido-escuro.svg";
+import setorCategoriaIcone from "../../assets/setor-categoria-icon.svg";
 import { getPermissoes } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -33,16 +34,6 @@ export function Options() {
           </li>
         </Link>
       )}
-      {permissoes.includes("ROLE_PROPRIETARIO") && (
-        <Link to="/dashboard">
-          <li key="dashboard">
-            <i>
-              <img src={iconeDashboard} alt="Icone de Dashboard" />
-            </i>
-            <span>Dashboard</span>
-          </li>
-        </Link>
-      )}
       {permissoes.includes("ROLE_COZINHA") && (
         <Link to="/cozinha">
           <li key="cozinha">
@@ -64,12 +55,32 @@ export function Options() {
         </Link>
       )}
       {permissoes.includes("ROLE_PROPRIETARIO") && (
+        <Link to="/setor-categoria">
+          <li key="setor-categoria">
+            <i>
+              <img src={setorCategoriaIcone} alt="Icone de Setor e Categoria" />
+            </i>
+            <span>Setores e Categorias</span>
+          </li>
+        </Link>
+      )}
+      {permissoes.includes("ROLE_PROPRIETARIO") && (
         <Link to="/funcionarios">
           <li key="funcionarios">
             <i>
               <img src={iconeEquipe} alt="Icone de Equipe" />
             </i>
             <span>Equipe</span>
+          </li>
+        </Link>
+      )}
+      {permissoes.includes("ROLE_PROPRIETARIO") && (
+        <Link to="/dashboard">
+          <li key="dashboard">
+            <i>
+              <img src={iconeDashboard} alt="Icone de Dashboard" />
+            </i>
+            <span>Dashboard</span>
           </li>
         </Link>
       )}

@@ -23,7 +23,7 @@ export const produtosMock = [
     estoque: 80,
     registro: hoje,
     descricao: "Feijão carioca de alta qualidade, saboroso e nutritivo.",
-    imagem: arroz,
+    imagem: "https://m.media-amazon.com/images/I/81J59dmdaCL._AC_UF894,1000_QL80_.jpg",
   },
   {
     id: "0003",
@@ -35,7 +35,7 @@ export const produtosMock = [
     registro: hoje,
     descricao:
       "Macarrão espaguete de trigo duro, ideal para diversas receitas.",
-    imagem: arroz,
+    imagem: "https://supermercadopaisefilhos.loji.com.br/storage/uploads/yXXDDdE9t29UeEWyV38r2ChYxuNAMnBTjJQDEBma.jpg",
   },
   {
     id: "0004",
@@ -46,7 +46,7 @@ export const produtosMock = [
     estoque: 200,
     registro: hoje,
     descricao: "Leite integral pasteurizado, fonte de cálcio e vitaminas.",
-    imagem: arroz,
+    imagem: "https://coopsantaclara.com.br/media/3509/1643806645_leite_uht_integral_edge.png",
   },
   {
     id: "0005",
@@ -58,7 +58,7 @@ export const produtosMock = [
     registro: hoje,
     descricao:
       "Óleo de soja refinado, ideal para frituras e preparos diversos.",
-    imagem: arroz,
+    imagem: "https://www.soya.com.br/media/g3snj4cc/soja-v2-1.png?mode=max",
   },
   {
     id: "0006",
@@ -69,7 +69,7 @@ export const produtosMock = [
     estoque: 90,
     registro: hoje,
     descricao: "Açúcar refinado de alta pureza, ideal para doces e bebidas.",
-    imagem: arroz,
+    imagem: "https://apoioentrega.vteximg.com.br/arquivos/ids/854930/7458_0.png?v=638595839695470000",
   },
   {
     id: "0007",
@@ -80,7 +80,7 @@ export const produtosMock = [
     estoque: 110,
     registro: hoje,
     descricao: "Sal refinado iodado, essencial para o preparo de alimentos.",
-    imagem: arroz,
+    imagem: "https://s3-sa-east-1.amazonaws.com/loja2/a5f15966806726c6f865a08e5ab920db.png",
   },
   {
     id: "0008",
@@ -91,7 +91,7 @@ export const produtosMock = [
     estoque: 70,
     registro: hoje,
     descricao: "Café torrado e moído, sabor intenso e aroma marcante.",
-    imagem: arroz,
+    imagem: "https://www.cafe3coracoes.com.br/wp-content/uploads/2020/12/tm-tradicional-01.png",
   },
   {
     id: "0009",
@@ -102,7 +102,7 @@ export const produtosMock = [
     estoque: 130,
     registro: hoje,
     descricao: "Farinha de trigo enriquecida com ferro e ácido fólico.",
-    imagem: arroz,
+    imagem: "https://m.media-amazon.com/images/I/61IDVb04R7L._AC_SL1080_.jpg",
   },
   {
     id: "0010",
@@ -114,19 +114,19 @@ export const produtosMock = [
     registro: hoje,
     descricao:
       "Manteiga com sal, sabor tradicional, ideal para pães e receitas.",
-    imagem: arroz,
+    imagem: "https://m.media-amazon.com/images/I/61l+I8jBCaL._AC_SL1280_.jpg",
   },
 
   {
     id: "0011",
-    nome: "Achocolatado em Pó 400g",
+    nome: "Achocolatado em Pó 550g",
     validade: "10/06/2025",
     compra: "R$ 5,00",
     venda: "R$ 7,00",
     estoque: 0,
     registro: new Date().toLocaleDateString("pt-BR"),
     descricao: "Achocolatado em pó, ideal para bebidas e receitas.",
-    imagem: arroz,
+    imagem: "https://m.media-amazon.com/images/I/81CN3Co1GFL._AC_SL1500_.jpg",
   },
   {
     id: "0012",
@@ -137,7 +137,7 @@ export const produtosMock = [
     estoque: 0,
     registro: new Date().toLocaleDateString("pt-BR"),
     descricao: "Refrigerante sabor cola, embalagem econômica de 2 litros.",
-    imagem: arroz,
+    imagem: "https://m.media-amazon.com/images/I/61kXj1PApLL._AC_SL1500_.jpg",
   },
   {
     id: "0013",
@@ -148,9 +148,8 @@ export const produtosMock = [
     estoque: 0,
     registro: new Date().toLocaleDateString("pt-BR"),
     descricao: "Biscoito recheado sabor chocolate, crocante e delicioso.",
-    imagem: arroz,
+    imagem: "https://m.media-amazon.com/images/I/714CKmrg3hL._AC_SL1500_.jpg",
   },
-
   {
     id: "0014",
     nome: "Iogurte Natural 170g",
@@ -160,28 +159,6 @@ export const produtosMock = [
     estoque: 5,
     registro: new Date().toLocaleDateString("pt-BR"),
     descricao: "Iogurte natural, ideal para consumo direto ou receitas.",
-    imagem: arroz,
-  },
-  {
-    id: "0015",
-    nome: "Presunto Fatiado 200g",
-    validade: "22/04/2025",
-    compra: "R$ 4,00",
-    venda: "R$ 5,50",
-    estoque: 8,
-    registro: new Date().toLocaleDateString("pt-BR"),
-    descricao: "Presunto cozido fatiado, pronto para consumo.",
-    imagem: arroz,
-  },
-  {
-    id: "0016",
-    nome: "Queijo Mussarela 300g",
-    validade: "25/04/2025",
-    compra: "R$ 6,50",
-    venda: "R$ 9,00",
-    estoque: 10,
-    registro: new Date().toLocaleDateString("pt-BR"),
-    descricao: "Queijo mussarela fatiado, sabor leve e derretimento ideal.",
-    imagem: arroz,
-  },
+    imagem: "https://m.media-amazon.com/images/I/61GNqIoWfRL._AC_SL1500_.jpg",
+  }
 ];

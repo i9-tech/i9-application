@@ -1,8 +1,10 @@
 import "./ElementoProduto.css";
 import ImagemProduto from '../../../assets/pastel.png';
 
+
+
 export function ElementoProduto(props) {
-  const { nome, preco, descricao, onAdicionar, disabled } = props;
+  const { nome, preco, descricao, onAdicionar, disabled, imagem } = props;
 
   const adicionarProduto = () => {
     if (!disabled && onAdicionar) {
@@ -29,7 +31,7 @@ export function ElementoProduto(props) {
       </div>
 
       <div className="conteudo-imagem">
-        <img src={ImagemProduto} alt="Imagem Produto" />
+        <img src={imagem ? imagem : ImagemProduto} alt="Imagem Produto" />
       </div>
 
       <button className="botao-adicionar" disabled={disabled}>+</button>

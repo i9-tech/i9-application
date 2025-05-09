@@ -1,0 +1,8 @@
+.estoque{
+  flex: 1;
+  display: flex;
+  width: 97%;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}

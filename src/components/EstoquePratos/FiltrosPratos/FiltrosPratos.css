@@ -1,0 +1,84 @@
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    width: 100%;
+    justify-content: baseline;
+  }
+  
+  .filtros-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .menu-filtros {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    z-index: 999;
+    min-width: 180px;
+  }
+  
+  .menu-filtros button {
+    display: block;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 5px 10px;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .menu-filtros button:hover {
+    background-color: #eee;
+  }
+  
+  .top-actions input.search {
+    padding: 8px;
+    flex: 1;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  
+  .top-actions select {
+    padding: 8px;
+    border-radius: 6px;
+    width: 200px;
+    border: 1px solid #ccc;
+  }
+  
+  .add-btn {
+    background: #0f2fe0;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .filtro {
+    background: white;
+    border: 1px solid #0f2fe0;
+    color: #0f2fe0;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+  
+  .filtro-ativo {
+    background-color: var(--hovers);
+    border: 1px solid #aaa;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 20px;
+    color: white;
+  }
+  
+  .filtro-ativo:hover {
+    color: #0f2fe0;
+  }
+  

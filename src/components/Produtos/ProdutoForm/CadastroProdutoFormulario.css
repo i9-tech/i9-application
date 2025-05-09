@@ -1,0 +1,121 @@
+.formulario-produto {
+    margin: 0;
+    max-width: 600px;
+    width: 100%;
+  
+    .descricao-produto {
+      font-size: 16px;
+      color: #444;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+  
+    .formulario-inputs {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .grupo-inputs {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 24px;
+  
+      label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 6px; 
+      }
+  
+      input,
+      textarea {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #fff;
+        font-size: 15px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+  
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+    }
+  
+    .linha-dupla {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 24px;
+  
+      > div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+  
+      label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 6px;
+        margin-left: 2px;
+      }
+  
+      input {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #fff;
+        font-size: 15px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+  
+      input[type="date"] {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+    }
+  
+    .botoes-produto {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+  
+      .btn-cancelar-produto,
+      .btn-cadastrar-produto {
+        width: 48%;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+  
+      .btn-cancelar-produto {
+        background-color: #fff;
+        border: 1px solid #333;
+        color: #333;
+  
+        &:hover {
+          background-color: #f0f0f0;
+        }
+      }
+  
+      .btn-cadastrar-produto {
+        background-color: #0000cc;
+        border: none;
+        color: white;
+  
+        &:hover {
+          background-color: #000099;
+        }
+      }
+    }
+  }
+  

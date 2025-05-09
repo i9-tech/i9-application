@@ -1,4 +1,4 @@
-.linha-produto td {
+.linha-prato td {
   padding: 10px 16px;
   font-size: 14px;
   border-bottom: 1px solid #ddd;
@@ -40,51 +40,44 @@
   text-decoration: underline;
 }
 
-
 /* Cód. */
-.linha-produto td:nth-child(1) {
+.linha-prato td:nth-child(1) {
   width: 100px;
 }
 
 /* Imagem */
-.linha-produto td:nth-child(2) {
+.linha-prato td:nth-child(2) {
   width: 150px;
-  /* background-color: #0077cc; */
 }
 
 /* Nome */
-.linha-produto td:nth-child(3) {
+.linha-prato td:nth-child(3) {
   width: 180px;
 }
 
-/* Validade */
-/* .linha-produto td:nth-child(4) {
-  width: 120px;
-} */
-
-/* Compra */
-.linha-produto td:nth-child(4) {
+/* Preço */
+.linha-prato td:nth-child(4) {
   width: 100px;
 }
 
-/* Venda */
-.linha-produto td:nth-child(5) {
+/* Categoria */
+.linha-prato td:nth-child(5) {
   width: 100px;
 }
 
-/* Estoque */
-.linha-produto td:nth-child(6) {
+/* Status */
+.linha-prato td:nth-child(6) {
   width: 100px;
 }
 
 /* Registro */
-.linha-produto td:nth-child(7) {
+.linha-prato td:nth-child(7) {
   width: 140px;
 }
 
 /* Descrição */
-.linha-produto td:nth-child(8) {
-  width: 190px;
+.linha-prato td:nth-child(8) {
+  width: 220px;
   text-align: center;
   vertical-align: middle;
   padding: 8px;
@@ -93,8 +86,7 @@
   white-space: nowrap;
 }
 
-
-/* Status */
-.linha-produto td:nth-child(9) {
-  width: 50px;
+/* Ações */
+.linha-prato td:nth-child(9) {
+  width: 100px;
 }

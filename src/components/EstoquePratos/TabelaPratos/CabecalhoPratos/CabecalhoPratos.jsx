@@ -1,23 +1,21 @@
-
 import React from "react";
-import "./CabecalhoEstoque.css";
+import "./CabecalhoPratos.css";
 
-const CabecalhoEstoque = () => {
+const CabecalhoPratos = () => {
   return (
     <thead className="cabecalho-estoque">
       <tr>
         <th>Cód.</th>
         <th>Imagem</th>
         <th>Nome</th>
-        <th>Compra</th>
-        <th>Venda</th>
-        <th>Estoque</th>
+        <th>Preço</th>
+        <th>Categoria</th>
+        <th>Status</th>
         <th>Registro</th>
         <th>Descrição</th>
-        <th>Status</th>
       </tr>
     </thead>
   );
 };
 
-export default CabecalhoEstoque;
+export default CabecalhoPratos;

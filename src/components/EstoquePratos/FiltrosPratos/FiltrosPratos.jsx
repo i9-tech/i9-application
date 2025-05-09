@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./FiltrosPratos.css"; // Você pode renomear o CSS depois, se quiser
+import { useNavigate } from "react-router-dom";
 
 function FiltrosPratos({ onAdicionarPrato, filtroStatus, setFiltroStatus }) {
+  const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
   const limparFiltro = () => setFiltroStatus(null);
 
@@ -44,7 +46,9 @@ function FiltrosPratos({ onAdicionarPrato, filtroStatus, setFiltroStatus }) {
 
       <button
         className="add-btn"
-        onClick={onAdicionarPrato}
+        onClick={() => {
+          navigate("/estoque-pratos/formulario-pratos");
+        }}
         style={{ color: "#fff", fontWeight: "bold" }}
       >
         + Adicionar Prato

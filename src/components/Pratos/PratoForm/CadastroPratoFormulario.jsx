@@ -3,10 +3,12 @@ import "./CadastroPratoFormulario.css";
 import api from "../../../provider/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const categorias = ["Bebida", "Entrada", "Prato Principal", "Sobremesa"];
 
 const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubmit }) => {
+  const navigate = useNavigate();
   const [prato, setPrato] = useState({
     nome: "",
     preco: "",
@@ -58,6 +60,7 @@ const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubm
       ingredientes: [],
     });
     setPratoSelecionado(null);
+    navigate("/estoque-pratos");
   };
 
   const handleSubmit = (e) => {

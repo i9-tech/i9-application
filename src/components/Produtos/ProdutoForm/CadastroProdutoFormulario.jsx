@@ -4,11 +4,13 @@ import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const CadastroProdutoFormulario = ({
   produtoSelecionado,
   setProdutoSelecionado,
 }) => {
+  const navigate = useNavigate();
   const funcionario = getFuncionario();
 
   const [produto, setProduto] = useState({
@@ -49,6 +51,7 @@ const CadastroProdutoFormulario = ({
       quantidadeMaxima: "",
     });
     setProdutoSelecionado(null);
+    navigate("/estoque");
   };
 
   const validarCampos = () => {

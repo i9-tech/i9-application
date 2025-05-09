@@ -11,6 +11,9 @@ import RotaPrivada from "./routes/RotaPrivada";
 import NaoAutorizado from "./pages/NaoAutorizado/NaoAutorizado";
 import { CadastroSetorCategoria } from "./pages/CadastroSetorCategoria/CadastroSetorCategoria";
 import LayoutTela from "./components/LayoutTela/LayoutTela";
+import EstoquePratos from "./pages/EstoquePratos/EstoquePratos";
+import Pratos from "./pages/FormularioPratos/Pratos";
+import Produtos from "./pages/FormularioProdutos/Produtos";
 
 
 function App() {
@@ -43,6 +46,30 @@ function App() {
             element={
               <RotaPrivada permissao="ROLE_ESTOQUE">
                 <Estoque />
+              </RotaPrivada>
+            }
+          />
+          <Route
+            path="/estoque/formulario-produtos"
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <Produtos />
+              </RotaPrivada>
+            }
+          />
+          <Route
+            path="/estoque-pratos"
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <EstoquePratos />
+              </RotaPrivada>
+            }
+          />
+          <Route
+            path="/estoque-pratos/formulario-pratos"
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <Pratos />
               </RotaPrivada>
             }
           />

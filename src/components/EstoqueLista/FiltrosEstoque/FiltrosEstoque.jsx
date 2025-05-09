@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./FiltrosEstoque.css";
+import { useNavigate } from "react-router-dom";
 
 function FiltrosEstoque({ onAdicionarProduto, filtroStatus, setFiltroStatus }) {
+  const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
   const limparFiltro = () => setFiltroStatus(null);
 
@@ -50,14 +52,14 @@ function FiltrosEstoque({ onAdicionarProduto, filtroStatus, setFiltroStatus }) {
           <option>Mercado</option>
         </select>
 
-        <button className="add-btn">Adicionar Produto</button>
-
         <button
           className="add-btn"
-          onClick={onAdicionarProduto}
+          onClick={() => {
+            navigate("/estoque/formulario-produtos");
+          }}
           style={{ color: "#fff", fontWeight: "bold" }}
         >
-          +
+          + Adicionar Produto
         </button>
       </div>
     </>

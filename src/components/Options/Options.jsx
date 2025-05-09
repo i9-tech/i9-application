@@ -50,7 +50,17 @@ export function Options() {
             <i>
               <img src={iconeEstoque} alt="Icone de Estoque" />
             </i>
-            <span>Estoque</span>
+            <span>Estoque de Produtos</span>
+          </li>
+        </Link>
+      )}
+      {permissoes.includes("ROLE_ESTOQUE") && (
+        <Link to="/estoque-pratos">
+          <li key="estoque-pratos">
+            <i>
+              <img src={iconeEstoque} alt="Icone de Estoque" />
+            </i>
+            <span>Estoque de Pratos</span>
           </li>
         </Link>
       )}

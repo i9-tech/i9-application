@@ -1,4 +1,4 @@
-.resumo-bloco {
+.resumo-bloco-prod {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -6,14 +6,14 @@
   flex-wrap: wrap;
 }
 
-.resumo-container {
+.resumo-container-prod {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   justify-content: space-between;
 }
 
-.resumo-item {
+.resumo-item-prod {
   background-color: #ffffff;
   border-radius: 12px;
   padding: 12px 18px;
@@ -21,11 +21,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 253px;
+  min-width: 201px;
   text-align: center;
 }
 
-.resumo-kpi-bloco {
+.resumo-kpi-bloco-prod {
   background-color: #ffffff;
   border-radius: 12px;
   padding: 12px 18px;
@@ -33,7 +33,7 @@
   margin: 20px 0;
 }
 
-.kpi-linha {
+.kpi-linha-prod {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -41,14 +41,14 @@
   gap: 16px;
 }
 
-.kpi-coluna {
+.kpi-coluna-prod {
   display: flex;
   flex-direction: column;
   align-items: center;
   min-width: 170px;
 }
 
-.resumo-valor {
+.resumo-valor-prod {
   font-size: 18px;
   font-weight: bold;
   color: #222;
@@ -57,13 +57,13 @@
   gap: 8px;
 }
 
-.resumo-label {
+.resumo-label-prod {
   font-size: 12px;
   color: #666;
   margin-top: 4px;
 }
 
-.bolinha {
+.bolinha-prod {
   width: 10px;
   height: 10px;
   border-radius: 50%;

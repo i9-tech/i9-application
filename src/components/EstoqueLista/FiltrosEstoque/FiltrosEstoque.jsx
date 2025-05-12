@@ -14,16 +14,16 @@ function FiltrosEstoque({ onAdicionarProduto, filtroStatus, setFiltroStatus }) {
 
   return (
     <>
-      <div className="top-actions">
+      <div className="top-actions-prod">
         <input type="text" placeholder="Procurar Produto" className="search" />
 
-        <div className="filtros-dropdown">
-          <button className="filtro" onClick={() => setMenuAberto(!menuAberto)}>
+        <div className="filtros-dropdown-prod">
+          <button className="filtro-prod" onClick={() => setMenuAberto(!menuAberto)}>
             🔍 Filtros
           </button>
 
           {menuAberto && (
-            <div className="menu-filtros">
+            <div className="menu-filtros-prod">
               <button onClick={() => aplicarFiltro("sem")}>
                 ❌ Sem Estoque
               </button>
@@ -38,7 +38,7 @@ function FiltrosEstoque({ onAdicionarProduto, filtroStatus, setFiltroStatus }) {
         </div>
 
         {filtroStatus && (
-          <button className="filtro-ativo" onClick={limparFiltro}>
+          <button className="filtro-ativo-prod" onClick={limparFiltro}>
             {filtroStatus === "sem" && "❌ Sem Estoque ✕"}
             {filtroStatus === "baixo" && "⚠️ Estoque Baixo ✕"}
             {/* {filtroStatus === "validade" && "💸 Perto da Validade ✕"} */}
@@ -53,7 +53,7 @@ function FiltrosEstoque({ onAdicionarProduto, filtroStatus, setFiltroStatus }) {
         </select>
 
         <button
-          className="add-btn"
+          className="add-btn-prod"
           onClick={() => {
             navigate("/estoque/formulario-produtos");
           }}

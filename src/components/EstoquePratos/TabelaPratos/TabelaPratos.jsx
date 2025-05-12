@@ -2,26 +2,22 @@ import CabecalhoPratos from "./CabecalhoPratos/CabecalhoPratos";
 import PratoEstoque from "./PratoEstoque/PratoEstoque";
 import "./TabelaPratos.css";
 
-const TabelaPratos = ({ pratos, setPratos, filtroStatus }) => {
+const TabelaPratos = ({ pratos, filtros = {} }) => {
+  const { status, categoria, setor } = filtros;
 
-  const hoje = new Date();
+  const pratosFiltrados = pratos.filter((p) => {
+    if (status) {
+      if (status === "ativo" && !p.ativo) return false;
+      if (status === "inativo" && p.ativo) return false;
+    }
+    if (categoria && categoria !== "" && p.categoria !== categoria) return false;
+    if (setor && setor !== "" && p.setor !== setor) return false;
 
-  const pratosFiltrados = filtroStatus
-    ? pratos.filter((p) => {
-        if (filtroStatus === 'sem') return p.estoque === 0;
-        if (filtroStatus === 'baixo') return p.estoque <= 10 && p.estoque > 0;
-        if (filtroStatus === 'validade') {
-          const [d, m, a] = p.validade.split('/');
-          const validade = new Date(`${a}-${m}-${d}`);
-          return (validade - hoje) / (1000 * 60 * 60 * 24) <= 30 && p.estoque > 0;
-        }
-        return true;
-      })
-    : pratos;
+    return true;
+  });
 
   const handleDelete = (id) => {
-    const confirm = window.confirm("Deseja excluir este prato?");
-    if (confirm) {
+    if (window.confirm("Deseja excluir este prato?")) {
       setPratos((prev) => prev.filter((p) => p.id !== id));
     }
   };
@@ -35,18 +31,27 @@ const TabelaPratos = ({ pratos, setPratos, filtroStatus }) => {
       <table className="tabela-estoque">
         <CabecalhoPratos />
         <tbody>
-          {pratosFiltrados.map((prato) => (
-            <PratoEstoque  
-              key={prato.id}
-              prato={prato}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
+          {pratosFiltrados.length > 0 ? (
+            pratosFiltrados.map((prato) => (
+              <PratoEstoque
+                key={prato.id}
+                prato={prato}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4" className="no-results">
+                Nenhum prato encontrado.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
   );
 };
+
 
 export default TabelaPratos;

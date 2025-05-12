@@ -8,11 +8,12 @@ const CabecalhoPratos = () => {
         <th>Cód.</th>
         <th>Imagem</th>
         <th>Nome</th>
-        <th>Preço</th>
-        <th>Categoria</th>
-        <th>Status</th>
-        <th>Registro</th>
         <th>Descrição</th>
+        <th>Preço</th>
+        <th>Disponibilidade</th>
+        <th>Categoria</th>
+        <th>Setor</th>
+        <th>Status</th>
       </tr>
     </thead>
   );

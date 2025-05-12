@@ -3,14 +3,10 @@ import "./ResumoPratos.css";
 
 export function ResumoPratos({
   valorTotal = 0,
-  lucroPrevisto = 0,
   pratosAtivos = 0,
   pratosInativos = 0,
   totalPratos = 0,
-    totalCategorias,
-    precoMedio = 0,
-    precoMin,
-    precoMax,
+  totalCategorias = 0
 }) {
   return (
     <div className="resumo-bloco">
@@ -49,7 +45,15 @@ export function ResumoPratos({
               <span className="bolinha cinza" />
               {totalPratos}
             </span>
-            <span className="resumo-label">Total Cadastrados</span>
+            <span className="resumo-label">Total de Pratos</span>
+          </div>
+
+          <div className="kpi-coluna">
+            <span className="resumo-valor">
+              <span className="bolinha amarela" />
+              {totalCategorias}
+            </span>
+            <span className="resumo-label">Total de Categorias</span>
           </div>
         </div>
       </div>

@@ -11,11 +11,15 @@ const PratoEstoque = ({ prato, onEdit, onDelete }) => {
         </div>
       </td>
       <td>{prato.nome}</td>
-      <td>{prato.preco}</td>
-      <td>{prato.categoria}</td>
-      <td>{prato.status}</td>
-      <td>{prato.registro}</td>
       <td title={prato.descricao}>{prato.descricao}</td>
+      <td>{prato.preco}</td>
+      <td>{prato.ativo ? (
+        <span className="disponivel">✅ Ativo</span>
+        ) : (
+          <span className="indisponivel">🚫 Inativo</span>
+      )}</td>
+      <td>{prato.categoria}</td>
+      <td>{prato.setor}</td>
       <td className="acoes">
         <button onClick={() => onEdit(prato)}>✏️</button> |
         <button onClick={() => onDelete(prato.id)}>🗑️</button>

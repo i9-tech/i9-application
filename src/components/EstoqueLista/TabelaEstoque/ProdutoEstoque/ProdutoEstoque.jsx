@@ -3,10 +3,10 @@ import "./ProdutoEstoque.css";
 
 const ProdutoEstoque = ({ produto, onEdit, onDelete }) => {
   return (
-    <tr className="linha-produto">
+    <tr className="linha-produto-prod">
       <td>{produto.id}</td>
       <td>
-        <div className="imagem-container">
+        <div className="imagem-container-prod">
           <img src={produto.imagem} alt={produto.nome} />
         </div>
       </td>
@@ -16,7 +16,7 @@ const ProdutoEstoque = ({ produto, onEdit, onDelete }) => {
       <td>{produto.estoque}</td>
       <td>{produto.registro}</td>
       <td title={produto.descricao}>{produto.descricao}</td>
-      <td className="acoes">
+      <td className="acoes-prod">
         <button onClick={() => onEdit(produto)}>✏️</button> |
         <button onClick={() => onDelete(produto.id)}>🗑️</button>
       </td>

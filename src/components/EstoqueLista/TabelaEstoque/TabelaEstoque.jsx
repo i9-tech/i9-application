@@ -31,8 +31,8 @@ const TabelaEstoque = ({ produtos, setProdutos, filtroStatus }) => {
   };
 
   return (
-    <div className="tabela-container">
-      <table className="tabela-estoque">
+    <div className="tabela-container-prod">
+      <table className="tabela-estoque-prod">
         <CabecalhoEstoque />
         <tbody>
           {produtosFiltrados.map((produto) => (

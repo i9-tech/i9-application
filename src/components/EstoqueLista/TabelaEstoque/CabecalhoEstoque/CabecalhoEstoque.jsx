@@ -4,7 +4,7 @@ import "./CabecalhoEstoque.css";
 
 const CabecalhoEstoque = () => {
   return (
-    <thead className="cabecalho-estoque">
+    <thead className="cabecalho-estoque-prod">
       <tr>
         <th>Cód.</th>
         <th>Imagem</th>

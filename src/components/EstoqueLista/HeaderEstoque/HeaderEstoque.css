@@ -1,4 +1,4 @@
-.header-estoque {
+.header-estoque-prod {
   width: 100%;
   display: flex;
   align-items: center;
@@ -8,13 +8,13 @@
   margin-bottom: 10px;
 }
 
-.titulo-estoque {
+.titulo-estoque-prod {
   font-size: 24px;
   font-weight: bold;
   color: #000000;
 }
 
-.subtitulo-estoque {
+.subtitulo-estoque-prod {
   font-size: 14px;
   color: #666;
   margin-top: 10px;

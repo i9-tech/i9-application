@@ -12,56 +12,56 @@ export function ResumoEstoque({
 }) {
   return (
     <>
-      <div className="resumo-bloco">
-        <div className="resumo-container">
-          <div className="resumo-item">
-            <span className="resumo-valor">
+      <div className="resumo-bloco-prod">
+        <div className="resumo-container-prod">
+          <div className="resumo-item-prod">
+            <span className="resumo-valor-prod">
               {valorEstoque.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
             </span>
-            <span className="resumo-label">Valor total do Estoque</span>
+            <span className="resumo-label-prod">Valor total do Estoque</span>
           </div>
 
-          <div className="resumo-item">
-            <span className="resumo-valor">
+          <div className="resumo-item-prod">
+            <span className="resumo-valor-prod">
               {valorVenda.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
             </span>
-            <span className="resumo-label">Valor estimado de venda</span>
+            <span className="resumo-label-prod">Valor estimado de venda</span>
           </div>
 
-          <div className="resumo-item">
-            <span className="resumo-valor">
+          <div className="resumo-item-prod">
+            <span className="resumo-valor-prod">
               {lucroPrevisto.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
             </span>
 
-            <span className="resumo-label">Lucro bruto esperado</span>
+            <span className="resumo-label-prod">Lucro bruto esperado</span>
           </div>
         </div>
 
-        <div className="resumo-kpi-bloco">
-          <div className="kpi-linha">
-            <div className="kpi-coluna">
-              <span className="resumo-valor">
-                <span className="bolinha amarela" />
+        <div className="resumo-kpi-bloco-prod">
+          <div className="kpi-linha-prod">
+            <div className="kpi-coluna-prod">
+              <span className="resumo-valor-prod">
+                <span className="bolinha-prod amarela" />
                 {estoqueBaixo}
               </span>
-              <span className="resumo-label">Estoque Baixo</span>
+              <span className="resumo-label-prod">Estoque Baixo</span>
             </div>
 
-            <div className="kpi-coluna">
-              <span className="resumo-valor">
-                <span className="bolinha vermelha" />
+            <div className="kpi-coluna-prod">
+              <span className="resumo-valor-prod">
+                <span className="bolinha-prod vermelha" />
                 {semEstoque}
               </span>
-              <span className="resumo-label">Sem Estoque</span>
+              <span className="resumo-label-prod">Sem Estoque</span>
             </div>
 
             {/* <div className="kpi-coluna">
@@ -72,12 +72,12 @@ export function ResumoEstoque({
               <span className="resumo-label">Perto da Validade</span>
             </div> */}
 
-            <div className="kpi-coluna">
-              <span className="resumo-valor">
-                <span className="bolinha verde" />
+            <div className="kpi-coluna-prod">
+              <span className="resumo-valor-prod">
+                <span className="bolinha-prod verde" />
                 {totalEmEstoque}
               </span>
-              <span className="resumo-label">Em Estoque</span>
+              <span className="resumo-label-prod">Em Estoque</span>
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@
     padding: 10px 12px;
     font-weight: 600;
     font-size: 14px;
-    text-align: left;
+    text-align: center;
     color: #333;
     border-bottom: 2px solid #ccc;
     /* white-space: nowrap; */
@@ -25,30 +25,37 @@
   } /* Cód. */
   
   .cabecalho-estoque th:nth-child(2) {
-    width: 150px;
+    width: 100px;
   } /* Imagem */
   
   .cabecalho-estoque th:nth-child(3) {
-    width: 180px;
+    width: 130px;
   } /* Nome */
   
   .cabecalho-estoque th:nth-child(4) {
-    width: 100px;
-  } /* Preço */
+    width: 220px;
+    /* Descrição */
+  }
   
   .cabecalho-estoque th:nth-child(5) {
-    width: 140px;
-  } /* Categoria */
+    width: 100px;
+    /* Preço */
+    
+  } 
   
   .cabecalho-estoque th:nth-child(6) {
-    width: 100px;
-  } /* Status */
+    width: 130px;
+  } /* Disponibilidade */
   
   .cabecalho-estoque th:nth-child(7) {
     width: 140px;
-  } /* Registro */
+  } /* Categoria */
   
   .cabecalho-estoque th:nth-child(8) {
-    width: 220px;
-  } /* Descrição */
+    width: 110px;
+  } /* Setor */
+  
+    .cabecalho-estoque th:nth-child(9) {
+    width: 100px;
+  } /* Status */
   

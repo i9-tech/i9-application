@@ -2,41 +2,54 @@ import './ProdutoComanda.css';
 import LancheNatural from '../../../assets/lanche.png';
 import { useState, useEffect } from 'react';
 
+export function ProdutoComanda({ produto, preco, quantidade: quantidadeInicial, removerProduto, atualizarQuantidade, onClick = () => {} }) {
+    const [quantidade, setQuantidade] = useState(quantidadeInicial || 1);
 
-export function ProdutoComanda(props) {
-    const [quantidade, setQuantidade] = useState(1);
+    useEffect(() => {
+        setQuantidade(quantidadeInicial);
+    }, [quantidadeInicial]);
 
     function diminuir() {
         if (quantidade > 1) {
-            setQuantidade(quantidade - 1);
+          setQuantidade(qtd => qtd - 1);
+        } else {
+          removerProduto(produto);
         }
-    }
+      }
+      
     function aumentar() {
-        setQuantidade(quantidade + 1);
+        setQuantidade(qtd => qtd + 1);
     }
 
     useEffect(() => {
-        if (props.atualizarQuantidade) {
-            props.atualizarQuantidade(props.produto, quantidade);
+        if (atualizarQuantidade) {
+            atualizarQuantidade(produto, quantidade);
         }
     }, [quantidade]);
 
-
     return (
-        <div className="card-produto">
-            <img src={LancheNatural} alt="Lanche Natural" className="imagem-produto" />
-            <div className="detalhes-produto">
-                <span className="nome-produto">{props.produto} </span>
-                <span className="preco-produto">R$ {(props.preco * quantidade).toFixed(2)}</span>
+        <div className="card-produto" onClick={() => onClick(produto, quantidade)}>
+            <div className='img-obs'>
+                <img src={LancheNatural} alt="Lanche Natural" className="imagem-produto" />
+                <span className="observacao-produto">Observação</span>
             </div>
-            <div className="controles-quantidade">
+            <div className="detalhes-produto">
+                <span className="nome-produto" title={produto}>{produto}</span>
+                <span className="preco-produto">R$ {(preco * quantidade).toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })}</span>
+            </div>
+            <div className="controles-quantidade" onClick={e => e.stopPropagation()}>
                 <button className="btn-diminuir" onClick={diminuir}>-</button>
                 <span className="quantidade">{quantidade}</span>
                 <button className="btn-aumentar" onClick={aumentar}>+</button>
+                <br></br>
+                
             </div>
-        </div>
+           
+        </div> 
     );
 }
 
 export default ProdutoComanda;
-

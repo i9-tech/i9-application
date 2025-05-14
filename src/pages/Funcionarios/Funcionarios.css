@@ -1,7 +1,70 @@
-body {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.container-funcionario {
+  display: flex;
+  width: 97%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 30px;
 }
+
+.formulario-funcionario {
+  flex: 1;
+}
+
+.tabela-funcionarios-container {
+  padding: 0;
+  width: 350px;
+  max-height: 550px;
+  overflow-y: auto;
+}
+
+.tabela-funcionarios {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  right: 0;
+}
+
+.tabela-funcionarios th,
+.tabela-funcionarios td {
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.tabela-funcionarios th {
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 7;
+}
+
+.tabela-funcionarios tr:nth-child(even) {
+  background-color: #eef4ff;
+}
+
+.tabela-funcionarios tr:last-child td {
+  border-bottom: none;
+}
+
+.coluna-esquerda {
+  flex: 1;
+}
+
+.coluna-meio {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.coluna-direita {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+}
+

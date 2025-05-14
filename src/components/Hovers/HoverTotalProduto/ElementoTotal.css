@@ -1,9 +1,10 @@
 .card-total {
     background-color: white;
-    width: 8vw !important;
-    height: 16vh;
+    width: 120px;
+    height: 120px;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     text-align: center;
     gap: 0.5rem;
@@ -11,15 +12,21 @@
     border-radius: 1rem;
     cursor: pointer;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border: none;
+    outline: none;
+    font-size: 16px;
 }
 
 .card-total small {
+    border: none;
+    outline: none;
     display: flex;
     justify-content: center;
 }
 
 .card-total .lanche {
     width: 80%;
+    border-radius: 100%;
 }
 
 .card-total:hover {

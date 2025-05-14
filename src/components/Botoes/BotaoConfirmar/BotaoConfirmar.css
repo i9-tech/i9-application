@@ -8,6 +8,7 @@
     width: 20vw !important;
     height: 80px !important;
     font-weight: 500;
+    cursor: pointer;
 
     .info-pedido {
         color: var(--color-font);

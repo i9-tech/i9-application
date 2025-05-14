@@ -1,19 +1,87 @@
-import './Cozinha.css';
-import ComandaHead from '../Cozinha/Comandas/ComandaHead';
-import ComandaBody from '../Cozinha/Comandas/ComandaBody'
-import ComandaFoot from '../Cozinha/Comandas/ComandaFoot';
+import "./Cozinha.css";
 
+import React, { useState } from "react";
+import Navbar from "../../components/Navbar/Navbar";
+import Comanda from "../../components/ComandaFinal/Comanda/Comanda"
+import LayoutTela from "../../components/LayoutTela/LayoutTela";
+
+import LancheNatural from "../../assets/sandwich.png";
+import ChickenJr from "../../assets/ChickenJr.png";
 
 export function Cozinha() {
-    return (
-        <>
-            <section className='menu-cozinha'>
-                <h1>Preparo de Pedido</h1>
+  const [pedidos, setPedidos] = useState([
+    {
+      numeroPedido: 250,
+      cliente: "Jhonattan",
+      mesa: 5,
+      pagamento: "Dinheiro",
+      dataHora: "19 Mar 2025, 16:54",
+      itens: [
+        {
+          imagem: LancheNatural,
+          titulo: "1x Lanche Natural",
+          descricao: "Pão, Alface, Tomate e Molho.",
+          observacao: "SEM TOMATE",
+        },
+        {
+          imagem: LancheNatural,
+          titulo: "1x Lanche Natural",
+          descricao: "Pão, Alface, Tomate e Molho.",
+        },
+        {
+          imagem: ChickenJr,
+          titulo: "1x Chicken Jr.",
+          descricao: "Pão de hambúrguer, frango empanado, queijo, presunto...",
+        },
+        {
+          imagem: LancheNatural,
+          titulo: "1x Lanche Natural",
+          descricao: "Pão, Alface, Tomate e Molho.",
+        },
+      ],
+      qtdItens: 4,
+    },
+    {
+      numeroPedido: 251,
+      cliente: "Betina",
+      mesa: 13,
+      pagamento: "Cartão",
+      dataHora: "20 Mar 2025, 16:58",
+      itens: [
+        {
+          imagem: LancheNatural,
+          titulo: "1x Lanche Natural",
+          descricao: "Pão, Alface, Tomate e Molho.",
+          observacao: "SEM TOMATE",
+        },
+        {
+          imagem: LancheNatural,
+          titulo: "1x Lanche Natural",
+          descricao: "Pão, Alface, Tomate e Molho.",
+        },
+      ],
+      qtdItens: 2,
+    },
+  ]);
 
-                <div className='comandas'>
-                    
-                </div>
-            </section>
-        </>
-    )
+  return (
+    <>
+      <LayoutTela
+        titulo="Preparo de Pedidos"
+        adicional={
+          <p>
+            {pedidos.length === 1
+              ? pedidos.length + " pedido"
+              : pedidos.length + " pedidos"}
+          </p>
+        }
+      >
+        <article className="tela-comandas">
+          {pedidos.map((pedido, index) => (
+            <Comanda key={index} pedido={pedido} index={index} />
+          ))}
+        </article>
+      </LayoutTela>
+    </>
+  );
 }

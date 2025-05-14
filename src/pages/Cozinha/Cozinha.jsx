@@ -1,9 +1,19 @@
-import './Cozinha.css'
+import './Cozinha.css';
+import ComandaHead from '../Cozinha/Comandas/ComandaHead';
+import ComandaBody from '../Cozinha/Comandas/ComandaBody'
+import ComandaFoot from '../Cozinha/Comandas/ComandaFoot';
+
 
 export function Cozinha() {
-    return(
+    return (
         <>
-        <div>Olá, você está na tela de Cozinha</div>
+            <section className='menu-cozinha'>
+                <h1>Preparo de Pedido</h1>
+
+                <div className='comandas'>
+                    
+                </div>
+            </section>
         </>
     )
 }

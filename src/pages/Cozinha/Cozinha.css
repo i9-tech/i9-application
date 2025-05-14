@@ -4,4 +4,45 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0;
+    padding: 0;
+    /* overflow: hidden; */
+}
+
+.menu-cozinha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 81vw;
+    height: 100vh;
+    /* overflow-y: scroll; */
+    /* margin-right: 20vw; */
+    padding-top: 1rem;
+
+    h1 {
+        width: 91%;
+    }
+
+    .comandas {
+        background-color: rgb(255, 60, 0);
+        width: 100%;
+        height: 100%;
+    }
+
+    .comanda01 {
+        background: #F4F4F4;
+        margin: 10px;
+        max-width: 32%;
+        height: 55%;
+        border-radius: 15px;
+        padding: 20px 20px 30px 20px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .pedidosComanda {
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0px;
+        background-color: aqua;
+    }
 }

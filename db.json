@@ -387,10 +387,10 @@
   "pratos": [
     {
       "id": "1",
-      "nome": "Hambúrguer Artesanal",
-      "imagem": "imagens/hamburguer.jpg",
+      "nome": "Feijoada",
+      "imagem": "https://via.placeholder.com/80",
       "valorVenda": 35.5,
-      "descricao": "Pão artesanal, carne angus, queijo cheddar.",
+      "descricao": "Feijoada completa com arroz e couve",
       "disponivel": true,
       "setor": {
         "id": 1
@@ -407,11 +407,11 @@
     },
     {
       "id": "2",
-      "nome": "Pizza Margherita",
-      "imagem": "imagens/pizza_margherita.jpg",
+      "nome": "Coxinha",
+      "imagem": "https://via.placeholder.com/80",
       "valorVenda": 42,
-      "descricao": "Mussarela de búfala, tomate e manjericão.",
-      "disponivel": true,
+      "descricao": "Coxinha de frango crocante",
+      "disponivel": false,
       "setor": {
         "id": 2
       },
@@ -427,10 +427,10 @@
     },
     {
       "id": "3",
-      "nome": "Cerveja Artesanal",
-      "imagem": "imagens/cerveja.jpg",
+      "nome": "Guaraná",
+      "imagem": "https://via.placeholder.com/80",
       "valorVenda": 18,
-      "descricao": "Cerveja puro malte artesanal.",
+      "descricao": "Refrigerante Guaraná 350ml",
       "disponivel": true,
       "setor": {
         "id": 3
@@ -447,10 +447,10 @@
     },
     {
       "id": "4",
-      "nome": "Salada Caesar",
-      "imagem": "imagens/salada_caesar.jpg",
+      "nome": "Escondidinho",
+      "imagem": "https://via.placeholder.com/80",
       "valorVenda": 27.5,
-      "descricao": "Alface, parmesão, frango grelhado e croutons.",
+      "descricao": "Escondidinho de carne seca com purê de mandioca",
       "disponivel": true,
       "setor": {
         "id": 1
@@ -467,11 +467,11 @@
     },
     {
       "id": "5",
-      "nome": "Brownie de Chocolate",
-      "imagem": "imagens/brownie.jpg",
+      "nome": "Brigadeiro",
+      "imagem": "https://via.placeholder.com/80",
       "valorVenda": 15,
-      "descricao": "Brownie de chocolate com sorvete de creme.",
-      "disponivel": true,
+      "descricao": "Docinho de chocolate tradicional",
+      "disponivel": false,
       "setor": {
         "id": 2
       },

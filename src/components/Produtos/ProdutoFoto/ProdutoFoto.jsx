@@ -2,34 +2,29 @@ import React, { useState, useEffect } from "react";
 import "./ProdutoFoto.css";
 import imagemPadrao from "../../../assets/arroz.png";
 
-const ProdutoFoto = ({ imagem, descricao, setDescricao }) => {
-  const caminhoImagem = imagem || imagemPadrao;
-
-  const handleDescricaoChange = (e) => {
-    if (setDescricao) setDescricao(e.target.value);
-  };
+const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
 
   return (
     <div className="foto-produto">
       <div className="bloco-imagem">
         <label className="label-foto">Foto do Produto</label>
         <img
-          src={caminhoImagem}
+          src={imagem ? imagem : imagemPadrao}
           alt="Foto do produto"
           className="imagem-preview"
         />
         <p className="texto-upload">Faça upload da foto do produto (JPG, PNG, JPEG)</p>
       </div>
 
-      <div className="descricao-produto-foto">
-        <label htmlFor="descricao">Descrição</label>
-        <textarea
-          id="descricao"
-          value={descricao}
-          onChange={handleDescricaoChange}
-          rows="8"
-        />
-      </div>
+        <div className="descricao-produto-foto">
+          <label htmlFor="descricao">Descrição</label>
+          <textarea
+            id="descricao"
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+            rows="8"
+          />
+        </div>
     </div>
   );
 };

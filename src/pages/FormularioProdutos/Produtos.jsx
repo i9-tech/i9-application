@@ -7,28 +7,29 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import "./Produtos.css";
+import { useParams } from "react-router-dom";
 
 export function Produtos() {
-  const [produtos, setProdutos] = useState([]);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
+  const params = useParams();
+  const [descricao, setDescricao] = useState("");
+  const [imagem, setImagem] = useState("");
 
   useEffect(() => {
-    const fetchProdutos = async () => {
-      try {
-        const response = await api.get("/produtos", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+    if (produtoSelecionado) {
+      api
+        .get(`/produtos/${params.id}`)
+        .then((res) => {
+          setProdutoSelecionado(res.data);
+          setDescricao(res.data?.descricao || "");
+          setImagem(res.data?.imagem || "");
+          console.log("Produto para edição: ", res.data);
+        })
+        .catch((err) => {
+          console.error("Erro ao ao buscar produtos:", err);
         });
-        setProdutos(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar produtos:", error);
-        toast.error("Erro ao buscar produtos");
-      }
-    };
-
-    fetchProdutos();
-  }, []);
+    }
+  }, [params]);
 
   return (
     <>
@@ -38,13 +39,21 @@ export function Produtos() {
             <CadastroProdutoFormulario
               produtoSelecionado={produtoSelecionado}
               setProdutoSelecionado={setProdutoSelecionado}
+              descricao={descricao}
+              setDescricao={setDescricao}
+              imagem={imagem}
+              setImagem={setImagem}
             />
           </div>
 
           <div className="coluna-direita">
             <ProdutoFoto
-              imagem={produtoSelecionado?.imagemUrl}
-              descricao={produtoSelecionado?.descricao}
+              imagem={
+                imagem || (produtoSelecionado && produtoSelecionado.imagemUrl)
+              }
+              descricao={descricao}
+              setDescricao={setDescricao}
+              setImagem={setImagem}
             />
           </div>
         </div>

@@ -9,19 +9,24 @@ import { useNavigate } from "react-router-dom";
 const CadastroProdutoFormulario = ({
   produtoSelecionado,
   setProdutoSelecionado,
+  descricao,
+  setDescricao,
+  imagem,
+  setImagem,
 }) => {
   const navigate = useNavigate();
   const funcionario = getFuncionario();
+  const hoje = new Date().toISOString().split("T")[0];;
 
   const [produto, setProduto] = useState({
     codigo: "",
     nome: "",
     quantidade: "",
-    validade: "",
     valorCompra: "",
-    valorVenda: "",
-    quantidadeMinima: "",
-    quantidadeMaxima: "",
+    valorUnitario: "",
+    quantidadeMin: "",
+    quantidadeMax: "",
+    dataRegistro: "",
   });
 
   useEffect(() => {
@@ -29,12 +34,12 @@ const CadastroProdutoFormulario = ({
       setProduto({
         codigo: produtoSelecionado.codigo || "",
         nome: produtoSelecionado.nome || "",
-        quantidade: produtoSelecionado.estoque || "",
-        validade: produtoSelecionado.validade || "",
-        valorCompra: produtoSelecionado.compra || "",
-        valorVenda: produtoSelecionado.venda || "",
-        quantidadeMinima: produtoSelecionado.minEstoque || "",
-        quantidadeMaxima: produtoSelecionado.maxEstoque || "",
+        quantidade: produtoSelecionado.quantidade || "",
+        valorCompra: produtoSelecionado.valorCompra || "",
+        valorUnitario: produtoSelecionado.valorUnitario || "",
+        quantidadeMin: produtoSelecionado.quantidadeMin || "",
+        quantidadeMax: produtoSelecionado.quantidadeMax || "",
+        dataRegistro: produtoSelecionado.dataRegistro || "",
       });
     }
   }, [produtoSelecionado]);
@@ -44,33 +49,29 @@ const CadastroProdutoFormulario = ({
       codigo: "",
       nome: "",
       quantidade: "",
-      validade: "",
       valorCompra: "",
-      valorVenda: "",
-      quantidadeMinima: "",
-      quantidadeMaxima: "",
+      valorUnitario: "",
+      quantidadeMin: "",
+      quantidadeMax: "",
     });
+    setDescricao("");
+    setImagem("");
     setProdutoSelecionado(null);
     navigate("/estoque");
   };
 
   const validarCampos = () => {
-    if (
-      !produto.codigo ||
-      !produto.nome ||
-      !produto.quantidade ||
-      !produto.validade
-    ) {
+    if (!produto.codigo || !produto.nome || !produto.quantidade) {
       toast.error("Preencha todos os campos obrigatórios!");
       return false;
     }
     if (
       isNaN(produto.quantidade) ||
       produto.quantidade < 0 ||
-      isNaN(produto.quantidadeMinima) ||
-      produto.quantidadeMinima < 0 ||
-      isNaN(produto.quantidadeMaxima) ||
-      produto.quantidadeMaxima < 0
+      isNaN(produto.quantidadeMin) ||
+      produto.quantidadeMin < 0 ||
+      isNaN(produto.quantidadeMax) ||
+      produto.quantidadeMax < 0
     ) {
       toast.error("As quantidades devem ser números positivos!");
       return false;
@@ -80,27 +81,37 @@ const CadastroProdutoFormulario = ({
   };
 
   const salvarProduto = () => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
 
     const dados = {
       codigo: produto.codigo,
       nome: produto.nome,
-      estoque: parseInt(produto.quantidade),
-      validade: produto.validade,
-      compra: produto.valorCompra,
-      venda: produto.valorVenda,
-      minEstoque: parseInt(produto.quantidadeMinima),
-      maxEstoque: parseInt(produto.quantidadeMaxima),
-      empresaId: funcionario.empresaId,
+      quantidade: parseInt(produto.quantidade),
+      valorCompra: produto.valorCompra,
+      valorUnitario: produto.valorUnitario,
+      quantidadeMin: parseInt(produto.quantidadeMin),
+      quantidadeMax: parseInt(produto.quantidadeMax),
+      descricao: descricao,
+      dataRegistro: produto.dataRegistro ? produto.dataRegistro : hoje,
+      imagem: imagem,
+      setor: { id: 1 },
+      categoria: { id: 2 },
+      funcionario: { id: 1 },
+      empresa: { id: 1 },
     };
 
     const metodo = produtoSelecionado
-      ? api.patch(`/produtos/${produtoSelecionado.id}`, dados, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-      : api.post("/produtos", dados, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+      ? api.patch(
+          `/produtos/${produtoSelecionado.id}`,
+          dados
+          // , {
+          //   headers: { Authorization: `Bearer ${token}` },}
+        )
+      : api.post(
+          "/produtos",
+          dados
+          // , {headers: { Authorization: `Bearer ${token}` },}
+        );
 
     metodo
       .then(() => {
@@ -109,7 +120,7 @@ const CadastroProdutoFormulario = ({
             ? "Produto editado com sucesso!"
             : "Produto cadastrado com sucesso!"
         );
-        setTimeout(() => window.location.reload(), 2000);
+        limparFormulario();
       })
       .catch((error) => {
         console.error("Erro ao salvar produto:", error);
@@ -176,7 +187,8 @@ const CadastroProdutoFormulario = ({
               onChange={(e) =>
                 setProduto({ ...produto, validade: e.target.value })
               }
-              required
+              style={{cursor: 'not-allowed', backgroundColor: '#d3d3d3'}}
+              disabled
             />
           </div>
         </div>
@@ -198,9 +210,9 @@ const CadastroProdutoFormulario = ({
             <label>Valor de Venda</label>
             <input
               type="text"
-              value={produto.valorVenda}
+              value={produto.valorUnitario}
               onChange={(e) =>
-                setProduto({ ...produto, valorVenda: e.target.value })
+                setProduto({ ...produto, valorUnitario: e.target.value })
               }
               placeholder="R$"
               required
@@ -213,9 +225,9 @@ const CadastroProdutoFormulario = ({
             <label>Quantidade Mínima para Estoque</label>
             <input
               type="number"
-              value={produto.quantidadeMinima}
+              value={produto.quantidadeMin}
               onChange={(e) =>
-                setProduto({ ...produto, quantidadeMinima: e.target.value })
+                setProduto({ ...produto, quantidadeMin: e.target.value })
               }
             />
           </div>
@@ -223,9 +235,9 @@ const CadastroProdutoFormulario = ({
             <label>Quantidade Máxima para Estoque</label>
             <input
               type="number"
-              value={produto.quantidadeMaxima}
+              value={produto.quantidadeMax}
               onChange={(e) =>
-                setProduto({ ...produto, quantidadeMaxima: e.target.value })
+                setProduto({ ...produto, quantidadeMax: e.target.value })
               }
             />
           </div>

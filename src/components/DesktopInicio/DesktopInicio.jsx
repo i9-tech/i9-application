@@ -1,3 +1,5 @@
+import IMAGEM_INSTITUCIONAL from '../../assets/imagem_institucional.png'
+
 const DesktopInicio = () => {
   return (
     <>
@@ -24,7 +26,7 @@ const DesktopInicio = () => {
         </div>
 
         <div className="inicioImagem">
-          <img src="src\assets\top-viewtop-view-manager-employee-doing-teamwork-business-office-looking-charts-laptop-display (1) 1.png" alt="Gestão Empresarial" />
+          <img src={IMAGEM_INSTITUCIONAL} alt="Gestão Empresarial" />
         </div>
       </article>
 

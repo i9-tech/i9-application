@@ -16,7 +16,7 @@ export function Produtos() {
   const [imagem, setImagem] = useState("");
 
   useEffect(() => {
-    if (produtoSelecionado) {
+    if (params != null) {
       api
         .get(`/produtos/${params.id}`)
         .then((res) => {

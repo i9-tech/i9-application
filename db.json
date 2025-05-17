@@ -382,6 +382,31 @@
           "id": 1
         }
       }
+    },
+    {
+      "id": "acc6",
+      "codigo": "5050",
+      "nome": "pão sovalight",
+      "quantidade": 10,
+      "valorCompra": "50",
+      "valorUnitario": "70",
+      "quantidadeMin": 10,
+      "quantidadeMax": 50,
+      "descricao": "o pão sovado de osasco",
+      "dataRegistro": "2025-05-17",
+      "imagem": null,
+      "setor": {
+        "id": 1
+      },
+      "categoria": {
+        "id": 2
+      },
+      "funcionario": {
+        "id": 1
+      },
+      "empresa": {
+        "id": 1
+      }
     }
   ],
   "pratos": [

@@ -10,22 +10,34 @@ const ProdutoEstoque = ({ produto, buscar }) => {
   const [dataFormatada, setDataFormatada] = useState("");
   const [valorCompraFormatado, setValorCompraFormatado] = useState("");
   const [valorUnitarioFormatado, setValorUnitarioFormatado] = useState("");
-  
+
 
   useEffect(() => {
     formatarDados(produto)
-  },[])
+  }, [])
 
-  // FORMATAR DADOS AQUI
+
   const formatarDados = (produto) => {
 
+    /// FORMATAÇÃO DATA
+    const dataFormatada = new Date(produto.dataRegistro).toLocaleDateString("pt-BR")
 
-    // VALORES NÃO ESTÃO FORMATADOS!
-    // ISSO É APENAS PARA RENDERIZAR NA TELA ALGUM VALOR!!
-    // FORMATE OS DADOS DENTRO DOS PARENTESES E POR FIM DEFINA OS RESULTADOS NESSES set
-    setDataFormatada(produto.dataRegistro);
-    setValorCompraFormatado(produto.valorCompra);
-    setValorUnitarioFormatado(produto.valorUnitario);
+    setDataFormatada(dataFormatada)
+
+    // FORMATAÇÃO VALOR
+    const CompraFormatado = Number(produto.valorCompra).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
+
+    setValorCompraFormatado(CompraFormatado);
+    
+    const UnitarioFormatado = Number(produto.valorUnitario).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
+
+    setValorUnitarioFormatado(UnitarioFormatado);
   }
 
   const editar = (produto) => {
@@ -47,32 +59,32 @@ const ProdutoEstoque = ({ produto, buscar }) => {
   };
 
   return (
-      <tr className="linha-produto-prod">
-        <td>{produto.codigo}</td>
-        <td>
-          <div className="imagem-container-prod">
-            <img src={produto.imagem} alt={produto.nome} />
-          </div>
-        </td>
-        <td>{produto.nome}</td>
-        <td>R$ {valorCompraFormatado}</td>
-        <td>R$ {valorUnitarioFormatado}</td>
-        <td>
-          <span
-            data-tooltip-id="tooltip-quantidade"
-            data-tooltip-content={`Estoque máximo: ${produto.quantidadeMax}\nEstoque mínimo: ${produto.quantidadeMin}`}
-            style={{ display: "inline-block", width: "100%", cursor: "pointer" }}
-          >
-            {produto.quantidade}
-          </span>
-        </td>
-        <td>{dataFormatada}</td>
-        <td title={produto.descricao}>{produto.descricao}</td>
-        <td className="acoes-prod">
-          <button onClick={() => editar(produto)}>✏️</button> |
-          <button onClick={() => deletar(produto.id)}>🗑️</button>
-        </td>
-      </tr>
+    <tr className="linha-produto-prod">
+      <td>{produto.codigo}</td>
+      <td>
+        <div className="imagem-container-prod">
+          <img src={produto.imagem} alt={produto.nome} />
+        </div>
+      </td>
+      <td>{produto.nome}</td>
+      <td>{valorCompraFormatado}</td>
+      <td>{valorUnitarioFormatado}</td>
+      <td>
+        <span
+          data-tooltip-id="tooltip-quantidade"
+          data-tooltip-content={`Estoque máximo: ${produto.quantidadeMax}\nEstoque mínimo: ${produto.quantidadeMin}`}
+          style={{ display: "inline-block", width: "100%", cursor: "pointer" }}
+        >
+          {produto.quantidade}
+        </span>
+      </td>
+      <td>{dataFormatada}</td>
+      <td title={produto.descricao}>{produto.descricao}</td>
+      <td className="acoes-prod">
+        <button onClick={() => editar(produto)}>✏️</button> |
+        <button onClick={() => deletar(produto.id)}>🗑️</button>
+      </td>
+    </tr>
   );
 };
 

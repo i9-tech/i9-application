@@ -19,21 +19,23 @@ export function Funcionarios() {
 
 
   useEffect(() => {
-    const fetchFuncionarios = async () => {
-      try {
-        const response = await api.get(`/colaboradores/${funcionarioLogin.empresaId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        setFuncionarios(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar os funcionários:", error);
-      }
-    };
+    buscarFuncionarios();
+  }, [funcionarios]);
 
-    fetchFuncionarios();
-  }, []);
+  const buscarFuncionarios = async () => {
+    api
+    .get(`/colaboradores/${funcionarioLogin.empresaId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      setFuncionarios(res.data);
+    })
+    .catch((err) => {
+      console.log("Erro ao buscar funcionários: ", err)
+    })
+  };
 
   const handleSelecionar = (funcionario) => {
     setFuncionarioSelecionado(funcionario);
@@ -80,7 +82,7 @@ export function Funcionarios() {
           .then((response) => {
             console.log("Funcionário deletado com sucesso:", response.data);
             toast.success("Funcionário excluído com sucesso!");
-            setTimeout(() => window.location.reload(), 2000);
+            buscarFuncionarios();
           })
           .catch((error) => {
             console.error("Erro ao deletar funcionário:", error);
@@ -96,7 +98,7 @@ export function Funcionarios() {
       <LayoutTela titulo={"Cadastro de Funcionário"}>
       <div className="container-funcionario">
         <div className="coluna-esquerda">
-          <CadastroFuncionarioFormulario funcionarioSelecionado={funcionarioSelecionado} setFuncionarioSelecionado={setFuncionarioSelecionado} />
+          <CadastroFuncionarioFormulario funcionarioSelecionado={funcionarioSelecionado} setFuncionarioSelecionado={setFuncionarioSelecionado} buscarFuncionarios={buscarFuncionarios}/>
         </div>
 
         <div className="coluna-meio">

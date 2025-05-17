@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 const CadastroFuncionarioFormulario = ({
   funcionarioSelecionado,
   setFuncionarioSelecionado,
+  buscarFuncionarios,
 }) => {
   const funcionario = getFuncionario();
 
@@ -126,7 +127,7 @@ const CadastroFuncionarioFormulario = ({
         .then((response) => {
           console.log("Funcionário cadastrado com sucesso:", response.data);
           toast.success("Funcionário cadastrado com sucesso!");
-          setTimeout(() => window.location.reload(), 2000);
+          buscarFuncionarios();
         })
         .catch((error) => {
           console.error("Erro ao cadastrar funcionário:", error);
@@ -162,7 +163,7 @@ const CadastroFuncionarioFormulario = ({
       .then((response) => {
         console.log("Funcionário editado com sucesso:", response.data);
         toast.success("Funcionário editado com sucesso!");
-        setTimeout(() => window.location.reload(), 2000);
+        buscarFuncionarios();
       })
       .catch((error) => {
         console.error("Erro ao editar funcionário:", error);

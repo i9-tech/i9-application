@@ -15,7 +15,6 @@
     align-items: end;
     gap: 8px;
   }
-
 }
 .tela-comandas {
   width: 95%;
@@ -83,20 +82,20 @@
           height: auto;
           gap: 4px;
           padding-left: 8px;
-          
+
           .imagem {
             width: 25%;
             height: 69px;
             border-radius: 5px;
             /* background-color: #0f14b8; */
-            
+
             img {
               width: 100%;
               height: 100%;
               border-radius: 5px;
             }
           }
-          
+
           .itemInfo {
             /* background-color: yellow; */
             width: 60%;
@@ -105,11 +104,11 @@
             /* background-color: yellow; */
             flex-direction: column;
             padding-left: 4px;
-            
+
             .observacao {
               font-size: 16px;
               color: red;
-              
+
               span {
                 font-weight: bold;
                 font-size: 16px;
@@ -143,6 +142,77 @@
             color: red;
           }
         }
+      }
+    }
+  }
+}
+
+.tela-comandas-teste {
+  width: 95%;
+  height: 100%;
+  /* background-color: brown; */
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  .linha-comandas-teste {
+    display: flex;
+    width: 100%;
+    gap: 2%;
+  }
+
+  .comanda-container-teste {
+    width: 33%;
+    height: auto;
+    margin-bottom: 3%;
+
+    .comanda-teste {
+      width: 100%;
+      height: auto;
+      background: #f4f4f4;
+      border-radius: 2%;
+
+      .cabecalho-comanda-teste {
+        background-color: springgreen;
+        width: 100%;
+        padding: 30px;
+        display: flex;
+      }
+
+      .corpo-comanda-teste {
+        background-color: chocolate;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        gap: 10px;
+
+        .item-comanda-teste {
+          background-color: yellow;
+          width: 100%;
+          padding: 22px;
+        }
+
+        .info-comanda-teste {
+          background-color: aqua;
+          width: 100%;
+          border-bottom: 1px solid #ddd;
+          border-top: 1px solid #ddd;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+
+      .rodape-comanda-teste {
+        background-color: hsl(276, 100%, 50%);
+        width: 100%;
+        display: flex;
+        padding: 40px;
+        padding-left: 16px;
       }
     }
   }

@@ -11,9 +11,13 @@ import RotaPrivada from "./routes/RotaPrivada";
 import NaoAutorizado from "./pages/NaoAutorizado/NaoAutorizado";
 import { CadastroSetorCategoria } from "./pages/CadastroSetorCategoria/CadastroSetorCategoria";
 import LayoutTela from "./components/LayoutTela/LayoutTela";
+import TesteGrid from "./pages/Cozinha/TesteGrid";
 
 
 function App() {
+
+  return <TesteGrid/>
+
   return (
     <>
       <main>

@@ -23,7 +23,7 @@ function App() {
         <Route path="/estoque/formulario-produtos/:id" element={<Produtos />}/>
         <Route path="/estoque-pratos" element={<EstoquePratos />} />
         <Route path="/estoque-pratos/formulario-pratos" element={<Pratos />} />
-        <Route path="/estoque-pratos/formulario-produtos/:id" element={<Pratos />}/>
+        <Route path="/estoque-pratos/formulario-pratos/:id" element={<Pratos />}/>
       </Routes>
     );
 

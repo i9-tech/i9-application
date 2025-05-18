@@ -2,19 +2,14 @@ import React from "react";
 import "./PratoFoto.css";
 import imagemPadrao from "../../../assets/arroz.png";
 
-const PratoFoto = ({ imagem, descricao, setDescricao }) => {
-  const caminhoImagem = imagem || imagemPadrao;
-
-  const handleDescricaoChange = (e) => {
-    if (setDescricao) setDescricao(e.target.value);
-  };
+const PratoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
 
   return (
     <div className="foto-produto">
       <div className="bloco-imagem">
         <label className="label-foto">Foto do Prato</label>
         <img
-          src={caminhoImagem}
+          src={imagem ? imagem : imagemPadrao}
           alt="Foto do produto"
           className="imagem-preview"
         />
@@ -26,7 +21,7 @@ const PratoFoto = ({ imagem, descricao, setDescricao }) => {
         <textarea
           id="descricao"
           value={descricao}
-          onChange={handleDescricaoChange}
+          onChange={(e) => {setDescricao(e.target.value)}}
           rows="8"
         />
       </div>

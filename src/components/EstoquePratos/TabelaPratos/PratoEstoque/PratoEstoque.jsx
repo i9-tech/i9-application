@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./PratoEstoque.css";
 import { useNavigate } from "react-router-dom";
+import api from "../../../../provider/api";
 
 const PratoEstoque = ({ prato, buscar }) => {
   const navigate = useNavigate();

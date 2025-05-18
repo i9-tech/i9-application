@@ -2,7 +2,7 @@ import CabecalhoPratos from "./CabecalhoPratos/CabecalhoPratos";
 import PratoEstoque from "./PratoEstoque/PratoEstoque";
 import "./TabelaPratos.css";
 
-const TabelaPratos = ({ pratos, filtros, buscarPratos = {} }) => {
+const TabelaPratos = ({ pratos, buscarPratos, filtros = {} }) => {
   const { status, categoria, setor } = filtros;
 
   const pratosFiltrados = pratos.filter((p) => {
@@ -15,16 +15,6 @@ const TabelaPratos = ({ pratos, filtros, buscarPratos = {} }) => {
 
     return true;
   });
-
-  const handleDelete = (id) => {
-    if (window.confirm("Deseja excluir este prato?")) {
-      setPratos((prev) => prev.filter((p) => p.id !== id));
-    } 
-  };
-
-  const handleEdit = (prato) => {
-    alert(`Editar prato: ${prato.nome}\n(ID: ${prato.id})`);
-  };
 
   return (
     <div className="tabela-container">

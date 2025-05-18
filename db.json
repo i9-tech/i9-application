@@ -439,20 +439,20 @@
       "id": "1",
       "nome": "Feijoada",
       "imagem": "https://via.placeholder.com/80",
-      "valorVenda": 35.5,
+      "valorVenda": 36,
       "descricao": "Feijoada completa com arroz e couve",
       "disponivel": true,
       "setor": {
         "id": 1
       },
       "categoria": {
-        "id": 1
+        "id": 2
       },
       "funcionario": {
-        "id": 1,
-        "empresa": {
-          "id": 1
-        }
+        "id": 1
+      },
+      "empresa": {
+        "id": 1
       }
     },
     {

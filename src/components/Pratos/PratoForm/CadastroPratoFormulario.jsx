@@ -7,77 +7,103 @@ import { useNavigate } from "react-router-dom";
 
 const categorias = ["Bebida", "Entrada", "Prato Principal", "Sobremesa"];
 
-const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubmit }) => {
+const CadastroPratoFormulario = ({
+  pratoSelecionado,
+  setPratoSelecionado,
+  descricao,
+  setDescricao,
+  imagem,
+  setImagem,
+}) => {
   const navigate = useNavigate();
   const [prato, setPrato] = useState({
     nome: "",
-    preco: "",
-    tempoPreparo: "",
-    categoria: "",
-    ingredientes: [],
+    valorVenda: "",
   });
-
-  const [produtos, setProdutos] = useState([]);
-
-  useEffect(() => {
-    api
-      .get("/produtos")
-      .then((res) => setProdutos(res.data))
-      .catch((err) => console.error("Erro ao buscar produtos:", err));
-  }, []);
 
   useEffect(() => {
     if (pratoSelecionado) {
       setPrato({
         nome: pratoSelecionado.nome || "",
-        preco: pratoSelecionado.preco || "",
-        tempoPreparo: pratoSelecionado.tempoPreparo || "",
-        categoria: pratoSelecionado.categoria || "",
-        ingredientes: pratoSelecionado.ingredientes || [],
+        valorVenda: pratoSelecionado.valorVenda || "",
       });
     }
   }, [pratoSelecionado]);
 
+  const limparFormulario = () => {
+    setPrato({
+      nome: "",
+      valorVenda: "",
+    });
+    setPratoSelecionado(null);
+    navigate("/estoque-pratos");
+  };
+
   const validarCampos = () => {
-    if (!prato.nome || !prato.preco || !prato.categoria) {
+    if (!prato.nome || !prato.valorVenda || !prato.categoria) {
       toast.error("Preencha todos os campos obrigatórios!");
       return false;
     }
-    const precoValido = parseFloat(prato.preco);
-    if (isNaN(precoValido) || precoValido < 0) {
+    if (isNaN(prato.valorVenda) || prato.valorVenda < 0) {
       toast.error("Preço inválido!");
       return false;
     }
     return true;
   };
 
-  const limparFormulario = () => {
-    setPrato({
-      nome: "",
-      preco: "",
-      tempoPreparo: "",
-      categoria: "",
-      ingredientes: [],
-    });
-    setPratoSelecionado(null);
-    navigate("/estoque-pratos");
+  const salvarPrato = () => {
+    // const token = localStorage.getItem("token");
+
+    const dados = {
+      nome: prato.nome,
+      imagem: imagem,
+      valorVenda: parseFloat(prato.valorVenda),
+      descricao: descricao,
+      disponivel: true,
+      setor: { id: 1 },
+      categoria: { id: 2 },
+      funcionario: { id: 1 },
+      empresa: { id: 1 },
+    };
+
+     const metodo = pratoSelecionado
+      ? api.patch(
+          `/pratos/${pratoSelecionado.id}`,
+          dados
+          // , {
+          //   headers: { Authorization: `Bearer ${token}` },}
+        )
+      : api.post(
+          "/pratos",
+          dados
+          // , {headers: { Authorization: `Bearer ${token}` },}
+        );
+
+    metodo
+      .then(() => {
+        toast.success(
+          pratoSelecionado
+            ? "Prato editado com sucesso!"
+            : "Prato cadastrado com sucesso!"
+        );
+        limparFormulario();
+      })
+      .catch((error) => {
+        console.error("Erro ao salvar prato:", error);
+        toast.error("Erro ao salvar prato!");
+      });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validarCampos()) {
-      const dados = {
-        ...prato,
-        preco: parseFloat(prato.preco),
-        tempoPreparo: prato.tempoPreparo ? parseInt(prato.tempoPreparo) : null,
-      };
-      onSubmit(dados); // ✨ envia os dados para o pai (Pratos.jsx)
-    }
+    if (validarCampos()) salvarPrato();
   };
 
   return (
     <div className="formulario-prato">
-      <p className="descricao-prato">Preencha os dados do prato que deseja adicionar ao cardápio 🍽️</p>
+      <p className="descricao-prato">
+        Preencha os dados do prato que deseja adicionar ao cardápio 🍽️
+      </p>
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>
         <div className="grupo-inputs">
@@ -94,10 +120,12 @@ const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubm
           <div>
             <label>Preço (R$) *</label>
             <input
-              type="number"
+              type="text"
               step="0.01"
-              value={prato.preco}
-              onChange={(e) => setPrato({ ...prato, preco: e.target.value })}
+              value={prato.valorVenda}
+              onChange={(e) =>
+                setPrato({ ...prato, valorVenda: e.target.value })
+              }
               required
             />
           </div>
@@ -107,7 +135,9 @@ const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubm
               type="number"
               min="0"
               value={prato.tempoPreparo}
-              onChange={(e) => setPrato({ ...prato, tempoPreparo: e.target.value })}
+              onChange={(e) =>
+                setPrato({ ...prato, tempoPreparo: e.target.value })
+              }
             />
           </div>
         </div>
@@ -130,22 +160,7 @@ const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubm
 
         <div className="grupo-inputs">
           <label>Ingredientes</label>
-          <select
-            multiple
-            value={prato.ingredientes}
-            onChange={(e) =>
-              setPrato({
-                ...prato,
-                ingredientes: Array.from(e.target.selectedOptions, (opt) => opt.value),
-              })
-            }
-          >
-            {produtos.map((prod) => (
-              <option key={prod.id} value={prod.id}>
-                {prod.nome}
-              </option>
-            ))}
-          </select>
+          <input type="text" disabled style={{cursor: 'not-allowed', backgroundColor: '#d3d3d3', height: '5.6rem'}}/>
         </div>
 
         <div className="botoes-prato">

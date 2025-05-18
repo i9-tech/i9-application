@@ -407,6 +407,31 @@
       "empresa": {
         "id": 1
       }
+    },
+    {
+      "id": "54ef",
+      "codigo": "0167",
+      "nome": "Beringela",
+      "quantidade": 30,
+      "valorCompra": "40",
+      "valorUnitario": "60",
+      "quantidadeMin": 30,
+      "quantidadeMax": 60,
+      "descricao": "Beringela roxa",
+      "dataRegistro": "2025-05-18",
+      "imagem": "",
+      "setor": {
+        "id": 1
+      },
+      "categoria": {
+        "id": 2
+      },
+      "funcionario": {
+        "id": 1
+      },
+      "empresa": {
+        "id": 1
+      }
     }
   ],
   "pratos": [

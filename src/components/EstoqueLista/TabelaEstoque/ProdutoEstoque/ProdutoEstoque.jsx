@@ -19,7 +19,7 @@ const ProdutoEstoque = ({ produto, buscar }) => {
 
   const formatarDados = (produto) => {
 
-    /// FORMATAÇÃO DATA
+    // FORMATAÇÃO DATA
     const dataFormatada = new Date(produto.dataRegistro).toLocaleDateString("pt-BR")
 
     setDataFormatada(dataFormatada)

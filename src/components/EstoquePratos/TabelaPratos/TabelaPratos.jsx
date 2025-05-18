@@ -2,13 +2,13 @@ import CabecalhoPratos from "./CabecalhoPratos/CabecalhoPratos";
 import PratoEstoque from "./PratoEstoque/PratoEstoque";
 import "./TabelaPratos.css";
 
-const TabelaPratos = ({ pratos, filtros = {} }) => {
+const TabelaPratos = ({ pratos, filtros, buscarPratos = {} }) => {
   const { status, categoria, setor } = filtros;
 
   const pratosFiltrados = pratos.filter((p) => {
     if (status) {
-      if (status === "ativo" && !p.ativo) return false;
-      if (status === "inativo" && p.ativo) return false;
+      if (status === "disponível" && !p.disponivel) return false;
+      if (status === "indisponível" && p.disponivel) return false;
     }
     if (categoria && categoria !== "" && p.categoria !== categoria) return false;
     if (setor && setor !== "" && p.setor !== setor) return false;
@@ -19,7 +19,7 @@ const TabelaPratos = ({ pratos, filtros = {} }) => {
   const handleDelete = (id) => {
     if (window.confirm("Deseja excluir este prato?")) {
       setPratos((prev) => prev.filter((p) => p.id !== id));
-    }
+    } 
   };
 
   const handleEdit = (prato) => {
@@ -36,8 +36,7 @@ const TabelaPratos = ({ pratos, filtros = {} }) => {
               <PratoEstoque
                 key={prato.id}
                 prato={prato}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
+                buscar={buscarPratos}
               />
             ))
           ) : (

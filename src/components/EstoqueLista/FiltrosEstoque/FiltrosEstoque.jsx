@@ -52,6 +52,13 @@ function FiltrosEstoque({ onAdicionarProduto, filtroStatus, setFiltroStatus }) {
           <option>Mercado</option>
         </select>
 
+        
+        <select>
+          <option>Selecione a categoria</option>
+          <option>Doce</option>
+          <option>Bebida</option>
+        </select>
+
         <button
           className="add-btn-prod"
           onClick={() => {

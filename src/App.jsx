@@ -15,8 +15,17 @@ import EstoquePratos from "./pages/EstoquePratos/EstoquePratos";
 import Pratos from "./pages/FormularioPratos/Pratos";
 import Produtos from "./pages/FormularioProdutos/Produtos";
 
-
 function App() {
+    return (
+      <Routes>
+        <Route path="/estoque" element={<Estoque />} />
+        <Route path="/estoque/formulario-produtos" element={<Produtos />} />
+        <Route path="/estoque/formulario-produtos/:id" element={<Produtos />}/>
+        <Route path="/estoque-pratos" element={<EstoquePratos />} />
+        <Route path="/estoque-pratos/formulario-pratos" element={<Pratos />} />
+        <Route path="/estoque-pratos/formulario-pratos/:id" element={<Pratos />}/>
+      </Routes>
+    );
 
   return (
     <>
@@ -73,7 +82,7 @@ function App() {
               </RotaPrivada>
             }
           />
-            <Route
+          <Route
             path="/setor-categoria"
             element={
               <RotaPrivada permissao="ROLE_PROPRIETARIO">
@@ -98,11 +107,8 @@ function App() {
               </RotaPrivada>
             }
           />
-        
-          <Route
-            path="/unauthorized"
-            element={<NaoAutorizado />}
-              />
+
+          <Route path="/unauthorized" element={<NaoAutorizado />} />
         </Routes>
       </main>
     </>

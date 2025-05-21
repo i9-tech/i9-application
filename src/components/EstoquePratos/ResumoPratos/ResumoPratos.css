@@ -21,7 +21,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 230%;
+  min-width: 400px;
   text-align: center;
 }
 
@@ -88,3 +88,14 @@
 .cinza {
   background-color: #999;
 }
+
+.azul {
+  background-color: #2196f3;
+}
+
+
+@media (min-width: 800px) and (max-width: 1000px) {
+    .resumo-item {
+      min-width: 2000px;
+    }
+  }

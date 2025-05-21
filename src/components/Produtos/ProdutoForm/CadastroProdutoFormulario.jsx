@@ -6,6 +6,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
+const categorias = ["Bebida", "Entrada", "Prato Principal", "Sobremesa"];
+const setores = ["Cozinha", "Estoque", "Atendimento"];
+
 const CadastroProdutoFormulario = ({
   produtoSelecionado,
   setProdutoSelecionado,
@@ -17,7 +20,8 @@ const CadastroProdutoFormulario = ({
     codigo: "",
     nome: "",
     quantidade: "",
-    validade: "",
+    categoria: "",
+    setor: "",
     valorCompra: "",
     valorVenda: "",
     quantidadeMinima: "",
@@ -30,7 +34,8 @@ const CadastroProdutoFormulario = ({
         codigo: produtoSelecionado.codigo || "",
         nome: produtoSelecionado.nome || "",
         quantidade: produtoSelecionado.estoque || "",
-        validade: produtoSelecionado.validade || "",
+        categoria: produtoSelecionado.categoria || "",
+        setor: produtoSelecionado.setor || "",
         valorCompra: produtoSelecionado.compra || "",
         valorVenda: produtoSelecionado.venda || "",
         quantidadeMinima: produtoSelecionado.minEstoque || "",
@@ -44,7 +49,8 @@ const CadastroProdutoFormulario = ({
       codigo: "",
       nome: "",
       quantidade: "",
-      validade: "",
+      categoria: "",
+      setor: "",
       valorCompra: "",
       valorVenda: "",
       quantidadeMinima: "",
@@ -59,7 +65,8 @@ const CadastroProdutoFormulario = ({
       !produto.codigo ||
       !produto.nome ||
       !produto.quantidade ||
-      !produto.validade
+      !produto.categoria ||
+      !produto.setor
     ) {
       toast.error("Preencha todos os campos obrigatórios!");
       return false;
@@ -86,7 +93,8 @@ const CadastroProdutoFormulario = ({
       codigo: produto.codigo,
       nome: produto.nome,
       estoque: parseInt(produto.quantidade),
-      validade: produto.validade,
+      categoria: produto.categoria,
+      setor: produto.setor,
       compra: produto.valorCompra,
       venda: produto.valorVenda,
       minEstoque: parseInt(produto.quantidadeMinima),
@@ -130,7 +138,8 @@ const CadastroProdutoFormulario = ({
       </p>
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>
-        <div className="grupo-inputs">
+      <div className="linha-dupla">
+          <div>
           <label htmlFor="codigo">Código do Produto</label>
           <input
             id="codigo"
@@ -140,6 +149,19 @@ const CadastroProdutoFormulario = ({
             onChange={(e) => setProduto({ ...produto, codigo: e.target.value })}
             required
           />
+          </div>
+          <div>
+          <label htmlFor="quantidade">Quantidade para Cadastro</label>
+            <input
+              id="quantidade"
+              type="number"
+              value={produto.quantidade}
+              onChange={(e) =>
+                setProduto({ ...produto, quantidade: e.target.value })
+              }
+              required
+            />
+          </div>
         </div>
 
         <div className="grupo-inputs">
@@ -155,29 +177,38 @@ const CadastroProdutoFormulario = ({
         </div>
 
         <div className="linha-dupla">
-          <div>
-            <label htmlFor="quantidade">Quantidade para Cadastro</label>
-            <input
-              id="quantidade"
-              type="number"
-              value={produto.quantidade}
+          <div className="grupo-inputs">
+            <label>Categoria</label>
+            <select
+              value={produto.categoria}
               onChange={(e) =>
-                setProduto({ ...produto, quantidade: e.target.value })
+                setProduto({ ...produto, categoria: e.target.value })
               }
               required
-            />
+            >
+              <option value="">Selecione uma categoria</option>
+              {categorias.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
           </div>
-          <div>
-            <label htmlFor="validade">Data de Validade</label>
-            <input
-              id="validade"
-              type="date"
-              value={produto.validade}
-              onChange={(e) =>
-                setProduto({ ...produto, validade: e.target.value })
-              }
+
+          <div className="grupo-inputs">
+            <label>Setor</label>
+            <select
+              value={produto.setor}
+              onChange={(e) => setProduto({ ...produto, setor: e.target.value })}
               required
-            />
+            >
+              <option value="">Selecione um setor</option>
+              {setores.map((set) => (
+                <option key={set} value={set}>
+                  {set}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

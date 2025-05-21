@@ -6,13 +6,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const categorias = ["Bebida", "Entrada", "Prato Principal", "Sobremesa"];
+const setores = ["Cozinha", "Estoque", "Atendimento"];
 
-const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubmit }) => {
+const CadastroPratoFormulario = ({
+  pratoSelecionado,
+  setPratoSelecionado,
+  onSubmit,
+}) => {
   const navigate = useNavigate();
   const [prato, setPrato] = useState({
     nome: "",
-    preco: "",
-    tempoPreparo: "",
+    venda: "",
+    setor: "",
     categoria: "",
     ingredientes: [],
   });
@@ -30,8 +35,8 @@ const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubm
     if (pratoSelecionado) {
       setPrato({
         nome: pratoSelecionado.nome || "",
-        preco: pratoSelecionado.preco || "",
-        tempoPreparo: pratoSelecionado.tempoPreparo || "",
+        venda: pratoSelecionado.venda || "",
+        setor: pratoSelecionado.setor || "",
         categoria: pratoSelecionado.categoria || "",
         ingredientes: pratoSelecionado.ingredientes || [],
       });
@@ -39,13 +44,13 @@ const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubm
   }, [pratoSelecionado]);
 
   const validarCampos = () => {
-    if (!prato.nome || !prato.preco || !prato.categoria) {
+    if (!prato.nome || !prato.venda || !prato.categoria) {
       toast.error("Preencha todos os campos obrigatórios!");
       return false;
     }
-    const precoValido = parseFloat(prato.preco);
-    if (isNaN(precoValido) || precoValido < 0) {
-      toast.error("Preço inválido!");
+    const vendaValida = parseFloat(prato.preco);
+    if (isNaN(vendaValida) || vendaValida < 0) {
+      toast.error("Venda inválida!");
       return false;
     }
     return true;
@@ -54,8 +59,8 @@ const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubm
   const limparFormulario = () => {
     setPrato({
       nome: "",
-      preco: "",
-      tempoPreparo: "",
+      venda: "",
+      setor: "",
       categoria: "",
       ingredientes: [],
     });
@@ -68,20 +73,22 @@ const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubm
     if (validarCampos()) {
       const dados = {
         ...prato,
-        preco: parseFloat(prato.preco),
+        venda: parseFloat(prato.venda),
         tempoPreparo: prato.tempoPreparo ? parseInt(prato.tempoPreparo) : null,
       };
-      onSubmit(dados); // ✨ envia os dados para o pai (Pratos.jsx)
+      onSubmit(dados);
     }
   };
 
   return (
     <div className="formulario-prato">
-      <p className="descricao-prato">Preencha os dados do prato que deseja adicionar ao cardápio 🍽️</p>
+      <p className="descricao-prato">
+        Preencha os dados do prato que deseja adicionar ao cardápio 🍽️
+      </p>
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>
         <div className="grupo-inputs">
-          <label>Nome do Prato *</label>
+          <label>Nome do Prato </label>
           <input
             type="text"
             value={prato.nome}
@@ -90,42 +97,51 @@ const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubm
           />
         </div>
 
-        <div className="linha-dupla">
-          <div>
-            <label>Preço (R$) *</label>
-            <input
-              type="number"
-              step="0.01"
-              value={prato.preco}
-              onChange={(e) => setPrato({ ...prato, preco: e.target.value })}
-              required
-            />
-          </div>
-          <div>
-            <label>Tempo de Preparo (min)</label>
-            <input
-              type="number"
-              min="0"
-              value={prato.tempoPreparo}
-              onChange={(e) => setPrato({ ...prato, tempoPreparo: e.target.value })}
-            />
-          </div>
+        <div className="grupo-inputs">
+          <label>Venda (R$) </label>
+          <input
+            type="number"
+            step="0.01"
+            value={prato.venda}
+            onChange={(e) => setPrato({ ...prato, venda: e.target.value })}
+            required
+          />
         </div>
 
-        <div className="grupo-inputs">
-          <label>Categoria *</label>
-          <select
-            value={prato.categoria}
-            onChange={(e) => setPrato({ ...prato, categoria: e.target.value })}
-            required
-          >
-            <option value="">Selecione uma categoria</option>
-            {categorias.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
+        <div className="linha-dupla">
+          <div className="grupo-inputs">
+            <label>Categoria</label>
+            <select
+              value={prato.categoria}
+              onChange={(e) =>
+                setPrato({ ...prato, categoria: e.target.value })
+              }
+              required
+            >
+              <option value="">Selecione uma categoria</option>
+              {categorias.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="grupo-inputs">
+            <label>Setor</label>
+            <select
+              value={prato.setor}
+              onChange={(e) => setPrato({ ...prato, setor: e.target.value })}
+              required
+            >
+              <option value="">Selecione um setor</option>
+              {setores.map((set) => (
+                <option key={set} value={set}>
+                  {set}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="grupo-inputs">
@@ -136,7 +152,10 @@ const CadastroPratoFormulario = ({ pratoSelecionado, setPratoSelecionado, onSubm
             onChange={(e) =>
               setPrato({
                 ...prato,
-                ingredientes: Array.from(e.target.selectedOptions, (opt) => opt.value),
+                ingredientes: Array.from(
+                  e.target.selectedOptions,
+                  (opt) => opt.value
+                ),
               })
             }
           >

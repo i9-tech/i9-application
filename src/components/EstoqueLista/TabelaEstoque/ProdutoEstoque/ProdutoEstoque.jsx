@@ -10,6 +10,7 @@ const ProdutoEstoque = ({ produto, buscar }) => {
   const [dataFormatada, setDataFormatada] = useState("");
   const [valorCompraFormatado, setValorCompraFormatado] = useState("");
   const [valorUnitarioFormatado, setValorUnitarioFormatado] = useState("");
+  const tokenURL = ""
 
 
   useEffect(() => {
@@ -63,7 +64,7 @@ const ProdutoEstoque = ({ produto, buscar }) => {
       <td>{produto.codigo}</td>
       <td>
         <div className="imagem-container-prod">
-          <img src={produto.imagem} alt={produto.nome} />
+          <img src={(produto.imagem) + tokenURL} alt={produto.nome} />
         </div>
       </td>
       <td>{produto.nome}</td>

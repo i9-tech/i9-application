@@ -29,7 +29,7 @@ export function Produtos() {
           console.error("Erro ao ao buscar produtos:", err);
         });
     }
-  }, [params]);
+  }, []);
 
   return (
     <>

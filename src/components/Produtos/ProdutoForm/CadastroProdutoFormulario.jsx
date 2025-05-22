@@ -16,7 +16,8 @@ const CadastroProdutoFormulario = ({
 }) => {
   const navigate = useNavigate();
   const funcionario = getFuncionario();
-  const hoje = new Date().toISOString().split("T")[0];;
+  const hoje = new Date().toISOString().split("T")[0];
+  const token = localStorage.getItem("token");
 
   const [produto, setProduto] = useState({
     codigo: "",
@@ -80,9 +81,27 @@ const CadastroProdutoFormulario = ({
     return true;
   };
 
-  const salvarProduto = () => {
-    // const token = localStorage.getItem("token");
+  const buscarURLImagem = () => {
+    const formData = new FormData();
+    formData.append("file", imagem);
 
+    api
+      .post("/azure/enviar-imagem", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        // console.log("data: ", res);
+        salvarProduto(res.data.imageUrl);
+      })
+      .catch((err) => {
+        console.log("erro ao adicionar imagem ao blob storage: ", err);
+      });
+  };
+
+  const salvarProduto = (urlImagem) => {
     const dados = {
       codigo: produto.codigo,
       nome: produto.nome,
@@ -93,25 +112,20 @@ const CadastroProdutoFormulario = ({
       quantidadeMax: parseInt(produto.quantidadeMax),
       descricao: descricao,
       dataRegistro: produto.dataRegistro ? produto.dataRegistro : hoje,
-      imagem: imagem,
+      imagem: urlImagem,
       setor: { id: 1 },
       categoria: { id: 2 },
       funcionario: { id: 1 },
-      empresa: { id: 1 },
+      // empresa: { id: 1 },
     };
 
     const metodo = produtoSelecionado
-      ? api.patch(
-          `/produtos/${produtoSelecionado.id}`,
-          dados
-          // , {
-          //   headers: { Authorization: `Bearer ${token}` },}
-        )
-      : api.post(
-          "/produtos",
-          dados
-          // , {headers: { Authorization: `Bearer ${token}` },}
-        );
+      ? api.patch(`/produtos/1/${produtoSelecionado.id}`, dados, {
+          // headers: { Authorization: `Bearer ${token}` },
+        })
+      : api.post("/produtos/1", dados, {
+          // headers: { Authorization: `Bearer ${token}` },
+        });
 
     metodo
       .then(() => {
@@ -130,7 +144,9 @@ const CadastroProdutoFormulario = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validarCampos()) salvarProduto();
+    if (validarCampos()) {
+      buscarURLImagem();
+    }
   };
 
   return (
@@ -187,7 +203,7 @@ const CadastroProdutoFormulario = ({
               onChange={(e) =>
                 setProduto({ ...produto, validade: e.target.value })
               }
-              style={{cursor: 'not-allowed', backgroundColor: '#d3d3d3'}}
+              style={{ cursor: "not-allowed", backgroundColor: "#d3d3d3" }}
               disabled
             />
           </div>

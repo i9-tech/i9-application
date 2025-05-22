@@ -12,14 +12,18 @@ export function Estoque() {
   const [filtroStatus, setFiltroStatus] = useState(null);
   const [produtos, setProdutos] = useState([{}]);
   const [resumo, setResumo] = useState([{}]);
+  const token = localStorage.getItem("token");
+
 
   useEffect(() => {
     buscarProdutos();
-  }, [produtos]);
+  }, []);
 
   const buscarProdutos = () => {
     api
-      .get("/produtos")
+      .get("/produtos/1"
+      , {headers: { Authorization: `Bearer ${token}` }}
+      )
       .then((res) => {
         setProdutos(res.data);
         setResumo(calcularResumoEstoque(res.data));

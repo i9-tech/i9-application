@@ -4,13 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../../provider/api";
 import { Tooltip } from "react-tooltip";
+import { enviroments } from "../../../../utils/enviroments";
 
 const ProdutoEstoque = ({ produto, buscar }) => {
   const navigate = useNavigate();
   const [dataFormatada, setDataFormatada] = useState("");
   const [valorCompraFormatado, setValorCompraFormatado] = useState("");
   const [valorUnitarioFormatado, setValorUnitarioFormatado] = useState("");
-  const tokenURL = ""
+  const tokenImagem = enviroments.tokenURL;
+  const [urlImagem, setUrlImagem] = useState("");
+
 
 
   useEffect(() => {
@@ -39,6 +42,12 @@ const ProdutoEstoque = ({ produto, buscar }) => {
     });
 
     setValorUnitarioFormatado(UnitarioFormatado);
+
+    if(enviroments.ambiente === "jsonserver") {
+      setUrlImagem(produto.imagem)
+    } else {
+      setUrlImagem(produto.imagem + tokenImagem)
+    }
   }
 
   const editar = (produto) => {
@@ -64,7 +73,7 @@ const ProdutoEstoque = ({ produto, buscar }) => {
       <td>{produto.codigo}</td>
       <td>
         <div className="imagem-container-prod">
-          <img src={(produto.imagem) + tokenURL} alt={produto.nome} />
+          <img src={urlImagem} alt={produto.nome} />
         </div>
       </td>
       <td>{produto.nome}</td>

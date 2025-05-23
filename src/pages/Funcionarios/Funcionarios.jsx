@@ -10,6 +10,7 @@ import { getFuncionario } from "../../utils/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { ENDPOINTS } from "../../utils/endpoints";
 
 
 export function Funcionarios() {
@@ -21,7 +22,7 @@ export function Funcionarios() {
   useEffect(() => {
     const fetchFuncionarios = async () => {
       try {
-        const response = await api.get(`/colaboradores/${funcionarioLogin.empresaId}`, {
+        const response = await api.get(`${ENDPOINTS.FUNCIONARIOS}/${funcionarioLogin.empresaId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -70,7 +71,7 @@ export function Funcionarios() {
 
         api
           .delete(
-            `/colaboradores/${funcionario.id}/${funcionarioLogin.empresaId}`,
+            `${ENDPOINTS.FUNCIONARIOS}/${funcionario.id}/${funcionarioLogin.empresaId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

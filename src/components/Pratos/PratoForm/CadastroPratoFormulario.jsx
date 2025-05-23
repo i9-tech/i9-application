@@ -4,6 +4,7 @@ import api from "../../../provider/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../../../utils/endpoints";
 
 const categorias = ["Bebida", "Entrada", "Prato Principal", "Sobremesa"];
 
@@ -68,13 +69,13 @@ const CadastroPratoFormulario = ({
 
      const metodo = pratoSelecionado
       ? api.patch(
-          `/pratos/${pratoSelecionado.id}`,
+          `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}`,
           dados
           // , {
           //   headers: { Authorization: `Bearer ${token}` },}
         )
       : api.post(
-          "/pratos",
+          ENDPOINTS.PRATOS,
           dados
           // , {headers: { Authorization: `Bearer ${token}` },}
         );

@@ -9,6 +9,7 @@ import ModalCadastroCategoria from "../../components/Modais/ModalCadastroCategor
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { ENDPOINTS } from "../../utils/endpoints";
 
 
 export function CadastroSetorCategoria() {
@@ -25,7 +26,7 @@ export function CadastroSetorCategoria() {
     useEffect(() => {
         const fetchSetores = async () => {
             try {
-                const response = await api.get(`/setores/${funcionario.userId}`, {
+                const response = await api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
@@ -40,7 +41,7 @@ export function CadastroSetorCategoria() {
 
         const fetchCategorias = async () => {
             try {
-                const response = await api.get(`/categorias/${funcionario.userId}`, {
+                const response = await api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
@@ -77,7 +78,7 @@ export function CadastroSetorCategoria() {
                 const token = localStorage.getItem("token");
 
                 api
-                    .delete(`/setores/${setor.id}/${funcionario.userId}`, {
+                    .delete(`${ENDPOINTS.SETORES}/${setor.id}/${funcionario.userId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
@@ -119,7 +120,7 @@ export function CadastroSetorCategoria() {
                 const token = localStorage.getItem("token");
 
                 api
-                    .delete(`/categorias/${categoria.id}/${funcionario.userId}`, {
+                    .delete(`${ENDPOINTS.CATEGORIAS}/${categoria.id}/${funcionario.userId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },

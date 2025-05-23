@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import api from "../../../../provider/api";
 import { Tooltip } from "react-tooltip";
 import { enviroments } from "../../../../utils/enviroments";
+import { ENDPOINTS } from "../../../../utils/endpoints";
 
 const ProdutoEstoque = ({ produto, buscar }) => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const ProdutoEstoque = ({ produto, buscar }) => {
   const deletar = (id) => {
     if (confirm("Deseja deletar esse produto?")) {
       api
-        .delete(`produtos/${id}`)
+        .delete(`${ENDPOINTS.PRODUTOS}/${id}`)
         .then(() => {
           console.log("Produto removido com sucesso!");
           buscar();

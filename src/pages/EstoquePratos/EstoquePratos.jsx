@@ -6,6 +6,7 @@ import TabelaPratos from "../../components/EstoquePratos/TabelaPratos/TabelaPrat
 import { calcularResumoPratos } from "./DadosPratos/utilsPratos";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import api from "../../provider/api";
+import { ENDPOINTS } from "../../utils/endpoints";
 
 export function EstoquePratos() {
   const [filtros, setFiltros] = useState({
@@ -23,7 +24,7 @@ export function EstoquePratos() {
 
   const buscarPratos = () => {
     api
-      .get("/pratos")
+      .get(ENDPOINTS.PRATOS)
       .then((res) => {
         setPratos(res.data);
         setResumo(calcularResumoPratos(res.data));

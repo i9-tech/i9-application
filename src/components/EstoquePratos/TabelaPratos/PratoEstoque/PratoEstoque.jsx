@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./PratoEstoque.css";
 import { useNavigate } from "react-router-dom";
 import api from "../../../../provider/api";
+import { ENDPOINTS } from "../../../../utils/endpoints";
 
 const PratoEstoque = ({ prato, buscar }) => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const PratoEstoque = ({ prato, buscar }) => {
   const deletar = (id) => {
     if (confirm("Deseja deletar esse prato?")) {
       api
-        .delete(`pratos/${id}`)
+        .delete(`${ENDPOINTS.PRATOS}/${id}`)
         .then(() => {
           console.log("Prato removido com sucesso!");
           buscar();

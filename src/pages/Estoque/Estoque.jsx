@@ -7,6 +7,7 @@ import { calcularResumoEstoque } from "./DadosProdutos/utilsEstoque";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import api from "../../provider/api";
 import { enviroments } from "../../utils/enviroments";
+import { ENDPOINTS } from "../../utils/endpoints";
 
 export function Estoque() {
   const hoje = new Date().toLocaleDateString("en-US");
@@ -22,7 +23,7 @@ export function Estoque() {
   const buscarProdutos = () => {
     if (enviroments.ambiente === "jsonserver") {
       api
-        .get("/produtos")
+        .get(ENDPOINTS.PRODUTOS)
         .then((res) => {
           setProdutos(res.data);
           setResumo(calcularResumoEstoque(res.data));
@@ -32,7 +33,7 @@ export function Estoque() {
         });
     } else {
       api
-        .get("/produtos/1", { headers: { Authorization: `Bearer ${token}` } })
+        .get(`${ENDPOINTS.PRODUTOS}/1`, { headers: { Authorization: `Bearer ${token}` } })
         .then((res) => {
           setProdutos(res.data);
           setResumo(calcularResumoEstoque(res.data));

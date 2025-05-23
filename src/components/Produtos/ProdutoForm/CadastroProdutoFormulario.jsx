@@ -98,7 +98,7 @@ const CadastroProdutoFormulario = ({
       const formData = new FormData();
       formData.append("file", imagem);
       api
-        .post(ENDPOINTS.IMAGEM_AZURE, formData, {
+        .post(ENDPOINTS.AZURE_IMAGEM, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
@@ -134,8 +134,8 @@ const CadastroProdutoFormulario = ({
 
     if (enviroments.ambiente === "jsonserver") {
       const metodo = produtoSelecionado
-        ? api.patch(`/produtos/${produtoSelecionado.id}`, dados, {})
-        : api.post("/produtos/", dados, {});
+        ? api.patch(`${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}`, dados, {})
+        : api.post(ENDPOINTS.PRODUTOS, dados, {});
       metodo
         .then(() => {
           toast.success(
@@ -151,10 +151,10 @@ const CadastroProdutoFormulario = ({
         });
     } else {
       const metodo = produtoSelecionado
-        ? api.patch(`/produtos/1/${produtoSelecionado.id}`, dados, {
+        ? api.patch(`${ENDPOINTS.PRODUTOS}/1/${produtoSelecionado.id}`, dados, {
             headers: { Authorization: `Bearer ${token}` },
           })
-        : api.post("/produtos/1", dados, {
+        : api.post(`${ENDPOINTS.PRODUTOS}/1`, dados, {
             headers: { Authorization: `Bearer ${token}` },
           });
 

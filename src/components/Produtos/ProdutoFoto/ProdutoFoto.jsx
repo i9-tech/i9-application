@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./ProdutoFoto.css";
 import imagemPadrao from "../../../assets/arroz.png";
+import { enviroments } from "../../../utils/enviroments";
 
 const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
-  const tokenURL = "?TOKEN";
+  const tokenImagem = enviroments.tokenURL;
+  console.log("Token da imagem:", tokenImagem);
   const [previewImagem, setPreviewImagem] = useState("");
 
   useEffect(() => {
     if (typeof imagem === "string") {
-      setPreviewImagem(imagem + tokenURL);
+      setPreviewImagem(imagem + tokenImagem);
     }
 
     return () => {

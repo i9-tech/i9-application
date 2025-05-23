@@ -5,6 +5,8 @@ import { getFuncionario } from "../../../utils/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../../../utils/endpoints";
+import { ROUTERS } from "../../../utils/routers";
 
 const CadastroProdutoFormulario = ({
   produtoSelecionado,
@@ -58,7 +60,7 @@ const CadastroProdutoFormulario = ({
     setDescricao("");
     setImagem("");
     setProdutoSelecionado(null);
-    navigate("/estoque");
+    navigate(ROUTERS.ESTOQUE_PRODUTOS);
   };
 
   const validarCampos = () => {
@@ -86,7 +88,7 @@ const CadastroProdutoFormulario = ({
     formData.append("file", imagem);
 
     api
-      .post("/azure/enviar-imagem", formData, {
+      .post(ENDPOINTS.IMAGEM_AZURE, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

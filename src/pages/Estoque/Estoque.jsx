@@ -6,6 +6,7 @@ import TabelaEstoque from "../../components/EstoqueLista/TabelaEstoque/TabelaEst
 import { calcularResumoEstoque } from "./DadosProdutos/utilsEstoque";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import api from "../../provider/api";
+import { enviroments } from "../../utils/enviroments";
 
 export function Estoque() {
   const hoje = new Date().toLocaleDateString("en-US");
@@ -14,23 +15,32 @@ export function Estoque() {
   const [resumo, setResumo] = useState([{}]);
   const token = localStorage.getItem("token");
 
-
   useEffect(() => {
     buscarProdutos();
   }, []);
 
   const buscarProdutos = () => {
-    api
-      .get("/produtos/1"
-      , {headers: { Authorization: `Bearer ${token}` }}
-      )
-      .then((res) => {
-        setProdutos(res.data);
-        setResumo(calcularResumoEstoque(res.data));
-      })
-      .catch((err) => {
-        console.error("Erro ao ao buscar produtos:", err);
-      });
+    if (enviroments.ambiente === "jsonserver") {
+      api
+        .get("/produtos")
+        .then((res) => {
+          setProdutos(res.data);
+          setResumo(calcularResumoEstoque(res.data));
+        })
+        .catch((err) => {
+          console.error("Erro ao ao buscar produtos:", err);
+        });
+    } else {
+      api
+        .get("/produtos/1", { headers: { Authorization: `Bearer ${token}` } })
+        .then((res) => {
+          setProdutos(res.data);
+          setResumo(calcularResumoEstoque(res.data));
+        })
+        .catch((err) => {
+          console.error("Erro ao ao buscar produtos:", err);
+        });
+    }
   };
 
   return (

@@ -10,15 +10,21 @@ const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
 
   useEffect(() => {
     if (typeof imagem === "string") {
-      setPreviewImagem(imagem + tokenImagem);
+      if (enviroments.ambiente === "jsonserver") {
+        setPreviewImagem(imagem);
+      } else {
+        setPreviewImagem(imagem + tokenImagem);
+      }
     }
+  }, [imagem, tokenImagem]);
 
+  useEffect(() => {
     return () => {
       if (previewImagem && previewImagem.startsWith("blob:")) {
         URL.revokeObjectURL(previewImagem);
       }
     };
-  }, [imagem]);
+  }, [previewImagem]);
 
   const alterarImagem = (e) => {
     const arquivoImagem = e.target.files[0];

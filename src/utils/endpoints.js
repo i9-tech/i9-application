@@ -1,3 +1,3 @@
 export const ENDPOINTS = {
-    E: '/azure/enviar-imagem',
+    IMAGEM_AZURE: '/azure/enviar-imagem',
 }

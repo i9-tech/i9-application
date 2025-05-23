@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
+import { enviroments } from "../../../utils/enviroments";
 
 const CadastroProdutoFormulario = ({
   produtoSelecionado,
@@ -20,6 +21,7 @@ const CadastroProdutoFormulario = ({
   const funcionario = getFuncionario();
   const hoje = new Date().toISOString().split("T")[0];
   const token = localStorage.getItem("token");
+  const [urlImagemTemporaria, setUrlImagemTemporaria] = useState("");
 
   const [produto, setProduto] = useState({
     codigo: "",
@@ -61,6 +63,10 @@ const CadastroProdutoFormulario = ({
     setImagem("");
     setProdutoSelecionado(null);
     navigate(ROUTERS.ESTOQUE_PRODUTOS);
+
+    if (enviroments === "jsonserver") {
+      URL.revokeObjectURL(urlImagemTemporaria);
+    }
   };
 
   const validarCampos = () => {
@@ -84,23 +90,28 @@ const CadastroProdutoFormulario = ({
   };
 
   const buscarURLImagem = () => {
-    const formData = new FormData();
-    formData.append("file", imagem);
-
-    api
-      .post(ENDPOINTS.IMAGEM_AZURE, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        // console.log("data: ", res);
-        salvarProduto(res.data.imageUrl);
-      })
-      .catch((err) => {
-        console.log("erro ao adicionar imagem ao blob storage: ", err);
-      });
+    if (enviroments.ambiente === "jsonserver") {
+      const urlJsonServer = URL.createObjectURL(imagem);
+      setUrlImagemTemporaria(urlJsonServer);
+      salvarProduto(urlJsonServer);
+    } else {
+      const formData = new FormData();
+      formData.append("file", imagem);
+      api
+        .post(ENDPOINTS.IMAGEM_AZURE, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          // console.log("data: ", res);
+          salvarProduto(res.data.imageUrl);
+        })
+        .catch((err) => {
+          console.log("erro ao adicionar imagem ao blob storage: ", err);
+        });
+    }
   };
 
   const salvarProduto = (urlImagem) => {
@@ -121,27 +132,46 @@ const CadastroProdutoFormulario = ({
       // empresa: { id: 1 },
     };
 
-    const metodo = produtoSelecionado
-      ? api.patch(`/produtos/1/${produtoSelecionado.id}`, dados, {
-          // headers: { Authorization: `Bearer ${token}` },
+    if (enviroments.ambiente === "jsonserver") {
+      const metodo = produtoSelecionado
+        ? api.patch(`/produtos/${produtoSelecionado.id}`, dados, {})
+        : api.post("/produtos/", dados, {});
+      metodo
+        .then(() => {
+          toast.success(
+            produtoSelecionado
+              ? "Produto editado com sucesso!"
+              : "Produto cadastrado com sucesso!"
+          );
+          limparFormulario();
         })
-      : api.post("/produtos/1", dados, {
-          // headers: { Authorization: `Bearer ${token}` },
+        .catch((error) => {
+          console.error("Erro ao salvar produto:", error);
+          toast.error("Erro ao salvar produto!");
         });
+    } else {
+      const metodo = produtoSelecionado
+        ? api.patch(`/produtos/1/${produtoSelecionado.id}`, dados, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        : api.post("/produtos/1", dados, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
 
-    metodo
-      .then(() => {
-        toast.success(
-          produtoSelecionado
-            ? "Produto editado com sucesso!"
-            : "Produto cadastrado com sucesso!"
-        );
-        limparFormulario();
-      })
-      .catch((error) => {
-        console.error("Erro ao salvar produto:", error);
-        toast.error("Erro ao salvar produto!");
-      });
+      metodo
+        .then(() => {
+          toast.success(
+            produtoSelecionado
+              ? "Produto editado com sucesso!"
+              : "Produto cadastrado com sucesso!"
+          );
+          limparFormulario();
+        })
+        .catch((error) => {
+          console.error("Erro ao salvar produto:", error);
+          toast.error("Erro ao salvar produto!");
+        });
+    }
   };
 
   const handleSubmit = (e) => {

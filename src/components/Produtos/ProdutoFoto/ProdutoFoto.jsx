@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./ProdutoFoto.css";
-import imagemPadrao from "../../../assets/arroz.png";
+import imagemPadrao from "../../../assets/icon-img-padrao.png";
 import { enviroments } from "../../../utils/enviroments";
 
 const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
   const tokenImagem = enviroments.tokenURL;
-  console.log("Token da imagem:", tokenImagem);
+  // console.log("Token da imagem:", tokenImagem);
   const [previewImagem, setPreviewImagem] = useState("");
 
   useEffect(() => {
@@ -43,8 +43,9 @@ const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
         <img
           src={previewImagem || imagemPadrao}
           alt="Foto do produto"
-          className="imagem-preview"
+          className={`imagem-preview ${!previewImagem ? "imagem-padrao" : ""}`}
         />
+
         <p className="texto-upload">
           <label htmlFor="upload-input">
             Faça upload da foto do produto (JPG, PNG, JPEG)

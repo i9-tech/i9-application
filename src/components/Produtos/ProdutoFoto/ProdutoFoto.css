@@ -27,6 +27,7 @@
   object-fit: contain;
   border: 1px solid #ccc;
   border-radius: 6px;
+  background-color: white;
 }
 
 .input-escondido {

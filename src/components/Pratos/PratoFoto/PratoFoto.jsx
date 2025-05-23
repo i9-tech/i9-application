@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import imagemPadrao from "../../../assets/arroz.png";
+import imagemPadrao from "../../../assets/icon-img-padrao.png";
 import "./PratoFoto.css";
 
 const PratoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {

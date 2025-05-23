@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import "./Produtos.css";
 import { useParams } from "react-router-dom";
+import { ENDPOINTS } from "../../utils/endpoints";
 
 export function Produtos() {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
@@ -18,7 +19,7 @@ export function Produtos() {
   useEffect(() => {
     if (params != null) {
       api
-        .get(`/produtos/${params.id}`)
+        .get(`${ENDPOINTS.PRODUTOS}/${params.id}`)
         .then((res) => {
           setProdutoSelecionado(res.data);
           setDescricao(res.data?.descricao || "");

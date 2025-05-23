@@ -4,6 +4,7 @@ import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ENDPOINTS } from "../../../utils/endpoints";
 
 const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioSelecionado }) => {
   const funcionario = getFuncionario();
@@ -104,7 +105,7 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
     console.log("Token:", localStorage.getItem("token")),
 
       api
-        .post(`/colaboradores/${funcionario.empresaId}`, {
+        .post(`${ENDPOINTS.FUNCIONARIOS}/${funcionario.empresaId}`, {
           nome: nome,
           cpf: cpf,
           cargo: "Funcionário",
@@ -138,7 +139,7 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
     console.log("Funcionario selecionado:", funcionarioSelecionado.id);
     console.log("Editando funcionário:", { nome, cpf, data, setores });
     api
-      .patch(`/colaboradores/${funcionarioSelecionado.id}/${funcionario.empresaId}`, {
+      .patch(`${ENDPOINTS.FUNCIONARIOS}/${funcionarioSelecionado.id}/${funcionario.empresaId}`, {
         nome: nomeFuncionario,
         cpf: cpfFuncionario,
         cargo: "Funcionario",

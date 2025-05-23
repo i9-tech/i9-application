@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Pratos.css";
 import { useParams } from "react-router-dom";
+import { ENDPOINTS } from "../../utils/endpoints";
 
 export function Pratos() {
   const [pratos, setPratos] = useState([]);
@@ -18,7 +19,7 @@ export function Pratos() {
   useEffect(() => {
     if (params != null) {
       api
-        .get(`/pratos/${params.id}`)
+        .get(`${ENDPOINTS.PRATOS}/${params.id}`)
         .then((res) => {
           setPratoSelecionado(res.data);
           setDescricao(res.data?.descricao || "");

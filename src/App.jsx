@@ -14,28 +14,32 @@ import LayoutTela from "./components/LayoutTela/LayoutTela";
 import EstoquePratos from "./pages/EstoquePratos/EstoquePratos";
 import Pratos from "./pages/FormularioPratos/Pratos";
 import Produtos from "./pages/FormularioProdutos/Produtos";
+import { ROUTERS } from "./utils/routers";
 
 function App() {
-    return (
-      <Routes>
-        <Route path="/estoque" element={<Estoque />} />
-        <Route path="/estoque/formulario-produtos" element={<Produtos />} />
-        <Route path="/estoque/formulario-produtos/:id" element={<Produtos />}/>
-        <Route path="/estoque-pratos" element={<EstoquePratos />} />
-        <Route path="/estoque-pratos/formulario-pratos" element={<Pratos />} />
-        <Route path="/estoque-pratos/formulario-pratos/:id" element={<Pratos />}/>
-      </Routes>
-    );
+  // return (
+  //   <Routes>
+  //     <Route path={ROUTERS.ESTOQUE_PRODUTOS} element={<Estoque />} />
+  //     <Route path={ROUTERS.FORMULARIO_PRODUTOS} element={<Produtos />} />
+  //     <Route
+  //       path={`${ROUTERS.FORMULARIO_PRODUTOS}/:id`}
+  //       element={<Produtos />}
+  //     />
+  //     <Route path={ROUTERS.ESTOQUE_PRATOS} element={<EstoquePratos />} />
+  //     <Route path={ROUTERS.FORMULARIO_PRATOS} element={<Pratos />} />
+  //     <Route path={`${ROUTERS.FORMULARIO_PRATOS}/:id`} element={<Pratos />} />
+  //   </Routes>
+  // );
 
   return (
     <>
       <main>
         <Routes>
-          <Route path="/" element={<Institucional />} />
-          <Route path="/login" element={<Login />} />
+          <Route path={ROUTERS.HOME} element={<Institucional />} />
+          <Route path={ROUTERS.LOGIN} element={<Login />} />
 
           <Route
-            path="/atendente"
+            path={ROUTERS.ATENDENTE}
             element={
               <RotaPrivada permissao="ROLE_ATENDIMENTO">
                 <Atendente />
@@ -43,7 +47,7 @@ function App() {
             }
           />
           <Route
-            path="/cozinha"
+            path={ROUTERS.COMANDAS}
             element={
               <RotaPrivada permissao="ROLE_COZINHA">
                 <Cozinha />
@@ -51,7 +55,7 @@ function App() {
             }
           />
           <Route
-            path="/estoque"
+            path={ROUTERS.ESTOQUE_PRODUTOS}
             element={
               <RotaPrivada permissao="ROLE_ESTOQUE">
                 <Estoque />
@@ -59,7 +63,7 @@ function App() {
             }
           />
           <Route
-            path="/estoque/formulario-produtos"
+            path={ROUTERS.FORMULARIO_PRODUTOS}
             element={
               <RotaPrivada permissao="ROLE_ESTOQUE">
                 <Produtos />
@@ -67,7 +71,7 @@ function App() {
             }
           />
           <Route
-            path="/estoque-pratos"
+            path={ROUTERS.ESTOQUE_PRATOS}
             element={
               <RotaPrivada permissao="ROLE_ESTOQUE">
                 <EstoquePratos />
@@ -75,7 +79,7 @@ function App() {
             }
           />
           <Route
-            path="/estoque-pratos/formulario-pratos"
+            path={ROUTERS.FORMULARIO_PRATOS}
             element={
               <RotaPrivada permissao="ROLE_ESTOQUE">
                 <Pratos />
@@ -83,7 +87,7 @@ function App() {
             }
           />
           <Route
-            path="/setor-categoria"
+            path={ROUTERS.SETOR_CATEGORIA}
             element={
               <RotaPrivada permissao="ROLE_PROPRIETARIO">
                 <CadastroSetorCategoria />
@@ -91,24 +95,22 @@ function App() {
             }
           />
           <Route
-            path="/funcionarios"
+            path={ROUTERS.FUNCIONARIOS}
             element={
               <RotaPrivada permissao="ROLE_PROPRIETARIO">
                 <Funcionarios />
               </RotaPrivada>
             }
           />
-
           <Route
-            path="/dashboard"
+            path={ROUTERS.DASHBOARD}
             element={
               <RotaPrivada permissao="ROLE_PROPRIETARIO">
                 <Dashboard />
               </RotaPrivada>
             }
           />
-
-          <Route path="/unauthorized" element={<NaoAutorizado />} />
+          <Route path={ROUTERS.UNAUTHORIZED} element={<NaoAutorizado />} />
         </Routes>
       </main>
     </>

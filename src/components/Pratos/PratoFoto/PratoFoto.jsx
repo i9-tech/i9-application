@@ -1,22 +1,27 @@
 import { useEffect, useState } from "react";
-import imagemPadrao from "../../../assets/icon-img-padrao.png";
+import { imagemPadrao } from "../../../assets/imagemPadrao";
 import "./PratoFoto.css";
+import { enviroments } from "../../../utils/enviroments";
 
 const PratoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
-  const tokenURL = "?TOKEN";
+  const tokenImagem = enviroments.tokenURL;
   const [previewImagem, setPreviewImagem] = useState("");
 
   useEffect(() => {
-    if (typeof imagem === "string") {
-      setPreviewImagem(imagem + tokenURL);
+    if (typeof imagem === "string" && imagem.trim() !== "") {
+      setPreviewImagem(imagem + tokenImagem);
+    } else {
+      setPreviewImagem("");
     }
+  }, [imagem, tokenImagem]);
 
+  useEffect(() => {
     return () => {
       if (previewImagem && previewImagem.startsWith("blob:")) {
         URL.revokeObjectURL(previewImagem);
       }
     };
-  }, [imagem]);
+  }, [previewImagem]);
 
   const alterarImagem = (e) => {
     const arquivoImagem = e.target.files[0];

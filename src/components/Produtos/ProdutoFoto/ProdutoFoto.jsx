@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./ProdutoFoto.css";
-import imagemPadrao from "../../../assets/icon-img-padrao.png";
+import { imagemPadrao } from "../../../assets/imagemPadrao";
 import { enviroments } from "../../../utils/enviroments";
 
 const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
@@ -9,12 +9,14 @@ const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
   const [previewImagem, setPreviewImagem] = useState("");
 
   useEffect(() => {
-    if (typeof imagem === "string") {
+    if (typeof imagem === "string" && imagem.trim() !== "") {
       if (enviroments.ambiente === "jsonserver") {
         setPreviewImagem(imagem);
       } else {
         setPreviewImagem(imagem + tokenImagem);
       }
+    } else {
+      setPreviewImagem("");
     }
   }, [imagem, tokenImagem]);
 

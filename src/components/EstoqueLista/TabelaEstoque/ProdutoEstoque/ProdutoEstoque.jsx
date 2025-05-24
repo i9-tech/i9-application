@@ -8,7 +8,7 @@ import { enviroments } from "../../../../utils/enviroments";
 import { ENDPOINTS } from "../../../../utils/endpoints";
 import { getFuncionario } from "../../../../utils/auth";
 import Swal from "sweetalert2";
-import imagemPadrao from "../../../../assets/icon-img-padrao.png"
+import { imagemPadrao } from "../../../../assets/imagemPadrao";
 
 const ProdutoEstoque = ({ produto, buscar }) => {
   const funcionario = getFuncionario();

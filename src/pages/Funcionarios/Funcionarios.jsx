@@ -17,6 +17,7 @@ export function Funcionarios() {
   const funcionarioLogin = getFuncionario();
   const [funcionarioSelecionado, setFuncionarioSelecionado] = useState(null);
   const [funcionarios, setFuncionarios] = useState([]);
+  const [imagemFuncionario, setImagemFuncionario] = useState("")
 
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export function Funcionarios() {
           },
         });
         setFuncionarios(response.data);
+        setImagemFuncionario(response.data.imagem);
       } catch (error) {
         console.error("Erro ao buscar os funcionários:", error);
       }
@@ -101,7 +103,7 @@ export function Funcionarios() {
         </div>
 
         <div className="coluna-meio">
-          <FuncionarioFoto />
+          <FuncionarioFoto imagem={imagemFuncionario} setImagem={setImagemFuncionario}/>
         </div>
 
         <div className="coluna-direita">

@@ -4,6 +4,7 @@ import IMAGEM_COMANDAS from "../../assets/imagem-gestao-comandas.png";
 import IMAGEM_PDV from "../../assets/frente_caixa.png";
 import IMAGEM_ESTOQUE from "../../assets/imagem-gestao-estoque.png";
 import { useState } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function OpcoesCardSobreposto() {

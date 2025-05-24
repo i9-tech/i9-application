@@ -1,12 +1,10 @@
 import "./Estoque.css";
-import React, { useState, useRef } from "react";
+import { useState } from "react";
 import { produtosMock } from "./DadosProdutos/produtosMock";
-import { HeaderEstoque } from "../../components/EstoqueLista/HeaderEstoque/HeaderEstoque";
 import FiltrosEstoque from "../../components/EstoqueLista/FiltrosEstoque/FiltrosEstoque";
 import { ResumoEstoque } from "../../components/EstoqueLista/ResumoEstoque/ResumoEstoque";
 import TabelaEstoque from "../../components/EstoqueLista/TabelaEstoque/TabelaEstoque";
 import { calcularResumoEstoque } from "./DadosProdutos/utilsEstoque";
-import Navbar from "../../components/Navbar/Navbar";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 
 export function Estoque() {

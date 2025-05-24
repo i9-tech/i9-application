@@ -1,30 +1,29 @@
 import './MenuComanda.css';
-import ProdutoComanda from '../ProdutoComanda/ProdutoComanda';
 import BotaoConfirmar from '../BotaoConfirmar/BotaoConfirmar';
 import { useState } from 'react';
 import ModalObservacoes from '../ModalObservacoes copy/ModalObservacoes';
 import ModalConfirmarPedido from '../ModalConfirmarPedido copy/ModalConfirmarPedido';
 
-export function MenuComanda(props) {
-    const [quantidades, setQuantidades] = useState({});
+export function MenuComanda() {
+    const [quantidades, _setQuantidades] = useState({});
       const [modalAberto, setModalAberto] = useState(false);
       const [confirmarPedido, setConfirmarPedido] = useState(false);
   
       const [produtoSelecionado, setProdutoSelecionado] = useState(null);
-      const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
+      const [quantidadeSelecionada, _setQuantidadeSelecionada] = useState(0);
   
-      function atualizarQuantidade(produto, quantidade) {
-          setQuantidades((prev) => ({
-              ...prev,
-              [produto]: quantidade
-          }));
-      }
+    //   function atualizarQuantidade(produto, quantidade) {
+    //       setQuantidades((prev) => ({
+    //           ...prev,
+    //           [produto]: quantidade
+    //       }));
+    //   }
   
-      function abrirModal(produto, quantidade) {
-          setProdutoSelecionado({ nome: produto });
-          setQuantidadeSelecionada(quantidade);
-          setModalAberto(true);
-      }
+    //   function abrirModal(produto, quantidade) {
+    //       setProdutoSelecionado({ nome: produto });
+    //       setQuantidadeSelecionada(quantidade);
+    //       setModalAberto(true);
+    //   }
   
       function fecharModal() {
           setModalAberto(false);

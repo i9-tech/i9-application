@@ -25,6 +25,8 @@ export function CadastroSetorCategoria() {
   const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
 
   useEffect(() => {
+    if (!funcionario?.userId) return;
+    
     const fetchSetores = async () => {
       try {
         const response = await api.get(`/setores/${funcionario.userId}`, {
@@ -56,7 +58,7 @@ export function CadastroSetorCategoria() {
     };
 
     fetchCategorias();
-  }, []);
+  }, [funcionario?.userId]);
 
   const handleEditarSetor = (setor) => {
     setSetorSelecionado(setor);

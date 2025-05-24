@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./ModalCadastroSetor.css";
 import { getFuncionario } from "../../../utils/auth";
 import api from "../../../provider/api";
@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-const ModalCadastroSetor = ({ onCancelar, onSalvar, setorSelecionado }) => {
+const ModalCadastroSetor = ({ onCancelar, setorSelecionado }) => {
   const funcionario = getFuncionario();
   const [nomeSetor, setNomeSetor] = useState("");
 

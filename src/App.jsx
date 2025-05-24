@@ -15,6 +15,8 @@ import EstoquePratos from "./pages/EstoquePratos/EstoquePratos";
 import Pratos from "./pages/FormularioPratos/Pratos";
 import Produtos from "./pages/FormularioProdutos/Produtos";
 import { ROUTERS } from "./utils/routers";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   // return (
@@ -113,6 +115,8 @@ function App() {
           <Route path={ROUTERS.UNAUTHORIZED} element={<NaoAutorizado />} />
         </Routes>
       </main>
+
+       <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }

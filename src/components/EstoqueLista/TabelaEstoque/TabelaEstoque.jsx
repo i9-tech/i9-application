@@ -3,15 +3,20 @@ import CabecalhoEstoque from "./CabecalhoEstoque/CabecalhoEstoque";
 import ProdutoEstoque from "./ProdutoEstoque/ProdutoEstoque";
 import "./TabelaEstoque.css";
 
-const TabelaEstoque = ({ produtos, setProdutos, filtroStatus, buscarProdutos }) => {
+const TabelaEstoque = ({ produtos, setProdutos, filtroStatus, termoBusca, buscarProdutos }) => {
 
-  const produtosFiltrados = filtroStatus
-    ? produtos.filter((p) => {
-        if (filtroStatus === 'sem') return p.quantidade === 0;
-        if (filtroStatus === 'baixo') return p.quantidade <= p.quantidadeMin && p.quantidade > 0;
-        return true;
-      })
-    : produtos;
+  const produtosFiltrados = produtos.filter((p) => {
+    const nomeMatch = p.nome?.toLowerCase().includes(termoBusca?.toLowerCase() || "");
+
+    const statusMatch =
+      !filtroStatus ||
+      (filtroStatus === "sem" && p.quantidade === 0) ||
+      (filtroStatus === "baixo" && p.quantidade <= p.quantidadeMin && p.quantidade > 0);
+
+    return nomeMatch && statusMatch;
+  });
+
+
 
   return (
     <div className="tabela-container-prod">
@@ -20,7 +25,7 @@ const TabelaEstoque = ({ produtos, setProdutos, filtroStatus, buscarProdutos }) 
         <tbody>
           {produtosFiltrados.map((produto) => (
             <ProdutoEstoque
-            key={produto.id}
+              key={produto.id}
               produto={produto}
               buscar={buscarProdutos}
             />
@@ -28,10 +33,10 @@ const TabelaEstoque = ({ produtos, setProdutos, filtroStatus, buscarProdutos }) 
           )}
         </tbody>
       </table>
-       <Tooltip
+      <Tooltip
         id="tooltip-quantidade"
         place="right"
-        style={{ whiteSpace: "pre-line", zIndex: 2}}
+        style={{ whiteSpace: "pre-line", zIndex: 2 }}
       />
     </div>
   );

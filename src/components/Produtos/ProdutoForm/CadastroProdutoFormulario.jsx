@@ -10,10 +10,6 @@ import { ROUTERS } from "../../../utils/routers";
 import { enviroments } from "../../../utils/enviroments";
 
 
-const categorias = ["Bebida", "Entrada", "Prato Principal", "Sobremesa"];
-const setores = ["Cozinha", "Estoque", "Atendimento"];
-
-
 const CadastroProdutoFormulario = ({
   produtoSelecionado,
   setProdutoSelecionado,
@@ -27,6 +23,9 @@ const CadastroProdutoFormulario = ({
   const hoje = new Date().toISOString().split("T")[0];
   const token = localStorage.getItem("token");
   const [urlImagemTemporaria, setUrlImagemTemporaria] = useState("");
+  const [setores, setSetores] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+
 
   const [produto, setProduto] = useState({
     codigo: "",
@@ -90,11 +89,29 @@ const CadastroProdutoFormulario = ({
       toast.error("As quantidades devem ser números positivos!");
       return false;
     }
+
+    if (
+      produto.quantidadeMin !== "" &&
+      produto.quantidadeMax !== "" &&
+      Number(produto.quantidadeMax) <= Number(produto.quantidadeMin)
+    ) {
+      toast.error("A quantidade máxima deve ser maior que a quantidade mínima!");
+      return false;
+    }
     if (!imagem) {
       toast.error("A imagem do produto é um campo obrigatório!");
       return false;
     }
-
+    const valorCompra = parseFloat(produto.valorCompra.replace(",", "."));
+    const valorUnitario = parseFloat(produto.valorUnitario.replace(",", "."));
+    if (
+      !isNaN(valorCompra) &&
+      !isNaN(valorUnitario) &&
+      valorUnitario <= valorCompra
+    ) {
+      toast.error("O valor unitário deve ser maior que o valor de compra!");
+      return false;
+    }
     return true;
   };
 
@@ -135,8 +152,8 @@ const CadastroProdutoFormulario = ({
       descricao: descricao,
       dataRegistro: produto.dataRegistro ? produto.dataRegistro : hoje,
       imagem: urlImagem,
-      setor: { id: 1 },
-      categoria: { id: 2 },
+      categoria: { id: produto.categoria },
+      setor: { id: produto.setor },
       funcionario: { id: funcionario.userId },
       // empresa: { id: 1 },
     };
@@ -161,13 +178,12 @@ const CadastroProdutoFormulario = ({
     } else {
       console.log("funcionario.id:", funcionario.userId);
       const metodo = produtoSelecionado
-        ? api.patch(`${ENDPOINTS.PRODUTOS}/1/${produtoSelecionado.id}`, dados, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-        : api.post(`${ENDPOINTS.PRODUTOS}/1`, dados, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-
+        ? api.patch(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}/${produtoSelecionado.id}`, dados, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
       metodo
         .then(() => {
           toast.success(
@@ -183,6 +199,38 @@ const CadastroProdutoFormulario = ({
         });
     }
   };
+
+  useEffect(() => {
+    api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setSetores(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar setores:", err);
+        toast.error("Erro ao buscar setores!");
+      });
+
+    api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (Array.isArray(res.data)) {
+        setCategorias(res.data);
+      }
+    })
+      .catch((err) => {
+        console.error("Erro ao buscar setores:", err);
+        toast.error("Erro ao buscar setores!");
+      });
+
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -225,7 +273,7 @@ const CadastroProdutoFormulario = ({
               value={produto.codigo}
               onChange={(e) => setProduto({ ...produto, codigo: e.target.value })}
               required
-              min="1"
+              min="0"
             />
           </div>
           <div>
@@ -238,7 +286,7 @@ const CadastroProdutoFormulario = ({
                 setProduto({ ...produto, quantidade: e.target.value })
               }
               required
-              min="1"
+              min="0"
             />
           </div>
         </div>
@@ -261,34 +309,35 @@ const CadastroProdutoFormulario = ({
 
         <div className="linha-dupla">
           <div className="grupo-inputs">
-            <label>Categoria</label>
+            <label>Setor</label>
             <select
-              value={produto.categoria}
-              onChange={(e) =>
-                setProduto({ ...produto, categoria: e.target.value })
-              }
+              value={produto.setor}
+              onChange={(e) => setProduto({ ...produto, setor: parseInt(e.target.value) })
+            }
               required
             >
-              <option value="">Selecione uma categoria</option>
-              {categorias.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
+              <option value="">Selecione um Setor</option>
+              {setores.map((set) => (
+                <option key={set.id} value={set.id}>
+                  {set.nome}
                 </option>
               ))}
             </select>
           </div>
-
+          
           <div className="grupo-inputs">
-            <label>Setor</label>
+            <label>Categoria</label>
             <select
-              value={produto.setor}
-              onChange={(e) => setProduto({ ...produto, setor: e.target.value })}
+              value={produto.categoria}
+              onChange={(e) =>
+                setProduto({ ...produto, categoria: parseInt(e.target.value) })
+              }
               required
             >
-              <option value="">Selecione um setor</option>
-              {setores.map((set) => (
-                <option key={set} value={set}>
-                  {set}
+              <option value="">Selecione uma Categoria</option>
+              {categorias.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.nome}
                 </option>
               ))}
             </select>
@@ -297,7 +346,7 @@ const CadastroProdutoFormulario = ({
 
         <div className="linha-dupla">
           <div>
-            <label>Valor de Compra</label>
+            <label>Valor de Compra Unitária</label>
             <input
               type="text"
               value={formatarParaReal(produto.valorCompra)}

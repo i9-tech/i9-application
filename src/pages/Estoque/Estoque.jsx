@@ -15,6 +15,8 @@ export function Estoque() {
   const [produtos, setProdutos] = useState([{}]);
   const [resumo, setResumo] = useState([{}]);
   const token = localStorage.getItem("token");
+  const [termoBusca, setTermoBusca] = useState("");
+
 
   useEffect(() => {
     buscarProdutos();
@@ -54,11 +56,14 @@ export function Estoque() {
           <FiltrosEstoque
             filtroStatus={filtroStatus}
             setFiltroStatus={setFiltroStatus}
+            termoBusca={termoBusca}
+            setTermoBusca={setTermoBusca}
           />
           <ResumoEstoque {...resumo} />
           <TabelaEstoque
             produtos={produtos}
             filtroStatus={filtroStatus}
+            termoBusca={termoBusca}
             buscarProdutos={buscarProdutos}
           />
         </div>

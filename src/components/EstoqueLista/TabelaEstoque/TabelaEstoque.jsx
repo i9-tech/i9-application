@@ -5,21 +5,21 @@ import "./TabelaEstoque.css";
 
 const TabelaEstoque = ({ produtos, setProdutos, filtroStatus, termoBusca, buscarProdutos, setorSelecionado }) => {
 
-const listaProdutos = Array.isArray(produtos) ? produtos : [produtos];
+  const listaProdutos = Array.isArray(produtos) ? produtos : [produtos];
 
-const produtosFiltrados = listaProdutos.filter((p) => {
-  const nomeMatch = p.nome?.toLowerCase().includes(termoBusca?.toLowerCase() || "");
+  const produtosFiltrados = listaProdutos.filter((p) => {
+    const nomeMatch = p.nome?.toLowerCase().includes(termoBusca?.toLowerCase() || "");
 
-  const statusMatch =
-    !filtroStatus ||
-    (filtroStatus === "sem" && p.quantidade === 0) ||
-    (filtroStatus === "baixo" && p.quantidade < p.quantidadeMin && p.quantidade > 0);
+    const statusMatch =
+      !filtroStatus ||
+      (filtroStatus === "sem" && p.quantidade === 0) ||
+      (filtroStatus === "baixo" && p.quantidade < p.quantidadeMin && p.quantidade > 0);
 
-  const setorMatch =
-    !setorSelecionado || String(p.setor?.id) === String(setorSelecionado);
+    const setorMatch =
+      !setorSelecionado || String(p.setor?.id) === String(setorSelecionado);
 
-  return nomeMatch && statusMatch && setorMatch;
-});
+    return nomeMatch && statusMatch && setorMatch;
+  });
 
 
 

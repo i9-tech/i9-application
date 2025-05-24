@@ -8,6 +8,7 @@ import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import api from "../../provider/api";
 import { enviroments } from "../../utils/enviroments";
 import { ENDPOINTS } from "../../utils/endpoints";
+import { getFuncionario } from "../../utils/auth";
 
 export function Estoque() {
   const hoje = new Date().toLocaleDateString("en-US");
@@ -15,6 +16,7 @@ export function Estoque() {
   const [produtos, setProdutos] = useState([{}]);
   const [resumo, setResumo] = useState([{}]);
   const token = localStorage.getItem("token");
+  const funcionario = getFuncionario();
   const [termoBusca, setTermoBusca] = useState("");
   const [setorSelecionado, setSetorSelecionado] = useState("");
 
@@ -37,7 +39,7 @@ export function Estoque() {
         });
     } else {
       api
-        .get(`${ENDPOINTS.PRODUTOS}/1`, { headers: { Authorization: `Bearer ${token}` } })
+        .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` } })
         .then((res) => {
           setProdutos(res.data);
           setResumo(calcularResumoEstoque(res.data));

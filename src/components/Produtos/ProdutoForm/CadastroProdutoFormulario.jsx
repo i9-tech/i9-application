@@ -155,7 +155,6 @@ const CadastroProdutoFormulario = ({
       categoria: { id: produto.categoria },
       setor: { id: produto.setor },
       funcionario: { id: funcionario.userId },
-      // empresa: { id: 1 },
     };
 
     if (enviroments.ambiente === "jsonserver") {

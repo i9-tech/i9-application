@@ -17,7 +17,7 @@ export function calcularResumoEstoque(produtos) {
 
   // Quantidade de produtos com estoque baixo (<= 10 e > 0)
   const estoqueBaixo = produtos.filter(
-    (p) => p.quantidade <= p.quantidadeMin && p.quantidade > 0
+    (p) => p.quantidade < p.quantidadeMin && p.quantidade > 0
   ).length;
 
   // Quantidade de produtos esgotados (estoque == 0)

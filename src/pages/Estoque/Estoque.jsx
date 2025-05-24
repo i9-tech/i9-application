@@ -16,6 +16,8 @@ export function Estoque() {
   const [resumo, setResumo] = useState([{}]);
   const token = localStorage.getItem("token");
   const [termoBusca, setTermoBusca] = useState("");
+  const [setorSelecionado, setSetorSelecionado] = useState("");
+
 
 
   useEffect(() => {
@@ -58,14 +60,18 @@ export function Estoque() {
             setFiltroStatus={setFiltroStatus}
             termoBusca={termoBusca}
             setTermoBusca={setTermoBusca}
+            setorSelecionado={setorSelecionado}
+            setSetorSelecionado={setSetorSelecionado}
           />
           <ResumoEstoque {...resumo} />
           <TabelaEstoque
             produtos={produtos}
             filtroStatus={filtroStatus}
             termoBusca={termoBusca}
+            setorSelecionado={setorSelecionado}
             buscarProdutos={buscarProdutos}
           />
+
         </div>
       </LayoutTela>
     </>

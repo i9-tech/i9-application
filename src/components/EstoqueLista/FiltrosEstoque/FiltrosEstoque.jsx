@@ -73,15 +73,17 @@ function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBus
           </button>
         )}
 
-        <select>
-          <option value="">Selecione um Setor</option>
+        <select
+          value={setorSelecionado}
+          onChange={(e) => setSetorSelecionado(e.target.value)}
+        >
+          <option value="">Todos Setores</option>
           {setores.map((set) => (
             <option key={set.id} value={set.id}>
               {set.nome}
             </option>
           ))}
         </select>
-
 
 
         <button

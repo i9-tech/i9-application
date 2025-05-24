@@ -3,18 +3,23 @@ import CabecalhoEstoque from "./CabecalhoEstoque/CabecalhoEstoque";
 import ProdutoEstoque from "./ProdutoEstoque/ProdutoEstoque";
 import "./TabelaEstoque.css";
 
-const TabelaEstoque = ({ produtos, setProdutos, filtroStatus, termoBusca, buscarProdutos }) => {
+const TabelaEstoque = ({ produtos, setProdutos, filtroStatus, termoBusca, buscarProdutos, setorSelecionado }) => {
 
-  const produtosFiltrados = produtos.filter((p) => {
-    const nomeMatch = p.nome?.toLowerCase().includes(termoBusca?.toLowerCase() || "");
+const listaProdutos = Array.isArray(produtos) ? produtos : [produtos];
 
-    const statusMatch =
-      !filtroStatus ||
-      (filtroStatus === "sem" && p.quantidade === 0) ||
-      (filtroStatus === "baixo" && p.quantidade <= p.quantidadeMin && p.quantidade > 0);
+const produtosFiltrados = listaProdutos.filter((p) => {
+  const nomeMatch = p.nome?.toLowerCase().includes(termoBusca?.toLowerCase() || "");
 
-    return nomeMatch && statusMatch;
-  });
+  const statusMatch =
+    !filtroStatus ||
+    (filtroStatus === "sem" && p.quantidade === 0) ||
+    (filtroStatus === "baixo" && p.quantidade < p.quantidadeMin && p.quantidade > 0);
+
+  const setorMatch =
+    !setorSelecionado || String(p.setor?.id) === String(setorSelecionado);
+
+  return nomeMatch && statusMatch && setorMatch;
+});
 
 
 

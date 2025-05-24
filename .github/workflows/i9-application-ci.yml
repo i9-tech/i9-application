@@ -1,0 +1,31 @@
+name: 🖥️ i9 Tech CI - Integração Contínua (Lint + Build)
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  build:
+    name: Lint e Build do Front-end em React
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔁 Checkout do código
+        uses: actions/checkout@v4
+
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      - name: ✅ Analisar padrões e qualidade do código com ESLint
+        run: npm run lint
+
+      - name: 🏗️ Build do Vite
+        run: npm run build

@@ -1,4 +1,7 @@
 # 🖥️ Aplicação i9
+![CI](https://github.com/i9-tech/i9-application/actions/workflows/i9-application-ci.yml/badge.svg?branch=develop)
+
+***
 
 ### 🌟 Boas-vindas!
 Esse é o repositório da **i9 Tech** responsável pelo desenvolvimento da interface do nosso sistema. Este repositório tem como propósito **concentrar** toda a **construção visual da aplicação**, com foco em usabilidade, **responsividade** e **integração com o back-end**. Cada nova funcionalidade é desenvolvida em uma branch separada, garantindo organização e evitando conflitos. A **branch principal** sempre conterá a versão mais atualizada e homologada da aplicação.

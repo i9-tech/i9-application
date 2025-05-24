@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./CadastroFuncionarioFormulario.css";
 import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
@@ -12,17 +12,17 @@ const CadastroFuncionarioFormulario = ({
   const funcionario = getFuncionario();
 
   const [nomeFuncionario, setNomeFuncionario] = useState("");
-  const [errorNome, setErrorNome] = useState(false);
+  const [_errorNome, setErrorNome] = useState(false);
   const [cpfFuncionario, setCpfFuncionario] = useState("");
-  const [errorCpf, setErrorCpf] = useState(false);
+  const [_errorCpf, setErrorCpf] = useState(false);
   const [dataAdmissao, setDataAdmissao] = useState("");
-  const [errorData, setErrorData] = useState(false);
+  const [_errorData, setErrorData] = useState(false);
   const [setorFuncionario, setSetorFuncionario] = useState({
     cozinha: false,
     estoque: false,
     atendimento: false,
   });
-  const [errorSetor, setErrorSetor] = useState(false);
+  const [_errorSetor, setErrorSetor] = useState(false);
 
   const limparFormulario = () => {
     setNomeFuncionario("");
@@ -36,8 +36,8 @@ const CadastroFuncionarioFormulario = ({
     setFuncionarioSelecionado(null);
   };
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalMensagem, setModalMensagem] = useState("");
+  // const [showModal, setShowModal] = useState(false);
+  // const [modalMensagem, setModalMensagem] = useState("");
 
   useEffect(() => {
     if (funcionarioSelecionado) {

@@ -1,7 +1,7 @@
 import './ModalConfirmarPedido.css';
 import BotaoGenericoAtendente from '../BotaoGenericoAtendente/BotaoGenericoAtendente';
 import ModalInfoComanda from '../ModalInfoComanda/ModalInfoComanda';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 export function ModalConfirmarPedido({ onClose, statusModal}) {
   const [modalAbertoInfoComanda, setModalAbertoInfoComanda] = useState(false);
   const abrirModalInforComanda = () => {

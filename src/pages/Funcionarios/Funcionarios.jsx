@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import CadastroFuncionarioFormulario from "../../components/Funcionario/FuncionarioForm/CadastroFuncionarioFormulario";
 import TabelaFuncionarios from "../../components/Funcionario/FuncionarioTab/TabelaFuncionarios";
-import Navbar from "../../components/Navbar/Navbar";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import "./Funcionarios.css";
 import FuncionarioFoto from "../../components/Funcionario/FuncionarioFoto/FuncionarioFoto";
@@ -19,6 +18,7 @@ export function Funcionarios() {
 
 
   useEffect(() => {
+    if (!funcionarioLogin?.userId) return;
     const fetchFuncionarios = async () => {
       try {
         const response = await api.get(`/colaboradores/${funcionarioLogin.empresaId}`, {
@@ -33,7 +33,7 @@ export function Funcionarios() {
     };
 
     fetchFuncionarios();
-  }, []);
+  }, [funcionarioLogin?.userId, funcionarioLogin?.empresaId]);
 
   const handleSelecionar = (funcionario) => {
     setFuncionarioSelecionado(funcionario);

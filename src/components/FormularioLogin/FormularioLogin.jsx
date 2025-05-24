@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import api from "../../provider/api.js";
-import { a } from "motion/react-client";
 
 export default function FormularioLogin() {
   const [usuario, setUsuario] = React.useState("");

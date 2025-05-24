@@ -4,7 +4,7 @@ export function ImagemSobreNos({imagem, alt}) {
     return (
         <>
             <div className="img">
-                <img src="{imagem}" alt="{alt}" />
+                <img src={imagem} alt={alt} />
             </div>
         </>
     )

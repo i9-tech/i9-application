@@ -9,8 +9,6 @@ import ProdutoComanda from "../../components/Botoes/ProdutoComanda/ProdutoComand
 import ModalConfirmarPedido from "../../components/Botoes/ModalConfirmarPedido/ModalConfirmarPedido";
 import Navbar from "../../components/Navbar/Navbar";
 import { getPermissoes } from "../../utils/auth";
-import { useNavigate } from "react-router-dom";
-import { image } from "motion/react-client";
 import croissantChocolate from "../../assets/croissant-chocolate.png";
 import tortinhaLimão from "../../assets/tortinha-limao.png";
 import mercado from "../../assets/mercado.png";
@@ -18,11 +16,12 @@ import restaurante from "../../assets/restaurante.png";
 import lanchonete from "../../assets/lancheSetor.png";
 import pastelaria from '../../assets/pastel.png';
 import todos from '../../assets/todos.png';
+import { Navigate } from "react-router-dom";
 
-export function Atendente(props) {
+export function Atendente() {
   const permissao = getPermissoes();
   if(permissao.length === 0) {
-    navigate("/unauthorized");
+    Navigate("/unauthorized");
   }
   const [produtos, setProdutos] = useState([]);
   const [setores, setSetores] = useState([]);
@@ -33,7 +32,7 @@ export function Atendente(props) {
 
   const [comanda, setComanda] = useState([]);
 
-  const [quantidades, setQuantidades] = useState({});
+  const [_quantidades, setQuantidades] = useState({});
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
 

@@ -1,5 +1,3 @@
-import { useState } from "react";
-import React from "react";
 import LinhaFuncionario from "../FuncionarioTab/FuncionarioLinha/LinhaFuncionario";
 import "./TabelaFuncionarios.css";
 import CabecalhoFuncionarios from "../FuncionarioTab/FuncionarioCabecalho/CabecalhoFuncionarios";

@@ -8,11 +8,11 @@ const CabecalhoPratos = () => {
         <th>Cód.</th>
         <th>Imagem</th>
         <th>Nome</th>
-        <th>Descrição</th>
         <th>Preço</th>
         <th>Disponibilidade</th>
         <th>Categoria</th>
         <th>Setor</th>
+        <th>Descrição</th>
         <th>Status</th>
       </tr>
     </thead>

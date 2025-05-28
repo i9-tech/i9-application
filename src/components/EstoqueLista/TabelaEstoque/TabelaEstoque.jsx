@@ -28,13 +28,29 @@ const TabelaEstoque = ({ produtos, setProdutos, filtroStatus, termoBusca, buscar
       <table className="tabela-estoque-prod">
         <CabecalhoEstoque />
         <tbody>
-          {produtosFiltrados.map((produto) => (
-            <ProdutoEstoque
-              key={produto.id}
-              produto={produto}
-              buscar={buscarProdutos}
-            />
-          )
+          {produtosFiltrados.length > 0 ? (
+            produtosFiltrados.map((produto) => (
+              <ProdutoEstoque
+                key={produto.id}
+                produto={produto}
+                buscar={buscarProdutos}
+              />
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan="9"
+                style={{
+                  padding: "24px",
+                  textAlign: "center",
+                  color: "#888",
+                  fontSize: "1.1rem",
+                  background: "#fff",
+                }}>
+                Nenhum produto encontrado.
+              </td>
+
+            </tr>
           )}
         </tbody>
       </table>

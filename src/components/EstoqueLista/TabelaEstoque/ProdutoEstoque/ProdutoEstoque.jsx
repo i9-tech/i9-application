@@ -3,7 +3,6 @@ import "./ProdutoEstoque.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../../provider/api";
-import { Tooltip } from "react-tooltip";
 import { enviroments } from "../../../../utils/enviroments";
 import { ENDPOINTS } from "../../../../utils/endpoints";
 import { getFuncionario } from "../../../../utils/auth";

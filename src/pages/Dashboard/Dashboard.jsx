@@ -70,28 +70,28 @@ export function Dashboard() {
               titulo={"Lucro Bruto"}
               valor={"R$ 500,00"}
               adicional={"+R$ 150,00 em relação ao dia anterior"}
-              indicador={"#8280FF"}
+              indicador={"#6f6df1"}
             />
             <Kpi
               key={"abssss"}
               titulo={"Lucro Liquido"}
               valor={"R$ 350,00"}
               adicional={"R$ 250,00 em mercadorias"}
-              indicador={"#FEC53D"}
+              indicador={"#f0b731"}
             />
             <Kpi
               key={"absdass"}
               titulo={"Quantidade de Vendas"}
               valor={"200 vendas"}
               adicional={"+15 em relação ao dia anterior"}
-              indicador={"#4AD991"}
+              indicador={"#41c482"}
             />
             <Kpi
               key={"abssdasdas"}
               titulo={"Prato Mais Vendido"}
               valor={"Feijoada"}
               adicional={"43 unidades"}
-              indicador={"#16FFD0"}
+              indicador={"#d35757"}
             />
           </section>
           <section className="graficos">

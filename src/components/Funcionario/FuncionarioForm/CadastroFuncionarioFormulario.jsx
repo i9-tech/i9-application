@@ -32,9 +32,9 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
       estoque: false,
       atendimento: false,
     });
-    setFuncionarioSelecionado(null); 
+    setFuncionarioSelecionado(null);
   };
-  
+
   const [showModal, setShowModal] = useState(false);
   const [modalMensagem, setModalMensagem] = useState("");
 
@@ -166,6 +166,17 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
       });
   };
 
+  const formatarCpf = (cpf) => {
+    cpf = cpf.replace(/\D/g, ""); // Remove tudo que não for dígito
+    if (cpf.length <= 11) {
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    }
+    return cpf;
+  };
+
+
   return (
     <div className="formulario-funcionario">
       <p className="descricao-funcionario">
@@ -186,17 +197,17 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
         </div>
 
         <div className="grupo-inputs">
-          <label htmlFor="cpf">CPF do Funcionário *</label>
           <input
             id="cpf"
             type="text"
             placeholder="000.000.000-00"
             value={cpfFuncionario}
-            onChange={(e) => setCpfFuncionario(e.target.value)}
+            onChange={(e) => setCpfFuncionario(formatarCpf(e.target.value))}
             required
             pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
             disabled={!!funcionarioSelecionado}
-          />
+            maxLength={14} />
+
         </div>
 
         <div className="grupo-inputs">

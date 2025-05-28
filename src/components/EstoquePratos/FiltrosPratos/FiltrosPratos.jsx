@@ -35,7 +35,6 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
     setFiltroStatus(null);
     atualizarFiltros();
   };
-
   useEffect(() => {
     api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
       headers: {

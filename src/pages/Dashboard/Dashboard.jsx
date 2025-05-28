@@ -7,6 +7,7 @@ import Grafico from "../../components/Grafico/Grafico";
 import Ranking from "../../components/Ranking/Ranking";
 import Barras from "../../components/Grafico/Barras/Barras";
 import Resumo from "../../components/Ranking/Resumo/Resumo";
+import Donut from "../../components/Grafico/Donut/Donut";
 
 export function Dashboard() {
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
@@ -48,6 +49,15 @@ export function Dashboard() {
     { setor: "Entradas", quantidade: 40, valor: 400 },
     { setor: "Massas", quantidade: 30, valor: 300 },
     { setor: "Petiscos", quantidade: 35, valor: 350 },
+  ];
+
+  // JSON com categorias
+  const categorias = [
+    { categoria: "Hortifrúti", quantidade: 180, valor: 2500 },
+    { categoria: "Bebidas", quantidade: 220, valor: 3100 },
+    { categoria: "Laticínios e Frios", quantidade: 150, valor: 2800 },
+    { categoria: "Mercearia Seca", quantidade: 300, valor: 4500 },
+    { categoria: "Congelados", quantidade: 90, valor: 1900 },
   ];
 
   return (
@@ -94,7 +104,9 @@ export function Dashboard() {
             <Ranking titulo={"Setores com Maiores Vendas"}>
               <Resumo dados={setores}></Resumo>
             </Ranking>
-            <Grafico>GRAFICO 3</Grafico>
+            <Grafico titulo={"Top 5 Categorias mais Vendidas"}>
+              <Donut dados={categorias} />
+            </Grafico>
           </section>
         </article>
         {/* <Navbar />

@@ -1,7 +1,5 @@
 import "./Estoque.css";
 import React, { useState, useRef, useEffect } from "react";
-import { useState } from "react";
-import { produtosMock } from "./DadosProdutos/produtosMock";
 import FiltrosEstoque from "../../components/EstoqueLista/FiltrosEstoque/FiltrosEstoque";
 import { ResumoEstoque } from "../../components/EstoqueLista/ResumoEstoque/ResumoEstoque";
 import TabelaEstoque from "../../components/EstoqueLista/TabelaEstoque/TabelaEstoque";

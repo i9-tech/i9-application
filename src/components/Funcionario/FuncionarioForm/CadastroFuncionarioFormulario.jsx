@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./CadastroFuncionarioFormulario.css";
 import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
@@ -6,22 +6,24 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ENDPOINTS } from "../../../utils/endpoints";
 
-const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioSelecionado }) => {
+const CadastroFuncionarioFormulario = ({
+  funcionarioSelecionado,
+  setFuncionarioSelecionado,
+}) => {
   const funcionario = getFuncionario();
 
   const [nomeFuncionario, setNomeFuncionario] = useState("");
-  const [errorNome, setErrorNome] = useState(false);
+  const [_errorNome, setErrorNome] = useState(false);
   const [cpfFuncionario, setCpfFuncionario] = useState("");
-  const [errorCpf, setErrorCpf] = useState(false);
+  const [_errorCpf, setErrorCpf] = useState(false);
   const [dataAdmissao, setDataAdmissao] = useState("");
-  const [errorData, setErrorData] = useState(false);
+  const [_errorData, setErrorData] = useState(false);
   const [setorFuncionario, setSetorFuncionario] = useState({
     cozinha: false,
     estoque: false,
     atendimento: false,
   });
-  const [errorSetor, setErrorSetor] = useState(false);
-
+  const [_errorSetor, setErrorSetor] = useState(false);
 
   const limparFormulario = () => {
     setNomeFuncionario("");
@@ -32,12 +34,11 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
       estoque: false,
       atendimento: false,
     });
-    setFuncionarioSelecionado(null); 
+    setFuncionarioSelecionado(null);
   };
-  
-  const [showModal, setShowModal] = useState(false);
-  const [modalMensagem, setModalMensagem] = useState("");
 
+  // const [showModal, setShowModal] = useState(false);
+  // const [modalMensagem, setModalMensagem] = useState("");
 
   useEffect(() => {
     if (funcionarioSelecionado) {
@@ -103,7 +104,6 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
 
     console.log("Cadastrando funcionário:", { nome, cpf, data, setores });
     console.log("Token:", localStorage.getItem("token")),
-
       api
         .post(`${ENDPOINTS.FUNCIONARIOS}/${funcionario.empresaId}`, {
           nome: nome,
@@ -154,7 +154,8 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        })
+        }
+      )
       .then((response) => {
         console.log("Funcionário editado com sucesso:", response.data);
         toast.success("Funcionário editado com sucesso!");
@@ -169,7 +170,8 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
   return (
     <div className="formulario-funcionario">
       <p className="descricao-funcionario">
-        Preencha o formulário abaixo para {funcionarioSelecionado ? "editar" : "adicionar"} funcionários.
+        Preencha o formulário abaixo para{" "}
+        {funcionarioSelecionado ? "editar" : "adicionar"} funcionários.
       </p>
 
       <form className="formulario-inputs">
@@ -192,7 +194,15 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
             type="text"
             placeholder="000.000.000-00"
             value={cpfFuncionario}
-            onChange={(e) => setCpfFuncionario(e.target.value)}
+            maxLength={14}
+            onChange={(e) => {
+              let valor = e.target.value;
+              valor = valor.replace(/\D/g, ""); 
+              valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+              valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+              valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+              setCpfFuncionario(valor); 
+            }}
             required
             pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
             disabled={!!funcionarioSelecionado}
@@ -264,23 +274,28 @@ const CadastroFuncionarioFormulario = ({ funcionarioSelecionado, setFuncionarioS
             className="btn-cadastrar-funcionario"
             onClick={(e) => {
               e.preventDefault();
-              validarDados(nomeFuncionario, cpfFuncionario, dataAdmissao, setorFuncionario);
+              validarDados(
+                nomeFuncionario,
+                cpfFuncionario,
+                dataAdmissao,
+                setorFuncionario
+              );
             }}
           >
             {funcionarioSelecionado ? "Editar" : "Cadastrar"}
           </button>
 
-          <button type="button" className="btn-cancelar-funcionario" onClick={limparFormulario}>
+          <button
+            type="button"
+            className="btn-cancelar-funcionario"
+            onClick={limparFormulario}
+          >
             Cancelar
           </button>
         </div>
       </form>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        theme="light"
-      />
+      <ToastContainer position="top-right" autoClose={3000} theme="light" />
     </div>
   );
 };

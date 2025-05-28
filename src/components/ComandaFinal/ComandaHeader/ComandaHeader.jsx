@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ComandaHeader({numeroPedido, dataHora, index}) {
+export default function ComandaHeader({numeroPedido, dataHora}) {
   return (
     <>
         <div className="cabecalho-conteudo">

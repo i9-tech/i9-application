@@ -25,7 +25,7 @@ export function ProdutoComanda({ produto, preco, quantidade: quantidadeInicial, 
         if (atualizarQuantidade) {
             atualizarQuantidade(produto, quantidade);
         }
-    }, [quantidade]);
+    }, [quantidade, produto, atualizarQuantidade]);
 
     return (
         <div className="card-produto" onClick={() => onClick(produto, quantidade)}>

@@ -49,9 +49,12 @@ const CadastroProdutoFormulario = ({
         quantidadeMin: produtoSelecionado.quantidadeMin || "",
         quantidadeMax: produtoSelecionado.quantidadeMax || "",
         dataRegistro: produtoSelecionado.dataRegistro || "",
+        setor: produtoSelecionado.setor?.id || "",         
+        categoria: produtoSelecionado.categoria?.id || "", 
       });
     }
   }, [produtoSelecionado]);
+
 
   const limparFormulario = () => {
     setProduto({

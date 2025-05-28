@@ -63,6 +63,7 @@ const ProdutoEstoque = ({ produto, buscar }) => {
   const editar = (produto) => {
     navigate(`formulario-produtos/${produto.id}`);
   };
+
   const deletar = (id) => {
     Swal.fire({
       title: "Tem certeza?",

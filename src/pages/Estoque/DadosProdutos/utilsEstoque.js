@@ -11,7 +11,7 @@ export function calcularResumoEstoque(produtos) {
   }, 0);
 
   // Lucro previsto = (valor de venda - valor de compra) * quantidade
-  const lucroPrevisto = produtos.reduce((acc, p) => {
+  const lucroLiquido = produtos.reduce((acc, p) => {
     return acc + (p.valorUnitario - p.valorCompra) * p.quantidade;
   }, 0);
 
@@ -39,7 +39,7 @@ export function calcularResumoEstoque(produtos) {
   return {
     valorEstoque,
     valorVenda,
-    lucroPrevisto,
+    lucroLiquido,
     estoqueBaixo,
     semEstoque,
     pertoValidade,

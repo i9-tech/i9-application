@@ -6,11 +6,9 @@ import { getFuncionario } from "../../../utils/auth";
 import { toast } from "react-toastify";
 
 export function ResumoPratos({
-  valorTotal = 0,
   pratosAtivos = 0,
   pratosInativos = 0,
   totalPratos = 0,
-  totalCategorias = 0
 }) {
   const funcionario = getFuncionario();
   const token = funcionario?.token;

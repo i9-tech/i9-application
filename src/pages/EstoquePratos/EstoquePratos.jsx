@@ -22,7 +22,7 @@ export function EstoquePratos() {
     setor: "",
   });
 
-  const [pratos, setPratos] = useState([{}]);
+  const [pratos, setPratos] = useState([]);
   const [resumo, setResumo] = useState([{}]);
 
   useEffect(() => {

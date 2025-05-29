@@ -27,9 +27,9 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
 
   const aplicarFiltro = (tipo) => {
     setFiltroStatus(tipo);
-    atualizarFiltros();
     setMenuAberto(false);
   };
+
 
   const limparFiltroStatus = () => {
     setFiltroStatus(null);
@@ -67,6 +67,15 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
       });
   }, []);
 
+  useEffect(() => {
+    setFiltros({
+      status: filtroStatus,
+      categoria: categoriaSelecionada,
+      setor: setorSelecionado,
+    });
+  }, [filtroStatus, categoriaSelecionada, setorSelecionado]);
+
+
 
   return (
     <div className="top-actions">
@@ -80,16 +89,16 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
 
         {menuAberto && (
           <div className="menu-filtros">
-            <button onClick={() => aplicarFiltro("ativo")}>✅ Ativos</button>
-            <button onClick={() => aplicarFiltro("inativo")}>🚫 Inativos</button>
+            <button onClick={() => aplicarFiltro("disponível")}>✅ Disponíveis</button>
+            <button onClick={() => aplicarFiltro("indisponível")}>🚫 Indisponíveis</button>
           </div>
         )}
       </div>
 
       {filtroStatus && (
         <button className="filtro-ativo" onClick={limparFiltroStatus}>
-          {filtroStatus === "ativo" && "✅ Ativos ✕"}
-          {filtroStatus === "inativo" && "🚫 Inativos ✕"}
+          {filtroStatus === "disponível" && "✅ Disponíveis ✕"}
+          {filtroStatus === "indisponível" && "🚫 Indisponíveis ✕"}
         </button>
       )}
 

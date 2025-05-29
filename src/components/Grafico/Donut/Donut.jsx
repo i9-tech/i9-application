@@ -20,19 +20,19 @@ export default function Donut({ dados }) {
         donut: {
           labels: {
             show: true,
-            // total: {
-            //   show: true,
-            //   label: "Total",
-            //   formatter: (w) =>
-            //     w.globals.seriesTotals
-            //       .reduce((a, b) => a + b, 0)
-            //       .toLocaleString("pt-BR", {
-            //         style: "currency",
-            //         currency: "BRL",
-            //         minimumFractionDigits: 0,
-            //         maximumFractionDigits: 2,
-            //       }),
-            // },
+            total: {
+              show: true,
+              label: "Total",
+              formatter: (w) =>
+                w.globals.seriesTotals
+                  .reduce((a, b) => a + b, 0)
+                  .toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2,
+                  }),
+            },
           },
         },
       },

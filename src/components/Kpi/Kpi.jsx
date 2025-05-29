@@ -3,7 +3,14 @@ import "./Kpi.css";
 
 export default function Kpi(props) {
   return (
-    <div className="kpi" style={{ "--indicador-color": props.indicador }}>
+    <div
+      onClick={props.onClick}
+      className="kpi"
+      style={{
+        "--indicador-color": props.indicador,
+        ...(props.cursor && { cursor: props.cursor }),
+      }}
+    >
       <div className="kpi-container">
         <span className="titulo-kpi">{props.titulo}</span>
         <h2 className="valor-kpi">{props.valor}</h2>

@@ -8,6 +8,7 @@ import Ranking from "../../components/Ranking/Ranking";
 import Barras from "../../components/Grafico/Barras/Barras";
 import Resumo from "../../components/Ranking/Resumo/Resumo";
 import Donut from "../../components/Grafico/Donut/Donut";
+import { useState } from "react";
 
 export function Dashboard() {
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
@@ -15,6 +16,8 @@ export function Dashboard() {
     month: "long",
     year: "numeric",
   });
+  const [isKpiProduto, setIsKpiProduto] = useState(false);
+
   // JSON com pratos
   const pratos = [
     { nome: "Feijoada", quantidade: 43 },
@@ -26,6 +29,10 @@ export function Dashboard() {
     { nome: "Salada Caeser", quantidade: 32 },
   ];
 
+  const pratoMaisComprado = pratos.reduce((maior, pratoAtual) =>
+    pratoAtual.quantidade > maior.quantidade ? pratoAtual : maior
+  );
+
   // JSON com produtos
   const produtos = [
     { nome: "Água", quantidade: 15 },
@@ -36,6 +43,10 @@ export function Dashboard() {
     { nome: "Óleo", quantidade: 25 },
     { nome: "Sal", quantidade: 12 },
   ];
+
+  const produtoMaisComprado = produtos.reduce((maior, produtoAtual) =>
+    produtoAtual.quantidade > maior.quantidade ? produtoAtual : maior
+  );
 
   // JSON com setores
   const setores = [
@@ -88,10 +99,12 @@ export function Dashboard() {
             />
             <Kpi
               key={"abssdasdas"}
-              titulo={"Prato Mais Vendido"}
-              valor={"Feijoada"}
-              adicional={"43 unidades"}
+              titulo={` ${isKpiProduto ? "Produto" : "Prato"} Mais Vendido`}
+              valor={isKpiProduto ? produtoMaisComprado.nome : pratoMaisComprado.nome}
+              adicional={`${isKpiProduto ? produtoMaisComprado.quantidade : pratoMaisComprado.quantidade} unidades`}
               indicador={"#d35757"}
+              cursor={"pointer"}
+              onClick={() => {setIsKpiProduto(!isKpiProduto)}}
             />
           </section>
           <section className="graficos">

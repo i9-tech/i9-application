@@ -20,7 +20,7 @@ export function Produtos() {
   const [imagem, setImagem] = useState("");
 
   useEffect(() => {
-    if (params != null) {
+    if (params.id != null) {
       api
         .get(`${ENDPOINTS.PRODUTOS}/${params.id}/${funcionario.userId}`,{
           headers: { Authorization: `Bearer ${token}` },

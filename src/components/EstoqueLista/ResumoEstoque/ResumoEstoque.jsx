@@ -90,12 +90,12 @@ export function ResumoEstoque({
                 currency: "BRL",
               })}
               <FiHelpCircle className="icone-ajuda"
-                data-tooltip-id="tooltip-quantidade"
-                data-tooltip-content="Soma do valor de compra de todos os produtos em estoque"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Soma do valor de compra de todos os produtos em estoque."
               />
             </span>
             <span className="resumo-label-prod">
-              Valor total do Estoque
+              Valor Total do Estoque
             </span>
           </div>
 
@@ -106,12 +106,12 @@ export function ResumoEstoque({
                 currency: "BRL",
               })}
               <FiHelpCircle className="icone-ajuda"
-                data-tooltip-id="tooltip-quantidade"
-                data-tooltip-content="Soma do valor de venda de todos os produtos em estoque"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Soma do valor de venda de todos os produtos em estoque."
                 />
             </span>
             <span className="resumo-label-prod">
-              Lucro bruto venda
+              Lucro Bruto
             </span>
           </div>
 
@@ -122,12 +122,12 @@ export function ResumoEstoque({
                 currency: "BRL",
               })}
               <FiHelpCircle className="icone-ajuda"
-                data-tooltip-id="tooltip-quantidade"
-                data-tooltip-content="Diferença entre preço de venda e compra de todos os produtos (Venda - Compra)" />
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Diferença entre preço de venda e compra de todos os produtos. (Venda - Compra)." />
 
             </span>
             <span className="resumo-label-prod">
-              Lucro líquido esperado
+              Lucro Líquido Esperado
             </span>
           </div>
         </div>
@@ -160,8 +160,6 @@ export function ResumoEstoque({
           </div>
         </div>
       </div>
-
-      <ToastContainer position="top-right" autoClose={3000} theme="light" />
     </>
   );
 }

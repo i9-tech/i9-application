@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
+import { ROUTERS } from "../../../utils/routers";
 
 const categorias = ["Bebida", "Entrada", "Prato Principal", "Sobremesa"];
 
@@ -37,7 +38,7 @@ const CadastroPratoFormulario = ({
       valorVenda: "",
     });
     setPratoSelecionado(null);
-    navigate("/estoque-pratos");
+    navigate(ROUTERS.ESTOQUE_PRATOS);
   };
 
   const validarCampos = () => {

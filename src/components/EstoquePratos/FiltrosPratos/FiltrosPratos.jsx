@@ -131,7 +131,7 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
 
       <button
         className="add-btn"
-        onClick={() => navigate("/estoque-pratos/formulario-pratos")}
+        onClick={() => navigate("/pratos/formulario-pratos")}
         style={{ color: "#fff", fontWeight: "bold" }}
       >
         + Adicionar Prato

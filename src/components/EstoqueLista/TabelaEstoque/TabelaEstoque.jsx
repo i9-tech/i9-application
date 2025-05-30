@@ -54,11 +54,6 @@ const TabelaEstoque = ({ produtos, setProdutos, filtroStatus, termoBusca, buscar
           )}
         </tbody>
       </table>
-      <Tooltip
-        id="tooltip-quantidade"
-        place="right"
-        style={{ whiteSpace: "pre-line", zIndex: 2 }}
-      />
     </div>
   );
 };

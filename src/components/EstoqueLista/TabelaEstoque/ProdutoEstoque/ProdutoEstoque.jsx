@@ -113,7 +113,7 @@ const ProdutoEstoque = ({ produto, buscar }) => {
         <td>{valorUnitarioFormatado}</td>
         <td>
           <span
-            data-tooltip-id="tooltip-quantidade"
+            data-tooltip-id="tooltip"
             data-tooltip-content={`Estoque máximo: ${produto.quantidadeMax}\nEstoque mínimo: ${produto.quantidadeMin}`}
             style={{ display: "inline-block", width: "100%", cursor: "pointer" }}
           >

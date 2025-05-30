@@ -4,6 +4,11 @@ import api from "../../../provider/api";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { getFuncionario } from "../../../utils/auth";
 import { toast } from "react-toastify";
+import { FiHelpCircle } from "react-icons/fi";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
+import { ROUTERS } from "../../../utils/routers";
+
 
 export function ResumoPratos({
   pratosAtivos = 0,
@@ -11,15 +16,18 @@ export function ResumoPratos({
   totalPratos = 0,
 }) {
   const funcionario = getFuncionario();
-  const token = funcionario?.token;
+  const token = localStorage.getItem("token");
+
 
   const [valorTotalEstoque, setValorTotalEstoque] = useState(0);
+  const [valorTotalEstoqueAtivosInativos, setValorTotalEstoqueAtivosInativos] = useState(0);
+
 
   useEffect(() => {
     if (!funcionario) return;
 
     api
-      .get(`${ENDPOINTS.PRODUTOS_COMPRA}/${funcionario.userId}`, {
+      .get(`${ROUTERS.ESTOQUE_PRATOS}${ENDPOINTS.PRATOS_LUCRO_BRUTO}/${funcionario.userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -28,9 +36,25 @@ export function ResumoPratos({
         }
       })
       .catch((err) => {
-        console.error("Erro ao buscar valor de compra do estoque:", err);
-        toast.error("Erro ao buscar valor de compra do estoque!");
+        console.error("Erro ao buscar valor de venda do estoque de pratos:", err);
+        toast.error("Erro ao buscar valor de venda do estoque de pratos!");
       });
+
+       api
+      .get(`${ROUTERS.ESTOQUE_PRATOS}${ENDPOINTS.PRATOS_TOTAL_PRECO}/${funcionario.userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        if (res.data) {
+          setValorTotalEstoqueAtivosInativos(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar valor de venda do estoque de pratos de produtos inativos e ativos:", err);
+        toast.error("Erro ao buscar valor de venda do estoque de pratos!");
+      });
+
+
   }, []);
 
   return (
@@ -38,12 +62,30 @@ export function ResumoPratos({
       <div className="resumo-container">
         <div className="resumo-item">
           <span className="resumo-valor">
+            {valorTotalEstoqueAtivosInativos.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
+            <FiHelpCircle className="icone-ajuda"
+              data-tooltip-id="tooltip"
+              data-tooltip-content="Soma do valor de venda de todos os pratos em estoque."
+            />
+          </span>
+          <span className="resumo-label">Lucro Total (Ativos e Inativos)</span>
+        </div>
+        
+        <div className="resumo-item">
+          <span className="resumo-valor">
             {valorTotalEstoque.toLocaleString("pt-BR", {
               style: "currency",
               currency: "BRL",
             })}
+            <FiHelpCircle className="icone-ajuda"
+              data-tooltip-id="tooltip"
+              data-tooltip-content="Soma do valor de venda de todos os pratos ativos em estoque."
+            />
           </span>
-          <span className="resumo-label">Soma dos Preços dos Pratos</span>
+          <span className="resumo-label">Lucro (Ativos)</span>
         </div>
       </div>
 

@@ -9,7 +9,6 @@ import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 import { enviroments } from "../../../utils/enviroments";
 
-
 const CadastroProdutoFormulario = ({
   produtoSelecionado,
   setProdutoSelecionado,
@@ -25,7 +24,6 @@ const CadastroProdutoFormulario = ({
   const [urlImagemTemporaria, setUrlImagemTemporaria] = useState("");
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
-
 
   const [produto, setProduto] = useState({
     codigo: "",
@@ -49,12 +47,11 @@ const CadastroProdutoFormulario = ({
         quantidadeMin: produtoSelecionado.quantidadeMin || "",
         quantidadeMax: produtoSelecionado.quantidadeMax || "",
         dataRegistro: produtoSelecionado.dataRegistro || "",
-        setor: produtoSelecionado.setor?.id || "",         
-        categoria: produtoSelecionado.categoria?.id || "", 
+        setor: produtoSelecionado.setor?.id || "",
+        categoria: produtoSelecionado.categoria?.id || "",
       });
     }
   }, [produtoSelecionado]);
-
 
   const limparFormulario = () => {
     setProduto({
@@ -98,27 +95,37 @@ const CadastroProdutoFormulario = ({
       produto.quantidadeMax !== "" &&
       Number(produto.quantidadeMax) <= Number(produto.quantidadeMin)
     ) {
-      toast.error("A quantidade máxima deve ser maior que a quantidade mínima!");
+      toast.error(
+        "A quantidade máxima deve ser maior que a quantidade mínima!"
+      );
       return false;
     }
     if (!imagem) {
       toast.error("A imagem do produto é um campo obrigatório!");
       return false;
     }
-    const valorCompra = parseFloat(produto.valorCompra.replace(",", "."));
-    const valorUnitario = parseFloat(produto.valorUnitario.replace(",", "."));
-    if (
-      !isNaN(valorCompra) &&
-      !isNaN(valorUnitario) &&
-      valorUnitario <= valorCompra
-    ) {
-      toast.error("O valor unitário deve ser maior que o valor de compra!");
-      return false;
-    }
+    // const valorCompra = parseFloat(produto.valorCompra.replace(",", "."));
+    // const valorUnitario = parseFloat(produto.valorUnitario.replace(",", "."));
+    // if (
+    //   !isNaN(valorCompra) &&
+    //   !isNaN(valorUnitario) &&
+    //   valorUnitario <= valorCompra
+    // ) {
+    //   toast.error("O valor unitário deve ser maior que o valor de compra!");
+    //   return false;
+    // }
     return true;
   };
 
   const buscarURLImagem = () => {
+    if (imagem) {
+      salvarProduto(imagem);
+      return;
+    }
+    if (imagem == "") {
+      salvarProduto("");
+      return;
+    }
     if (enviroments.ambiente === "jsonserver") {
       const urlJsonServer = URL.createObjectURL(imagem);
       setUrlImagemTemporaria(urlJsonServer);
@@ -180,12 +187,16 @@ const CadastroProdutoFormulario = ({
     } else {
       console.log("funcionario.id:", funcionario.userId);
       const metodo = produtoSelecionado
-        ? api.patch(`${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`, dados, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        ? api.patch(
+            `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`,
+            dados,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
         : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+            headers: { Authorization: `Bearer ${token}` },
+          });
       metodo
         .then(() => {
           toast.success(
@@ -203,11 +214,12 @@ const CadastroProdutoFormulario = ({
   };
 
   useEffect(() => {
-    api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api
+      .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           setSetores(res.data);
@@ -218,20 +230,21 @@ const CadastroProdutoFormulario = ({
         toast.error("Erro ao buscar setores!");
       });
 
-    api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      if (Array.isArray(res.data)) {
-        setCategorias(res.data);
-      }
-    })
+    api
+      .get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setCategorias(res.data);
+        }
+      })
       .catch((err) => {
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
       });
-
   }, []);
 
   const handleSubmit = (e) => {
@@ -242,13 +255,15 @@ const CadastroProdutoFormulario = ({
   };
 
   const formatarParaReal = (valor) => {
-  if (valor == null) return "R$ 0,00";
+    if (valor == null) return "R$ 0,00";
 
-  const numero = String(valor).replace(/\D/g, "");
-  const valorNumerico = (parseInt(numero, 10) / 100).toFixed(2);
-  return "R$ " + valorNumerico.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-};
-
+    const numero = String(valor).replace(/\D/g, "");
+    const valorNumerico = (parseInt(numero, 10) / 100).toFixed(2);
+    return (
+      "R$ " +
+      valorNumerico.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    );
+  };
 
   const capitalizarPalavras = (texto) => {
     return texto
@@ -274,7 +289,9 @@ const CadastroProdutoFormulario = ({
               type="number"
               style={{ width: "100%" }}
               value={produto.codigo}
-              onChange={(e) => setProduto({ ...produto, codigo: e.target.value })}
+              onChange={(e) =>
+                setProduto({ ...produto, codigo: e.target.value })
+              }
               required
               min="0"
             />
@@ -307,7 +324,6 @@ const CadastroProdutoFormulario = ({
             }}
             required
           />
-
         </div>
 
         <div className="linha-dupla">
@@ -315,8 +331,9 @@ const CadastroProdutoFormulario = ({
             <label>Setor</label>
             <select
               value={produto.setor}
-              onChange={(e) => setProduto({ ...produto, setor: parseInt(e.target.value) })
-            }
+              onChange={(e) =>
+                setProduto({ ...produto, setor: parseInt(e.target.value) })
+              }
               required
             >
               <option value="">Selecione um Setor</option>
@@ -327,7 +344,7 @@ const CadastroProdutoFormulario = ({
               ))}
             </select>
           </div>
-          
+
           <div className="grupo-inputs">
             <label>Categoria</label>
             <select
@@ -355,7 +372,9 @@ const CadastroProdutoFormulario = ({
               value={formatarParaReal(produto.valorCompra)}
               onChange={(e) => {
                 const apenasNumeros = e.target.value.replace(/\D/g, "");
-                const valorEmReais = (parseInt(apenasNumeros || "0", 10) / 100).toFixed(2);
+                const valorEmReais = (
+                  parseInt(apenasNumeros || "0", 10) / 100
+                ).toFixed(2);
                 setProduto({ ...produto, valorCompra: valorEmReais });
               }}
             />
@@ -367,7 +386,9 @@ const CadastroProdutoFormulario = ({
               value={formatarParaReal(produto.valorUnitario)}
               onChange={(e) => {
                 const apenasNumeros = e.target.value.replace(/\D/g, "");
-                const valorEmReais = (parseInt(apenasNumeros || "0", 10) / 100).toFixed(2);
+                const valorEmReais = (
+                  parseInt(apenasNumeros || "0", 10) / 100
+                ).toFixed(2);
                 setProduto({ ...produto, valorUnitario: valorEmReais });
               }}
             />

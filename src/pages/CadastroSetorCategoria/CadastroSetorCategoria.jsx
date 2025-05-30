@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { ENDPOINTS } from "../../utils/endpoints";
+import LayoutTela from "../../components/LayoutTela/LayoutTela";
 
 
 export function CadastroSetorCategoria() {

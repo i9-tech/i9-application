@@ -5,6 +5,7 @@ import { getFuncionario } from "../../../utils/auth";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
+import { ROUTERS } from "../../../utils/routers";
 
 
 function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado }) {
@@ -89,7 +90,7 @@ function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBus
         <button
           className="add-btn-prod"
           onClick={() => {
-            navigate("/estoque/formulario-produtos");
+            navigate(ROUTERS.FORMULARIO_PRODUTOS);
           }}
           style={{ color: "#fff", fontWeight: "bold" }}
         >

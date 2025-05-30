@@ -29,21 +29,20 @@ const CadastroProdutoFormulario = ({
     codigo: "",
     nome: "",
     quantidade: "",
-    valorCompra: "",
-    valorUnitario: "",
+    valorCompra: 0,
+    valorUnitario: 0,
     quantidadeMin: "",
     quantidadeMax: "",
     dataRegistro: "",
   });
-
   useEffect(() => {
     if (produtoSelecionado) {
       setProduto({
         codigo: produtoSelecionado.codigo || "",
         nome: produtoSelecionado.nome || "",
         quantidade: produtoSelecionado.quantidade || "",
-        valorCompra: produtoSelecionado.valorCompra || "",
-        valorUnitario: produtoSelecionado.valorUnitario || "",
+        valorCompra: produtoSelecionado.valorCompra !== undefined && produtoSelecionado.valorCompra !== "" ? Number(produtoSelecionado.valorCompra).toFixed(2) : "",
+        valorUnitario: produtoSelecionado.valorUnitario !== undefined && produtoSelecionado.valorUnitario !== "" ? Number(produtoSelecionado.valorUnitario).toFixed(2) : "",
         quantidadeMin: produtoSelecionado.quantidadeMin || "",
         quantidadeMax: produtoSelecionado.quantidadeMax || "",
         dataRegistro: produtoSelecionado.dataRegistro || "",
@@ -100,20 +99,20 @@ const CadastroProdutoFormulario = ({
       );
       return false;
     }
-    // if (!imagem) {
-    //   toast.error("A imagem do produto é um campo obrigatório!");
-    //   return false;
-    // }
-    // const valorCompra = parseFloat(produto.valorCompra.replace(",", "."));
-    // const valorUnitario = parseFloat(produto.valorUnitario.replace(",", "."));
-    // if (
-    //   !isNaN(valorCompra) &&
-    //   !isNaN(valorUnitario) &&
-    //   valorUnitario <= valorCompra
-    // ) {
-    //   toast.error("O valor unitário deve ser maior que o valor de compra!");
-    //   return false;
-    // }
+    const valorCompra = parseFloat(
+      String(produto.valorCompra).replace(/\./g, "").replace(",", ".")
+    );
+    const valorUnitario = parseFloat(
+      String(produto.valorUnitario).replace(/\./g, "").replace(",", ".")
+    );
+    if (
+      !isNaN(valorCompra) &&
+      !isNaN(valorUnitario) &&
+      valorUnitario <= valorCompra
+    ) {
+      toast.error("O valor unitário deve ser maior que o valor de compra!");
+      return false;
+    }
     return true;
   };
 

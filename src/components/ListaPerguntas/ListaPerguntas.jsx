@@ -1,4 +1,5 @@
-import { motion, AnimatePresence } from "motion/react";
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ListaPerguntas({
 tipoPergunta, respostaPergunta, aberta, aoClicar, selecionado

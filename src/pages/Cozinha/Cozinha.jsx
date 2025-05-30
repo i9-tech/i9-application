@@ -1,7 +1,6 @@
 import "./Cozinha.css";
 
-import React, { useState } from "react";
-import Navbar from "../../components/Navbar/Navbar";
+import { useState } from "react";
 import Comanda from "../../components/ComandaFinal/Comanda/Comanda"
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 
@@ -9,7 +8,7 @@ import LancheNatural from "../../assets/sandwich.png";
 import ChickenJr from "../../assets/ChickenJr.png";
 
 export function Cozinha() {
-  const [pedidos, setPedidos] = useState([
+  const [pedidos, _setPedidos] = useState([
     {
       numeroPedido: 250,
       cliente: "Jhonattan",

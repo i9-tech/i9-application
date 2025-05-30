@@ -9,17 +9,22 @@ import Swal from "sweetalert2";
 import "./Produtos.css";
 import { useParams } from "react-router-dom";
 import { ENDPOINTS } from "../../utils/endpoints";
+import { getFuncionario, getToken } from "../../utils/auth";
 
 export function Produtos() {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const params = useParams();
+  const token = getToken();
+  const funcionario = getFuncionario();
   const [descricao, setDescricao] = useState("");
   const [imagem, setImagem] = useState("");
 
   useEffect(() => {
-    if (params != null) {
+    if (params != null) {
       api
-        .get(`${ENDPOINTS.PRODUTOS}/${params.id}`)
+        .get(`${ENDPOINTS.PRODUTOS}/${params.id}/${funcionario.userId}`,{
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then((res) => {
           setProdutoSelecionado(res.data);
           setDescricao(res.data?.descricao || "");

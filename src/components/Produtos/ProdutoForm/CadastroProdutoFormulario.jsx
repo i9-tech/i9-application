@@ -242,12 +242,13 @@ const CadastroProdutoFormulario = ({
   };
 
   const formatarParaReal = (valor) => {
-    if (!valor) return "R$ 0,00";
+  if (valor == null) return "R$ 0,00";
 
-    const numero = valor.replace(/\D/g, "");
-    const valorNumerico = (parseInt(numero, 10) / 100).toFixed(2);
-    return "R$ " + valorNumerico.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  };
+  const numero = String(valor).replace(/\D/g, "");
+  const valorNumerico = (parseInt(numero, 10) / 100).toFixed(2);
+  return "R$ " + valorNumerico.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
 
   const capitalizarPalavras = (texto) => {
     return texto

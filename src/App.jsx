@@ -73,6 +73,14 @@ function App() {
             }
           />
           <Route
+            path={`${ROUTERS.FORMULARIO_PRODUTOS}/:id`}
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <Produtos />
+              </RotaPrivada>
+            }
+          />
+          <Route
             path={ROUTERS.ESTOQUE_PRATOS}
             element={
               <RotaPrivada permissao="ROLE_ESTOQUE">
@@ -82,6 +90,14 @@ function App() {
           />
           <Route
             path={ROUTERS.FORMULARIO_PRATOS}
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <Pratos />
+              </RotaPrivada>
+            }
+          />
+          <Route
+            path={`${ROUTERS.FORMULARIO_PRATOS}/:id`}
             element={
               <RotaPrivada permissao="ROLE_ESTOQUE">
                 <Pratos />

@@ -22,11 +22,11 @@ import "react-tooltip/dist/react-tooltip.css";
 
 
 function App() {
-  return (
-    <Routes>
-      <Route path={ROUTERS.DASHBOARD} element={<Dashboard />} />
-    </Routes>
-  );
+  // return (
+  //   <Routes>
+  //     <Route path={ROUTERS.DASHBOARD} element={<Dashboard />} />
+  //   </Routes>
+  // );
 
   return (
     <>

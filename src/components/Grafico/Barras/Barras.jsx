@@ -4,8 +4,8 @@ import "../Grafico.css";
 
 export default function Barras({ dados }) {
   const categorias = dados.map((item) => item.nome);
-  const quantidades = dados.map((item) => item.quantidade);
-  const maxY = Math.max(...quantidades) + 10;
+  const quantidades = dados.map((item) => item.quantidadeVendida);
+  const maxY = Math.max(...quantidades) + 1;
 
   const options = {
     chart: {
@@ -40,8 +40,8 @@ export default function Barras({ dados }) {
         rotate: -45,
         style: { fontSize: "12px" },
         formatter: (val) => {
-          const partes = String(val).split(" ");
-          return partes[partes.length - 1];
+          const partes = String(val).split(" ")[0];
+          return partes;
         },
       },
       axisBorder: { show: true },
@@ -82,6 +82,10 @@ export default function Barras({ dados }) {
       data: quantidades,
     },
   ];
+
+  if (!dados || dados.length === 0) {
+    return <div>Carregando gráfico...</div>;
+  }
 
   return (
     <div className="grafico-wrapper">

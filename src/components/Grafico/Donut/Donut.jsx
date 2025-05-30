@@ -3,8 +3,8 @@ import ReactApexChart from "react-apexcharts";
 import "../Grafico.css";
 
 export default function Donut({ dados }) {
-  const categorias = dados.map((item) => item.categoria);
-  const valores = dados.map((item) => item.valor);
+  const categorias = dados.map((item) => item.nomeCategoria);
+  const valores = dados.map((item) => item.quantidadeVendida);
 
   const options = {
     chart: {
@@ -24,7 +24,7 @@ export default function Donut({ dados }) {
               show: true,
               label: "Total",
               formatter: (w) =>
-                w.globals.seriesTotals
+                (w?.globals?.seriesTotals || [])
                   .reduce((a, b) => a + b, 0)
                   .toLocaleString("pt-BR", {
                     style: "currency",
@@ -56,20 +56,20 @@ export default function Donut({ dados }) {
       },
     },
     legend: {
-      show: true, // Mostrar ou esconder a legenda
-      position: "left", // "top" | "bottom" | "left" | "right"
-      horizontalAlign: "left", // "left" | "center" | "right"
-      fontSize: "13px", // Tamanho da fonte
-      fontWeight: "normal", // Peso da fonte
+      show: true,
+      position: "left",
+      horizontalAlign: "left",
+      fontSize: "13px",
+      fontWeight: "normal",
       labels: {
-        colors: "#000", // Cor do texto
+        colors: "#000",
       },
       itemMargin: {
-        horizontal: 15, // Espaçamento horizontal entre itens
-        vertical: 10, // Espaçamento vertical entre itens
+        horizontal: 15,
+        vertical: 10,
       },
-      offsetX: 10, // Deslocamento horizontal da legenda
-      offsetY: 0, // Deslocamento vertical da legenda
+      offsetX: 10,
+      offsetY: 0,
     },
     tooltip: {
       y: {
@@ -83,6 +83,10 @@ export default function Donut({ dados }) {
       },
     },
   };
+
+  if (!dados || dados.length === 0) {
+    return <div>Carregando gráfico...</div>;
+  }
 
   return (
     <div className="grafico-wrapper">

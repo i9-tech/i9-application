@@ -8,45 +8,124 @@ import Ranking from "../../components/Ranking/Ranking";
 import Barras from "../../components/Grafico/Barras/Barras";
 import Resumo from "../../components/Ranking/Resumo/Resumo";
 import Donut from "../../components/Grafico/Donut/Donut";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "../../provider/api";
+import { ENDPOINTS } from "../../utils/endpoints";
+import { getFuncionario, getToken } from "../../utils/auth";
 
 export function Dashboard() {
+  const funcionario = getFuncionario();
+  const token = getToken();
+  const [dadosPratos, setDadosPratos] = useState([]);
+  const [dadosProdutos, setDadosProdutos] = useState([]);
+  const [dadosCategorias, setDadosCategorias] = useState([]);
+  const [pratoMaisVendido, setPratoMaisVendido] = useState({});
+  const [produtoMaisVendido, setProdutoMaisVendido] = useState({});
+  const [quantidadeTotalVendida, setQuantidadeTotalVendida] = useState(0);
+  const [valorTotalVendido, setValorTotalVendido] = useState(0);
+
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
     day: "2-digit",
     month: "long",
     year: "numeric",
   });
+
   const [isKpiProduto, setIsKpiProduto] = useState(false);
 
-  // JSON com pratos
-  const pratos = [
-    { nome: "Feijoada", quantidade: 43 },
-    { nome: "Frango à Parmegiana", quantidade: 31 },
-    { nome: "Lasanha", quantidade: 40 },
-    { nome: "Estrogonofe", quantidade: 11 },
-    { nome: "Escondidinho", quantidade: 40 },
-    { nome: "Moqueca", quantidade: 36 },
-    { nome: "Salada Caeser", quantidade: 32 },
-  ];
+  useEffect(() => {
+    api
+      .get(`${ENDPOINTS.VENDA_TOP_PRATOS}/${funcionario.empresaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setDadosPratos(res.data);
+        pratoMaisComprado(res.data);
+        console.log("Pratos recuperados: ", res.data);
+      })
+      .catch((err) => {
+        console.log("Erro ao buscar pratos: ", err);
+      });
 
-  const pratoMaisComprado = pratos.reduce((maior, pratoAtual) =>
-    pratoAtual.quantidade > maior.quantidade ? pratoAtual : maior
-  );
+    api
+      .get(`${ENDPOINTS.VENDA_TOP_PRODUTOS}/${funcionario.empresaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setDadosProdutos(res.data);
+        produtoMaisComprado(res.data);
+        console.log("Produtos recuperados: ", res.data);
+      })
+      .catch((err) => {
+        console.log("Erro ao buscar produtos: ", err);
+      });
 
-  // JSON com produtos
-  const produtos = [
-    { nome: "Água", quantidade: 15 },
-    { nome: "Bolinho Ana Maria", quantidade: 22 },
-    { nome: "Salgadinho", quantidade: 30 },
-    { nome: "Açúcar", quantidade: 10 },
-    { nome: "Café", quantidade: 18 },
-    { nome: "Óleo", quantidade: 25 },
-    { nome: "Sal", quantidade: 12 },
-  ];
+    api
+      .get(`${ENDPOINTS.VENDA_TOP_CATEGORIAS}/${funcionario.empresaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setDadosCategorias(res.data);
+        console.log("Categorias recuperadas: ", res.data);
+      })
+      .catch((err) => {
+        console.log("Erro ao buscar categorias: ", err);
+      });
 
-  const produtoMaisComprado = produtos.reduce((maior, produtoAtual) =>
-    produtoAtual.quantidade > maior.quantidade ? produtoAtual : maior
-  );
+    api
+      .get(
+        `${ENDPOINTS.VENDA_ITENS_VENDIDOS_DIARIO}/${funcionario.empresaId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        console.log("Vendas recuperadas: ", res.data);
+      })
+      .catch((err) => {
+        console.log("Erro ao buscar vendas: ", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    calcularTotal();
+  }, [dadosPratos, dadosProdutos]);
+
+  const pratoMaisComprado = (pratos) => {
+    const maisVendido = pratos.reduce((maior, atual) =>
+      atual.quantidadeVendida > maior.quantidadeVendida ? atual : maior
+    );
+    setPratoMaisVendido(maisVendido);
+  };
+
+  const produtoMaisComprado = (produtos) => {
+    const maisVendido = produtos.reduce((maior, atual) =>
+      atual.quantidadeVendida > maior.quantidadeVendida ? atual : maior
+    );
+    setProdutoMaisVendido(maisVendido);
+  };
+
+  const calcularTotal = () => {
+    const quantidadePratos = dadosPratos.reduce(
+      (acc, item) => acc + item.quantidadeVendida,
+      0
+    );
+    const quantidadeProdutos = dadosProdutos.reduce(
+      (acc, item) => acc + item.quantidadeVendida,
+      0
+    );
+
+    const valorPratos = dadosPratos.reduce(
+      (acc, item) => acc + item.totalVendas,
+      0
+    );
+    const valorProdutos = dadosProdutos.reduce(
+      (acc, item) => acc + item.totalVendas,
+      0
+    );
+
+    setQuantidadeTotalVendida(quantidadePratos + quantidadeProdutos);
+    setValorTotalVendido(valorPratos + valorProdutos);
+  };
 
   // JSON com setores
   const setores = [
@@ -62,15 +141,6 @@ export function Dashboard() {
     { setor: "Petiscos", quantidade: 35, valor: 350 },
   ];
 
-  // JSON com categorias
-  const categorias = [
-    { categoria: "Hortifrúti", quantidade: 180, valor: 2500 },
-    { categoria: "Bebidas", quantidade: 220, valor: 3100 },
-    { categoria: "Laticínios e Frios", quantidade: 150, valor: 2800 },
-    { categoria: "Mercearia Seca", quantidade: 300, valor: 4500 },
-    { categoria: "Congelados", quantidade: 90, valor: 1900 },
-  ];
-
   return (
     <>
       <LayoutTela titulo="Dashboard" adicional={diaAtual}>
@@ -79,7 +149,7 @@ export function Dashboard() {
             <Kpi
               key={"abss"}
               titulo={"Lucro Bruto"}
-              valor={"R$ 500,00"}
+              valor={`R$ ${valorTotalVendido}`}
               adicional={"+R$ 150,00 em relação ao dia anterior"}
               indicador={"#6f6df1"}
             />
@@ -93,32 +163,42 @@ export function Dashboard() {
             <Kpi
               key={"absdass"}
               titulo={"Quantidade de Vendas"}
-              valor={"200 vendas"}
+              valor={`${quantidadeTotalVendida} vendas`}
               adicional={"+15 em relação ao dia anterior"}
               indicador={"#41c482"}
             />
             <Kpi
               key={"abssdasdas"}
               titulo={` ${isKpiProduto ? "Produto" : "Prato"} Mais Vendido`}
-              valor={isKpiProduto ? produtoMaisComprado.nome : pratoMaisComprado.nome}
-              adicional={`${isKpiProduto ? produtoMaisComprado.quantidade : pratoMaisComprado.quantidade} unidades`}
+              valor={
+                isKpiProduto
+                  ? produtoMaisVendido.nome?.split(" ")[0]
+                  : pratoMaisVendido.nome?.split(" ")[0]
+              }
+              adicional={`${
+                isKpiProduto
+                  ? produtoMaisVendido.quantidadeVendida
+                  : pratoMaisVendido.quantidadeVendida
+              } unidades`}
               indicador={"#d35757"}
               cursor={"pointer"}
-              onClick={() => {setIsKpiProduto(!isKpiProduto)}}
+              onClick={() => {
+                setIsKpiProduto(!isKpiProduto);
+              }}
             />
           </section>
           <section className="graficos">
             <Grafico titulo={"Pratos mais Vendidos"}>
-              <Barras dados={pratos} />
+              <Barras dados={dadosPratos} />
             </Grafico>
             <Grafico titulo={"Produtos mais Vendidos"}>
-              <Barras dados={produtos} />
+              <Barras dados={dadosProdutos} />
             </Grafico>
             <Ranking titulo={"Setores com Maiores Vendas"}>
               <Resumo dados={setores}></Resumo>
             </Ranking>
             <Grafico titulo={"Top 5 Categorias mais Vendidas"}>
-              <Donut dados={categorias} />
+              <Donut dados={dadosCategorias} />
             </Grafico>
           </section>
         </article>

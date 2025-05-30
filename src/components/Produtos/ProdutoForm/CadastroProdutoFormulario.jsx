@@ -100,10 +100,10 @@ const CadastroProdutoFormulario = ({
       );
       return false;
     }
-    if (!imagem) {
-      toast.error("A imagem do produto é um campo obrigatório!");
-      return false;
-    }
+    // if (!imagem) {
+    //   toast.error("A imagem do produto é um campo obrigatório!");
+    //   return false;
+    // }
     // const valorCompra = parseFloat(produto.valorCompra.replace(",", "."));
     // const valorUnitario = parseFloat(produto.valorUnitario.replace(",", "."));
     // if (
@@ -118,14 +118,6 @@ const CadastroProdutoFormulario = ({
   };
 
   const buscarURLImagem = () => {
-    if (imagem) {
-      salvarProduto(imagem);
-      return;
-    }
-    if (imagem == "") {
-      salvarProduto("");
-      return;
-    }
     if (enviroments.ambiente === "jsonserver") {
       const urlJsonServer = URL.createObjectURL(imagem);
       setUrlImagemTemporaria(urlJsonServer);
@@ -145,6 +137,14 @@ const CadastroProdutoFormulario = ({
           salvarProduto(res.data.imageUrl);
         })
         .catch((err) => {
+          if (imagem) {
+            salvarProduto(imagem);
+            return;
+          }
+          if (imagem == "") {
+            salvarProduto("");
+            return;
+          }
           console.log("erro ao adicionar imagem ao blob storage: ", err);
         });
     }

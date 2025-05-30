@@ -180,7 +180,7 @@ const CadastroProdutoFormulario = ({
     } else {
       console.log("funcionario.id:", funcionario.userId);
       const metodo = produtoSelecionado
-        ? api.patch(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}/${produtoSelecionado.id}`, dados, {
+        ? api.patch(`${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`, dados, {
           headers: { Authorization: `Bearer ${token}` },
         })
         : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {

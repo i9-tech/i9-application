@@ -118,3 +118,64 @@
 .formulario-prato .botoes-prato button:last-child:hover {
   background-color: #000099;
 }
+
+.checkbox-pratos {
+  display: flex;
+  gap: 30px;
+  margin-top: 8px;
+}
+
+.caixinhas-checkbox {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  font-size: 15px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #333;
+}
+
+.estilo-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checado {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border: 2px solid #0000cc;
+  border-radius: 4px;
+}
+
+.caixinhas-checkbox .estilo-checkbox:checked ~ .checado {
+  background-color: #0000cc;
+}
+
+.checado:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.caixinhas-checkbox .estilo-checkbox:checked ~ .checado:after {
+  display: block;
+}
+
+.caixinhas-checkbox .checado:after {
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}

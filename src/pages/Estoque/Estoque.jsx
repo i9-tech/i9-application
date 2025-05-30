@@ -13,7 +13,7 @@ import { getFuncionario } from "../../utils/auth";
 export function Estoque() {
   const hoje = new Date().toLocaleDateString("en-US");
   const [filtroStatus, setFiltroStatus] = useState(null);
-  const [produtos, setProdutos] = useState([{}]);
+  const [produtos, setProdutos] = useState([]);
   const [resumo, setResumo] = useState([{}]);
   const token = localStorage.getItem("token");
   const funcionario = getFuncionario();

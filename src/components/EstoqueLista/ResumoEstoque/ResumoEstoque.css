@@ -84,3 +84,9 @@
 .verde {
   background-color: #4caf50;
 }
+
+.icone-ajuda {
+  margin-left: -5px;
+  cursor: pointer;
+  vertical-align: middle; 
+}

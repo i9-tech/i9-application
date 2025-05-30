@@ -7,24 +7,31 @@ import { calcularResumoPratos } from "./DadosPratos/utilsPratos";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import api from "../../provider/api";
 import { ENDPOINTS } from "../../utils/endpoints";
+import { getFuncionario } from "../../utils/auth";
 
 export function EstoquePratos() {
+  const token = localStorage.getItem("token");
+  const funcionario = getFuncionario();
+  const [termoBusca, setTermoBusca] = useState("");
+  const [setorSelecionado, setSetorSelecionado] = useState("");
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
+
   const [filtros, setFiltros] = useState({
     status: null,
     categoria: "",
     setor: "",
   });
-  
-  const [pratos, setPratos] = useState([{}]);
+
+  const [pratos, setPratos] = useState([]);
   const [resumo, setResumo] = useState([{}]);
 
   useEffect(() => {
     buscarPratos();
-  }, [pratos]);
+  }, []);
 
   const buscarPratos = () => {
     api
-      .get(ENDPOINTS.PRATOS)
+      .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
         setPratos(res.data);
         setResumo(calcularResumoPratos(res.data));
@@ -35,20 +42,32 @@ export function EstoquePratos() {
   };
 
   return (
-    <LayoutTela 
-      titulo="Estoque de Pratos" 
+    <LayoutTela
+      titulo="Estoque de Pratos"
       adicional={`${pratos.length} itens cadastrados`}
     >
       <div className="estoque">
-        <FiltrosPratos 
+        <FiltrosPratos
           filtros={filtros}
-          setFiltros={setFiltros} 
+          setFiltros={setFiltros}
+          termoBusca={termoBusca}
+          setTermoBusca={setTermoBusca}
+          setorSelecionado={setorSelecionado}
+          setSetorSelecionado={setSetorSelecionado}
+          categoriaSelecionada={categoriaSelecionada}
+          setCategoriaSelecionada={setCategoriaSelecionada}
         />
         <ResumoPratos {...resumo} />
-        <TabelaPratos 
-          pratos={pratos} 
-          filtros={filtros} 
+        <TabelaPratos
+          pratos={pratos}
+          filtros={filtros}
           buscarPratos={buscarPratos}
+          termoBusca={termoBusca}
+          setTermoBusca={setTermoBusca}
+          setorSelecionado={setorSelecionado}
+          setSetorSelecionado={setSetorSelecionado}
+          categoriaSelecionada={categoriaSelecionada}
+          setCategoriaSelecionada={setCategoriaSelecionada}
         />
       </div>
     </LayoutTela>

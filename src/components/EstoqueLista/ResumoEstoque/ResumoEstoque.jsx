@@ -8,15 +8,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { FiHelpCircle } from "react-icons/fi";
 
 
-export function ResumoEstoque() {
+export function ResumoEstoque({
+  semEstoque = 0,
+  lucroLiquido = 0,
+}) {
   const token = localStorage.getItem("token");
   const funcionario = getFuncionario();
 
   const [lucroBruto, setLucroBruto] = useState(0);
-  const [lucroLiquido, setLucroLiquido] = useState(0);
   const [valorTotalEstoque, setValorTotalEstoque] = useState(0);
   const [estoqueBaixo, setEstoqueBaixo] = useState(0);
-  const [semEstoque, setSemEstoque] = useState(0);
   const [emEstoque, setEmEstoque] = useState(0);
 
 
@@ -88,9 +89,13 @@ export function ResumoEstoque() {
                 style: "currency",
                 currency: "BRL",
               })}
+              <FiHelpCircle className="icone-ajuda"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Soma do valor de compra de todos os produtos em estoque."
+              />
             </span>
             <span className="resumo-label-prod">
-              Valor total do Estoque
+              Valor Total do Estoque
             </span>
           </div>
 
@@ -100,8 +105,14 @@ export function ResumoEstoque() {
                 style: "currency",
                 currency: "BRL",
               })}
+              <FiHelpCircle className="icone-ajuda"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Soma do valor de venda de todos os produtos em estoque."
+                />
             </span>
-            <span className="resumo-label-prod">Lucro bruto venda</span>
+            <span className="resumo-label-prod">
+              Lucro Bruto
+            </span>
           </div>
 
           <div className="resumo-item-prod">
@@ -110,8 +121,14 @@ export function ResumoEstoque() {
                 style: "currency",
                 currency: "BRL",
               })}
+              <FiHelpCircle className="icone-ajuda"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Diferença entre preço de venda e compra de todos os produtos. (Venda - Compra)." />
+
             </span>
-            <span className="resumo-label-prod">Lucro líquido esperado</span>
+            <span className="resumo-label-prod">
+              Lucro Líquido Esperado
+            </span>
           </div>
         </div>
 
@@ -143,8 +160,6 @@ export function ResumoEstoque() {
           </div>
         </div>
       </div>
-
-      <ToastContainer position="top-right" autoClose={3000} theme="light" />
     </>
   );
 }

@@ -1,13 +1,20 @@
-import React, { useState } from "react";
-import "./FiltrosPratos.css"; 
+import React, { useState, useEffect } from "react";
+import api from "../../../provider/api";
+import "./FiltrosPratos.css";
 import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../../../utils/endpoints";
+import { getFuncionario } from "../../../utils/auth";
 
-function FiltrosPratos({ setFiltros }) {
+
+function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado, categoriaSelecionada, setCategoriaSelecionada }) {
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
   const [filtroStatus, setFiltroStatus] = useState(null);
-  const [categoria, setCategoria] = useState("");
-  const [setor, setSetor] = useState("");
+  const [setores, setSetores] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+
+  const funcionario = getFuncionario();
+  const token = localStorage.getItem("token");
 
 
   const atualizarFiltros = () => {
@@ -18,33 +25,62 @@ function FiltrosPratos({ setFiltros }) {
     });
   };
 
-
   const aplicarFiltro = (tipo) => {
     setFiltroStatus(tipo);
-    atualizarFiltros();
     setMenuAberto(false);
   };
+
 
   const limparFiltroStatus = () => {
     setFiltroStatus(null);
     atualizarFiltros();
   };
+  useEffect(() => {
+    api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setSetores(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar setores:", err);
+        toast.error("Erro ao buscar setores!");
+      });
 
-  const handleCategoriaChange = (e) => {
-  const novaCategoria = e.target.value;
-  setCategoria(novaCategoria);
-  atualizarFiltros(filtroStatus, novaCategoria, setor); // usa o valor correto já aqui
-};
+    api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setCategorias(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar categoria:", err);
+        toast.error("Erro ao buscar categoria!");
+      });
+  }, []);
 
-const handleSetorChange = (e) => {
-  const novoSetor = e.target.value;
-  setSetor(novoSetor);
-  atualizarFiltros(filtroStatus, categoria, novoSetor); // idem
-};
+  useEffect(() => {
+    setFiltros({
+      status: filtroStatus,
+      categoria: categoriaSelecionada,
+      setor: setorSelecionado,
+    });
+  }, [filtroStatus, categoriaSelecionada, setorSelecionado]);
+
+
 
   return (
     <div className="top-actions">
-      <input type="text" placeholder="Procurar Prato" className="search" />
+      <input type="text" placeholder="Procurar Prato" className="search" value={termoBusca}
+        onChange={(e) => setTermoBusca(e.target.value)} />
 
       <div className="filtros-dropdown">
         <button className="filtro" onClick={() => setMenuAberto(!menuAberto)}>
@@ -53,37 +89,49 @@ const handleSetorChange = (e) => {
 
         {menuAberto && (
           <div className="menu-filtros">
-            <button onClick={() => aplicarFiltro("ativo")}>✅ Ativos</button>
-            <button onClick={() => aplicarFiltro("inativo")}>🚫 Inativos</button>
+            <button onClick={() => aplicarFiltro("disponível")}>✅ Disponíveis</button>
+            <button onClick={() => aplicarFiltro("indisponível")}>🚫 Indisponíveis</button>
           </div>
         )}
       </div>
 
       {filtroStatus && (
         <button className="filtro-ativo" onClick={limparFiltroStatus}>
-          {filtroStatus === "ativo" && "✅ Ativos ✕"}
-          {filtroStatus === "inativo" && "🚫 Inativos ✕"}
+          {filtroStatus === "disponível" && "✅ Disponíveis ✕"}
+          {filtroStatus === "indisponível" && "🚫 Indisponíveis ✕"}
         </button>
       )}
 
-      <select className="select-categoria" onChange={handleCategoriaChange} value={categoria}>
-        <option value="">Categoria do Prato</option>
-        <option value="Entrada">Entrada</option>
-        <option value="Prato Principal">Prato Principal</option>
-        <option value="Sobremesa">Sobremesa</option>
-        <option value="Bebida">Bebida</option>
+      <select
+        className="select-categoria"
+        value={setorSelecionado}
+        onChange={(e) => setSetorSelecionado(e.target.value)}
+      >
+        <option value="">Todos Setores</option>
+        {setores.map((set) => (
+          <option key={set.id} value={set.id}>
+            {set.nome}
+          </option>
+        ))}
       </select>
 
-      <select className="select-categoria" onChange={handleSetorChange} value={setor}>
-        <option value="">Setor Selecionado</option>
-        <option value="Pastelaria">Pastelaria</option>
-        <option value="Lanchonete">Lanchonete</option>
-        <option value="Restaurante">Restaurante</option>
+      <select
+        className="select-categoria"
+        value={categoriaSelecionada}
+        onChange={(e) => setCategoriaSelecionada(e.target.value)}
+      >        <option value="">Todas as Categorias</option>
+        {categorias.map((cat) => (
+          <option key={cat.id} value={cat.id}>
+            {cat.nome}
+          </option>
+        ))}
       </select>
+
+
 
       <button
         className="add-btn"
-        onClick={() => navigate("/estoque-pratos/formulario-pratos")}
+        onClick={() => navigate("/pratos/formulario-pratos")}
         style={{ color: "#fff", fontWeight: "bold" }}
       >
         + Adicionar Prato

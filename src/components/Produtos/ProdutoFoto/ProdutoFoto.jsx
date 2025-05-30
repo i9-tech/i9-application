@@ -5,35 +5,39 @@ import { enviroments } from "../../../utils/enviroments";
 
 const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
   const tokenImagem = enviroments.tokenURL;
-  // console.log("Token da imagem:", tokenImagem);
   const [previewImagem, setPreviewImagem] = useState("");
 
-  useEffect(() => {
-    if (typeof imagem === "string" && imagem.trim() !== "") {
-      if (enviroments.ambiente === "jsonserver") {
-        setPreviewImagem(imagem);
-      } else {
-        setPreviewImagem(imagem + tokenImagem);
-      }
-    } else {
-      setPreviewImagem("");
-    }
-  }, [imagem, tokenImagem]);
+  const [uploadFeito, setUploadFeito] = useState(false);
 
   useEffect(() => {
+    if (!uploadFeito) {
+      if (typeof imagem === "string" && imagem.trim() !== "") {
+        if (enviroments.ambiente === "jsonserver") {
+          setPreviewImagem(imagem);
+        } else {
+          setPreviewImagem(imagem + tokenImagem);
+        }
+      } else {
+        setPreviewImagem("");
+      }
+    }
+  }, [imagem, tokenImagem, uploadFeito]);
+
+  useEffect(() => {
+    let urlAnterior = previewImagem;
     return () => {
-      if (previewImagem && previewImagem.startsWith("blob:")) {
-        URL.revokeObjectURL(previewImagem);
+      if (urlAnterior && urlAnterior.startsWith("blob:")) {
+        URL.revokeObjectURL(urlAnterior);
       }
     };
   }, [previewImagem]);
 
   const alterarImagem = (e) => {
     const arquivoImagem = e.target.files[0];
-
     if (arquivoImagem) {
       const urlImagemTemporaria = URL.createObjectURL(arquivoImagem);
       setPreviewImagem(urlImagemTemporaria);
+      setUploadFeito(true);
       setImagem(arquivoImagem);
     }
   };
@@ -45,7 +49,7 @@ const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
         <img
           src={previewImagem || imagemPadrao}
           alt="Foto do produto"
-          className={`imagem-preview ${!previewImagem ? "imagem-padrao" : ""}`}
+          className="imagem-preview"
         />
 
         <p className="texto-upload">

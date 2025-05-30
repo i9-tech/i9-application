@@ -15,6 +15,8 @@ export const ENDPOINTS = {
     PRATOS_BUSCAR: '/pratos/buscar',
     PRATOS_CATEGORIA: '/pratos/categoria',
     PRATOS_SETOR: '/pratos/setor',
+    PRATOS_TOTAL_PRECO: '/valor-pratos-todos',
+    PRATOS_LUCRO_BRUTO: '/valor-pratos',
     PRODUTOS: '/produtos',
     PRODUTOS_COMPRA: '/produtos/valor-total-estoque',
     PRODUTOS_LUBRO_BRUTO: '/produtos/lucro-previsto-estoque',

@@ -35,6 +35,7 @@ const CadastroFuncionarioFormulario = ({
       atendimento: false,
     });
     setFuncionarioSelecionado(null);
+    setFuncionarioSelecionado(null);
   };
 
   // const [showModal, setShowModal] = useState(false);
@@ -167,6 +168,17 @@ const CadastroFuncionarioFormulario = ({
       });
   };
 
+  const formatarCpf = (cpf) => {
+    cpf = cpf.replace(/\D/g, ""); // Remove tudo que não for dígito
+    if (cpf.length <= 11) {
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    }
+    return cpf;
+  };
+
+
   return (
     <div className="formulario-funcionario">
       <p className="descricao-funcionario">
@@ -188,7 +200,6 @@ const CadastroFuncionarioFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label htmlFor="cpf">CPF do Funcionário *</label>
           <input
             id="cpf"
             type="text"
@@ -206,7 +217,8 @@ const CadastroFuncionarioFormulario = ({
             required
             pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
             disabled={!!funcionarioSelecionado}
-          />
+            maxLength={14} />
+
         </div>
 
         <div className="grupo-inputs">

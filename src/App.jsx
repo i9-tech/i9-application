@@ -17,6 +17,9 @@ import Produtos from "./pages/FormularioProdutos/Produtos";
 import { ROUTERS } from "./utils/routers";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
+
 
 function App() {
   return (
@@ -65,6 +68,14 @@ function App() {
             }
           />
           <Route
+            path={`${ROUTERS.FORMULARIO_PRODUTOS}/:id`}
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <Produtos />
+              </RotaPrivada>
+            }
+          />
+          <Route
             path={ROUTERS.ESTOQUE_PRATOS}
             element={
               <RotaPrivada permissao="ROLE_ESTOQUE">
@@ -74,6 +85,14 @@ function App() {
           />
           <Route
             path={ROUTERS.FORMULARIO_PRATOS}
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <Pratos />
+              </RotaPrivada>
+            }
+          />
+          <Route
+            path={`${ROUTERS.FORMULARIO_PRATOS}/:id`}
             element={
               <RotaPrivada permissao="ROLE_ESTOQUE">
                 <Pratos />
@@ -108,7 +127,17 @@ function App() {
         </Routes>
       </main>
 
-       <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Tooltip
+        id="tooltip"
+        place="right"
+        style={{
+          maxWidth: "200px",
+          whiteSpace: "pre-line",
+          wordBreak: "break-word",
+          zIndex: 2,
+        }}
+      />
     </>
   );
 }

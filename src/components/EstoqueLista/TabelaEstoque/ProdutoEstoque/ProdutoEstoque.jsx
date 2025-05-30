@@ -3,7 +3,6 @@ import "./ProdutoEstoque.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../../provider/api";
-import { Tooltip } from "react-tooltip";
 import { enviroments } from "../../../../utils/enviroments";
 import { ENDPOINTS } from "../../../../utils/endpoints";
 import { getFuncionario } from "../../../../utils/auth";
@@ -63,6 +62,7 @@ const ProdutoEstoque = ({ produto, buscar }) => {
   const editar = (produto) => {
     navigate(`formulario-produtos/${produto.id}`);
   };
+
   const deletar = (id) => {
     Swal.fire({
       title: "Tem certeza?",
@@ -113,7 +113,7 @@ const ProdutoEstoque = ({ produto, buscar }) => {
         <td>{valorUnitarioFormatado}</td>
         <td>
           <span
-            data-tooltip-id="tooltip-quantidade"
+            data-tooltip-id="tooltip"
             data-tooltip-content={`Estoque máximo: ${produto.quantidadeMax}\nEstoque mínimo: ${produto.quantidadeMin}`}
             style={{ display: "inline-block", width: "100%", cursor: "pointer" }}
           >

@@ -19,7 +19,7 @@
 .formulario-prato .grupo-inputs {
   display: flex;
   flex-direction: column;
-  margin-bottom: 24px;
+  margin-bottom: 15px;
 }
 
 .formulario-prato .grupo-inputs label {

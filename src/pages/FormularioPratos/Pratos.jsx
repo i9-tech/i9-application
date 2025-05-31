@@ -12,7 +12,6 @@ import { getFuncionario, getToken } from "../../utils/auth";
 
 
 export function Pratos() {
-  const [pratos, setPratos] = useState([]);
   const [pratoSelecionado, setPratoSelecionado] = useState(null);
   const params = useParams();
   const token = getToken();
@@ -31,12 +30,13 @@ export function Pratos() {
           setPratoSelecionado(res.data);
           setDescricao(res.data?.descricao || "");
           setImagem(res.data?.imagem || "");
+          console.log("Prato para edição: ", res.data);
         })
         .catch((err) => {
-          console.error("Erro ao ao buscar produtos:", err);
+          console.error("Erro ao ao buscar pratos:", err);
         });
     }
-  }, [params]);
+  }, []);
 
   return (
     <>

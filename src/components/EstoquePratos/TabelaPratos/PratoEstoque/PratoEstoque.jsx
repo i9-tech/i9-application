@@ -9,7 +9,6 @@ import { getFuncionario } from "../../../../utils/auth";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-
 const PratoEstoque = ({ prato, buscar }) => {
   const navigate = useNavigate();
   const [valorVendaFormatado, setValorVendaFormatado] = useState("");
@@ -17,21 +16,29 @@ const PratoEstoque = ({ prato, buscar }) => {
   const [urlImagem, setUrlImagem] = useState("");
   const funcionario = getFuncionario();
 
-
   useEffect(() => {
-    formatarDados(prato)
-  }, [])
+    formatarDados(prato);
+  }, []);
 
   const formatarDados = (prato) => {
-
     // FORMATAÇÃO VALOR
     const VendaFormatado = Number(prato.valorVenda).toLocaleString("pt-BR", {
       style: "currency",
-      currency: "BRL"
+      currency: "BRL",
     });
 
     setValorVendaFormatado(VendaFormatado);
-  }
+
+    if (prato.imagem) {
+      if (enviroments.ambiente === "jsonserver") {
+        setUrlImagem(prato.imagem);
+      } else {
+        setUrlImagem(prato.imagem + tokenImagem);
+      }
+    } else {
+      setUrlImagem(null);
+    }
+  };
 
   const editar = (prato) => {
     navigate(`formulario-pratos/${prato.id}`);
@@ -46,21 +53,18 @@ const PratoEstoque = ({ prato, buscar }) => {
       confirmButtonText: "Sim, excluir",
       cancelButtonText: "Cancelar",
       customClass: {
-        confirmButton: 'btn-aceitar',
-        cancelButton: 'btn-cancelar',
+        confirmButton: "btn-aceitar",
+        cancelButton: "btn-cancelar",
       },
       buttonsStyling: false,
     }).then((result) => {
       if (result.isConfirmed) {
         api
-          .delete(
-            `${ENDPOINTS.PRATOS}/${id}/${funcionario.userId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${funcionario.token}`
-              }
-            }
-          )
+          .delete(`${ENDPOINTS.PRATOS}/${id}/${funcionario.userId}`, {
+            headers: {
+              Authorization: `Bearer ${funcionario.token}`,
+            },
+          })
           .then(() => {
             toast.success("Prato removido com sucesso!");
             buscar();
@@ -83,11 +87,13 @@ const PratoEstoque = ({ prato, buscar }) => {
       </td>
       <td>{prato.nome}</td>
       <td>{valorVendaFormatado}</td>
-      <td>{prato.disponivel ? (
-        <span className="disponível">✅ Ativo</span>
-      ) : (
-        <span className="indisponível">🚫 Inativo</span>
-      )}</td>
+      <td>
+        {prato.disponivel ? (
+          <span className="disponível">✅ Ativo</span>
+        ) : (
+          <span className="indisponível">🚫 Inativo</span>
+        )}
+      </td>
       <td>{prato.categoria?.nome}</td>
       <td>{prato.setor?.nome}</td>
       <td title={prato.descricao}>{prato.descricao}</td>

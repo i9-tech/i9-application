@@ -6,8 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { ROUTERS } from "../../../utils/routers";
 import { ENDPOINTS } from "../../../utils/endpoints";
-import { getFuncionario } from "../../../utils/auth";
-
+import { getFuncionario, getToken } from "../../../utils/auth";
+import { enviroments } from "../../../utils/enviroments";
 
 const CadastroPratoFormulario = ({
   pratoSelecionado,
@@ -15,14 +15,15 @@ const CadastroPratoFormulario = ({
   descricao,
   setDescricao,
   imagem,
-  setImagem
+  setImagem,
 }) => {
-  const token = localStorage.getItem("token");
-  const funcionario = getFuncionario();
-  const [setores, setSetores] = useState([]);
-  const [categorias, setCategorias] = useState([]);
-
   const navigate = useNavigate();
+  const funcionario = getFuncionario();
+  const token = getToken();
+  const [urlImagemTemporaria, setUrlImagemTemporaria] = useState("");
+  const [categorias, setCategorias] = useState([]);
+  const [setores, setSetores] = useState([]);
+
   const [prato, setPrato] = useState({
     nome: "",
     venda: 0,
@@ -33,20 +34,20 @@ const CadastroPratoFormulario = ({
 
   useEffect(() => {
     if (pratoSelecionado) {
-        console.log("🔍 Prato recebido para edição:", pratoSelecionado);
+      console.log("🔍 Prato recebido para edição:", pratoSelecionado);
       setPrato({
         nome: pratoSelecionado.nome || "",
         venda:
-          pratoSelecionado.valorVenda !== undefined && pratoSelecionado.valorVenda !== ""
-        ? (parseFloat(pratoSelecionado.valorVenda).toFixed(2))
-        : "",
+          pratoSelecionado.valorVenda !== undefined &&
+          pratoSelecionado.valorVenda !== ""
+            ? parseFloat(pratoSelecionado.valorVenda).toFixed(2)
+            : "",
         setor: pratoSelecionado.setor?.id || "",
         categoria: pratoSelecionado.categoria?.id || "",
         disponivel: pratoSelecionado.disponivel ?? true,
       });
     }
   }, [pratoSelecionado]);
-
 
   useEffect(() => {
     api
@@ -82,7 +83,6 @@ const CadastroPratoFormulario = ({
       });
   }, []);
 
-
   const validarCampos = () => {
     if (!prato.nome || !prato.venda || !prato.categoria) {
       toast.error("Preencha todos os campos obrigatórios!");
@@ -103,41 +103,75 @@ const CadastroPratoFormulario = ({
     setImagem("");
     setPratoSelecionado(null);
     navigate(ROUTERS.ESTOQUE_PRATOS);
+
+    if (enviroments === "jsonserver") {
+      URL.revokeObjectURL(urlImagemTemporaria);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validarCampos()) {
-      salvarPrato();
+      buscarURLImagem();
     }
   };
 
-  const salvarPrato = () => {
+  const buscarURLImagem = () => {
+    if (enviroments.ambiente === "jsonserver") {
+      const urlJsonServer = URL.createObjectURL(imagem);
+      setUrlImagemTemporaria(urlJsonServer);
+      salvarPrato(urlJsonServer);
+    } else {
+      const formData = new FormData();
+      formData.append("file", imagem);
+      api
+        .post(ENDPOINTS.AZURE_IMAGEM, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          // console.log("data: ", res);
+          salvarPrato(res.data.imageUrl);
+        })
+        .catch((err) => {
+          if (imagem) {
+            salvarPrato(imagem);
+            return;
+          }
+          if (imagem == "") {
+            salvarPrato("");
+            return;
+          }
+          console.log("erro ao adicionar imagem ao blob storage: ", err);
+        });
+    }
+  };
+
+  const salvarPrato = (urlImagem) => {
     const dados = {
       nome: prato.nome,
       valorVenda: parseFloat(prato.venda),
+      descricao: descricao,
+      imagem: urlImagem,
+      disponivel: prato.disponivel,
+      funcionario: { id: funcionario.userId },
       setor: { id: prato.setor },
       categoria: { id: prato.categoria },
-      disponivel: prato.disponivel,
-      descricao: descricao,
-
     };
 
     const metodo = pratoSelecionado
       ? api.patch(
-        `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
-        dados,
-        {
+          `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
+          dados,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+      : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
           headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      : api.post(
-        `${ENDPOINTS.PRATOS}/${funcionario.userId}`,
-        dados,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+        });
 
     metodo
       .then(() => {
@@ -153,7 +187,6 @@ const CadastroPratoFormulario = ({
         toast.error("Erro ao salvar prato!");
       });
   };
-
 
   const formatarParaReal = (valor) => {
     if (valor == null) return "R$ 0,00";
@@ -173,7 +206,6 @@ const CadastroPratoFormulario = ({
       .map((palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1))
       .join(" ");
   };
-
 
   return (
     <div className="formulario-prato">
@@ -212,41 +244,41 @@ const CadastroPratoFormulario = ({
           />
         </div>
 
-          <div className="grupo-inputs">
-            <label>Categoria</label>
-            <select
-              value={prato.categoria}
-              onChange={(e) =>
-                setPrato({ ...prato, categoria: parseInt(e.target.value) })
-              }
-              required
-            >
-              <option value="">Selecione uma Categoria</option>
-              {categorias.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.nome}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="grupo-inputs">
+          <label>Categoria</label>
+          <select
+            value={prato.categoria}
+            onChange={(e) =>
+              setPrato({ ...prato, categoria: parseInt(e.target.value) })
+            }
+            required
+          >
+            <option value="">Selecione uma Categoria</option>
+            {categorias.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.nome}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          <div className="grupo-inputs">
-            <label>Setor</label>
-            <select
-              value={prato.setor}
-              onChange={(e) =>
-                setPrato({ ...prato, setor: parseInt(e.target.value) })
-              }
-              required
-            >
-              <option value="">Selecione um Setor</option>
-              {setores.map((set) => (
-                <option key={set.id} value={set.id}>
-                  {set.nome}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="grupo-inputs">
+          <label>Setor</label>
+          <select
+            value={prato.setor}
+            onChange={(e) =>
+              setPrato({ ...prato, setor: parseInt(e.target.value) })
+            }
+            required
+          >
+            <option value="">Selecione um Setor</option>
+            {setores.map((set) => (
+              <option key={set.id} value={set.id}>
+                {set.nome}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div className="grupo-inputs">
           <label>Disponibilidade</label>
@@ -256,7 +288,9 @@ const CadastroPratoFormulario = ({
                 type="checkbox"
                 className="estilo-checkbox"
                 checked={prato.disponivel === true}
-                onChange={() => setPrato(prev => ({ ...prev, disponivel: true }))}
+                onChange={() =>
+                  setPrato((prev) => ({ ...prev, disponivel: true }))
+                }
               />
               <span className="checado"></span>
               Ativo
@@ -266,15 +300,15 @@ const CadastroPratoFormulario = ({
                 type="checkbox"
                 className="estilo-checkbox"
                 checked={prato.disponivel === false}
-                onChange={() => setPrato(prev => ({ ...prev, disponivel: false }))}
+                onChange={() =>
+                  setPrato((prev) => ({ ...prev, disponivel: false }))
+                }
               />
               <span className="checado"></span>
               Inativo
             </label>
           </div>
-
         </div>
-
 
         <div className="botoes-prato">
           <button type="button" onClick={limparFormulario}>

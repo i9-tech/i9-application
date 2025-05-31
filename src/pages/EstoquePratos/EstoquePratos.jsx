@@ -7,10 +7,10 @@ import { calcularResumoPratos } from "./DadosPratos/utilsPratos";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import api from "../../provider/api";
 import { ENDPOINTS } from "../../utils/endpoints";
-import { getFuncionario } from "../../utils/auth";
+import { getFuncionario, getToken } from "../../utils/auth";
 
 export function EstoquePratos() {
-  const token = localStorage.getItem("token");
+  const token = getToken();
   const funcionario = getFuncionario();
   const [termoBusca, setTermoBusca] = useState("");
   const [setorSelecionado, setSetorSelecionado] = useState("");

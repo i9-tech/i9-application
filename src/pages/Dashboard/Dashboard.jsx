@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar/Navbar";
 import "./Dashboard.css";
 import iconeDev from "../../assets/dev-icone.svg";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
@@ -23,6 +22,7 @@ export function Dashboard() {
   const [produtoMaisVendido, setProdutoMaisVendido] = useState({});
   const [quantidadeTotalVendida, setQuantidadeTotalVendida] = useState(0);
   const [valorTotalVendido, setValorTotalVendido] = useState(0);
+  const [lucroLiquido, setLucroLiquido] = useState(0);
 
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -33,6 +33,18 @@ export function Dashboard() {
   const [isKpiProduto, setIsKpiProduto] = useState(false);
 
   useEffect(() => {
+      api
+      .get(`${ENDPOINTS.VENDA_LIQUIDO_DIARIO}/${funcionario.empresaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setLucroLiquido(res.data);
+        console.log("Lucro Liquido recuperados: ", res.data);
+      })
+      .catch((err) => {
+        console.log("Erro ao buscar Lucro Liquido: ", err);
+      });
+
     api
       .get(`${ENDPOINTS.VENDA_TOP_PRATOS}/${funcionario.empresaId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -156,7 +168,7 @@ export function Dashboard() {
             <Kpi
               key={"abssss"}
               titulo={"Lucro Liquido"}
-              valor={"R$ 350,00"}
+              valor={`R$ ${lucroLiquido}`}
               adicional={"R$ 250,00 em mercadorias"}
               indicador={"#f0b731"}
             />

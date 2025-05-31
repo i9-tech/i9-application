@@ -38,4 +38,5 @@ export const ENDPOINTS = {
     VENDA_TOP_PRODUTOS: '/vendas/top-produtos',
     VENDA_TOP_PRATOS: '/vendas/top-pratos',
     VENDA_TOP_CATEGORIAS: '/vendas/top-categorias',
+    VENDA_RANKING_SETORES: 'vendas/ranking-setores'
 }

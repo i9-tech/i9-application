@@ -23,6 +23,7 @@ export function Dashboard() {
   const [quantidadeTotalVendida, setQuantidadeTotalVendida] = useState(0);
   const [valorTotalVendido, setValorTotalVendido] = useState(0);
   const [lucroLiquido, setLucroLiquido] = useState(0);
+  const [setores, setSetores] = useState([]);
 
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -33,7 +34,7 @@ export function Dashboard() {
   const [isKpiProduto, setIsKpiProduto] = useState(false);
 
   useEffect(() => {
-      api
+    api
       .get(`${ENDPOINTS.VENDA_LIQUIDO_DIARIO}/${funcionario.empresaId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -96,6 +97,23 @@ export function Dashboard() {
       .catch((err) => {
         console.log("Erro ao buscar vendas: ", err);
       });
+
+    api
+      .get(`${ENDPOINTS.VENDA_RANKING_SETORES}/${funcionario.empresaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        const setoresFormatados = res.data.map(({ nomeSetor, quantidadeVendida, valorTotal }) => ({
+          setor: nomeSetor,
+          quantidade: quantidadeVendida,
+          valor: valorTotal,
+        }));
+        setSetores(setoresFormatados);
+        console.log("Setores recuperados: ", setoresFormatados);
+      })
+      .catch((err) => {
+        console.log("Erro ao buscar setores: ", err);
+      });
   }, []);
 
   useEffect(() => {
@@ -139,19 +157,11 @@ export function Dashboard() {
     setValorTotalVendido(valorPratos + valorProdutos);
   };
 
-  // JSON com setores
-  const setores = [
-    { setor: "Pratos", quantidade: 120, valor: 1200 },
-    { setor: "Bebidas", quantidade: 80, valor: 800 },
-    { setor: "Sobremesas", quantidade: 45, valor: 450 },
-    { setor: "Saladas", quantidade: 60, valor: 600 },
-    { setor: "Lanches", quantidade: 70, valor: 700 },
-    { setor: "Cafés", quantidade: 50, valor: 500 },
-    { setor: "Sucos", quantidade: 55, valor: 550 },
-    { setor: "Entradas", quantidade: 40, valor: 400 },
-    { setor: "Massas", quantidade: 30, valor: 300 },
-    { setor: "Petiscos", quantidade: 35, valor: 350 },
-  ];
+  const formatarMoeda = (valor) => {
+    const numero = Number(valor);
+    if (isNaN(numero)) return "R$ 0,00";
+    return numero.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  };
 
   return (
     <>
@@ -161,21 +171,21 @@ export function Dashboard() {
             <Kpi
               key={"abss"}
               titulo={"Lucro Bruto"}
-              valor={`R$ ${valorTotalVendido}`}
+              valor={formatarMoeda(valorTotalVendido)}
               adicional={"+R$ 150,00 em relação ao dia anterior"}
               indicador={"#6f6df1"}
             />
             <Kpi
               key={"abssss"}
               titulo={"Lucro Liquido"}
-              valor={`R$ ${lucroLiquido}`}
+              valor={formatarMoeda(lucroLiquido)}
               adicional={"R$ 250,00 em mercadorias"}
               indicador={"#f0b731"}
             />
             <Kpi
               key={"absdass"}
               titulo={"Quantidade de Vendas"}
-              valor={`${quantidadeTotalVendida} vendas`}
+              valor={`${quantidadeTotalVendida || 0} vendas`}
               adicional={"+15 em relação ao dia anterior"}
               indicador={"#41c482"}
             />
@@ -184,14 +194,13 @@ export function Dashboard() {
               titulo={` ${isKpiProduto ? "Produto" : "Prato"} Mais Vendido`}
               valor={
                 isKpiProduto
-                  ? produtoMaisVendido.nome?.split(" ")[0]
-                  : pratoMaisVendido.nome?.split(" ")[0]
+                  ? produtoMaisVendido.nome?.split(" ")[0] || "Nenhum"
+                  : pratoMaisVendido.nome?.split(" ")[0] || "Nenhum"
               }
-              adicional={`${
-                isKpiProduto
-                  ? produtoMaisVendido.quantidadeVendida
-                  : pratoMaisVendido.quantidadeVendida
-              } unidades`}
+              adicional={`${isKpiProduto
+                  ? produtoMaisVendido.quantidadeVendida || 0
+                  : pratoMaisVendido.quantidadeVendida || 0
+                } unidades`}
               indicador={"#d35757"}
               cursor={"pointer"}
               onClick={() => {
@@ -209,9 +218,9 @@ export function Dashboard() {
             <Ranking titulo={"Setores com Maiores Vendas"}>
               <Resumo dados={setores}></Resumo>
             </Ranking>
-            <Grafico titulo={"Top 5 Categorias mais Vendidas"}>
+            {/* <Grafico titulo={"Top 5 Categorias mais Vendidas"}>
               <Donut dados={dadosCategorias} />
-            </Grafico>
+            </Grafico> */}
           </section>
         </article>
         {/* <Navbar />

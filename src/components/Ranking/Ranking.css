@@ -58,3 +58,62 @@
     }
   }
 }
+
+.no-data-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85%;
+  background-color: #f9f9f9;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  margin: 16px;
+  padding: 20px;
+}
+
+.no-data-text {
+  font-size: 16px;
+  color: #666;
+  font-style: italic;
+  text-align: center;
+}
+
+.carregamento-ranking-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+}
+
+.linha-ranking-carregamento {
+  height: 24px;
+  width: 100%;
+  border-radius: 4px;
+  background-color: #e0e0e0;
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%);
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}

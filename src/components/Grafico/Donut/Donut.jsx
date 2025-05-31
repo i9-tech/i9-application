@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import "../Grafico.css";
+import CarregamentoDonuts from "./CarregamentoDonuts";
+import NoData from "../NoData";
 
 export default function Donut({ dados }) {
   const categorias = dados.map((item) => item.nomeCategoria);
   const valores = dados.map((item) => item.quantidadeVendida);
+  const [aguardandoDados, setAguardandoDados] = useState(true);
+  const [timeoutAtingido, setTimeoutAtingido] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeoutAtingido(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (dados && dados.length > 0) {
+      setAguardandoDados(false);
+    }
+  }, [dados]);
 
   const options = {
     chart: {
@@ -84,9 +102,13 @@ export default function Donut({ dados }) {
     },
   };
 
-  if (!dados || dados.length === 0) {
-    return <div>Carregando gráfico...</div>;
-  }
+  if (aguardandoDados && !timeoutAtingido) {
+      return <CarregamentoDonuts />;
+    }
+  
+    if (timeoutAtingido && (!dados || dados.length === 0)) {
+      return <NoData/>;
+    }
 
   return (
     <div className="grafico-wrapper">

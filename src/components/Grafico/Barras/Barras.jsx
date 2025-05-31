@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import "../Grafico.css";
+import CarregamentoBarras from "./CarregamentoBarras";
+import NoData from "../NoData";
 
 export default function Barras({ dados }) {
   const categorias = dados.map((item) => item.nome);
   const quantidades = dados.map((item) => item.quantidadeVendida);
   const maxY = Math.max(...quantidades) + 1;
+  const [aguardandoDados, setAguardandoDados] = useState(true);
+  const [timeoutAtingido, setTimeoutAtingido] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeoutAtingido(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (dados && dados.length > 0) {
+      setAguardandoDados(false);
+    }
+  }, [dados]);
 
   const options = {
     chart: {
@@ -83,8 +101,12 @@ export default function Barras({ dados }) {
     },
   ];
 
-  if (!dados || dados.length === 0) {
-    return <div>Carregando gráfico...</div>;
+  if (aguardandoDados && !timeoutAtingido) {
+    return <CarregamentoBarras />;
+  }
+
+  if (timeoutAtingido && (!dados || dados.length === 0)) {
+    return <NoData/>;
   }
 
   return (

@@ -73,6 +73,8 @@ const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
           value={descricao}
           onChange={(e) => setDescricao(e.target.value)}
           rows="8"
+          placeholder="Crystal Água Mineral Sem Gás 500ml Garrafa"
+
         />
       </div>
     </div>

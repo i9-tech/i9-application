@@ -187,7 +187,7 @@ const CadastroFuncionarioFormulario = ({
 
       <form className="formulario-inputs">
         <div className="grupo-inputs">
-          <label htmlFor="nome">Nome do Funcionário *</label>
+          <label htmlFor="nome">Nome do Funcionário <span aria-hidden="true" style={{ color: 'red' }}>*</span> </label>
           <input
             id="nome"
             type="text"
@@ -199,6 +199,8 @@ const CadastroFuncionarioFormulario = ({
         </div>
 
         <div className="grupo-inputs">
+          <label htmlFor="cpf">CPF do Funcionário <span aria-hidden="true" style={{ color: 'red' }}>*</span> </label>
+
           <input
             id="cpf"
             type="text"
@@ -213,7 +215,7 @@ const CadastroFuncionarioFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label htmlFor="data">Data de Admissão *</label>
+          <label htmlFor="data">Data de Admissão <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
           <input
             id="data"
             type="date"

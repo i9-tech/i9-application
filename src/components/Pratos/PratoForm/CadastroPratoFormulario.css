@@ -1,0 +1,181 @@
+.formulario-prato {
+  margin: 0;
+  max-width: 600px;
+  width: 100%;
+}
+
+.formulario-prato .descricao-prato {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.formulario-prato .formulario-inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.formulario-prato .grupo-inputs {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.formulario-prato .grupo-inputs label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.formulario-prato .grupo-inputs input,
+.formulario-prato .grupo-inputs textarea,
+.formulario-prato .grupo-inputs select {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 15px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.formulario-prato .grupo-inputs textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.formulario-prato .linha-dupla {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 24px;
+}
+
+.formulario-prato .linha-dupla > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.formulario-prato .linha-dupla label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 6px;
+  margin-left: 2px;
+}
+
+.formulario-prato .linha-dupla input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formulario-prato .linha-dupla input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.formulario-prato .botoes-prato {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.formulario-prato .botoes-prato button {
+  width: 48%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.formulario-prato .botoes-prato button:first-child {
+  background-color: #fff;
+  border: 1px solid #333;
+  color: #333;
+}
+
+.formulario-prato .botoes-prato button:first-child:hover {
+  background-color: #f0f0f0;
+}
+
+.formulario-prato .botoes-prato button:last-child {
+  background-color: #0000cc;
+  border: none;
+  color: white;
+}
+
+.formulario-prato .botoes-prato button:last-child:hover {
+  background-color: #000099;
+}
+
+.checkbox-pratos {
+  display: flex;
+  gap: 30px;
+  margin-top: 8px;
+}
+
+.caixinhas-checkbox {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  font-size: 15px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #333;
+}
+
+.estilo-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checado {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border: 2px solid #0000cc;
+  border-radius: 4px;
+}
+
+.caixinhas-checkbox .estilo-checkbox:checked ~ .checado {
+  background-color: #0000cc;
+}
+
+.checado:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.caixinhas-checkbox .estilo-checkbox:checked ~ .checado:after {
+  display: block;
+}
+
+.caixinhas-checkbox .checado:after {
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}

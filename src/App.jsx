@@ -10,19 +10,40 @@ import { Login } from "./pages/Login/Login";
 import RotaPrivada from "./routes/RotaPrivada";
 import NaoAutorizado from "./pages/NaoAutorizado/NaoAutorizado";
 import { CadastroSetorCategoria } from "./pages/CadastroSetorCategoria/CadastroSetorCategoria";
-import LayoutTela from "./components/LayoutTela/LayoutTela";
+import EstoquePratos from "./pages/EstoquePratos/EstoquePratos";
+import Pratos from "./pages/FormularioPratos/Pratos";
+import Produtos from "./pages/FormularioProdutos/Produtos";
+import { ROUTERS } from "./utils/routers";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 
 function App() {
+  // return (
+  //   <Routes>
+  //     <Route path={ROUTERS.ESTOQUE_PRODUTOS} element={<Estoque />} />
+  //     <Route path={ROUTERS.FORMULARIO_PRODUTOS} element={<Produtos />} />
+  //     <Route
+  //       path={`${ROUTERS.FORMULARIO_PRODUTOS}/:id`}
+  //       element={<Produtos />}
+  //     />
+  //     <Route path={ROUTERS.ESTOQUE_PRATOS} element={<EstoquePratos />} />
+  //     <Route path={ROUTERS.FORMULARIO_PRATOS} element={<Pratos />} />
+  //     <Route path={`${ROUTERS.FORMULARIO_PRATOS}/:id`} element={<Pratos />} />
+  //   </Routes>
+  // );
+
   return (
     <>
       <main>
         <Routes>
-          <Route path="/" element={<Institucional />} />
-          <Route path="/login" element={<Login />} />
+          <Route path={ROUTERS.HOME} element={<Institucional />} />
+          <Route path={ROUTERS.LOGIN} element={<Login />} />
 
           <Route
-            path="/atendente"
+            path={ROUTERS.ATENDENTE}
             element={
               <RotaPrivada permissao="ROLE_ATENDIMENTO">
                 <Atendente />
@@ -30,7 +51,7 @@ function App() {
             }
           />
           <Route
-            path="/cozinha"
+            path={ROUTERS.COMANDAS}
             element={
               <RotaPrivada permissao="ROLE_COZINHA">
                 <Cozinha />
@@ -38,15 +59,55 @@ function App() {
             }
           />
           <Route
-            path="/estoque"
+            path={ROUTERS.ESTOQUE_PRODUTOS}
             element={
               <RotaPrivada permissao="ROLE_ESTOQUE">
                 <Estoque />
               </RotaPrivada>
             }
           />
-            <Route
-            path="/setor-categoria"
+          <Route
+            path={ROUTERS.FORMULARIO_PRODUTOS}
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <Produtos />
+              </RotaPrivada>
+            }
+          />
+          <Route
+            path={`${ROUTERS.FORMULARIO_PRODUTOS}/:id`}
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <Produtos />
+              </RotaPrivada>
+            }
+          />
+          <Route
+            path={ROUTERS.ESTOQUE_PRATOS}
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <EstoquePratos />
+              </RotaPrivada>
+            }
+          />
+          <Route
+            path={ROUTERS.FORMULARIO_PRATOS}
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <Pratos />
+              </RotaPrivada>
+            }
+          />
+          <Route
+            path={`${ROUTERS.FORMULARIO_PRATOS}/:id`}
+            element={
+              <RotaPrivada permissao="ROLE_ESTOQUE">
+                <Pratos />
+              </RotaPrivada>
+            }
+          />
+          <Route
+            path={ROUTERS.SETOR_CATEGORIA}
             element={
               <RotaPrivada permissao="ROLE_PROPRIETARIO">
                 <CadastroSetorCategoria />
@@ -54,29 +115,36 @@ function App() {
             }
           />
           <Route
-            path="/funcionarios"
+            path={ROUTERS.FUNCIONARIOS}
             element={
               <RotaPrivada permissao="ROLE_PROPRIETARIO">
                 <Funcionarios />
               </RotaPrivada>
             }
           />
-
           <Route
-            path="/dashboard"
+            path={ROUTERS.DASHBOARD}
             element={
               <RotaPrivada permissao="ROLE_PROPRIETARIO">
                 <Dashboard />
               </RotaPrivada>
             }
           />
-        
-          <Route
-            path="/unauthorized"
-            element={<NaoAutorizado />}
-              />
+          <Route path={ROUTERS.UNAUTHORIZED} element={<NaoAutorizado />} />
         </Routes>
       </main>
+
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Tooltip
+        id="tooltip"
+        place="right"
+        style={{
+          maxWidth: "200px",
+          whiteSpace: "pre-line",
+          wordBreak: "break-word",
+          zIndex: 2,
+        }}
+      />
     </>
   );
 }

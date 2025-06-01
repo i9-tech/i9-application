@@ -9,24 +9,27 @@ import { getFuncionario } from "../../utils/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { ENDPOINTS } from "../../utils/endpoints";
 
 
 export function Funcionarios() {
   const funcionarioLogin = getFuncionario();
   const [funcionarioSelecionado, setFuncionarioSelecionado] = useState(null);
   const [funcionarios, setFuncionarios] = useState([]);
+  const [imagemFuncionario, setImagemFuncionario] = useState("")
 
 
   useEffect(() => {
     if (!funcionarioLogin?.userId) return;
     const fetchFuncionarios = async () => {
       try {
-        const response = await api.get(`/colaboradores/${funcionarioLogin.empresaId}`, {
+        const response = await api.get(`${ENDPOINTS.FUNCIONARIOS}/${funcionarioLogin.empresaId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
         setFuncionarios(response.data);
+        setImagemFuncionario(response.data.imagem);
       } catch (error) {
         console.error("Erro ao buscar os funcionários:", error);
       }
@@ -70,7 +73,7 @@ export function Funcionarios() {
 
         api
           .delete(
-            `/colaboradores/${funcionario.id}/${funcionarioLogin.empresaId}`,
+            `${ENDPOINTS.FUNCIONARIOS}/${funcionario.id}/${funcionarioLogin.empresaId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -100,7 +103,7 @@ export function Funcionarios() {
         </div>
 
         <div className="coluna-meio">
-          <FuncionarioFoto />
+          <FuncionarioFoto imagem={imagemFuncionario} setImagem={setImagemFuncionario}/>
         </div>
 
         <div className="coluna-direita">

@@ -4,6 +4,7 @@ import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ENDPOINTS } from "../../../utils/endpoints";
 
 const CadastroFuncionarioFormulario = ({
   funcionarioSelecionado,
@@ -34,10 +35,10 @@ const CadastroFuncionarioFormulario = ({
       atendimento: false,
     });
     setFuncionarioSelecionado(null);
+    setFuncionarioSelecionado(null);
   };
 
-  // const [showModal, setShowModal] = useState(false);
-  // const [modalMensagem, setModalMensagem] = useState("");
+
 
   useEffect(() => {
     if (funcionarioSelecionado) {
@@ -104,19 +105,17 @@ const CadastroFuncionarioFormulario = ({
     console.log("Cadastrando funcionário:", { nome, cpf, data, setores });
     console.log("Token:", localStorage.getItem("token")),
       api
-        .post(
-          `/colaboradores/${funcionario.empresaId}`,
-          {
-            nome: nome,
-            cpf: cpf,
-            cargo: "Funcionário",
-            dataAdmissao: data,
-            acessoSetorCozinha: setores.cozinha,
-            acessoSetorEstoque: setores.estoque,
-            acessoSetorAtendimento: setores.atendimento,
-            proprietario: false,
-            senha: `${cpfSemFormatacao}@taua`,
-          },
+        .post(`${ENDPOINTS.FUNCIONARIOS}/${funcionario.empresaId}`, {
+          nome: nome,
+          cpf: cpf,
+          cargo: "Funcionário",
+          dataAdmissao: data,
+          acessoSetorCozinha: setores.cozinha,
+          acessoSetorEstoque: setores.estoque,
+          acessoSetorAtendimento: setores.atendimento,
+          proprietario: false,
+          senha: `${cpfSemFormatacao}@taua`,
+        },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -140,19 +139,17 @@ const CadastroFuncionarioFormulario = ({
     console.log("Funcionario selecionado:", funcionarioSelecionado.id);
     console.log("Editando funcionário:", { nome, cpf, data, setores });
     api
-      .patch(
-        `/colaboradores/${funcionarioSelecionado.id}/${funcionario.empresaId}`,
-        {
-          nome: nomeFuncionario,
-          cpf: cpfFuncionario,
-          cargo: "Funcionario",
-          dataAdmissao: dataAdmissao,
-          acessoSetorCozinha: setorFuncionario.cozinha,
-          acessoSetorEstoque: setorFuncionario.estoque,
-          acessoSetorAtendimento: setorFuncionario.atendimento,
-          proprietario: false,
-          senha: `${cpfSemFormatacao}@taua`,
-        },
+      .patch(`${ENDPOINTS.FUNCIONARIOS}/${funcionarioSelecionado.id}/${funcionario.empresaId}`, {
+        nome: nomeFuncionario,
+        cpf: cpfFuncionario,
+        cargo: "Funcionario",
+        dataAdmissao: dataAdmissao,
+        acessoSetorCozinha: setorFuncionario.cozinha,
+        acessoSetorEstoque: setorFuncionario.estoque,
+        acessoSetorAtendimento: setorFuncionario.atendimento,
+        proprietario: false,
+        senha: `${cpfSemFormatacao}@taua`,
+      },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -169,6 +166,17 @@ const CadastroFuncionarioFormulario = ({
         toast.error("Erro ao editar funcionário!");
       });
   };
+
+  const formatarCpf = (cpf) => {
+    cpf = cpf.replace(/\D/g, ""); // Remove tudo que não for dígito
+    if (cpf.length <= 11) {
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    }
+    return cpf;
+  };
+
 
   return (
     <div className="formulario-funcionario">
@@ -191,25 +199,17 @@ const CadastroFuncionarioFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label htmlFor="cpf">CPF do Funcionário *</label>
           <input
             id="cpf"
             type="text"
             placeholder="000.000.000-00"
             value={cpfFuncionario}
-            maxLength={14}
-            onChange={(e) => {
-              let valor = e.target.value;
-              valor = valor.replace(/\D/g, ""); 
-              valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-              valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-              valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-              setCpfFuncionario(valor); 
-            }}
+            onChange={(e) => setCpfFuncionario(formatarCpf(e.target.value))}
             required
             pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
             disabled={!!funcionarioSelecionado}
-          />
+            maxLength={14} />
+
         </div>
 
         <div className="grupo-inputs">

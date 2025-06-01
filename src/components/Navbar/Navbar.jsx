@@ -2,9 +2,12 @@ import './Navbar.css';
 import { useEffect } from 'react';
 import { Options } from '../Options/Options';
 import iconePerfil from '../../assets/user-icone-branco.svg';
+import { getFuncionario } from '../../utils/auth';
 
 
 export function Navbar() {
+    const funcionario = getFuncionario();
+
     useEffect(() => {
         const itensMenu = document.querySelectorAll('.navbar ul li');
 
@@ -25,7 +28,7 @@ export function Navbar() {
         <nav className="navbar" id="navbar">
             <div className="user">
                 <i><img src={iconePerfil} alt="Icone de Usuário" /></i>
-                <span>Patricia</span>
+                <span>{funcionario.nome}</span>
             </div>
             <ul>
                 <Options />

@@ -1,48 +1,57 @@
+import { Tooltip } from "react-tooltip";
 import CabecalhoEstoque from "./CabecalhoEstoque/CabecalhoEstoque";
 import ProdutoEstoque from "./ProdutoEstoque/ProdutoEstoque";
 import "./TabelaEstoque.css";
 
-const TabelaEstoque = ({ produtos, setProdutos, filtroStatus }) => {
+const TabelaEstoque = ({ produtos, filtroStatus, termoBusca, buscarProdutos, setorSelecionado }) => {
 
-  const hoje = new Date();
+  const listaProdutos = Array.isArray(produtos) ? produtos : [produtos];
 
-  const produtosFiltrados = filtroStatus
-    ? produtos.filter((p) => {
-        if (filtroStatus === 'sem') return p.estoque === 0;
-        if (filtroStatus === 'baixo') return p.estoque <= 10 && p.estoque > 0;
-        if (filtroStatus === 'validade') {
-          const [d, m, a] = p.validade.split('/');
-          const validade = new Date(`${a}-${m}-${d}`);
-          return (validade - hoje) / (1000 * 60 * 60 * 24) <= 30 && p.estoque > 0;
-        }
-        return true;
-      })
-    : produtos;
+  const produtosFiltrados = listaProdutos.filter((p) => {
+    const nomeMatch = p.nome?.toLowerCase().includes(termoBusca?.toLowerCase() || "");
 
-  const handleDelete = (id) => {
-    const confirm = window.confirm("Deseja excluir este produto?");
-    if (confirm) {
-      setProdutos((prev) => prev.filter((p) => p.id !== id));
-    }
-  };
+    const statusMatch =
+      !filtroStatus ||
+      (filtroStatus === "sem" && p.quantidade === 0) ||
+      (filtroStatus === "baixo" && p.quantidade < p.quantidadeMin && p.quantidade > 0);
 
-  const handleEdit = (produto) => {
-    alert(`Editar produto: ${produto.nome}\n(ID: ${produto.id})`);
-  };
+    const setorMatch =
+      !setorSelecionado || String(p.setor?.id) === String(setorSelecionado);
+
+    return nomeMatch && statusMatch && setorMatch;
+  });
+
+
 
   return (
-    <div className="tabela-container">
-      <table className="tabela-estoque">
+    <div className="tabela-container-prod">
+      <table className="tabela-estoque-prod">
         <CabecalhoEstoque />
         <tbody>
-          {produtosFiltrados.map((produto) => (
-            <ProdutoEstoque
-              key={produto.id}
-              produto={produto}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
+          {produtosFiltrados.length > 0 ? (
+            produtosFiltrados.map((produto) => (
+              <ProdutoEstoque
+                key={produto.id}
+                produto={produto}
+                buscar={buscarProdutos}
+              />
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan="9"
+                style={{
+                  padding: "24px",
+                  textAlign: "center",
+                  color: "#888",
+                  fontSize: "1.1rem",
+                  background: "#fff",
+                }}>
+                Nenhum produto encontrado.
+              </td>
+
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

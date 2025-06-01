@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import api from "../../provider/api.js";
+import { ENDPOINTS } from "../../utils/endpoints.js";
 
 export default function FormularioLogin() {
   const [usuario, setUsuario] = React.useState("");
@@ -37,7 +38,7 @@ export default function FormularioLogin() {
 
   const enviarDados = async (usuario, senha) => {
 
-    api.post("colaboradores/login", {
+    api.post(ENDPOINTS.LOGIN, {
       cpf: usuario,
       senha: senha,
     })

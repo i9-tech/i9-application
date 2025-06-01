@@ -10,13 +10,18 @@ export function getPermissoes() {
   
   if (token) {
     const tokenTraduzido = jwtDecode(token);
-    console.log("Token traduzido:", tokenTraduzido);  
+    // console.log("Token traduzido:", tokenTraduzido);  
 
     const permissoes = tokenTraduzido.authorities ? tokenTraduzido.authorities.split(',') : [];
-    console.log("Permissões:", permissoes);
+    // console.log("Permissões:", permissoes);
     
     return permissoes;
   }
 
   return [];
+}
+
+export function getToken() {
+  const token = localStorage.getItem("token");
+  return token ? token : {};
 }

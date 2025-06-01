@@ -20,7 +20,6 @@ export function Dashboard() {
   const [pratoMaisVendido, setPratoMaisVendido] = useState({});
   const [produtoMaisVendido, setProdutoMaisVendido] = useState({});
   const [setores, setSetores] = useState([]);
-  const [isDadosDisponiveis, setIsDadosDisponiveis] = useState(false);
   const [lucroBruto, setLucroBruto] = useState(0);
   const [diferencaBruto, setDiferencaBruto] = useState(0);
   const [isLucroMaior, setIsLucroMaior] = useState(false);
@@ -37,23 +36,6 @@ export function Dashboard() {
     year: "numeric",
   });
 
-  useEffect(() => {
-    api
-      .post(
-        `${ENDPOINTS.VENDA_MOCK}?quantidadeVendas=10&maxItensPorVenda=5`,
-        null,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then(() => {
-        console.log("Vendas mockadas com sucesso!");
-        setIsDadosDisponiveis(true);
-      })
-      .catch((err) => {
-        console.log("Erro ao mockar vendas: ", err);
-      });
-  }, [token]);
 
   useEffect(() => {
     api
@@ -124,7 +106,7 @@ export function Dashboard() {
       .catch((err) => {
         console.log("Erro ao buscar setores: ", err);
       });
-  }, [isDadosDisponiveis, token, funcionario.empresaId]);
+  }, [token, funcionario.empresaId]);
 
   const tratarKpis = (kpi) => {
     if (!kpi) return;

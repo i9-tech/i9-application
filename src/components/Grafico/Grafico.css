@@ -132,7 +132,45 @@
       width: 100%;
       height: 90%;
       animation: fadeBlink 2s ease-in-out infinite;
-      background-color: var(--carregamento);
+      justify-content: center;
+
+      .carregamento-donuts {
+        display: flex;
+        width: 80%;
+        height: 100%;
+        justify-content: space-between;
+
+        .dados-laterais-donuts {
+          width: 26%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 12px;
+
+          .dado-donuts {
+            background-color: var(--carregamento);
+            width: 100%;
+            height: 10%;
+          }
+        }
+
+        .dados-grafico-donuts {
+          width: 60%;
+          margin-right: -12px;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .grafico-donut {
+            background-color: var(--carregamento);
+            height: 95%;
+            width: 65%;
+            border-radius: 20rem;
+          }
+        }
+      }
     }
 
     .no-data-wrapper {

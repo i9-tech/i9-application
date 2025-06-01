@@ -216,19 +216,13 @@ export function Dashboard() {
               <Barras dados={dadosProdutos} />
             </Grafico>
             <Ranking titulo={"Setores com Maiores Vendas"}>
-              <Resumo dados={setores}></Resumo>
+              <Resumo dados={setores} />
             </Ranking>
-            {/* <Grafico titulo={"Top 5 Categorias mais Vendidas"}>
+            <Grafico titulo={"Top 5 Categorias mais Vendidas"}>
               <Donut dados={dadosCategorias} />
-            </Grafico> */}
+            </Grafico>
           </section>
         </article>
-        {/* <Navbar />
-      <div className='dashboard'>
-        <img style={{width: '100px'}} src={iconeDev} alt="Icone de desenvolvimento" />
-        <h1 style={{fontSize: '2rem'}}>DASHBOARD EM DESENVOLVIMENTO</h1>
-        Por favor selecione uma página na navbar
-      </div> */}
       </LayoutTela>
     </>
   );

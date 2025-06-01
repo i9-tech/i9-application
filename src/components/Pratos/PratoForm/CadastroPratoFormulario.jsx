@@ -39,7 +39,7 @@ const CadastroPratoFormulario = ({
         nome: pratoSelecionado.nome || "",
         venda:
           pratoSelecionado.valorVenda !== undefined &&
-          pratoSelecionado.valorVenda !== ""
+            pratoSelecionado.valorVenda !== ""
             ? parseFloat(pratoSelecionado.valorVenda).toFixed(2)
             : "",
         setor: pratoSelecionado.setor?.id || "",
@@ -163,15 +163,15 @@ const CadastroPratoFormulario = ({
 
     const metodo = pratoSelecionado
       ? api.patch(
-          `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
-          dados,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-      : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
+        `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
+        dados,
+        {
           headers: { Authorization: `Bearer ${token}` },
-        });
+        }
+      )
+      : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
     metodo
       .then(() => {
@@ -215,7 +215,9 @@ const CadastroPratoFormulario = ({
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>
         <div className="grupo-inputs">
-          <label>Nome do Prato </label>
+          <label>
+            Nome do Prato <span aria-hidden="true" style={{ color: 'red' }}>*</span>
+          </label>
           <input
             type="text"
             value={prato.nome}
@@ -224,11 +226,14 @@ const CadastroPratoFormulario = ({
               setPrato({ ...prato, nome: capitalizado });
             }}
             required
+            placeholder="Prato Feito Contra-Filé"
           />
         </div>
 
         <div className="grupo-inputs">
-          <label>Venda (R$) </label>
+          <label>Venda (R$) <span aria-hidden="true" style={{ color: 'red' }}>*</span>
+
+          </label>
           <input
             type="text"
             step="0.01"
@@ -245,7 +250,7 @@ const CadastroPratoFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label>Categoria</label>
+          <label>Categoria <span aria-hidden="true" style={{ color: 'red' }}>*</span> </label>
           <select
             value={prato.categoria}
             onChange={(e) =>
@@ -263,7 +268,7 @@ const CadastroPratoFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label>Setor</label>
+          <label>Setor <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
           <select
             value={prato.setor}
             onChange={(e) =>
@@ -281,7 +286,7 @@ const CadastroPratoFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label>Disponibilidade</label>
+          <label>Disponibilidade <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
           <div className="checkbox-pratos">
             <label className="caixinhas-checkbox">
               <input

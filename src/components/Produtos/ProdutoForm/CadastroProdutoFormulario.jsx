@@ -187,15 +187,15 @@ const CadastroProdutoFormulario = ({
       console.log("funcionario.id:", funcionario.userId);
       const metodo = produtoSelecionado
         ? api.patch(
-            `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`,
-            dados,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          )
-        : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {
+          `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`,
+          dados,
+          {
             headers: { Authorization: `Bearer ${token}` },
-          });
+          }
+        )
+        : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
       metodo
         .then(() => {
           toast.success(
@@ -282,7 +282,7 @@ const CadastroProdutoFormulario = ({
       <form className="formulario-inputs" onSubmit={handleSubmit}>
         <div className="linha-dupla">
           <div>
-            <label htmlFor="codigo">Código do Produto</label>
+            <label htmlFor="codigo">Código do Produto  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               id="codigo"
               type="number"
@@ -293,10 +293,11 @@ const CadastroProdutoFormulario = ({
               }
               required
               min="0"
+              placeholder="001"
             />
           </div>
           <div>
-            <label htmlFor="quantidade">Quantidade para Cadastro</label>
+            <label htmlFor="quantidade">Quantidade para Cadastro  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               id="quantidade"
               type="number"
@@ -306,12 +307,13 @@ const CadastroProdutoFormulario = ({
               }
               required
               min="0"
+              placeholder="0"
             />
           </div>
         </div>
 
         <div className="grupo-inputs">
-          <label htmlFor="nome">Nome do Produto</label>
+          <label htmlFor="nome">Nome do Produto  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
           <input
             id="nome"
             type="text"
@@ -322,12 +324,13 @@ const CadastroProdutoFormulario = ({
               setProduto({ ...produto, nome: capitalizado });
             }}
             required
+            placeholder="Água Mineral 500ml"
           />
         </div>
 
         <div className="linha-dupla">
           <div className="grupo-inputs">
-            <label>Setor</label>
+            <label>Setor  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <select
               value={produto.setor}
               onChange={(e) =>
@@ -335,7 +338,7 @@ const CadastroProdutoFormulario = ({
               }
               required
             >
-              <option value="">Selecione um Setor</option>
+              <option value="">Selecione um Setor </option>
               {setores.map((set) => (
                 <option key={set.id} value={set.id}>
                   {set.nome}
@@ -345,7 +348,7 @@ const CadastroProdutoFormulario = ({
           </div>
 
           <div className="grupo-inputs">
-            <label>Categoria</label>
+            <label>Categoria  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <select
               value={produto.categoria}
               onChange={(e) =>
@@ -365,7 +368,7 @@ const CadastroProdutoFormulario = ({
 
         <div className="linha-dupla">
           <div>
-            <label>Valor de Compra Unitária</label>
+            <label>Valor de Compra Unitária  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               type="text"
               value={formatarParaReal(produto.valorCompra)}
@@ -376,10 +379,11 @@ const CadastroProdutoFormulario = ({
                 ).toFixed(2);
                 setProduto({ ...produto, valorCompra: valorEmReais });
               }}
+              required
             />
           </div>
           <div>
-            <label>Valor de Venda</label>
+            <label>Valor de Venda  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               type="text"
               value={formatarParaReal(produto.valorUnitario)}
@@ -390,13 +394,14 @@ const CadastroProdutoFormulario = ({
                 ).toFixed(2);
                 setProduto({ ...produto, valorUnitario: valorEmReais });
               }}
+              required
             />
           </div>
         </div>
 
         <div className="linha-dupla">
           <div>
-            <label>Quantidade Mínima para Estoque</label>
+            <label>Quantidade Mínima para Estoque  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               type="number"
               value={produto.quantidadeMin}
@@ -404,10 +409,12 @@ const CadastroProdutoFormulario = ({
                 setProduto({ ...produto, quantidadeMin: e.target.value })
               }
               min="1"
+              placeholder="10"
+              required
             />
           </div>
           <div>
-            <label>Quantidade Máxima para Estoque</label>
+            <label>Quantidade Máxima para Estoque  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               type="number"
               value={produto.quantidadeMax}
@@ -415,6 +422,8 @@ const CadastroProdutoFormulario = ({
                 setProduto({ ...produto, quantidadeMax: e.target.value })
               }
               min="1"
+              placeholder="50"
+              required
             />
           </div>
         </div>

@@ -75,6 +75,7 @@ const PratoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
             setDescricao(e.target.value);
           }}
           rows="8"
+          placeholder="Prato feito tradicional com contra-filé, servido com acompanhamentos caseiros como arroz branco e feijão."
         />
       </div>
     </div>

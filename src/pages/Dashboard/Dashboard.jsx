@@ -1,5 +1,4 @@
 import "./Dashboard.css";
-import iconeDev from "../../assets/dev-icone.svg";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import Kpi from "../../components/Kpi/Kpi";
 import Grafico from "../../components/Grafico/Grafico";
@@ -20,7 +19,6 @@ export function Dashboard() {
   const [dadosCategorias, setDadosCategorias] = useState([]);
   const [pratoMaisVendido, setPratoMaisVendido] = useState({});
   const [produtoMaisVendido, setProdutoMaisVendido] = useState({});
-  const [valorTotalVendido, setValorTotalVendido] = useState(0);
   const [setores, setSetores] = useState([]);
   const [isDadosDisponiveis, setIsDadosDisponiveis] = useState(false);
   const [lucroBruto, setLucroBruto] = useState(0);
@@ -48,14 +46,14 @@ export function Dashboard() {
           headers: { Authorization: `Bearer ${token}` },
         }
       )
-      .then((res) => {
+      .then(() => {
         console.log("Vendas mockadas com sucesso!");
         setIsDadosDisponiveis(true);
       })
       .catch((err) => {
         console.log("Erro ao mockar vendas: ", err);
       });
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     api
@@ -102,7 +100,7 @@ export function Dashboard() {
       })
       .then((res) => {
         setDadosCategorias(res.data);
-        // console.log("Categorias recuperadas: ", res.data);
+        console.log("Categorias recuperadas: ", res.data);
       })
       .catch((err) => {
         console.log("Erro ao buscar categorias: ", err);
@@ -126,7 +124,7 @@ export function Dashboard() {
       .catch((err) => {
         console.log("Erro ao buscar setores: ", err);
       });
-  }, [isDadosDisponiveis]);
+  }, [isDadosDisponiveis, token, funcionario.empresaId]);
 
   const tratarKpis = (kpi) => {
     if (!kpi) return;

@@ -6,7 +6,7 @@ import NoData from "../NoData";
 
 export default function Donut({ dados }) {
   const categorias = dados.map((item) => item.nomeCategoria);
-  const valores = dados.map((item) => item.quantidadeVendida);
+  const valores = dados.map((item) => item.totalVendido);
   const [aguardandoDados, setAguardandoDados] = useState(true);
   const [timeoutAtingido, setTimeoutAtingido] = useState(false);
 
@@ -23,6 +23,15 @@ export default function Donut({ dados }) {
       setAguardandoDados(false);
     }
   }, [dados]);
+
+  const formatarMoeda = (valor) => {
+    const numero = Number(valor);
+    if (isNaN(numero)) return "R$ 0,00";
+    return numero.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  };
 
   const options = {
     chart: {
@@ -42,14 +51,15 @@ export default function Donut({ dados }) {
               show: true,
               label: "Total",
               formatter: (w) =>
-                (w?.globals?.seriesTotals || [])
-                  .reduce((a, b) => a + b, 0)
-                  .toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 2,
-                  }),
+                formatarMoeda(
+                  (w?.globals?.seriesTotals || []).reduce((a, b) => a + b, 0)
+                ),
+            },
+            value: {
+              show: true,
+              formatter: function (val) {
+                return formatarMoeda(val);
+              },
             },
           },
         },
@@ -58,12 +68,7 @@ export default function Donut({ dados }) {
     dataLabels: {
       enabled: true,
       formatter: (_val, opts) =>
-        opts.w.globals.series[opts.seriesIndex].toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 2,
-        }),
+        formatarMoeda(opts.w.globals.series[opts.seriesIndex]),
       style: {
         fontSize: "12px",
         fontWeight: 100,
@@ -91,24 +96,18 @@ export default function Donut({ dados }) {
     },
     tooltip: {
       y: {
-        formatter: (val) =>
-          val.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2,
-          }),
+        formatter: formatarMoeda,
       },
     },
   };
 
   if (aguardandoDados && !timeoutAtingido) {
-      return <CarregamentoDonuts />;
-    }
-  
-    if (timeoutAtingido && (!dados || dados.length === 0)) {
-      return <NoData/>;
-    }
+    return <CarregamentoDonuts />;
+  }
+
+  if (timeoutAtingido && (!dados || dados.length === 0)) {
+    return <NoData />;
+  }
 
   return (
     <div className="grafico-wrapper">

@@ -3,7 +3,7 @@ import CabecalhoEstoque from "./CabecalhoEstoque/CabecalhoEstoque";
 import ProdutoEstoque from "./ProdutoEstoque/ProdutoEstoque";
 import "./TabelaEstoque.css";
 
-const TabelaEstoque = ({ produtos, setProdutos, filtroStatus, termoBusca, buscarProdutos, setorSelecionado }) => {
+const TabelaEstoque = ({ produtos, filtroStatus, termoBusca, buscarProdutos, setorSelecionado }) => {
 
   const listaProdutos = Array.isArray(produtos) ? produtos : [produtos];
 

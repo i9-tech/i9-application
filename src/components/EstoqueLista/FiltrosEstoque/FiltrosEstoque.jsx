@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import api from "../../../provider/api";
 import "./FiltrosEstoque.css"
 import { getFuncionario } from "../../../utils/auth";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
@@ -21,7 +22,6 @@ function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBus
   };
 
   const [setores, setSetores] = useState([]);
-
   useEffect(() => {
     api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
       headers: {
@@ -37,7 +37,7 @@ function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBus
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
       });
-  }, []);
+  }, [funcionario.userId, token]);
 
   return (
     <>

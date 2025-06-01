@@ -3,7 +3,7 @@ import CadastroPratoFormulario from "../../components/Pratos/PratoForm/CadastroP
 import PratoFoto from "../../components/Pratos/PratoFoto/PratoFoto";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import api from "../../provider/api";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Pratos.css";
 import { useParams } from "react-router-dom";
@@ -36,7 +36,7 @@ export function Pratos() {
           console.error("Erro ao ao buscar pratos:", err);
         });
     }
-  }, []);
+  }, [params.id, funcionario.userId, token]);
 
   return (
     <>

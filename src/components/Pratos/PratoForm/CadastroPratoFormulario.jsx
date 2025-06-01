@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./CadastroPratoFormulario.css";
 import api from "../../../provider/api";
 import { ToastContainer, toast } from "react-toastify";
@@ -81,7 +81,7 @@ const CadastroPratoFormulario = ({
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
       });
-  }, []);
+  }, [funcionario.userId, token]);
 
   const validarCampos = () => {
     if (!prato.nome || !prato.venda || !prato.categoria) {

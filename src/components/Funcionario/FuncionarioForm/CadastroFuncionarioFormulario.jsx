@@ -38,8 +38,6 @@ const CadastroFuncionarioFormulario = ({
     setFuncionarioSelecionado(null);
   };
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalMensagem, setModalMensagem] = useState("");
 
 
   useEffect(() => {

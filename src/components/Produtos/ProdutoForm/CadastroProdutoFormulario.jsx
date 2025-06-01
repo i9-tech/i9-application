@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./CadastroProdutoFormulario.css";
 import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
@@ -244,7 +244,7 @@ const CadastroProdutoFormulario = ({
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
       });
-  }, []);
+  }, [funcionario.userId, token]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./PratoEstoque.css";
 import { useNavigate } from "react-router-dom";
 import api from "../../../../provider/api";
@@ -17,10 +17,6 @@ const PratoEstoque = ({ prato, buscar }) => {
   const funcionario = getFuncionario();
 
   useEffect(() => {
-    formatarDados(prato);
-  }, []);
-
-  const formatarDados = (prato) => {
     // FORMATAÇÃO VALOR
     const VendaFormatado = Number(prato.valorVenda).toLocaleString("pt-BR", {
       style: "currency",
@@ -38,7 +34,7 @@ const PratoEstoque = ({ prato, buscar }) => {
     } else {
       setUrlImagem(null);
     }
-  };
+  }, [prato, tokenImagem]);
 
   const editar = (prato) => {
     navigate(`formulario-pratos/${prato.id}`);

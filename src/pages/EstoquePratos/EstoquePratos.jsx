@@ -1,5 +1,5 @@
 import "./EstoquePratos.css";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import FiltrosPratos from "../../components/EstoquePratos/FiltrosPratos/FiltrosPratos";
 import { ResumoPratos } from "../../components/EstoquePratos/ResumoPratos/ResumoPratos";
 import TabelaPratos from "../../components/EstoquePratos/TabelaPratos/TabelaPratos";
@@ -25,11 +25,7 @@ export function EstoquePratos() {
   const [pratos, setPratos] = useState([]);
   const [resumo, setResumo] = useState([{}]);
 
-  useEffect(() => {
-    buscarPratos();
-  }, []);
-
-  const buscarPratos = () => {
+  const buscarPratos = useCallback(() => {
     api
       .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
@@ -39,7 +35,11 @@ export function EstoquePratos() {
       .catch((err) => {
         console.error("Erro ao buscar pratos:", err);
       });
-  };
+  }, [funcionario.userId, token]);
+
+  useEffect(() => {
+    buscarPratos();
+  }, [buscarPratos]);
 
   return (
     <LayoutTela

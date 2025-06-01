@@ -1,0 +1,111 @@
+@keyframes fadeBlink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+:root {
+  --carregamento: #d5d5d5;
+}
+
+.ranking {
+  background-color: white;
+  box-shadow: 0px 0px 4px -2px rgba(0, 0, 0, 0.65);
+  display: flex;
+  width: 47%;
+  height: 47%;
+  margin-bottom: 1%;
+  border-radius: 0.6rem;
+
+  .ranking-container {
+    color: #000;
+    width: 100%;
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 8px;
+    align-items: center;
+
+    .ranking-titulo {
+      text-align: left;
+      width: 100%;
+      padding-left: 16px;
+      padding-bottom: 8px;
+    }
+
+    .ranking-wrapper {
+      width: 98%;
+      height: 100%;
+      box-sizing: border-box;
+      overflow-y: auto;
+      border-collapse: collapse;
+      box-shadow: 0px 0px 8px -4px rgba(0, 0, 0, 0.65);
+
+      .tabela-resumo {
+        width: 100%;
+        font-size: 14px;
+        table-layout: fixed;
+
+        th,
+        td {
+          border: none;
+          border-bottom: 1px solid #ddd;
+          text-align: left;
+          word-wrap: break-word;
+        }
+
+        td {
+          padding: 16px;
+        }
+
+        th {
+          background-color: #f2f2f2;
+          padding: 8px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+.no-data-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85%;
+  background-color: #f9f9f9;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  margin: 16px;
+  padding: 20px;
+  .no-data-text {
+    font-size: 16px;
+    color: #666;
+    font-style: italic;
+    text-align: center;
+  }
+}
+
+.carregamento-ranking-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  animation: fadeBlink 2s ease-in-out infinite;
+
+  .linha-ranking-carregamento {
+    height: 24px;
+    width: 100%;
+    border-radius: 4px;
+    background-color: var(--carregamento);
+    position: relative;
+    overflow: hidden;
+  }
+}

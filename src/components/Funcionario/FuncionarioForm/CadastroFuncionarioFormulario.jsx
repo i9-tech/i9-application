@@ -210,8 +210,7 @@ const CadastroFuncionarioFormulario = ({
             required
             pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
             disabled={!!funcionarioSelecionado}
-            maxLength={14} />
-
+            />
         </div>
 
         <div className="grupo-inputs">

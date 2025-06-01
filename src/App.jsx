@@ -23,15 +23,7 @@ import "react-tooltip/dist/react-tooltip.css";
 function App() {
   // return (
   //   <Routes>
-  //     <Route path={ROUTERS.ESTOQUE_PRODUTOS} element={<Estoque />} />
-  //     <Route path={ROUTERS.FORMULARIO_PRODUTOS} element={<Produtos />} />
-  //     <Route
-  //       path={`${ROUTERS.FORMULARIO_PRODUTOS}/:id`}
-  //       element={<Produtos />}
-  //     />
-  //     <Route path={ROUTERS.ESTOQUE_PRATOS} element={<EstoquePratos />} />
-  //     <Route path={ROUTERS.FORMULARIO_PRATOS} element={<Pratos />} />
-  //     <Route path={`${ROUTERS.FORMULARIO_PRATOS}/:id`} element={<Pratos />} />
+  //     <Route path={ROUTERS.DASHBOARD} element={<Dashboard />} />
   //   </Routes>
   // );
 

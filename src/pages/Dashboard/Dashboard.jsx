@@ -20,10 +20,18 @@ export function Dashboard() {
   const [dadosCategorias, setDadosCategorias] = useState([]);
   const [pratoMaisVendido, setPratoMaisVendido] = useState({});
   const [produtoMaisVendido, setProdutoMaisVendido] = useState({});
-  const [quantidadeTotalVendida, setQuantidadeTotalVendida] = useState(0);
   const [valorTotalVendido, setValorTotalVendido] = useState(0);
-  const [lucroLiquido, setLucroLiquido] = useState(0);
   const [setores, setSetores] = useState([]);
+  const [isDadosDisponiveis, setIsDadosDisponiveis] = useState(false);
+  const [lucroBruto, setLucroBruto] = useState(0);
+  const [diferencaBruto, setDiferencaBruto] = useState(0);
+  const [isLucroMaior, setIsLucroMaior] = useState(false);
+  const [lucroLiquido, setLucroLiquido] = useState(0);
+  const [liquidoMercadoria, setLiquidoMercadoria] = useState(0);
+  const [quantidadeTotalVendida, setQuantidadeTotalVendida] = useState(0);
+  const [diferencaVenda, setDiferencaVenda] = useState(0);
+  const [isVendaMaior, setIsVendaMaior] = useState(false);
+  const [isKpiProduto, setIsKpiProduto] = useState(false);
 
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -31,19 +39,35 @@ export function Dashboard() {
     year: "numeric",
   });
 
-  const [isKpiProduto, setIsKpiProduto] = useState(false);
+  useEffect(() => {
+    api
+      .post(
+        `${ENDPOINTS.VENDA_MOCK}?quantidadeVendas=10&maxItensPorVenda=5`,
+        null,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        console.log("Vendas mockadas com sucesso!");
+        setIsDadosDisponiveis(true);
+      })
+      .catch((err) => {
+        console.log("Erro ao mockar vendas: ", err);
+      });
+  }, []);
 
   useEffect(() => {
     api
-      .get(`${ENDPOINTS.VENDA_LIQUIDO_DIARIO}/${funcionario.empresaId}`, {
+      .get(`${ENDPOINTS.VENDA_KPIS}/${funcionario.empresaId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        setLucroLiquido(res.data);
-        console.log("Lucro Liquido recuperados: ", res.data);
+        // console.log("Valores de KPI recuperados: ", res.data[0]);
+        tratarKpis(res.data[0]);
       })
       .catch((err) => {
-        console.log("Erro ao buscar Lucro Liquido: ", err);
+        console.log("Erro ao buscar valores de KPI: ", err);
       });
 
     api
@@ -53,7 +77,7 @@ export function Dashboard() {
       .then((res) => {
         setDadosPratos(res.data);
         pratoMaisComprado(res.data);
-        console.log("Pratos recuperados: ", res.data);
+        // console.log("Pratos recuperados: ", res.data);
       })
       .catch((err) => {
         console.log("Erro ao buscar pratos: ", err);
@@ -66,7 +90,7 @@ export function Dashboard() {
       .then((res) => {
         setDadosProdutos(res.data);
         produtoMaisComprado(res.data);
-        console.log("Produtos recuperados: ", res.data);
+        // console.log("Produtos recuperados: ", res.data);
       })
       .catch((err) => {
         console.log("Erro ao buscar produtos: ", err);
@@ -78,24 +102,10 @@ export function Dashboard() {
       })
       .then((res) => {
         setDadosCategorias(res.data);
-        console.log("Categorias recuperadas: ", res.data);
+        // console.log("Categorias recuperadas: ", res.data);
       })
       .catch((err) => {
         console.log("Erro ao buscar categorias: ", err);
-      });
-
-    api
-      .get(
-        `${ENDPOINTS.VENDA_ITENS_VENDIDOS_DIARIO}/${funcionario.empresaId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((res) => {
-        console.log("Vendas recuperadas: ", res.data);
-      })
-      .catch((err) => {
-        console.log("Erro ao buscar vendas: ", err);
       });
 
     api
@@ -103,22 +113,45 @@ export function Dashboard() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        const setoresFormatados = res.data.map(({ nomeSetor, quantidadeVendida, valorTotal }) => ({
-          setor: nomeSetor,
-          quantidade: quantidadeVendida,
-          valor: valorTotal,
-        }));
+        const setoresFormatados = res.data.map(
+          ({ nomeSetor, quantidadeVendida, valorTotal }) => ({
+            setor: nomeSetor,
+            quantidade: quantidadeVendida,
+            valor: valorTotal,
+          })
+        );
         setSetores(setoresFormatados);
-        console.log("Setores recuperados: ", setoresFormatados);
+        // console.log("Setores recuperados: ", setoresFormatados);
       })
       .catch((err) => {
         console.log("Erro ao buscar setores: ", err);
       });
-  }, []);
+  }, [isDadosDisponiveis]);
 
-  useEffect(() => {
-    calcularTotal();
-  }, [dadosPratos, dadosProdutos]);
+  const tratarKpis = (kpi) => {
+    if (!kpi) return;
+
+    const lucroDiario = Number(kpi.lucroDiario ?? 0);
+    const lucroDiarioOntem = Number(kpi.lucroDiarioOntem ?? 0);
+    const lucroLiquidoDiario = Number(kpi.lucroLiquidoDiario ?? 0);
+    const totalMercadoriaDiario = Number(kpi.totalMercadoriaDiario ?? 0);
+    const vendasDiaria = Number(kpi.vendasDiaria ?? 0);
+    const vendasDiariaOntem = Number(kpi.vendasDiariaOntem ?? 0);
+
+    const diferencaBruto = lucroDiario - lucroDiarioOntem;
+    const diferencaVendas = vendasDiaria - vendasDiariaOntem;
+
+    setLucroBruto(lucroDiario);
+    setDiferencaBruto(diferencaBruto);
+    setIsLucroMaior(diferencaBruto >= 0);
+
+    setLucroLiquido(lucroLiquidoDiario);
+    setLiquidoMercadoria(totalMercadoriaDiario);
+
+    setQuantidadeTotalVendida(vendasDiaria);
+    setDiferencaVenda(diferencaVendas);
+    setIsVendaMaior(diferencaVendas >= 0);
+  };
 
   const pratoMaisComprado = (pratos) => {
     const maisVendido = pratos.reduce((maior, atual) =>
@@ -134,33 +167,13 @@ export function Dashboard() {
     setProdutoMaisVendido(maisVendido);
   };
 
-  const calcularTotal = () => {
-    const quantidadePratos = dadosPratos.reduce(
-      (acc, item) => acc + item.quantidadeVendida,
-      0
-    );
-    const quantidadeProdutos = dadosProdutos.reduce(
-      (acc, item) => acc + item.quantidadeVendida,
-      0
-    );
-
-    const valorPratos = dadosPratos.reduce(
-      (acc, item) => acc + item.totalVendas,
-      0
-    );
-    const valorProdutos = dadosProdutos.reduce(
-      (acc, item) => acc + item.totalVendas,
-      0
-    );
-
-    setQuantidadeTotalVendida(quantidadePratos + quantidadeProdutos);
-    setValorTotalVendido(valorPratos + valorProdutos);
-  };
-
   const formatarMoeda = (valor) => {
     const numero = Number(valor);
     if (isNaN(numero)) return "R$ 0,00";
-    return numero.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    return numero.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
   };
 
   return (
@@ -171,22 +184,34 @@ export function Dashboard() {
             <Kpi
               key={"abss"}
               titulo={"Lucro Bruto"}
-              valor={formatarMoeda(valorTotalVendido)}
-              adicional={"+R$ 150,00 em relação ao dia anterior"}
+              valor={formatarMoeda(lucroBruto)}
+              adicional={`${
+                isLucroMaior && diferencaBruto > 0
+                  ? "+"
+                  : diferencaBruto > 0
+                  ? "-"
+                  : ""
+              }${formatarMoeda(diferencaBruto)} em relação ao dia anterior`}
               indicador={"#6f6df1"}
             />
             <Kpi
               key={"abssss"}
               titulo={"Lucro Liquido"}
               valor={formatarMoeda(lucroLiquido)}
-              adicional={"R$ 250,00 em mercadorias"}
+              adicional={`${formatarMoeda(liquidoMercadoria)} em mercadorias`}
               indicador={"#f0b731"}
             />
             <Kpi
               key={"absdass"}
               titulo={"Quantidade de Vendas"}
               valor={`${quantidadeTotalVendida || 0} vendas`}
-              adicional={"+15 em relação ao dia anterior"}
+              adicional={`${
+                isVendaMaior && diferencaVenda > 0
+                  ? "+"
+                  : diferencaVenda > 0
+                  ? "-"
+                  : ""
+              }${diferencaVenda} em relação ao dia anterior`}
               indicador={"#41c482"}
             />
             <Kpi
@@ -197,10 +222,11 @@ export function Dashboard() {
                   ? produtoMaisVendido.nome?.split(" ")[0] || "Nenhum"
                   : pratoMaisVendido.nome?.split(" ")[0] || "Nenhum"
               }
-              adicional={`${isKpiProduto
+              adicional={`${
+                isKpiProduto
                   ? produtoMaisVendido.quantidadeVendida || 0
                   : pratoMaisVendido.quantidadeVendida || 0
-                } unidades`}
+              } unidades`}
               indicador={"#d35757"}
               cursor={"pointer"}
               onClick={() => {

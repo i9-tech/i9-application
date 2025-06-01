@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import CadastroProdutoFormulario from "../../components/Produtos/ProdutoForm/CadastroProdutoFormulario";
 import ProdutoFoto from "../../components/Produtos/ProdutoFoto/ProdutoFoto";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import api from "../../provider/api";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Swal from "sweetalert2";
 import "./Produtos.css";
 import { useParams } from "react-router-dom";
 import { ENDPOINTS } from "../../utils/endpoints";
@@ -20,7 +19,7 @@ export function Produtos() {
   const [imagem, setImagem] = useState("");
 
   useEffect(() => {
-    if (params != null) {
+    if (params.id != null) {
       api
         .get(`${ENDPOINTS.PRODUTOS}/${params.id}/${funcionario.userId}`,{
           headers: { Authorization: `Bearer ${token}` },
@@ -35,8 +34,7 @@ export function Produtos() {
           console.error("Erro ao ao buscar produtos:", err);
         });
     }
-  }, []);
-
+  }, [params.id, funcionario.userId, token]);
   return (
     <>
       <LayoutTela titulo="Adição de Estoque">

@@ -38,8 +38,7 @@ const CadastroFuncionarioFormulario = ({
     setFuncionarioSelecionado(null);
   };
 
-  // const [showModal, setShowModal] = useState(false);
-  // const [modalMensagem, setModalMensagem] = useState("");
+
 
   useEffect(() => {
     if (funcionarioSelecionado) {
@@ -188,7 +187,7 @@ const CadastroFuncionarioFormulario = ({
 
       <form className="formulario-inputs">
         <div className="grupo-inputs">
-          <label htmlFor="nome">Nome do Funcionário *</label>
+          <label htmlFor="nome">Nome do Funcionário <span aria-hidden="true" style={{ color: 'red' }}>*</span> </label>
           <input
             id="nome"
             type="text"
@@ -200,20 +199,14 @@ const CadastroFuncionarioFormulario = ({
         </div>
 
         <div className="grupo-inputs">
+          <label htmlFor="cpf">CPF do Funcionário <span aria-hidden="true" style={{ color: 'red' }}>*</span> </label>
+
           <input
             id="cpf"
             type="text"
             placeholder="000.000.000-00"
             value={cpfFuncionario}
-            maxLength={14}
-            onChange={(e) => {
-              let valor = e.target.value;
-              valor = valor.replace(/\D/g, ""); 
-              valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-              valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-              valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-              setCpfFuncionario(valor); 
-            }}
+            onChange={(e) => setCpfFuncionario(formatarCpf(e.target.value))}
             required
             pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
             disabled={!!funcionarioSelecionado}
@@ -221,7 +214,7 @@ const CadastroFuncionarioFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label htmlFor="data">Data de Admissão *</label>
+          <label htmlFor="data">Data de Admissão <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
           <input
             id="data"
             type="date"

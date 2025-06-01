@@ -64,8 +64,6 @@ hov {
   gap: 10px;
 }
 
-
-
 .btn-cancelar,
 .btn-aceitar{
   padding: 14px;
@@ -73,11 +71,9 @@ hov {
   font-weight: bold;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-cancelar {
-  width: 40% !important;
   background: none;
   border: 1px solid #000;
   color: #000;
@@ -88,7 +84,6 @@ hov {
 }
 
 .btn-aceitar {
-  width: 40% !important;
   background-color: #0050ff;
   color: white;
   border: none;

@@ -1,5 +1,5 @@
 import "./EstoquePratos.css";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import FiltrosPratos from "../../components/EstoquePratos/FiltrosPratos/FiltrosPratos";
 import { ResumoPratos } from "../../components/EstoquePratos/ResumoPratos/ResumoPratos";
 import TabelaPratos from "../../components/EstoquePratos/TabelaPratos/TabelaPratos";
@@ -7,10 +7,10 @@ import { calcularResumoPratos } from "./DadosPratos/utilsPratos";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import api from "../../provider/api";
 import { ENDPOINTS } from "../../utils/endpoints";
-import { getFuncionario } from "../../utils/auth";
+import { getFuncionario, getToken } from "../../utils/auth";
 
 export function EstoquePratos() {
-  const token = localStorage.getItem("token");
+  const token = getToken();
   const funcionario = getFuncionario();
   const [termoBusca, setTermoBusca] = useState("");
   const [setorSelecionado, setSetorSelecionado] = useState("");
@@ -25,11 +25,7 @@ export function EstoquePratos() {
   const [pratos, setPratos] = useState([]);
   const [resumo, setResumo] = useState([{}]);
 
-  useEffect(() => {
-    buscarPratos();
-  }, []);
-
-  const buscarPratos = () => {
+  const buscarPratos = useCallback(() => {
     api
       .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
@@ -39,7 +35,11 @@ export function EstoquePratos() {
       .catch((err) => {
         console.error("Erro ao buscar pratos:", err);
       });
-  };
+  }, [funcionario.userId, token]);
+
+  useEffect(() => {
+    buscarPratos();
+  }, [buscarPratos]);
 
   return (
     <LayoutTela

@@ -24,5 +24,5 @@ export function calcularResumoPratos(pratos) {
     totalCategorias,
     totalSetores,
     valorTotal,
-  };
+  };
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./ProdutoEstoque.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -19,32 +19,22 @@ const ProdutoEstoque = ({ produto, buscar }) => {
   const tokenImagem = enviroments.tokenURL;
   const [urlImagem, setUrlImagem] = useState("");
 
-
-  useEffect(() => {
-    formatarDados(produto)
-  }, [])
-
-
-  const formatarDados = (produto) => {
-
+  const formatarDados = useCallback((produto) => {
     // FORMATAÇÃO DATA
-    const dataFormatada = new Date(produto.dataRegistro).toLocaleDateString("pt-BR")
-
-    setDataFormatada(dataFormatada)
+    const dataFormatada = new Date(produto.dataRegistro).toLocaleDateString("pt-BR");
+    setDataFormatada(dataFormatada);
 
     // FORMATAÇÃO VALOR
     const CompraFormatado = Number(produto.valorCompra).toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL"
     });
-
     setValorCompraFormatado(CompraFormatado);
 
     const UnitarioFormatado = Number(produto.valorUnitario).toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL"
     });
-
     setValorUnitarioFormatado(UnitarioFormatado);
 
     if (produto.imagem) {
@@ -56,8 +46,11 @@ const ProdutoEstoque = ({ produto, buscar }) => {
     } else {
       setUrlImagem(null);
     }
+  }, [tokenImagem]);
 
-  }
+  useEffect(() => {
+    formatarDados(produto);
+  }, [produto, formatarDados]);
 
   const editar = (produto) => {
     navigate(`formulario-produtos/${produto.id}`);

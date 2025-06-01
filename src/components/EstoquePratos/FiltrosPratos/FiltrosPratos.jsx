@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import api from "../../../provider/api";
 import "./FiltrosPratos.css";
 import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { getFuncionario } from "../../../utils/auth";
+import { toast } from "react-toastify";
 
 
 function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado, categoriaSelecionada, setCategoriaSelecionada }) {
@@ -20,8 +21,8 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
   const atualizarFiltros = () => {
     setFiltros({
       status: filtroStatus,
-      categoria,
-      setor,
+      categoria: categoriaSelecionada,
+      setor: setorSelecionado,
     });
   };
 
@@ -34,7 +35,8 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
   const limparFiltroStatus = () => {
     setFiltroStatus(null);
     atualizarFiltros();
-  };
+  }
+  
   useEffect(() => {
     api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
       headers: {
@@ -65,7 +67,7 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
         console.error("Erro ao buscar categoria:", err);
         toast.error("Erro ao buscar categoria!");
       });
-  }, []);
+  }, [funcionario.userId, token]);
 
   useEffect(() => {
     setFiltros({
@@ -73,9 +75,7 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
       categoria: categoriaSelecionada,
       setor: setorSelecionado,
     });
-  }, [filtroStatus, categoriaSelecionada, setorSelecionado]);
-
-
+  }, [filtroStatus, categoriaSelecionada, setorSelecionado, setFiltros]);
 
   return (
     <div className="top-actions">

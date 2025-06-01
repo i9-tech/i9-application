@@ -3,7 +3,7 @@ import PratoEstoque from "./PratoEstoque/PratoEstoque";
 import "./TabelaPratos.css";
 
 const TabelaPratos = ({ pratos, buscarPratos, filtros, termoBusca, setorSelecionado, categoriaSelecionada }) => {
-  const { status, categoria } = filtros;
+  const { status } = filtros;
 
   const pratosFiltrados = pratos.filter((p) => {
     // Filtro por nome

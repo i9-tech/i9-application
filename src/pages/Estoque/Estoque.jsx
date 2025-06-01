@@ -1,5 +1,5 @@
 import "./Estoque.css";
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import FiltrosEstoque from "../../components/EstoqueLista/FiltrosEstoque/FiltrosEstoque";
 import { ResumoEstoque } from "../../components/EstoqueLista/ResumoEstoque/ResumoEstoque";
 import TabelaEstoque from "../../components/EstoqueLista/TabelaEstoque/TabelaEstoque";
@@ -11,7 +11,6 @@ import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario } from "../../utils/auth";
 
 export function Estoque() {
-  const hoje = new Date().toLocaleDateString("en-US");
   const [filtroStatus, setFiltroStatus] = useState(null);
   const [produtos, setProdutos] = useState([]);
   const [resumo, setResumo] = useState([{}]);
@@ -20,13 +19,7 @@ export function Estoque() {
   const [termoBusca, setTermoBusca] = useState("");
   const [setorSelecionado, setSetorSelecionado] = useState("");
 
-
-
-  useEffect(() => {
-    buscarProdutos();
-  }, []);
-
-  const buscarProdutos = () => {
+  const buscarProdutos = useCallback(() => {
     if (enviroments.ambiente === "jsonserver") {
       api
         .get(ENDPOINTS.PRODUTOS)
@@ -48,7 +41,12 @@ export function Estoque() {
           console.error("Erro ao ao buscar produtos:", err);
         });
     }
-  };
+  }, [funcionario.userId, token]);
+
+
+  useEffect(() => {
+    buscarProdutos();
+  }, [buscarProdutos]);
 
   return (
     <>

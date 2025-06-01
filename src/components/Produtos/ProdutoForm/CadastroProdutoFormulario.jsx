@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./CadastroProdutoFormulario.css";
 import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 import { enviroments } from "../../../utils/enviroments";
-
 
 const CadastroProdutoFormulario = ({
   produtoSelecionado,
@@ -26,35 +25,32 @@ const CadastroProdutoFormulario = ({
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
 
-
   const [produto, setProduto] = useState({
     codigo: "",
     nome: "",
     quantidade: "",
-    valorCompra: "",
-    valorUnitario: "",
+    valorCompra: 0,
+    valorUnitario: 0,
     quantidadeMin: "",
     quantidadeMax: "",
     dataRegistro: "",
   });
-
   useEffect(() => {
     if (produtoSelecionado) {
       setProduto({
         codigo: produtoSelecionado.codigo || "",
         nome: produtoSelecionado.nome || "",
         quantidade: produtoSelecionado.quantidade || "",
-        valorCompra: produtoSelecionado.valorCompra || "",
-        valorUnitario: produtoSelecionado.valorUnitario || "",
+        valorCompra: produtoSelecionado.valorCompra !== undefined && produtoSelecionado.valorCompra !== "" ? Number(produtoSelecionado.valorCompra).toFixed(2) : "",
+        valorUnitario: produtoSelecionado.valorUnitario !== undefined && produtoSelecionado.valorUnitario !== "" ? Number(produtoSelecionado.valorUnitario).toFixed(2) : "",
         quantidadeMin: produtoSelecionado.quantidadeMin || "",
         quantidadeMax: produtoSelecionado.quantidadeMax || "",
         dataRegistro: produtoSelecionado.dataRegistro || "",
-        setor: produtoSelecionado.setor?.id || "",         
-        categoria: produtoSelecionado.categoria?.id || "", 
+        setor: produtoSelecionado.setor?.id || "",
+        categoria: produtoSelecionado.categoria?.id || "",
       });
     }
   }, [produtoSelecionado]);
-
 
   const limparFormulario = () => {
     setProduto({
@@ -98,15 +94,17 @@ const CadastroProdutoFormulario = ({
       produto.quantidadeMax !== "" &&
       Number(produto.quantidadeMax) <= Number(produto.quantidadeMin)
     ) {
-      toast.error("A quantidade máxima deve ser maior que a quantidade mínima!");
+      toast.error(
+        "A quantidade máxima deve ser maior que a quantidade mínima!"
+      );
       return false;
     }
-    if (!imagem) {
-      toast.error("A imagem do produto é um campo obrigatório!");
-      return false;
-    }
-    const valorCompra = parseFloat(produto.valorCompra.replace(",", "."));
-    const valorUnitario = parseFloat(produto.valorUnitario.replace(",", "."));
+    const valorCompra = parseFloat(
+      String(produto.valorCompra).replace(/\./g, "").replace(",", ".")
+    );
+    const valorUnitario = parseFloat(
+      String(produto.valorUnitario).replace(/\./g, "").replace(",", ".")
+    );
     if (
       !isNaN(valorCompra) &&
       !isNaN(valorUnitario) &&
@@ -138,6 +136,14 @@ const CadastroProdutoFormulario = ({
           salvarProduto(res.data.imageUrl);
         })
         .catch((err) => {
+          if (imagem) {
+            salvarProduto(imagem);
+            return;
+          }
+          if (imagem == "") {
+            salvarProduto("");
+            return;
+          }
           console.log("erro ao adicionar imagem ao blob storage: ", err);
         });
     }
@@ -180,9 +186,13 @@ const CadastroProdutoFormulario = ({
     } else {
       console.log("funcionario.id:", funcionario.userId);
       const metodo = produtoSelecionado
-        ? api.patch(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}/${produtoSelecionado.id}`, dados, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        ? api.patch(
+          `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`,
+          dados,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
         : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -203,11 +213,12 @@ const CadastroProdutoFormulario = ({
   };
 
   useEffect(() => {
-    api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api
+      .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           setSetores(res.data);
@@ -218,21 +229,22 @@ const CadastroProdutoFormulario = ({
         toast.error("Erro ao buscar setores!");
       });
 
-    api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      if (Array.isArray(res.data)) {
-        setCategorias(res.data);
-      }
-    })
+    api
+      .get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setCategorias(res.data);
+        }
+      })
       .catch((err) => {
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
       });
-
-  }, []);
+  }, [funcionario.userId, token]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -242,13 +254,15 @@ const CadastroProdutoFormulario = ({
   };
 
   const formatarParaReal = (valor) => {
-  if (valor == null) return "R$ 0,00";
+    if (valor == null) return "R$ 0,00";
 
-  const numero = String(valor).replace(/\D/g, "");
-  const valorNumerico = (parseInt(numero, 10) / 100).toFixed(2);
-  return "R$ " + valorNumerico.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-};
-
+    const numero = String(valor).replace(/\D/g, "");
+    const valorNumerico = (parseInt(numero, 10) / 100).toFixed(2);
+    return (
+      "R$ " +
+      valorNumerico.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    );
+  };
 
   const capitalizarPalavras = (texto) => {
     return texto
@@ -268,19 +282,22 @@ const CadastroProdutoFormulario = ({
       <form className="formulario-inputs" onSubmit={handleSubmit}>
         <div className="linha-dupla">
           <div>
-            <label htmlFor="codigo">Código do Produto</label>
+            <label htmlFor="codigo">Código do Produto  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               id="codigo"
               type="number"
               style={{ width: "100%" }}
               value={produto.codigo}
-              onChange={(e) => setProduto({ ...produto, codigo: e.target.value })}
+              onChange={(e) =>
+                setProduto({ ...produto, codigo: e.target.value })
+              }
               required
               min="0"
+              placeholder="001"
             />
           </div>
           <div>
-            <label htmlFor="quantidade">Quantidade para Cadastro</label>
+            <label htmlFor="quantidade">Quantidade para Cadastro  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               id="quantidade"
               type="number"
@@ -290,12 +307,13 @@ const CadastroProdutoFormulario = ({
               }
               required
               min="0"
+              placeholder="0"
             />
           </div>
         </div>
 
         <div className="grupo-inputs">
-          <label htmlFor="nome">Nome do Produto</label>
+          <label htmlFor="nome">Nome do Produto  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
           <input
             id="nome"
             type="text"
@@ -306,20 +324,21 @@ const CadastroProdutoFormulario = ({
               setProduto({ ...produto, nome: capitalizado });
             }}
             required
+            placeholder="Água Mineral 500ml"
           />
-
         </div>
 
         <div className="linha-dupla">
           <div className="grupo-inputs">
-            <label>Setor</label>
+            <label>Setor  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <select
               value={produto.setor}
-              onChange={(e) => setProduto({ ...produto, setor: parseInt(e.target.value) })
-            }
+              onChange={(e) =>
+                setProduto({ ...produto, setor: parseInt(e.target.value) })
+              }
               required
             >
-              <option value="">Selecione um Setor</option>
+              <option value="">Selecione um Setor </option>
               {setores.map((set) => (
                 <option key={set.id} value={set.id}>
                   {set.nome}
@@ -327,9 +346,9 @@ const CadastroProdutoFormulario = ({
               ))}
             </select>
           </div>
-          
+
           <div className="grupo-inputs">
-            <label>Categoria</label>
+            <label>Categoria  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <select
               value={produto.categoria}
               onChange={(e) =>
@@ -349,34 +368,40 @@ const CadastroProdutoFormulario = ({
 
         <div className="linha-dupla">
           <div>
-            <label>Valor de Compra Unitária</label>
+            <label>Valor de Compra Unitária  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               type="text"
               value={formatarParaReal(produto.valorCompra)}
               onChange={(e) => {
                 const apenasNumeros = e.target.value.replace(/\D/g, "");
-                const valorEmReais = (parseInt(apenasNumeros || "0", 10) / 100).toFixed(2);
+                const valorEmReais = (
+                  parseInt(apenasNumeros || "0", 10) / 100
+                ).toFixed(2);
                 setProduto({ ...produto, valorCompra: valorEmReais });
               }}
+              required
             />
           </div>
           <div>
-            <label>Valor de Venda</label>
+            <label>Valor de Venda  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               type="text"
               value={formatarParaReal(produto.valorUnitario)}
               onChange={(e) => {
                 const apenasNumeros = e.target.value.replace(/\D/g, "");
-                const valorEmReais = (parseInt(apenasNumeros || "0", 10) / 100).toFixed(2);
+                const valorEmReais = (
+                  parseInt(apenasNumeros || "0", 10) / 100
+                ).toFixed(2);
                 setProduto({ ...produto, valorUnitario: valorEmReais });
               }}
+              required
             />
           </div>
         </div>
 
         <div className="linha-dupla">
           <div>
-            <label>Quantidade Mínima para Estoque</label>
+            <label>Quantidade Mínima para Estoque  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               type="number"
               value={produto.quantidadeMin}
@@ -384,10 +409,12 @@ const CadastroProdutoFormulario = ({
                 setProduto({ ...produto, quantidadeMin: e.target.value })
               }
               min="1"
+              placeholder="10"
+              required
             />
           </div>
           <div>
-            <label>Quantidade Máxima para Estoque</label>
+            <label>Quantidade Máxima para Estoque  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
             <input
               type="number"
               value={produto.quantidadeMax}
@@ -395,6 +422,8 @@ const CadastroProdutoFormulario = ({
                 setProduto({ ...produto, quantidadeMax: e.target.value })
               }
               min="1"
+              placeholder="50"
+              required
             />
           </div>
         </div>

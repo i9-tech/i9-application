@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import { ENDPOINTS } from "../../utils/endpoints";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 
+
 export function CadastroSetorCategoria() {
   const funcionario = getFuncionario();
   const [setores, setSetores] = useState([]);
@@ -25,38 +26,34 @@ export function CadastroSetorCategoria() {
   const [categoriaSelecionado, setCategoriaSelecionada] = useState(null);
   const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
 
-  useEffect(() => {
-    if (!funcionario?.userId) return;
-    
-    const fetchSetores = async () => {
-      try {
-        const response = await api.get(`/setores/${funcionario.userId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        setSetores(response.data);
-        setSetoresFiltrados(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar os setores:", error);
-      }
-    };
+    useEffect(() => {
+        const fetchSetores = async () => {
+            try {
+                const response = await api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                });
+                setSetores(response.data);
+            } catch (error) {
+                console.error("Erro ao buscar os setores:", error);
+            }
+        };
 
     fetchSetores();
 
-    const fetchCategorias = async () => {
-      try {
-        const response = await api.get(`/categorias/${funcionario.userId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        setCategorias(response.data);
-        setCategoriasFiltradas(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar as categorias:", error);
-      }
-    };
+        const fetchCategorias = async () => {
+            try {
+                const response = await api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                });
+                setCategorias(response.data);
+            } catch (error) {
+                console.error("Erro ao buscar as categorias:", error);
+            }
+        };
 
     fetchCategorias();
   }, [funcionario?.userId]);
@@ -83,24 +80,24 @@ export function CadastroSetorCategoria() {
       if (result.isConfirmed) {
         const token = localStorage.getItem("token");
 
-        api
-          .delete(`/setores/${setor.id}/${funcionario.userId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((response) => {
-            console.log("Setor deletado com sucesso:", response.data);
-            toast.success("Setor deletado com sucesso!");
-            setTimeout(() => window.location.reload(), 2000);
-          })
-          .catch((error) => {
-            console.error("Erro ao deletar setor:", error);
-            toast.error("Erro ao deletar setor!");
-          });
-      }
-    });
-  };
+                api
+                    .delete(`${ENDPOINTS.SETORES}/${setor.id}/${funcionario.userId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
+                    .then((response) => {
+                        console.log("Setor deletado com sucesso:", response.data);
+                        toast.success("Setor deletado com sucesso!");
+                        setTimeout(() => window.location.reload(), 2000);
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao deletar setor:", error);
+                        toast.error("Erro ao deletar setor!");
+                    });
+            }
+        });
+    };
 
   const handleEditarCategoria = (categoria) => {
     console.log("Editar categoria:", categoria);
@@ -125,24 +122,24 @@ export function CadastroSetorCategoria() {
       if (result.isConfirmed) {
         const token = localStorage.getItem("token");
 
-        api
-          .delete(`/categorias/${categoria.id}/${funcionario.userId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((response) => {
-            console.log("Categoria deletada com sucesso:", response.data);
-            toast.success("Categoria deletada com sucesso!");
-            setTimeout(() => window.location.reload(), 2000);
-          })
-          .catch((error) => {
-            console.error("Erro ao deletar categoria:", error);
-            toast.error("Erro ao deletar categoria!");
-          });
-      }
-    });
-  };
+                api
+                    .delete(`${ENDPOINTS.CATEGORIAS}/${categoria.id}/${funcionario.userId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
+                    .then((response) => {
+                        console.log("Categoria deletada com sucesso:", response.data);
+                        toast.success("Categoria deletada com sucesso!");
+                        setTimeout(() => window.location.reload(), 2000);
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao deletar categoria:", error);
+                        toast.error("Erro ao deletar categoria!");
+                    });
+            }
+        });
+    };
 
   return (
     <>

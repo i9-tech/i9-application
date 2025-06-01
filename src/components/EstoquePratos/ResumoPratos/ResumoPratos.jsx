@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./ResumoPratos.css";
 import api from "../../../provider/api";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { getFuncionario } from "../../../utils/auth";
 import { toast } from "react-toastify";
 import { FiHelpCircle } from "react-icons/fi";
-import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { ROUTERS } from "../../../utils/routers";
 
@@ -40,7 +39,7 @@ export function ResumoPratos({
         toast.error("Erro ao buscar valor de venda do estoque de pratos!");
       });
 
-       api
+    api
       .get(`${ROUTERS.ESTOQUE_PRATOS}${ENDPOINTS.PRATOS_TOTAL_PRECO}/${funcionario.userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -53,10 +52,9 @@ export function ResumoPratos({
         console.error("Erro ao buscar valor de venda do estoque de pratos de produtos inativos e ativos:", err);
         toast.error("Erro ao buscar valor de venda do estoque de pratos!");
       });
+  }, [funcionario, token]);
 
-
-  }, []);
-
+  
   return (
     <div className="resumo-bloco">
       <div className="resumo-container">

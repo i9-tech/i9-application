@@ -7,18 +7,27 @@ const PratoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
   const tokenImagem = enviroments.tokenURL;
   const [previewImagem, setPreviewImagem] = useState("");
 
-  useEffect(() => {
-    if (typeof imagem === "string" && imagem.trim() !== "") {
-      setPreviewImagem(imagem + tokenImagem);
-    } else {
-      setPreviewImagem("");
-    }
-  }, [imagem, tokenImagem]);
+  const [uploadFeito, setUploadFeito] = useState(false);
 
   useEffect(() => {
+    if (!uploadFeito) {
+      if (typeof imagem === "string" && imagem.trim() !== "") {
+        if (enviroments.ambiente === "jsonserver") {
+          setPreviewImagem(imagem);
+        } else {
+          setPreviewImagem(imagem + tokenImagem);
+        }
+      } else {
+        setPreviewImagem("");
+      }
+    }
+  }, [imagem, tokenImagem, uploadFeito]);
+
+  useEffect(() => {
+    let urlAnterior = previewImagem;
     return () => {
-      if (previewImagem && previewImagem.startsWith("blob:")) {
-        URL.revokeObjectURL(previewImagem);
+      if (urlAnterior && urlAnterior.startsWith("blob:")) {
+        URL.revokeObjectURL(urlAnterior);
       }
     };
   }, [previewImagem]);
@@ -29,6 +38,7 @@ const PratoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
     if (arquivoImagem) {
       const urlImagemTemporaria = URL.createObjectURL(arquivoImagem);
       setPreviewImagem(urlImagemTemporaria);
+      setUploadFeito(true);
       setImagem(arquivoImagem);
     }
   };
@@ -65,6 +75,7 @@ const PratoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
             setDescricao(e.target.value);
           }}
           rows="8"
+          placeholder="Prato feito tradicional com contra-filé, servido com acompanhamentos caseiros como arroz branco e feijão."
         />
       </div>
     </div>

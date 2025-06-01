@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./ResumoEstoque.css";
 import api from "../../../provider/api";
 import { getFuncionario } from "../../../utils/auth";
@@ -77,7 +77,7 @@ export function ResumoEstoque({
         console.error("Erro ao buscar quantidade de produtos em estoque:", err);
         toast.error("Erro ao buscar quantidade de produtos em estoque!");
       });
-  }, []);
+  }, [funcionario.userId, token]);
 
   return (
     <>

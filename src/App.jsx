@@ -10,7 +10,6 @@ import { Login } from "./pages/Login/Login";
 import RotaPrivada from "./routes/RotaPrivada";
 import NaoAutorizado from "./pages/NaoAutorizado/NaoAutorizado";
 import { CadastroSetorCategoria } from "./pages/CadastroSetorCategoria/CadastroSetorCategoria";
-import LayoutTela from "./components/LayoutTela/LayoutTela";
 import EstoquePratos from "./pages/EstoquePratos/EstoquePratos";
 import Pratos from "./pages/FormularioPratos/Pratos";
 import Produtos from "./pages/FormularioProdutos/Produtos";

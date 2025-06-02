@@ -59,6 +59,11 @@
          p {
             color: #FF6868;
         }
+
+        .preco-quantidade{
+          display: flex;
+          flex-direction: row;
+        }
       }
     }
 

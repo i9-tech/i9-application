@@ -12,7 +12,7 @@ export default function ComandaFooter({ qtdItens, index, onCompletar }) {
 
   return (
     <div className="rodape-conteudo">
-      <p className="itensQtd">{qtdItens} Itens</p>
+      <p className="itensQtd">{qtdItens} {qtdItens == 1 ? "Item" : "Itens"} </p>
       <CheckboxCozinha id={checkboxId} texto="Completo" onChange={handleChange} />
     </div>
   )

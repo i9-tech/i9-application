@@ -27,7 +27,7 @@ export function Cozinha() {
       .catch((err) => {
         console.log("Erro ao buscar valores de venda: ", err);
       });
-  }, []);
+  }, [token, funcionario.empresaId]);
 
   const atualizarComandas = (id) => {
     setPedidos((item) => item.filter((pedidos) => pedidos.id !== id));

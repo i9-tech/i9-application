@@ -102,9 +102,9 @@ export function Funcionarios() {
           <CadastroFuncionarioFormulario funcionarioSelecionado={funcionarioSelecionado} setFuncionarioSelecionado={setFuncionarioSelecionado} />
         </div>
 
-        <div className="coluna-meio">
+        {/* <div className="coluna-meio">
           <FuncionarioFoto imagem={imagemFuncionario} setImagem={setImagemFuncionario}/>
-        </div>
+        </div> */}
 
         <div className="coluna-direita">
           <TabelaFuncionarios

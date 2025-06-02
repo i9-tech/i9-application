@@ -47,7 +47,7 @@ export function ElementoProduto(props) {
       </div>
 
       <div className="conteudo-imagem">
-        <img src={urlImagem} alt="Imagem Produto" />
+        <img src={urlImagem} title={`Imagem de ${nome}`}/>
       </div>
 
       <button className="botao-adicionar" disabled={disabled}>+</button>

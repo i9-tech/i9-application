@@ -18,7 +18,6 @@ export function ProdutoComanda({
     const [urlImagem, setUrlImagem] = useState('');
 
     useEffect(() => {
-        console.log("Valor de imagem recebido:", imagem);
         if (imagem) {
             setUrlImagem(imagem + tokenImagem);
         } else {
@@ -53,7 +52,7 @@ export function ProdutoComanda({
     return (
         <div className="card-produto" onClick={() => onClick(produto, quantidade)}>
             <div className='img-obs'>
-                <img src={urlImagem} alt="" className="imagem-produto" />
+                <img src={urlImagem} title={`Imagem de ${produto}`} className="imagem-produto" />
                 <span className="observacao-produto">Observação</span>
             </div>
             <div className="detalhes-produto">

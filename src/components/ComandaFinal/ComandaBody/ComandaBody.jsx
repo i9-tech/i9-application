@@ -10,6 +10,8 @@ export default function ComandaBody({
   observacao,
   index,
   pedidoId,
+  checkboxMarcada,
+  aoClicarNaCheckbox,
 }) {
   const checkboxId = `checkbox-${pedidoId}-${index}`;
 
@@ -30,7 +32,11 @@ export default function ComandaBody({
           </p>
         )}
       </div>
-      <CheckboxPedidoCozinha id={checkboxId} />
+      <CheckboxPedidoCozinha
+        id={checkboxId}
+        checkboxParaMarcar={checkboxMarcada}
+        checkarItem={aoClicarNaCheckbox}
+      />
     </div>
   );
 }

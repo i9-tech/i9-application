@@ -39,16 +39,20 @@ export function Cozinha() {
         titulo="Preparo de Pedidos"
         adicional={
           <p>
-            {pedidos.length === 1
-              ? pedidos.length + " pedido"
-              : pedidos.length + " pedidos"}
+            {pedidos.filter((p) => !p.vendaConcluida).length > 0
+              ? `${pedidos.filter((p) => !p.vendaConcluida).length} ${
+                  pedidos.filter((p) => !p.vendaConcluida).length === 1
+                    ? "pedido"
+                    : "pedidos"
+                }`
+              : "Não há pedidos no momento"}
           </p>
         }
       >
         <article className="tela-comandas">
           {[...pedidos].reverse().map((pedido, index) => (
             <Comanda
-              key={index}
+              key={pedido.id}
               pedido={pedido}
               index={index}
               numeroPedido={pedidos.length - 1 - index}

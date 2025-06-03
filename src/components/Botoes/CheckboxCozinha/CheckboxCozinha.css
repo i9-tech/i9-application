@@ -1,36 +1,25 @@
-input[type="checkbox"] {
-    display: none;
-}
-
 .checkbox-cozinha-label {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    border: 1px solid var(--destaque);
-    border-radius: 8px;
-    background-color: var(--color-font);;
-    color: var(--destaque);
-    font-size: 16px;
-    font-weight: 400;
-    cursor: pointer;
-
-    img{
-        width: 18px; 
-        height: 18px;
-    }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  gap: 8px;
+  border: 1px solid var(--destaque);
+  border-radius: 8px;
+  background-color: var(--color-font);
+  color: var(--destaque);
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid var(--destaque);
 }
 
- input[type="checkbox"]:checked + .checkbox-cozinha-label {
-    background-color: var(--destaque);
-    color: var(--color-font);
-
+.checkbox-cozinha-label.ativo img {
+  content: url("../../../assets/check-branco.svg");
 }
 
-input[type="checkbox"]:checked +
-.checkbox-cozinha-label img {
-    content: url("../../../assets/check-branco.svg");
+.checkbox-cozinha-label:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
-
-

@@ -996,8 +996,8 @@ export function Atendente() {
               removerProduto={removerProdutoDaComanda}
             />
           ))}
-          {console.log("comanda", comanda)}
-          {console.log("comandaExpandida", comandaExpandida)}
+          {/* {console.log("comanda", comanda)} */}
+          {/* {console.log("comandaExpandida", comandaExpandida)} */}
 
         </div>
 

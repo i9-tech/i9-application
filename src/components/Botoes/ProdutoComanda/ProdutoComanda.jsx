@@ -22,7 +22,7 @@ export function ProdutoComanda({ produto, preco, quantidade: quantidadeInicial, 
     }
 
     useEffect(() => {
-        if (atualizarQuantidade) {
+        if (quantidade !== quantidadeInicial) {
             atualizarQuantidade(produto, quantidade);
         }
     }, [quantidade, produto, atualizarQuantidade]);

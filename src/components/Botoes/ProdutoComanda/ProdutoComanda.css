@@ -28,6 +28,7 @@
 .imagem-produto {
     margin-left: 8px;
     width: 4vw; 
+    max-width: 2.5vw;
 }
 
 .detalhes-produto {

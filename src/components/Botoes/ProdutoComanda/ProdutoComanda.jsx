@@ -15,20 +15,20 @@ export function ProdutoComanda({
     const [quantidade, setQuantidade] = useState(quantidadeInicial || 1);
 
     const tokenImagem = enviroments.tokenURL;
-    const [urlImagem, setUrlImagem] = useState('');
+    const [urlImagem, setUrlImagem] = useState(null);
 
     useEffect(() => {
-        if (imagem) {
+        if (imagem && imagem.trim() !== '') {
             setUrlImagem(imagem + tokenImagem);
         } else {
             setUrlImagem(imagemPadrao);
         }
     }, [imagem, tokenImagem]);
 
-
-
     useEffect(() => {
-        setQuantidade(quantidadeInicial);
+        if (quantidade !== quantidadeInicial) {
+            setQuantidade(quantidadeInicial);
+        }
     }, [quantidadeInicial]);
 
     function diminuir() {
@@ -44,15 +44,23 @@ export function ProdutoComanda({
     }
 
     useEffect(() => {
-        if (atualizarQuantidade) {
+        if (atualizarQuantidade && quantidade !== quantidadeInicial) {
             atualizarQuantidade(produto, quantidade);
         }
     }, [quantidade, produto, atualizarQuantidade]);
 
+
     return (
         <div className="card-produto" onClick={() => onClick(produto, quantidade)}>
             <div className='img-obs'>
-                <img src={urlImagem} title={`Imagem de ${produto}`} className="imagem-produto" />
+                {urlImagem && (
+                    <img
+                        src={urlImagem}
+                        title={`Imagem de ${produto}`}
+                        className="imagem-produto"
+                        alt={`Imagem de ${produto}`}
+                    />
+                )}
                 <span className="observacao-produto">Observação</span>
             </div>
             <div className="detalhes-produto">
@@ -66,10 +74,8 @@ export function ProdutoComanda({
                 <button className="btn-diminuir" onClick={diminuir}>-</button>
                 <span className="quantidade">{quantidade}</span>
                 <button className="btn-aumentar" onClick={aumentar}>+</button>
-                <br></br>
-
+                <br />
             </div>
-
         </div>
     );
 }

@@ -84,13 +84,37 @@ export function Atendente() {
     })
       .then((res) => {
         if (Array.isArray(res.data)) {
-          setProdutos(res.data);
+          const produtosComTipo = res.data.map((item) => ({
+            ...item,
+            tipo: "produto",
+          }));
+          setProdutos(produtosComTipo);
         }
       })
       .catch((err) => {
-        console.error("Erro ao buscar categorias:", err);
-        toast.error("Erro ao buscar categorias!");
+        console.error("Erro ao buscar produtos:", err);
+        toast.error("Erro ao buscar produtos!");
       });
+
+    api.get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          const pratosComTipo = res.data.map((item) => ({
+            ...item,
+            tipo: "prato",
+          }));
+          setProdutos(prev => [...prev, ...pratosComTipo]);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar pratos:", err);
+        toast.error("Erro ao buscar pratos!");
+      });
+
   }, [funcionario.userId, token]);
 
 
@@ -101,7 +125,6 @@ export function Atendente() {
       if (index !== -1) {
         const novaComanda = [...prev];
         const produtoAtual = novaComanda[index];
-
         const novaQuantidade = (produtoAtual.quantidade || 1) + 1;
 
         novaComanda[index] = {
@@ -115,31 +138,34 @@ export function Atendente() {
 
       return [
         ...prev,
-        { ...produto, quantidade: 1, precoTotal: produto.preco, imagem: produto.imagem },
+        {
+          ...produto,
+          tipo: produto.tipo,
+          quantidade: 1,
+          precoTotal: produto.preco,
+          imagem: produto.imagem,
+        },
       ];
     });
   };
 
+
   function atualizarQuantidade(produto, quantidade) {
     const qtd = Number(quantidade) || 0;
 
-    setQuantidades((prev) => ({
-      ...prev,
-      [produto]: qtd,
-    }));
-
-    setComanda((prev) => {
-      const index = prev.findIndex((item) => item.nome === produto);
+    setComanda(prev => {
+      const index = prev.findIndex(item => item.nome === produto);
       if (index !== -1) {
+        const produtoAtual = prev[index];
+        if (produtoAtual.quantidade === qtd) {
+          return prev;
+        }
         const novaComanda = [...prev];
-        const produtoAtual = novaComanda[index];
-
         novaComanda[index] = {
           ...produtoAtual,
           quantidade: qtd,
           precoTotal: produtoAtual.preco * qtd,
         };
-
         return novaComanda;
       }
       return prev;
@@ -194,22 +220,73 @@ export function Atendente() {
   const comandaExpandida = [];
 
   comanda.forEach((item) => {
+
     for (let i = 0; i < item.quantidade; i++) {
       comandaExpandida.push({
+        id: item.id,
         prato: item.prato,
         produto: item.produto,
         nome: item.nome,
         valorUnitario: item.preco,
         observacao: item.observacoes?.[i]?.texto || "",
         funcionario: "Yasmim",
+        tipo: item.tipo
       });
+
+
     }
+    console.log("COMANDA EXPANDIDA", comandaExpandida);
   });
 
-  // Adicione logs para inspecionar os dados recebidos
-  // console.log("setores recebidos:", setores);
-  // console.log("categorias recebidas:", categorias);
-  // console.log("produtos recebidos:", produtos);
+  const [enviarPedido, setEnviarPedido] = useState(false);
+
+  useEffect(() => {
+    if (!enviarPedido || comandaExpandida.length === 0) return;
+
+    comandaExpandida.forEach((item) => {
+      if (item.tipo === "produto") {
+        api.post(`${ENDPOINTS.CARRINHO_PRODUTO}/${funcionario.userId}`, {
+          venda: "venda5",
+          produto: {
+            id: item.id,
+          },
+          funcionario: {
+            id: funcionario.userId,
+          },
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }).then(res => {
+          console.log("Produto enviado com sucesso:", res.data);
+        }).catch(err => {
+          console.error("Erro ao enviar produto:", err);
+          toast.error("Erro ao enviar produto ao item carrinho!");
+
+        });
+      } else {
+        api.post(`${ENDPOINTS.CARRINHO_PRATO}/${funcionario.userId}`, {
+          venda: "venda5",
+          prato: {
+            id: item.id,
+          },
+          funcionario: {
+            id: funcionario.userId,
+          },
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }).then(res => {
+          console.log("Prato enviado com sucesso:", res.data);
+        }).catch(err => {
+          console.error("Erro ao enviar prato:", err);
+          toast.error("Erro ao enviar prato ao item carrinho!");
+        });
+      }
+    });
+    setEnviarPedido(false);
+  }, [enviarPedido, comandaExpandida, funcionario.userId, token]);
 
   return (
     <>
@@ -294,18 +371,22 @@ export function Atendente() {
                 <div key={categoria.id} className="categoria">
                   <h1>{categoria.nome}</h1>
                   <div className="produtos-da-categoria">
-                    {produtosFiltrados.map((produto) => {
-                      return (
+                    {produtosFiltrados.map((produto, index) => {
+                      console.log("Produto:", produto);
+                        return (
                         <ElementoProduto
-                          key={produto.id}
+                          key={`${produto.id}-${index}`}
+                          id={produto.id}
                           nome={produto.nome}
                           descricao={produto.descricao}
-                          preco={produto.valorUnitario}
+                          preco={produto.valorUnitario || produto.valorVenda}
                           onAdicionar={adicionarNaComanda}
                           imagem={produto.imagem}
-                          quantidade={produto.quantidade}
+                          quantidade={produto.quantidade || null}
+                          tipo={produto.tipo}
+                          disabled={produto.quantidade < 1 || produto.disponivel == false}
                         />
-                      );
+                        );
                     })}
                   </div>
                 </div>
@@ -342,7 +423,11 @@ export function Atendente() {
           <BotaoConfirmar
             quantidade={totalItens}
             totalPedido={totalPedido}
-            onClick={abrirModalConfirmarPedido}
+            onClick={() => {
+              abrirModalConfirmarPedido();
+              setEnviarPedido(true);
+            }}
+            disabled={comandaExpandida.length === 0}
           />
         </section>
       </aside>

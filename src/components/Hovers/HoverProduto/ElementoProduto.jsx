@@ -4,7 +4,7 @@ import { enviroments } from "../../../utils/enviroments";
 import { imagemPadrao } from "../../../assets/imagemPadrao";
 
 export function ElementoProduto(props) {
-  const { nome, preco, descricao, onAdicionar, disabled, imagem, quantidade } = props;
+  const { id, nome, preco, descricao, onAdicionar, disabled, imagem, quantidade, tipo } = props;
 
   const tokenImagem = enviroments.tokenURL;
   const [urlImagem, setUrlImagem] = useState('');
@@ -19,7 +19,7 @@ export function ElementoProduto(props) {
 
   const adicionarProduto = () => {
     if (!disabled && onAdicionar) {
-      onAdicionar({ nome, preco, imagem  });
+      onAdicionar({ id, nome, preco, imagem, tipo });
     }
   };
 
@@ -40,14 +40,18 @@ export function ElementoProduto(props) {
           })}
         </span>
 
-         <span className="quantidade">
-          <p>{quantidade} Itens</p>
-        </span>
+        {quantidade != null && quantidade !== undefined && (
+          <span className="quantidade">
+            <p>{quantidade} Itens</p>
+          </span>
+        )}
 
       </div>
 
       <div className="conteudo-imagem">
-        <img src={urlImagem} title={`Imagem de ${nome}`}/>
+        {urlImagem ? (
+          <img src={urlImagem} title={`Imagem de ${nome}`} alt={`Imagem de ${nome}`} />
+        ) : null}
       </div>
 
       <button className="botao-adicionar" disabled={disabled}>+</button>

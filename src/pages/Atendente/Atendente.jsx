@@ -17,6 +17,7 @@ import lanchonete from "../../assets/lancheSetor.png";
 import pastelaria from '../../assets/pastel.png';
 import todos from '../../assets/todos.png';
 import { Navigate } from "react-router-dom";
+import LayoutTela from "../../components/LayoutTela/LayoutTela";
 
 export function Atendente() {
   const permissao = getPermissoes();
@@ -885,7 +886,7 @@ export function Atendente() {
 
   return (
     <>
-      <Navbar />
+      <LayoutTela titulo="">
       <section className="menu-atendente">
         {modalAberto && produtoSelecionado && (
           <ModalObservacoes
@@ -923,7 +924,7 @@ export function Atendente() {
           </div>
 
           <div className="header-container">
-            <h1> Setor: {setorSelecionado} </h1>
+            <h1 className="setor-nome"> Setor: <span className="color-setor">{setorSelecionado}</span> </h1>
             <div className="barra-pesquisa">
               <input
                 type="text"
@@ -957,7 +958,7 @@ export function Atendente() {
 
               return (
                 <div key={categoria.id} className="categoria">
-                  <h1>{categoria.nome}</h1>
+                  <h1 className="categoria-nome">{categoria.nome}</h1>
                   <div className="produtos-da-categoria">
                     {produtosFiltrados.map((produto) => (
                       <ElementoProduto
@@ -1009,6 +1010,7 @@ export function Atendente() {
           />
         </section>
       </aside>
+      </LayoutTela>
     </>
   );
 }

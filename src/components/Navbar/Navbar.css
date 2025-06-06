@@ -75,14 +75,25 @@
         background-color: #0000001f;
         filter: brightness(0) saturate(100%) invert(39%) sepia(90%) saturate(500%) hue-rotate(190deg);
     }
+
+    .seta-nav {
+        font-size: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
-.navbar:hover {
+.navbar.aberta {
     width: 15rem;
-
+    
     ul li span{
         display: inline;
+    }
+    
+    .seta-nav {
 
+        transform: scaleX(-1);
     }
 }
 

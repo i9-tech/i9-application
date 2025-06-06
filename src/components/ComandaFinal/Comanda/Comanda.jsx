@@ -1,43 +1,85 @@
-import React, { useState } from "react";
 import ComandaHeader from "../ComandaHeader/ComandaHeader";
 import ComandaBody from "../ComandaBody/ComandaBody";
 import ComandaFooter from "../ComandaFooter/ComandaFooter";
 import ComandaInfo from "../ComandaInfo/ComandaInfo";
+import api from "../../../provider/api";
+import { ENDPOINTS } from "../../../utils/endpoints";
+import { getToken } from "../../../utils/auth";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-export default function Comanda({ pedido, index }) {
-  const [visivel, setVisivel] = useState(true);
+export default function Comanda({
+  pedido,
+  index,
+  numeroPedido,
+  atualizarComandas
+}) {
+  const token = getToken();
+  const [pedidosConcluidos, setPedidosConcluidos] = useState({});
+  const todasCheckboxMarcadas = Object.values(pedidosConcluidos).every(
+    (valor) => valor === true
+  );
 
-  const handleCompletar = () => {
-    setVisivel(false);
+  const marcarOuDesmarcarCheckbox = (id) => {
+    setPedidosConcluidos((estadoAnterior) => ({
+      ...estadoAnterior,
+      [id]: !estadoAnterior[id],
+    }));
   };
 
-  if (!visivel) return null;
+  useEffect(() => {
+    const inicial = {};
+    pedido.itensCarrinho.forEach((item) => {
+      inicial[item.id] = false;
+    });
+    setPedidosConcluidos(inicial);
+  }, [pedido.itensCarrinho]);
+
+  const handleCompletar = () => {
+    api
+      .post(`${ENDPOINTS.VENDA_FINALIZAR_PRATO}?idVenda=${pedido.id}`, null, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        toast.success(`Pedido ${numeroPedido} concluido com sucesso!`);
+        atualizarComandas(pedido.id);
+        console.log("Pedido finalizado: ", res.data);
+      })
+      .catch((err) => {
+        toast.error("Erro ao conclur pedido!");
+        console.log("Erro ao finalizar pedido: ", err);
+      });
+  };
+
+  if (pedido.vendaConcluida == true) return null;
 
   return (
     <div className="comanda-container">
       <div className="comanda">
         <div className="cabecalho-comanda">
           <ComandaHeader
-            numeroPedido={pedido.numeroPedido}
-            dataHora={pedido.dataHora}
+            numeroPedido={numeroPedido + 1}
+            dataHora={pedido.dataVenda}
           />
         </div>
 
         <div className="corpo-comanda">
-          {pedido.itens.map((item, index) => (
+          {pedido.itensCarrinho.map((item) => (
             <ComandaBody
-              imagem={item.imagem}
-              key={index}
+              key={item.id}
+              imagem={item.prato.imagem}
               titulo={
                 <>
-                  <span>{item.titulo.split(" ")[0]}</span>{" "}
-                  {item.titulo.split(" ").slice(1).join(" ")}
+                  <span>{item.prato.nome.split(" ")[0]}</span>{" "}
+                  {item.prato.nome.split(" ").slice(1).join(" ")}
                 </>
               }
-              descricao={item.descricao}
+              descricao={item.prato.descricao}
               observacao={item.observacao}
-              index={index}
+              index={item.id}
               pedidoId={pedido.numeroPedido}
+              checkboxMarcada={pedidosConcluidos[item.id]}
+              aoClicarNaCheckbox={() => marcarOuDesmarcarCheckbox(item.id)}
             />
           ))}
 
@@ -45,13 +87,18 @@ export default function Comanda({ pedido, index }) {
             key={index}
             cliente={pedido.cliente}
             mesa={pedido.mesa}
-            pagamento={pedido.pagamento}
+            pagamento={pedido.formaPagamento}
             index={index}
           />
         </div>
 
         <div className="rodape-comanda">
-          <ComandaFooter qtdItens={pedido.itens.length} index={index} onCompletar={handleCompletar} />
+          <ComandaFooter
+            qtdItens={pedido.itensCarrinho.length}
+            index={index}
+            onCompletar={handleCompletar}
+            disabled={!todasCheckboxMarcadas}
+          />
         </div>
       </div>
     </div>

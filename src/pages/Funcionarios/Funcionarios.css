@@ -18,7 +18,8 @@
 }
 
 .tabela-funcionarios {
-  width: 100%;
+  width: 620px;
+  
   border-collapse: collapse;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -62,9 +63,9 @@
 }
 
 .coluna-direita {
-  width: 350px;
+  width: 650px;
   display: flex;
   flex-direction: column;
-  margin-left: 100px;
+  margin-right: 10px;
 }
 

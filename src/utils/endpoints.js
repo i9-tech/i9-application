@@ -35,6 +35,8 @@ export const ENDPOINTS = {
     VENDA_QUANTIDADE_VENDAS: '/vendas/quantidade-vendas',
     VENDA_ESTOQUE_BAIXO: '/vendas/quantidade-minima',
     VENDA_ITENS_VENDIDOS_DIARIO: '/vendas/itens-vendidos',
+    VENDA_PRATOS_VENDIDOS_DIARIO: '/vendas/pratos-vendidos',
+    VENDA_FINALIZAR_PRATO: '/vendas/concluir-prato',
     VENDA_TOP_PRODUTOS: '/vendas/top-produtos',
     VENDA_TOP_PRATOS: '/vendas/top-pratos',
     VENDA_TOP_CATEGORIAS: '/vendas/top-categorias',

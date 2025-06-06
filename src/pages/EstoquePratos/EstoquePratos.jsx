@@ -34,10 +34,17 @@ export function EstoquePratos() {
       .then((res) => {
         setPratos(res.data);
         setResumo(calcularResumoPratos(res.data));
-        setIsLoadingData(false);
+        if (res.data.length === 0) {
+          setTimeout(() => {
+            setIsLoadingData(false);
+          }, 2500);
+        } else {
+          setIsLoadingData(false);
+        }
       })
       .catch((err) => {
         console.error("Erro ao buscar pratos:", err);
+        setIsLoadingData(false);
       });
   }, [funcionario.userId, token]);
 

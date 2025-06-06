@@ -40,10 +40,17 @@ export function Estoque() {
         .then((res) => {
           setProdutos(res.data);
           setResumo(calcularResumoEstoque(res.data));
-          setIsLoadingData(false);
+          if (res.data.length === 0) {
+            setTimeout(() => {
+              setIsLoadingData(false);
+            }, 2500);
+          } else {
+            setIsLoadingData(false);
+          }
         })
         .catch((err) => {
           console.error("Erro ao ao buscar produtos:", err);
+          setIsLoadingData(false);
         });
     }
   }, [funcionario.userId, token]);

@@ -46,6 +46,9 @@ export function Atendente() {
   const [modalAberto, setModalAberto] = useState(false);
   const [confirmarPedido, setConfirmarPedido] = useState(false);
 
+
+  const [itemCarrinhoIds, setItemCarrinhoIds] = useState([]);
+
   useEffect(() => {
     api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
       headers: {
@@ -243,50 +246,48 @@ export function Atendente() {
   useEffect(() => {
     if (!enviarPedido || comandaExpandida.length === 0) return;
 
-    comandaExpandida.forEach((item) => {
-      if (item.tipo === "produto") {
-        api.post(`${ENDPOINTS.CARRINHO_PRODUTO}/${funcionario.userId}`, {
-          venda: "venda5",
-          produto: {
-            id: item.id,
-          },
-          funcionario: {
-            id: funcionario.userId,
-          },
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        }).then(res => {
-          console.log("Produto enviado com sucesso:", res.data);
-        }).catch(err => {
-          console.error("Erro ao enviar produto:", err);
-          toast.error("Erro ao enviar produto ao item carrinho!");
+    const promises = comandaExpandida.map((item) => {
+      const url =
+        item.tipo === "produto"
+          ? `${ENDPOINTS.CARRINHO_PRODUTO}/${funcionario.userId}`
+          : `${ENDPOINTS.CARRINHO_PRATO}/${funcionario.userId}`;
 
-        });
-      } else {
-        api.post(`${ENDPOINTS.CARRINHO_PRATO}/${funcionario.userId}`, {
-          venda: "venda5",
-          prato: {
-            id: item.id,
-          },
-          funcionario: {
-            id: funcionario.userId,
-          },
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
+      const body =
+        item.tipo === "produto"
+          ? {
+            venda: "venda5",
+            produto: { id: item.id },
+            funcionario: { id: funcionario.userId },
           }
-        }).then(res => {
-          console.log("Prato enviado com sucesso:", res.data);
-        }).catch(err => {
-          console.error("Erro ao enviar prato:", err);
-          toast.error("Erro ao enviar prato ao item carrinho!");
+          : {
+            venda: "venda5",
+            prato: { id: item.id },
+            funcionario: { id: funcionario.userId },
+          };
+
+      return api
+        .post(url, body, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          console.log("Item enviado com sucesso:", res.data);
+          return res.data.id;
+        })
+        .catch((err) => {
+          console.error("Erro ao enviar item ao carrinho:", err);
+          toast.error("Erro ao enviar item ao carrinho!");
+          return null;
         });
-      }
     });
-    setEnviarPedido(false);
+
+    Promise.all(promises).then((ids) => {
+      const idsValidos = ids.filter((id) => id !== null);
+      setItemCarrinhoIds(idsValidos)
+      setConfirmarPedido(true);
+      setEnviarPedido(false);
+    });
   }, [enviarPedido, comandaExpandida, funcionario.userId, token]);
+
 
   return (
     <>
@@ -301,7 +302,7 @@ export function Atendente() {
           />
         )}
         {confirmarPedido && (
-          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} statusModal={setConfirmarPedido} />
+          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} statusModal={setConfirmarPedido} itemCarrinhoIds={itemCarrinhoIds} />
         )}
 
         <div className="todos-produtos">
@@ -372,8 +373,7 @@ export function Atendente() {
                   <h1>{categoria.nome}</h1>
                   <div className="produtos-da-categoria">
                     {produtosFiltrados.map((produto, index) => {
-                      console.log("Produto:", produto);
-                        return (
+                      return (
                         <ElementoProduto
                           key={`${produto.id}-${index}`}
                           id={produto.id}
@@ -386,7 +386,7 @@ export function Atendente() {
                           tipo={produto.tipo}
                           disabled={produto.quantidade < 1 || produto.disponivel == false}
                         />
-                        );
+                      );
                     })}
                   </div>
                 </div>

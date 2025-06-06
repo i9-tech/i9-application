@@ -232,13 +232,12 @@ export function Atendente() {
         nome: item.nome,
         valorUnitario: item.preco,
         observacao: item.observacoes?.[i]?.texto || "",
-        funcionario: "Yasmim",
+        funcionario: funcionario.userId,
         tipo: item.tipo
       });
 
 
     }
-    console.log("COMANDA EXPANDIDA", comandaExpandida);
   });
 
   const [enviarPedido, setEnviarPedido] = useState(false);

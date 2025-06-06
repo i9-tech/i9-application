@@ -47,7 +47,7 @@ export function ProdutoComanda({
         if (atualizarQuantidade && quantidade !== quantidadeInicial) {
             atualizarQuantidade(produto, quantidade);
         }
-    }, [quantidade, produto, atualizarQuantidade]);
+    }, [quantidade, produto]);
 
 
     return (

@@ -26,7 +26,7 @@ export function ModalConfirmarPedido({ onClose, statusModal }) {
           cliente: descricaoCliente,
           formaPagamento: formaPagamento,
           dataVenda: hoje,
-          itens: [7],
+          itens: [17, 18],
           funcionarioId: funcionario.userId,
           valorTotal: 0.0,
           vendaConcluida: false,
@@ -36,13 +36,11 @@ export function ModalConfirmarPedido({ onClose, statusModal }) {
         }
       )
       .then((res) => {
-        alert(`Venda gerada!`);
         setPedido(res.data);
         setModalAbertoInfoComanda(true);
         console.log(`Venda gerada: `, res.data);
       })
       .catch((err) => {
-        alert("Erro ao gerar venda: ", err);
         console.log("Erro ao gerar venda: ", err);
       });
   }

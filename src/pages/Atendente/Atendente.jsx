@@ -996,9 +996,6 @@ export function Atendente() {
               removerProduto={removerProdutoDaComanda}
             />
           ))}
-          {/* {console.log("comanda", comanda)} */}
-          {/* {console.log("comandaExpandida", comandaExpandida)} */}
-
         </div>
 
         <section className="botao-confirmar">

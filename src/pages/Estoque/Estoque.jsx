@@ -18,6 +18,7 @@ export function Estoque() {
   const funcionario = getFuncionario();
   const [termoBusca, setTermoBusca] = useState("");
   const [setorSelecionado, setSetorSelecionado] = useState("");
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
   const buscarProdutos = useCallback(() => {
     if (enviroments.ambiente === "jsonserver") {
@@ -26,23 +27,26 @@ export function Estoque() {
         .then((res) => {
           setProdutos(res.data);
           setResumo(calcularResumoEstoque(res.data));
+          setIsLoadingData(false);
         })
         .catch((err) => {
           console.error("Erro ao ao buscar produtos:", err);
         });
     } else {
       api
-        .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` } })
+        .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then((res) => {
           setProdutos(res.data);
           setResumo(calcularResumoEstoque(res.data));
+          setIsLoadingData(false);
         })
         .catch((err) => {
           console.error("Erro ao ao buscar produtos:", err);
         });
     }
   }, [funcionario.userId, token]);
-
 
   useEffect(() => {
     buscarProdutos();
@@ -65,13 +69,13 @@ export function Estoque() {
           />
           <ResumoEstoque {...resumo} />
           <TabelaEstoque
+            isLoadingData={isLoadingData}
             produtos={produtos}
             filtroStatus={filtroStatus}
             termoBusca={termoBusca}
             setorSelecionado={setorSelecionado}
             buscarProdutos={buscarProdutos}
           />
-
         </div>
       </LayoutTela>
     </>

@@ -1,13 +1,26 @@
+import CarregamentoEstoque from "../../Estoque/CarregamentoEstoque";
+import NoDataEstoque from "../../Estoque/NoDataEstoque";
 import CabecalhoPratos from "./CabecalhoPratos/CabecalhoPratos";
 import PratoEstoque from "./PratoEstoque/PratoEstoque";
 import "./TabelaPratos.css";
 
-const TabelaPratos = ({ pratos, buscarPratos, filtros, termoBusca, setorSelecionado, categoriaSelecionada }) => {
+const TabelaPratos = ({
+  isLoadingData,
+  pratos,
+  buscarPratos,
+  filtros,
+  termoBusca,
+  setorSelecionado,
+  categoriaSelecionada,
+}) => {
   const { status } = filtros;
 
   const pratosFiltrados = pratos.filter((p) => {
     // Filtro por nome
-    if (termoBusca && !p.nome?.toLowerCase().includes(termoBusca.toLowerCase())) {
+    if (
+      termoBusca &&
+      !p.nome?.toLowerCase().includes(termoBusca.toLowerCase())
+    ) {
       return false;
     }
 
@@ -30,13 +43,14 @@ const TabelaPratos = ({ pratos, buscarPratos, filtros, termoBusca, setorSelecion
     return true;
   });
 
-
   return (
     <div className="tabela-container">
       <table className="tabela-estoque">
         <CabecalhoPratos />
         <tbody>
-          {pratosFiltrados.length > 0 ? (
+          {isLoadingData ? (
+            <CarregamentoEstoque colunas={9} />
+          ) : pratosFiltrados.length > 0 ? (
             pratosFiltrados.map((prato) => (
               <PratoEstoque
                 key={prato.id}
@@ -45,25 +59,12 @@ const TabelaPratos = ({ pratos, buscarPratos, filtros, termoBusca, setorSelecion
               />
             ))
           ) : (
-            <tr>
-              <td
-                colSpan="9"
-                style={{
-                  padding: "24px",
-                  textAlign: "center",
-                  color: "#888",
-                  fontSize: "1.1rem",
-                  background: "#fff",
-                }}>
-                Nenhum prato encontrado.
-              </td>
-            </tr>
+            <NoDataEstoque tipo="prato" />
           )}
         </tbody>
       </table>
     </div>
   );
 };
-
 
 export default TabelaPratos;

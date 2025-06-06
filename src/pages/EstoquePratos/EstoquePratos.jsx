@@ -15,6 +15,7 @@ export function EstoquePratos() {
   const [termoBusca, setTermoBusca] = useState("");
   const [setorSelecionado, setSetorSelecionado] = useState("");
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
   const [filtros, setFiltros] = useState({
     status: null,
@@ -27,10 +28,13 @@ export function EstoquePratos() {
 
   const buscarPratos = useCallback(() => {
     api
-      .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` } })
+      .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => {
         setPratos(res.data);
         setResumo(calcularResumoPratos(res.data));
+        setIsLoadingData(false);
       })
       .catch((err) => {
         console.error("Erro ao buscar pratos:", err);
@@ -59,6 +63,7 @@ export function EstoquePratos() {
         />
         <ResumoPratos {...resumo} />
         <TabelaPratos
+          isLoadingData={isLoadingData}
           pratos={pratos}
           filtros={filtros}
           buscarPratos={buscarPratos}
@@ -73,6 +78,5 @@ export function EstoquePratos() {
     </LayoutTela>
   );
 }
-
 
 export default EstoquePratos;

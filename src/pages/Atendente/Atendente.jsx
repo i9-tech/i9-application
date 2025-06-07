@@ -427,7 +427,7 @@ export function Atendente() {
                           preco={produto.valorUnitario || produto.valorVenda}
                           onAdicionar={adicionarNaComanda}
                           imagem={produto.imagem}
-                          quantidade={quantidadeRestante || null}
+                          quantidade={produto.tipo === 'produto' ? quantidadeRestante || 0 : null}
                           tipo={produto.tipo}
                           disabled={quantidadeRestante <= 0 || produto.disponivel === false}
                         />

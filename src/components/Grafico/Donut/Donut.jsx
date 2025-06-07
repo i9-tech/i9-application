@@ -41,9 +41,6 @@ export default function Donut({ dados }) {
     labels: categorias,
     plotOptions: {
       pie: {
-        dataLabels: {
-          offset: 22,
-        },
         donut: {
           labels: {
             show: true,
@@ -66,7 +63,7 @@ export default function Donut({ dados }) {
       },
     },
     dataLabels: {
-      enabled: true,
+      enabled: false,
       formatter: (_val, opts) =>
         formatarMoeda(opts.w.globals.series[opts.seriesIndex]),
       style: {

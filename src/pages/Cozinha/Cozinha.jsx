@@ -55,7 +55,6 @@ export function Cozinha() {
               key={pedido.id}
               pedido={pedido}
               index={index}
-              numeroPedido={pedidos.length - 1 - index}
               atualizarComandas={atualizarComandas}
             />
           ))}

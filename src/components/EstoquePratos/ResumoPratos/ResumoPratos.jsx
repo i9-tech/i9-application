@@ -13,6 +13,8 @@ export function ResumoPratos({
   pratosAtivos = 0,
   pratosInativos = 0,
   totalPratos = 0,
+  totalCategorias = 0,
+  totalSetores = 0
 }) {
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
@@ -111,6 +113,22 @@ export function ResumoPratos({
               {totalPratos}
             </span>
             <span className="resumo-label">Total de Pratos</span>
+          </div>
+
+          <div className="kpi-coluna">
+            <span className="resumo-valor">
+              <span className="bolinha amarela" />
+              {totalCategorias}
+            </span>
+            <span className="resumo-label">Total de Categorias</span>
+          </div>
+
+          <div className="kpi-coluna">
+            <span className="resumo-valor">
+              <span className="bolinha azul" />
+              {totalSetores}
+            </span>
+            <span className="resumo-label">Total de Setores</span>
           </div>
         </div>
       </div>

@@ -9,6 +9,9 @@ import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 import { enviroments } from "../../../utils/enviroments";
 
+const categorias = ["Bebida", "Entrada", "Prato Principal", "Sobremesa"];
+const setores = ["Cozinha", "Estoque", "Atendimento"];
+
 const CadastroProdutoFormulario = ({
   produtoSelecionado,
   setProdutoSelecionado,
@@ -29,6 +32,8 @@ const CadastroProdutoFormulario = ({
     codigo: "",
     nome: "",
     quantidade: "",
+    categoria: "",
+    setor: "",
     valorCompra: 0,
     valorUnitario: 0,
     quantidadeMin: "",
@@ -57,6 +62,8 @@ const CadastroProdutoFormulario = ({
       codigo: "",
       nome: "",
       quantidade: "",
+      categoria: "",
+      setor: "",
       valorCompra: "",
       valorUnitario: "",
       quantidadeMin: "",
@@ -73,7 +80,13 @@ const CadastroProdutoFormulario = ({
   };
 
   const validarCampos = () => {
-    if (!produto.codigo || !produto.nome || !produto.quantidade) {
+    if (
+      !produto.codigo ||
+      !produto.nome ||
+      !produto.quantidade ||
+      !produto.categoria ||
+      !produto.setor
+    ) {
       toast.error("Preencha todos os campos obrigatórios!");
       return false;
     }

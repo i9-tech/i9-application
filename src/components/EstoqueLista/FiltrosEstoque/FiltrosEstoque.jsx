@@ -86,6 +86,11 @@ function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBus
           ))}
         </select>
 
+        <select>
+          <option>Selecione a categoria</option>
+          <option>Doce</option>
+          <option>Bebida</option>
+        </select>
 
         <button
           className="add-btn-prod"

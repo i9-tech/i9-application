@@ -83,7 +83,6 @@ export function Dashboard() {
       })
       .then((res) => {
         setDadosCategorias(res.data);
-        console.log("Categorias recuperadas: ", res.data);
       })
       .catch((err) => {
         console.log("Erro ao buscar categorias: ", err);
@@ -118,6 +117,8 @@ export function Dashboard() {
     const lucroLiquidoDiario = Number(kpi.lucroLiquidoDiario ?? 0);
     const totalMercadoriaDiario = Number(kpi.totalMercadoriaDiario ?? 0);
     const vendasDiaria = Number(kpi.vendasDiaria ?? 0);
+    console.log(kpi.vendasDiaria)
+    console.log(kpi.vendasDiariaOntem)
     const vendasDiariaOntem = Number(kpi.vendasDiariaOntem ?? 0);
 
     const diferencaBruto = lucroDiario - lucroDiarioOntem;
@@ -176,8 +177,8 @@ export function Dashboard() {
             />
             <Kpi
               key={"absdass"}
-              titulo={"Quantidade de Vendas"}
-              valor={`${quantidadeTotalVendida || 0} vendas`}
+              titulo={"Vendas Realizadas"}
+              valor={`${quantidadeTotalVendida || 0} venda${quantidadeTotalVendida !== 1 ? 's' : ''}`}
               adicional={`${
                 isVendaMaior && diferencaVenda > 0
                   ? "+"

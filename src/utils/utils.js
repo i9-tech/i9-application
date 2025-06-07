@@ -28,3 +28,9 @@ export const formatarMoeda = (valor) => {
       currency: "BRL",
     });
   };
+
+
+export const corrigirDataISO = (dataISO) => {
+  const [ano, mes, dia] = dataISO.split("-");
+  return new Date(ano, mes - 1, dia).toLocaleDateString("pt-BR");
+}

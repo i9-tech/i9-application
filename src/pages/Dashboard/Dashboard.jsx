@@ -39,40 +39,6 @@ export function Dashboard() {
   });
 
   useEffect(() => {
-    const hoje = new Date().toISOString().split("T")[0];
-    const ontem = new Date(new Date().setDate(new Date().getDate() - 1))
-      .toISOString()
-      .split("T")[0];
-
-    for (let i = 0; i < 47; i++) {
-      api
-        .post(
-          ENDPOINTS.VENDA,
-          {
-            mesa: "1",
-            cliente: "Betina",
-            formaPagamento: "Débito",
-            dataVenda: i % 2 == 0 ? hoje : ontem,
-            itens: [i],
-            funcionarioId: 1,
-            valorTotal: 10.0,
-            vendaConcluida: false,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-        .then(() => {
-          console.log(`Venda ${i} gerada!`);
-        })
-        .catch((err) => {
-          console.log("Erro ao gerar venda: ", err);
-        });
-    }
-    setIsDadosDisponiveis(true);
-  }, [token]);
-
-  useEffect(() => {
     api
       .get(`${ENDPOINTS.VENDA_KPIS}/${funcionario.empresaId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -136,11 +102,12 @@ export function Dashboard() {
           })
         );
         setSetores(setoresFormatados);
-        // console.log("Setores recuperados: ", setoresFormatados);
       })
       .catch((err) => {
         console.log("Erro ao buscar setores: ", err);
       });
+
+    setIsDadosDisponiveis(true);
   }, [isDadosDisponiveis, token, funcionario.empresaId]);
 
   const tratarKpis = (kpi) => {
@@ -181,8 +148,6 @@ export function Dashboard() {
     );
     setProdutoMaisVendido(maisVendido);
   };
-
-  
 
   return (
     <>

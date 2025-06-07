@@ -1,99 +1,101 @@
 .navbar {
-    width: 4rem;
-    height: 100vh;
-    background: #ffffff;
-    font-size: 1rem;
-    font-weight: 400;
-    position: fixed;
-    top: 0;
-    left: 0;
-    transition: width 0.3s ease;
-    overflow: hidden;
-    box-shadow: 5px 0px 15px rgba(7, 6, 6, 0.2);
-    z-index: 9;
+  width: 4rem;
+  height: 100vh;
+  background: #ffffff;
+  font-size: 1rem;
+  font-weight: 400;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  box-shadow: 5px 0px 15px rgba(7, 6, 6, 0.2);
+  z-index: 9;
 
-    img {
-        width: 40px;
+  img {
+    width: 40px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 1%;
+    p {
+      width: 100%;
     }
 
-    ul {
-        list-style: none;
-        padding: 5px;
+    a {
+      text-decoration: none;
+      color: var(--destaque);
+
+      li {
         display: flex;
-        flex-direction: column;
+        align-items: center;
         gap: 15px;
-
-        a {
-            text-decoration: none;
-            color: var(--destaque);
-        
-            li {
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                cursor: pointer;
-                text-align: left;
-                white-space: nowrap;
-                padding: 5px;
-                
-    
-                span {
-                    display: none;
-                }
-            }
-    
-            li:hover {
-                font-weight: 500;
-                background-color: #0000001f;
-                border-radius: 5px;
-                filter: brightness(0) saturate(100%) invert(39%) sepia(90%) saturate(500%) hue-rotate(190deg);
-            }
-        }
-        
-    }
-
-    
-    .user {
-        width: 100%;
         cursor: pointer;
-        font-size: 16px;
-        font-weight: 400;
-        padding: 8px;
-        background-color: var(--destaque);
-        color: white;
-        display: flex;
-        align-items: center;
+        text-align: left;
+        white-space: nowrap;
+        padding: 5px;
 
-        i img {
-            width: 45px !important;
-            margin-right: 10px;
+        span {
+          display: none;
         }
-    }
+      }
 
-    .clicked {
-        border-radius: 5px;
+      li:hover {
+        font-weight: 500;
         background-color: #0000001f;
-        filter: brightness(0) saturate(100%) invert(39%) sepia(90%) saturate(500%) hue-rotate(190deg);
+        border-radius: 5px;
+        filter: brightness(0) saturate(100%) invert(39%) sepia(90%)
+          saturate(500%) hue-rotate(190deg);
+      }
     }
+  }
 
-    .seta-nav {
-        font-size: 42px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+  .user {
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 8px;
+    background-color: var(--destaque);
+    color: white;
+    display: flex;
+    align-items: center;
+
+    i img {
+      width: 45px !important;
+      margin-right: 10px;
     }
+  }
+
+  .clicked {
+    border-radius: 5px;
+    background-color: #0000001f;
+    filter: brightness(0) saturate(100%) invert(39%) sepia(90%) saturate(500%)
+      hue-rotate(190deg);
+  }
+
+  .seta-nav {
+    font-size: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .navbar.aberta {
-    width: 15rem;
-    
-    ul li span{
-        display: inline;
-    }
-    
-    .seta-nav {
+  width: 15rem;
 
-        transform: scaleX(-1);
-    }
+  ul li span {
+    display: inline;
+  }
+
+  .seta-nav {
+    transform: scaleX(-1);
+  }
 }
-

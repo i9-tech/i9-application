@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import './ProdutoComanda.css';
 import { useState, useEffect } from 'react';
 import { enviroments } from '../../../utils/enviroments';
@@ -31,28 +30,34 @@ export function ProdutoComanda({
 
     function diminuir() {
         if (quantidade > 1) {
-            setQuantidade(qtd => qtd - 1);
+            const novaQtd = quantidade - 1;
+            setQuantidade(novaQtd);
+            atualizarQuantidade(produto, novaQtd);
         } else {
             removerProduto(produto);
         }
     }
 
     function aumentar() {
-        setQuantidade(qtd => qtd + 1);
+        const novaQtd = quantidade + 1;
+        setQuantidade(novaQtd);
+        atualizarQuantidade(produto, novaQtd);
     }
 
+
     useEffect(() => {
-        if (quantidade !== quantidadeInicial) {
+        if (quantidadeInicial !== undefined && quantidade !== quantidadeInicial) {
             setQuantidade(quantidadeInicial);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [quantidadeInicial]);
 
     useEffect(() => {
         if (atualizarQuantidade && quantidade !== quantidadeInicial) {
             atualizarQuantidade(produto, quantidade);
         }
-    }, [quantidade, produto]);
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [quantidade]);
 
     return (
         <div

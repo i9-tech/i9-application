@@ -9,8 +9,6 @@ import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 import { enviroments } from "../../../utils/enviroments";
 
-const categorias = ["Bebida", "Entrada", "Prato Principal", "Sobremesa"];
-const setores = ["Cozinha", "Estoque", "Atendimento"];
 
 const CadastroProdutoFormulario = ({
   produtoSelecionado,

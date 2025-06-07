@@ -1,55 +1,106 @@
 import './ProdutoComanda.css';
-import LancheNatural from '../../../assets/lanche.png';
 import { useState, useEffect } from 'react';
+import { enviroments } from '../../../utils/enviroments';
+import { imagemPadrao } from '../../../assets/imagemPadrao';
+import { CiEdit } from "react-icons/ci";
 
-export function ProdutoComanda({ produto, preco, quantidade: quantidadeInicial, removerProduto, atualizarQuantidade, onClick = () => {} }) {
+export function ProdutoComanda({
+    produto,
+    preco,
+    imagem,
+    quantidade: quantidadeInicial,
+    removerProduto,
+    atualizarQuantidade,
+    tipo,
+    onClick = () => { },
+}) {
     const [quantidade, setQuantidade] = useState(quantidadeInicial || 1);
 
+    const tokenImagem = enviroments.tokenURL;
+    const [urlImagem, setUrlImagem] = useState(null);
+
     useEffect(() => {
-        setQuantidade(quantidadeInicial);
-    }, [quantidadeInicial]);
+        if (imagem && imagem.trim() !== '') {
+            setUrlImagem(imagem + tokenImagem);
+        } else {
+            setUrlImagem(imagemPadrao);
+        }
+
+
+    }, [imagem, tokenImagem]);
 
     function diminuir() {
         if (quantidade > 1) {
-          setQuantidade(qtd => qtd - 1);
+            const novaQtd = quantidade - 1;
+            setQuantidade(novaQtd);
+            atualizarQuantidade(produto, novaQtd);
         } else {
-          removerProduto(produto);
+            removerProduto(produto);
         }
-      }
-      
-    function aumentar() {
-        setQuantidade(qtd => qtd + 1);
     }
 
+    function aumentar() {
+        const novaQtd = quantidade + 1;
+        setQuantidade(novaQtd);
+        atualizarQuantidade(produto, novaQtd);
+    }
+
+
     useEffect(() => {
-        if (atualizarQuantidade) {
+        if (quantidadeInicial !== undefined && quantidade !== quantidadeInicial) {
+            setQuantidade(quantidadeInicial);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [quantidadeInicial]);
+
+    useEffect(() => {
+        if (atualizarQuantidade && quantidade !== quantidadeInicial) {
             atualizarQuantidade(produto, quantidade);
         }
-    }, [quantidade, produto, atualizarQuantidade]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [quantidade]);
 
     return (
-        <div className="card-produto" onClick={() => onClick(produto, quantidade)}>
-            <div className='img-obs'>
-                <img src={LancheNatural} alt="Lanche Natural" className="imagem-produto" />
-                <span className="observacao-produto">Observação</span>
+        <div
+            className="card-produto1"
+            onClick={tipo === 'prato' ? () => onClick(produto, quantidade) : undefined}
+        >
+            <div className="card-produto">
+                <div className="img-obs">
+                    {urlImagem && (
+                        <img
+                            src={urlImagem}
+                            title={`Imagem de ${produto}`}
+                            className="imagem-produto"
+                            alt={`Imagem de ${produto}`}
+                        />
+                    )}
+                </div>
+
+                <div className="detalhes-produto">
+                    <span className="nome-produto" title={produto}>{produto}</span>
+                    <span className="preco-produto">
+                        R$ {(preco * quantidade).toLocaleString('pt-BR', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        })}
+                    </span>
+                </div>
+
+                <div className="controles-quantidade" onClick={e => e.stopPropagation()}>
+                    <button className="btn-diminuir" onClick={diminuir}>-</button>
+                    <span className="quantidade">{quantidade}</span>
+                    <button className="btn-aumentar" onClick={aumentar}>+</button>
+                </div>
+
+                {tipo === 'prato' && (
+                    <div className="observacao-produto">
+                        Adicionar Observação
+                         <CiEdit size={20}/>
+                    </div>
+                )}
             </div>
-            <div className="detalhes-produto">
-                <span className="nome-produto" title={produto}>{produto}</span>
-                <span className="preco-produto">R$ {(preco * quantidade).toLocaleString('pt-BR', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2
-            })}</span>
-            </div>
-            <div className="controles-quantidade" onClick={e => e.stopPropagation()}>
-                <button className="btn-diminuir" onClick={diminuir}>-</button>
-                <span className="quantidade">{quantidade}</span>
-                <button className="btn-aumentar" onClick={aumentar}>+</button>
-                <br></br>
-                
-            </div>
-           
-        </div> 
+        </div>
     );
 }
-
 export default ProdutoComanda;

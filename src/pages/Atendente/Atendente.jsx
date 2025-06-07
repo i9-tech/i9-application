@@ -201,7 +201,6 @@ export function Atendente() {
   };
 
   function salvarObservacoes(observacoesRecebidas) {
-    console.log("Salvando observação:", observacoesRecebidas); // ⬅️ Adicione isso
     setComanda((prev) => {
       return prev.map((item) => {
         if (item.nome === produtoSelecionado.nome) {
@@ -242,7 +241,6 @@ export function Atendente() {
         tipo: item.tipo
       });
     }
-    console.log("Comanda com observações:", comanda);
   });
 
   const [enviarPedido, setEnviarPedido] = useState(false);
@@ -266,8 +264,8 @@ export function Atendente() {
           : {
             venda: "venda5",
             prato: { id: item.id },
- ...(item.observacao ? { observacao: item.observacao } : {}),
-             funcionario: { id: funcionario.userId },
+            ...(item.observacao ? { observacao: item.observacao } : {}),
+            funcionario: { id: funcionario.userId },
           };
 
       return api
@@ -275,9 +273,6 @@ export function Atendente() {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
-          console.log("Item enviado com sucesso:", res.data);
-          console.log("Enviando para o carrinho:", body);
-
           return res.data.id;
         })
         .catch((err) => {
@@ -296,7 +291,7 @@ export function Atendente() {
     });
   }, [enviarPedido, comandaExpandida, funcionario.userId, token]);
 
-    function limparComandas() {
+  function limparComandas() {
     setComanda([]);
   }
 

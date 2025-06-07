@@ -13,8 +13,6 @@ export function ProdutoComanda({
     tipo,
     onClick = () => { },
 }) {
-
-     console.log('Produto recebido:', produto);
     const [quantidade, setQuantidade] = useState(quantidadeInicial || 1);
 
     const tokenImagem = enviroments.tokenURL;
@@ -27,7 +25,7 @@ export function ProdutoComanda({
             setUrlImagem(imagemPadrao);
         }
 
-    
+
     }, [imagem, tokenImagem]);
 
     useEffect(() => {

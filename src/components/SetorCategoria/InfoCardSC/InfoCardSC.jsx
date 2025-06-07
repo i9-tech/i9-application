@@ -32,9 +32,9 @@ const InfoCardSCCard = ({
           <input
             type="text"
             value={searchTerm}
-            onChange={handleSearchChange}
             placeholder={placeholder}
             className="info-sc-card__input"
+            onChange={handleSearchChange}
           />
           <span className="info-sc-card__icon">🔍</span>
         </div>

@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import './Modal.css';
+import api from '../../../provider/api';
+import { ENDPOINTS } from '../../../utils/endpoints';
+import { getFuncionario, getToken } from '../../../utils/auth';
+import { toast } from 'react-toastify';
 
 const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar }) => {
+  const funcionario = getFuncionario();
+  const token = getToken();
+
   const [nome, setNome] = useState('');
   const [imagem, setImagem] = useState(null);
 
@@ -9,16 +16,45 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!nome.trim()) {
       alert('Preencha o nome antes de continuar.');
       return;
     }
 
-    onSalvar({ tipo, nome, imagem });
-    setNome('');
-    setImagem(null);
-    onClose();
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    if (tipo === 'categoria') {
+      api
+        .post(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, { nome }, { headers })
+        .then((response) => {
+          toast.success("Categoria cadastrada com sucesso!");
+          onSalvar(response.data);
+          setNome('');
+          onClose();
+        })
+        .catch((error) => {
+          toast.error("Erro ao cadastrar categoria!");
+          console.error("Erro ao cadastrar categoria:", error);
+        });
+    } else {
+      api
+        .post(`${ENDPOINTS.SETORES}/${funcionario.userId}`, { nome }, { headers })
+        .then((response) => {
+          toast.success("Setor cadastrado com sucesso!");
+          onSalvar(response.data);
+          setNome('');
+          onClose();
+        })
+        .catch((error) => {
+          toast.error("Erro ao cadastrar setor!");
+          console.error("Erro ao cadastrar setor:", error);
+        });
+    }
   };
+
 
   const handleImagemChange = (e) => {
     const file = e.target.files[0];
@@ -27,8 +63,8 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar }) => {
 
   const titulo = tipo === 'setor' ? 'Cadastro de Setor' : 'Cadastro de Categoria';
   const subtitulo = tipo === 'setor'
-    ? 'Cadastre um novo setor da empresa, como cozinha, bar, etc.'
-    : 'Cadastre uma nova categoria para produtos e pratos.';
+    ? 'Cadastre um novo setor da empresa. Os setores facilitam a organização operacional e a gestão dos pedidos. Exemplos: Restaurante, Lanchonete, Pastelaria...'
+    : 'Cadastre novas categorias para produtos e pratos. As categorias ajudam a organizar os itens nas telas de atendente e estoque, facilitando a visualização. Exemplos: Doces, Salgados, Bebidas...';
   const labelNome = tipo === 'setor' ? 'Nome do Setor:' : 'Nome da Categoria:';
 
   return (
@@ -46,12 +82,16 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar }) => {
             onChange={(e) => setNome(e.target.value)}
           />
 
-          <label>Imagem:</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImagemChange}
-          />
+          {tipo === 'setor' && (
+            <>
+              <label>Imagem:</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImagemChange}
+              />
+            </>
+          )}
 
           <div className="modal-botoes">
             <button type="button" className="btn cancelar" onClick={onClose}>

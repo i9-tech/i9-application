@@ -33,7 +33,7 @@ const FloatingAddButton = ({ onSetor, onCategoria }) => {
 
           <div className="fab-popup-option" onClick={onCategoria}>
             <span className="fab-icon">🔷</span>
-            <span className="fab-text azul">Cadastrar Categoria</span>
+            <span className="fab-text bold">Cadastrar Categoria</span>
           </div>
         </div>
       )}

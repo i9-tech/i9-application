@@ -3,23 +3,18 @@ import BotaoConfirmar from "../../components/Botoes/BotaoConfirmar/BotaoConfirma
 import ElementoTotal from "../../components/Hovers/HoverTotalProduto/ElementoTotal";
 import LupaPesquisa from "../../assets/lupa-pesquisa.svg";
 import ElementoProduto from "../../components/Hovers/HoverProduto/ElementoProduto";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ModalObservacoes from "../../components/Botoes/ModalObservacoes/ModalObservacoes";
 import ProdutoComanda from "../../components/Botoes/ProdutoComanda/ProdutoComanda";
 import ModalConfirmarPedido from "../../components/Botoes/ModalConfirmarPedido/ModalConfirmarPedido";
 import Navbar from "../../components/Navbar/Navbar";
 import { getPermissoes, getToken } from "../../utils/auth";
-import croissantChocolate from "../../assets/croissant-chocolate.png";
-import tortinhaLimão from "../../assets/tortinha-limao.png";
-import mercado from "../../assets/mercado.png";
-import restaurante from "../../assets/restaurante.png";
-import lanchonete from "../../assets/lancheSetor.png";
-import pastelaria from '../../assets/pastel.png';
 import todos from '../../assets/todos.png';
 import { Navigate } from "react-router-dom";
 import api from "../../provider/api";
 import { getFuncionario } from "../../utils/auth";
 import { ENDPOINTS } from "../../utils/endpoints";
+import { toast } from "react-toastify";
 
 export function Atendente() {
   const permissao = getPermissoes();
@@ -38,7 +33,6 @@ export function Atendente() {
 
   const [comanda, setComanda] = useState([]);
 
-  const [_quantidades, setQuantidades] = useState({});
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
 
@@ -223,26 +217,26 @@ export function Atendente() {
     0
   );
 
-  const comandaExpandida = [];
-
-  comanda.forEach((item) => {
-
-    for (let i = 0; i < item.quantidade; i++) {
-      comandaExpandida.push({
-        id: item.id,
-        prato: item.prato,
-        produto: item.produto,
-        nome: item.nome,
-        valorUnitario: item.preco,
-        observacao: Array.isArray(item.observacoes) && item.observacoes[i]
-          ? item.observacoes[i].texto || ""
-          : "",
-        funcionario: funcionario.userId,
-        tipo: item.tipo
-      });
-    }
-  });
-
+  const comandaExpandida = useMemo(() => {
+    const lista = [];
+    comanda.forEach((item) => {
+      for (let i = 0; i < item.quantidade; i++) {
+        lista.push({
+          id: item.id,
+          prato: item.prato,
+          produto: item.produto,
+          nome: item.nome,
+          valorUnitario: item.valorUnitario,
+          observacao: Array.isArray(item.observacoes) && item.observacoes[i]
+            ? item.observacoes[i].texto || ""
+            : "",
+          funcionario: funcionario.userId,
+          tipo: item.tipo
+        });
+      }
+    });
+    return lista;
+  }, [funcionario.userId, comanda]);
   const [enviarPedido, setEnviarPedido] = useState(false);
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './ProdutoComanda.css';
 import { useState, useEffect } from 'react';
 import { enviroments } from '../../../utils/enviroments';
@@ -28,12 +29,6 @@ export function ProdutoComanda({
 
     }, [imagem, tokenImagem]);
 
-    useEffect(() => {
-        if (quantidade !== quantidadeInicial) {
-            setQuantidade(quantidadeInicial);
-        }
-    }, [quantidadeInicial]);
-
     function diminuir() {
         if (quantidade > 1) {
             setQuantidade(qtd => qtd - 1);
@@ -45,6 +40,12 @@ export function ProdutoComanda({
     function aumentar() {
         setQuantidade(qtd => qtd + 1);
     }
+
+    useEffect(() => {
+        if (quantidade !== quantidadeInicial) {
+            setQuantidade(quantidadeInicial);
+        }
+    }, [quantidadeInicial]);
 
     useEffect(() => {
         if (atualizarQuantidade && quantidade !== quantidadeInicial) {

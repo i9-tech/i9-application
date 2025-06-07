@@ -4,6 +4,8 @@ import api from '../../../provider/api';
 import { ENDPOINTS } from '../../../utils/endpoints';
 import { getFuncionario, getToken } from '../../../utils/auth';
 import { toast } from 'react-toastify';
+import imagensFixas from './imagensFixas';
+
 
 const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = null }) => {
   const funcionario = getFuncionario();
@@ -11,7 +13,6 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
 
   const [nome, setNome] = useState('');
   const [imagem, setImagem] = useState(null);
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -83,6 +84,9 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
   };
 
 
+  const [imagemSelecionada, setImagemSelecionada] = useState('');
+  const [modalImagensAberto, setModalImagensAberto] = useState(false);
+
   const handleImagemChange = (e) => {
     const file = e.target.files[0];
     if (file) setImagem(file);
@@ -93,11 +97,11 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
     : (tipo === 'setor' ? 'Cadastro de Setor' : 'Cadastro de Categoria');
   const subtitulo = itemParaEditar
     ? (tipo === 'setor'
-        ? 'Edite as informações do setor selecionado.'
-        : 'Edite as informações da categoria selecionada.')
+      ? 'Edite as informações do setor selecionado.'
+      : 'Edite as informações da categoria selecionada.')
     : (tipo === 'setor'
-        ? 'Cadastre um novo setor da empresa. Os setores facilitam a organização operacional e a gestão dos pedidos. Exemplos: Restaurante, Lanchonete, Pastelaria...'
-        : 'Cadastre novas categorias para produtos e pratos. As categorias ajudam a organizar os itens nas telas de atendente e estoque, facilitando a visualização. Exemplos: Doces, Salgados, Bebidas...');
+      ? 'Cadastre um novo setor da empresa. Os setores facilitam a organização operacional e a gestão dos pedidos. Exemplos: Restaurante, Lanchonete, Pastelaria...'
+      : 'Cadastre novas categorias para produtos e pratos. As categorias ajudam a organizar os itens nas telas de atendente e estoque, facilitando a visualização. Exemplos: Doces, Salgados, Bebidas...');
   const labelNome = tipo === 'setor' ? 'Nome do Setor:' : 'Nome da Categoria:';
 
   useEffect(() => {
@@ -129,11 +133,19 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
               {tipo === 'setor' && (
                 <>
                   <label>Imagem:</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImagemChange}
-                  />
+                  <div className="imagem-preview-wrapper-setor">
+                    {imagemSelecionada ? (
+                      <img src={imagemSelecionada} alt="Imagem selecionada" className="imagem-preview-setor" />
+                    ) : imagem ? (
+                      <img src={URL.createObjectURL(imagem)} alt="Imagem carregada" className="imagem-preview-setor" />
+                    ) : (
+                      <p>Nenhuma imagem selecionada</p>
+                    )}
+                  </div>
+
+                  <button type="button" onClick={() => setModalImagensAberto(true)} className="btn escolher-imagem">
+                    Escolher Imagem do Setor
+                  </button>
                 </>
               )}
 
@@ -149,8 +161,53 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
           </div>
         </div>
       )}
+
+      {modalImagensAberto && (
+        <div className="modal-overlay-fotos" onClick={() => setModalImagensAberto(false)}>
+          <div className="modal-content-fotos" onClick={(e) => e.stopPropagation()}>
+            <h3>Escolha uma imagem que represente o setor</h3>
+            <div className="galeria-imagens">
+              {imagensFixas.map((src, index) => (
+                <img
+                  key={index}
+                  src={src}
+                  alt={`Imagem ${index + 1}`}
+                  className={`imagem-opcao ${imagemSelecionada === src ? 'selecionada' : ''}`}
+                  onClick={() => {
+                    setImagemSelecionada(src);
+                    setModalImagensAberto(false);
+                  }}
+                />
+              ))}
+              <div className="upload-imagem-customizada">
+                <label className="btn">
+                  Upload Imagem Personalizada
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setImagem(file);
+                        setImagemSelecionada('');
+                        setModalImagensAberto(false);
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+            <button onClick={() => setModalImagensAberto(false)} className="btn cancelar">Fechar</button>
+          </div>
+        </div>
+      )}
+
     </>
+
+
   );
+
+
 };
 
 export default Modal;

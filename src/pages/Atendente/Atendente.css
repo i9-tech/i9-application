@@ -18,9 +18,14 @@
 
   .header-container {
     width: 98%;
+    height: 2%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    h1 {
+      font-size: 22px;
+    }
   }
 
   .barra-pesquisa {

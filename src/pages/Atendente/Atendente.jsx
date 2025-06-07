@@ -7,7 +7,6 @@ import { useState, useEffect, useMemo } from "react";
 import ModalObservacoes from "../../components/Botoes/ModalObservacoes/ModalObservacoes";
 import ProdutoComanda from "../../components/Botoes/ProdutoComanda/ProdutoComanda";
 import ModalConfirmarPedido from "../../components/Botoes/ModalConfirmarPedido/ModalConfirmarPedido";
-import Navbar from "../../components/Navbar/Navbar";
 import { getPermissoes, getToken } from "../../utils/auth";
 import todos from "../../assets/todos.png";
 import { Navigate } from "react-router-dom";
@@ -16,9 +15,11 @@ import { getFuncionario } from "../../utils/auth";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { toast } from "react-toastify";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
-import { corrigirDataISO } from "../../utils/utils";
 import { ROUTERS } from "../../utils/routers";
 import Relogio from "../../components/Relogio/Relogio";
+import SetoresCarregamento from "../../components/Atendimento/SetoresCarregamento";
+import CardsAtendimentoCarregamento from "../../components/Atendimento/CardsAtendimentoCarregamento";
+import NoDataAtendimento from "../../components/Atendimento/NoDataAtendimento";
 
 export function Atendente() {
   const permissao = getPermissoes();
@@ -30,11 +31,6 @@ export function Atendente() {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  });
-
-  const horarioAtual = new Date().toLocaleTimeString("pt-BR", {
-    hour: "2-digit",
-    minute: "2-digit",
   });
 
   const funcionario = getFuncionario();
@@ -56,6 +52,13 @@ export function Atendente() {
 
   const [itemCarrinhoIds, setItemCarrinhoIds] = useState([]);
 
+  const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
+  const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
+
+  const [errorPrato, setErrorPrato] = useState(false);
+  const [errorProduto, setErrorProduto] = useState(false);
+  const [errorSetor, setErrorSetor] = useState(false);
+
   useEffect(() => {
     api
       .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
@@ -66,11 +69,16 @@ export function Atendente() {
       .then((res) => {
         if (Array.isArray(res.data)) {
           setSetores(res.data);
+          setIsSetoresCarregando(false);
         }
       })
       .catch((err) => {
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
+        setTimeout(() => {
+          setIsSetoresCarregando(false);
+          setErrorSetor(true);
+        }, 1200);
       });
 
     api
@@ -88,12 +96,12 @@ export function Atendente() {
         console.error("Erro ao buscar categorias:", err);
         toast.error("Erro ao buscar categorias!");
       });
+  }, [funcionario.userId, token]);
 
-    api
+  useEffect(() => {
+    const requisicaoProdutos = api
       .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
         if (Array.isArray(res.data)) {
@@ -105,15 +113,14 @@ export function Atendente() {
         }
       })
       .catch((err) => {
+        setErrorProduto(true);
         console.error("Erro ao buscar produtos:", err);
         toast.error("Erro ao buscar produtos!");
       });
 
-    api
+    const requisicaoPratos = api
       .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
         if (Array.isArray(res.data)) {
@@ -125,9 +132,16 @@ export function Atendente() {
         }
       })
       .catch((err) => {
+        setErrorPrato(true);
         console.error("Erro ao buscar pratos:", err);
         toast.error("Erro ao buscar pratos!");
       });
+
+    Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(() => {
+      setTimeout(() => {
+        setIsProdutosCarregando(false); // Exibe o loading por pelo menos 1s
+      }, 1000);
+    });
   }, [funcionario.userId, token]);
 
   const adicionarNaComanda = (produto) => {
@@ -261,7 +275,7 @@ export function Atendente() {
   useEffect(() => {
     if (!enviarPedido || comandaExpandida.length === 0) return;
 
-    const promises = comandaExpandida.map((item) => {
+    const promises = comandaExpandida.map(async (item) => {
       const url =
         item.tipo === "produto"
           ? `${ENDPOINTS.CARRINHO_PRODUTO}/${funcionario.userId}`
@@ -309,7 +323,7 @@ export function Atendente() {
   }
 
   function carregarDados() {
-    api
+    const requisicaoProdutos = api
       .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -329,7 +343,7 @@ export function Atendente() {
         toast.error("Erro ao buscar produtos!");
       });
 
-    api
+    const requisicaoPratos = api
       .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -348,6 +362,12 @@ export function Atendente() {
         console.error("Erro ao buscar pratos:", err);
         toast.error("Erro ao buscar pratos!");
       });
+
+    Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(() => {
+      setTimeout(() => {
+        setIsProdutosCarregando(false);
+      }, 2000);
+    });
   }
 
   return (
@@ -380,28 +400,34 @@ export function Atendente() {
 
           <div className="todos-produtos">
             <h1>Escolha um Setor:</h1>
-            <div className="setores">
-              <ElementoTotal
-                key="todos"
-                nome="Todos"
-                imagem={todos}
-                quantidade={produtos.length}
-                onClick={() => setSetorSelecionado("Todos")}
-              />
-              {setores.map((setor) => (
+            {isSetoresCarregando && !errorSetor ? (
+              <SetoresCarregamento quantidadeCards={7} />
+            ) : !errorSetor ? (
+              <div className="setores">
                 <ElementoTotal
-                  key={setor.id}
-                  nome={setor.nome}
-                  imagem={setor.imagem}
-                  quantidade={
-                    produtos.filter(
-                      (p) => p.setor && p.setor.nome === setor.nome
-                    ).length
-                  }
-                  onClick={() => setSetorSelecionado(setor.nome)}
+                  key="todos"
+                  nome="Todos"
+                  imagem={todos}
+                  quantidade={produtos.length}
+                  onClick={() => setSetorSelecionado("Todos")}
                 />
-              ))}
-            </div>
+                {setores.map((setor) => (
+                  <ElementoTotal
+                    key={setor.id}
+                    nome={setor.nome}
+                    imagem={setor.imagem}
+                    quantidade={
+                      produtos.filter(
+                        (p) => p.setor && p.setor.nome === setor.nome
+                      ).length
+                    }
+                    onClick={() => setSetorSelecionado(setor.nome)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <NoDataAtendimento />
+            )}
 
             <div className="header-container">
               <h1> Setor: {setorSelecionado} </h1>
@@ -420,70 +446,80 @@ export function Atendente() {
             </div>
 
             <div className="produtos-por-categoria">
-              {categorias.map((categoria) => {
-                const produtosFiltrados = produtos.filter((produto) => {
-                  const mesmoSetor =
-                    setorSelecionado === "Todos" ||
-                    (produto.setor &&
-                      produto.setor.nome &&
-                      produto.setor.nome.trim().toLowerCase() ===
-                        setorSelecionado.trim().toLowerCase());
+              {isProdutosCarregando ? (
+                <CardsAtendimentoCarregamento quantidadeCards={6} />
+              ) : !errorPrato && !errorProduto ? (
+                categorias.map((categoria) => {
+                  const produtosFiltrados = produtos.filter((produto) => {
+                    const mesmoSetor =
+                      setorSelecionado === "Todos" ||
+                      (produto.setor &&
+                        produto.setor.nome &&
+                        produto.setor.nome.trim().toLowerCase() ===
+                          setorSelecionado.trim().toLowerCase());
 
-                  const mesmaCategoria =
-                    produto.categoria &&
-                    produto.categoria.nome &&
-                    produto.categoria.nome.trim().toLowerCase() ===
-                      categoria.nome.trim().toLowerCase();
+                    const mesmaCategoria =
+                      produto.categoria &&
+                      produto.categoria.nome &&
+                      produto.categoria.nome.trim().toLowerCase() ===
+                        categoria.nome.trim().toLowerCase();
 
-                  const nomeCombina = produto.nome
-                    .toLowerCase()
-                    .includes(buscaProduto.toLowerCase());
+                    const nomeCombina = produto.nome
+                      .toLowerCase()
+                      .includes(buscaProduto.toLowerCase());
 
-                  return mesmoSetor && mesmaCategoria && nomeCombina;
-                });
+                    return mesmoSetor && mesmaCategoria && nomeCombina;
+                  });
 
-                if (produtosFiltrados.length === 0) return null;
+                  if (produtosFiltrados.length === 0) return null;
 
-                return (
-                  <div key={categoria.id} className="categoria">
-                    <h1>{categoria.nome}</h1>
-                    <div className="produtos-da-categoria">
-                      {produtosFiltrados.map((produto, index) => {
-                        const itemComanda = comanda.find(
-                          (item) => item.nome === produto.nome
-                        );
-                        const quantidadeNaComanda = itemComanda
-                          ? itemComanda.quantidade
-                          : 0;
-                        const quantidadeRestante =
-                          produto.quantidade - quantidadeNaComanda;
+                  return (
+                    <div key={categoria.id} className="categoria">
+                      <h1>{categoria.nome}</h1>
+                      <div className="produtos-da-categoria">
+                        {produtosFiltrados.map((produto, index) => {
+                          const itemComanda = comanda.find(
+                            (item) => item.nome === produto.nome
+                          );
+                          const quantidadeNaComanda = itemComanda
+                            ? itemComanda.quantidade
+                            : 0;
+                          const quantidadeRestante =
+                            produto.quantidade - quantidadeNaComanda;
 
-                        return (
-                          <ElementoProduto
-                            key={`${produto.id}-${index}`}
-                            id={produto.id}
-                            nome={produto.nome}
-                            descricao={produto.descricao}
-                            preco={produto.valorUnitario || produto.valorVenda}
-                            onAdicionar={adicionarNaComanda}
-                            imagem={produto.imagem}
-                            quantidade={
-                              produto.tipo === "produto"
-                                ? quantidadeRestante || 0
-                                : null
-                            }
-                            tipo={produto.tipo}
-                            disabled={
-                              quantidadeRestante <= 0 ||
-                              produto.disponivel === false
-                            }
-                          />
-                        );
-                      })}
+                          return (
+                            <ElementoProduto
+                              key={`${produto.id}-${index}`}
+                              id={produto.id}
+                              nome={produto.nome}
+                              descricao={produto.descricao}
+                              preco={
+                                produto.valorUnitario || produto.valorVenda
+                              }
+                              onAdicionar={adicionarNaComanda}
+                              imagem={produto.imagem}
+                              quantidade={
+                                produto.tipo === "produto"
+                                  ? quantidadeRestante || 0
+                                  : null
+                              }
+                              tipo={produto.tipo}
+                              disabled={
+                                quantidadeRestante <= 0 ||
+                                produto.disponivel === false
+                              }
+                            />
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              ) : (
+                <div style={{ width: "68vw" }}>
+                  <NoDataAtendimento />
+                </div>
+              )}
             </div>
           </div>
         </section>

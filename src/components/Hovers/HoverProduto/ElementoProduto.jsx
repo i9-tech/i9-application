@@ -32,19 +32,21 @@ export function ElementoProduto(props) {
       <div className="conteudo-card">
         <h2>{nome}</h2>
         <p className="descricao">{descricao}</p>
-        <span className="preco">
-          <p>R$</p>
-          {preco.toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          })}
-        </span>
-
-        {quantidade != null && quantidade !== undefined && (
-          <span className="quantidade">
-            <p>{quantidade} Itens</p>
+        <div className="preco-quantidade">
+          <span className="preco">
+            <span className="rs">R$</span>
+            {preco.toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })}
           </span>
-        )}
+
+          {quantidade != null && quantidade !== undefined && (
+            <span className="quantidade-itens-atendentimento">
+              {quantidade} Itens
+            </span>
+          )}
+        </div>
 
       </div>
 

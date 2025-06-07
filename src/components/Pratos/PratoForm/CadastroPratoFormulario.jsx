@@ -163,8 +163,10 @@ const CadastroPratoFormulario = ({
             await sleep(200);
             return;
           }
-          setIsSendingData(false);
           console.log("erro ao adicionar imagem ao blob storage: ", err);
+          setTimeout(() => {
+            setIsSendingData(false);
+          }, 2500);
         });
     }
   };
@@ -208,9 +210,11 @@ const CadastroPratoFormulario = ({
         limparFormulario();
       })
       .catch((error) => {
-        setIsSendingData(false);
         console.error("Erro ao salvar prato:", error.response?.data || error);
         toast.error("Erro ao salvar prato!");
+        setTimeout(() => {
+            setIsSendingData(false);
+          }, 2500);
       });
   };
 

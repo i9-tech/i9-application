@@ -9,7 +9,6 @@ import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 import { enviroments } from "../../../utils/enviroments";
 
-
 const CadastroProdutoFormulario = ({
   setPorcentagemCarregamento,
   produtoSelecionado,
@@ -181,8 +180,10 @@ const CadastroProdutoFormulario = ({
             salvarProduto("");
           }
 
-          setIsSendingData(false);
           console.log("erro ao adicionar imagem ao blob storage: ", err);
+          setTimeout(() => {
+            setIsSendingData(false);
+          }, 2500);
         });
     }
   };
@@ -249,9 +250,11 @@ const CadastroProdutoFormulario = ({
           limparFormulario();
         })
         .catch((error) => {
-          setIsSendingData(false);
           console.error("Erro ao salvar produto:", error);
           toast.error("Erro ao salvar produto!");
+          setTimeout(() => {
+            setIsSendingData(false);
+          }, 2000);
         });
     }
   };

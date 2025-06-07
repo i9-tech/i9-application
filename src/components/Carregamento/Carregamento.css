@@ -26,27 +26,27 @@
   font-weight: bold;
 
   .tela-carregamento-modal {
-    width: 36%;
-    height: 40%;
+    width: 32%;
+    height: 32%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    font-size: 20px;
+    font-size: 18px;
     gap: 1rem;
-    color: blue;
+    color: var(--destaque);
     border-radius: 0.4rem;
     background-color: rgb(255, 255, 255);
 
     img {
-      width: 20%;
+      width: 15%;
       animation: fadeBlink 2s ease-in-out infinite;
     }
 
     .tela-carregamento-barra {
         width: 80%;
         height: 8%;
-        border: 1px solid black;
+        border: 1px solid #000;
         border-radius: 0.5rem;
         overflow: hidden;
         box-sizing: border-box;
@@ -54,7 +54,7 @@
         .tela-carregamento-porcentagem {
             height: 100%;
             transition: all 0.2s;
-            background-color: blue;
+            background-color: var(--destaque);
         }
     
     }

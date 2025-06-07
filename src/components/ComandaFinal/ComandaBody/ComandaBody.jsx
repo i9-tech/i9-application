@@ -25,7 +25,7 @@ export default function ComandaBody({
       </div>
       <div className="itemInfo">
         <h4>{titulo}</h4>
-        <p className="itemDescricao">{descricao}</p>
+        <p className="itemDescricao" title={descricao}>{descricao}</p>
         {observacao && (
           <p className="observacao">
             Observação: <span>{observacao}</span>

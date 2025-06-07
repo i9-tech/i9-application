@@ -28,7 +28,7 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
     if (tipo === 'categoria') {
       if (itemParaEditar) {
         api
-          .put(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}/${itemParaEditar.id}`, { nome }, { headers })
+          .put(`${ENDPOINTS.CATEGORIAS}/${itemParaEditar.id}/${funcionario.userId}`, { nome }, { headers })
           .then((response) => {
             toast.success("Categoria atualizada com sucesso!");
             onSalvar(response.data);
@@ -55,7 +55,7 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
     } else {
       if (itemParaEditar) {
         api
-          .put(`${ENDPOINTS.SETORES}/${funcionario.userId}/${itemParaEditar.id}`, { nome }, { headers })
+          .patch(`${ENDPOINTS.SETORES}/${itemParaEditar.id}/${funcionario.userId}`, { nome }, { headers })
           .then((response) => {
             toast.success("Setor atualizado com sucesso!");
             onSalvar(response.data);

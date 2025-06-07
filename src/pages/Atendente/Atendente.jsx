@@ -293,8 +293,48 @@ export function Atendente() {
 
   function limparComandas() {
     setComanda([]);
+    carregarDados();
   }
 
+  function carregarDados() {
+    api.get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          const produtosComTipo = res.data.map((item) => ({
+            ...item,
+            tipo: "produto",
+          }));
+          setProdutos(produtosComTipo);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar produtos:", err);
+        toast.error("Erro ao buscar produtos!");
+      });
+
+    api.get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          const pratosComTipo = res.data.map((item) => ({
+            ...item,
+            tipo: "prato",
+          }));
+          setProdutos((prev) => [...prev, ...pratosComTipo]);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar pratos:", err);
+        toast.error("Erro ao buscar pratos!");
+      });
+  }
 
   return (
     <>
@@ -380,6 +420,10 @@ export function Atendente() {
                   <h1>{categoria.nome}</h1>
                   <div className="produtos-da-categoria">
                     {produtosFiltrados.map((produto, index) => {
+                      const itemComanda = comanda.find((item) => item.nome === produto.nome);
+                      const quantidadeNaComanda = itemComanda ? itemComanda.quantidade : 0;
+                      const quantidadeRestante = produto.quantidade - quantidadeNaComanda;
+
                       return (
                         <ElementoProduto
                           key={`${produto.id}-${index}`}
@@ -389,12 +433,13 @@ export function Atendente() {
                           preco={produto.valorUnitario || produto.valorVenda}
                           onAdicionar={adicionarNaComanda}
                           imagem={produto.imagem}
-                          quantidade={produto.quantidade || null}
+                          quantidade={quantidadeRestante || null}
                           tipo={produto.tipo}
-                          disabled={produto.quantidade < 1 || produto.disponivel == false}
+                          disabled={quantidadeRestante <= 0 || produto.disponivel === false}
                         />
                       );
                     })}
+
                   </div>
                 </div>
               );

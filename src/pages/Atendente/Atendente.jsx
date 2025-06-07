@@ -296,6 +296,10 @@ export function Atendente() {
     });
   }, [enviarPedido, comandaExpandida, funcionario.userId, token]);
 
+    function limparComandas() {
+    setComanda([]);
+  }
+
 
   return (
     <>
@@ -310,7 +314,7 @@ export function Atendente() {
           />
         )}
         {confirmarPedido && (
-          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} statusModal={setConfirmarPedido} itemCarrinhoIds={itemCarrinhoIds} />
+          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} statusModal={setConfirmarPedido} itemCarrinhoIds={itemCarrinhoIds} onLimparComandas={limparComandas} />
         )}
 
         <div className="todos-produtos">
@@ -422,6 +426,7 @@ export function Atendente() {
                 atualizarQuantidade={atualizarQuantidade}
                 onClick={abrirModal}
                 removerProduto={removerProdutoDaComanda}
+                tipo={item.tipo}
               />
             );
           })}

@@ -7,7 +7,7 @@ import { ENDPOINTS } from '../../../utils/endpoints';
 import { getFuncionario, getToken } from '../../../utils/auth';
 import { toast } from 'react-toastify';
 
-export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds, onConfirmarPedido }) {
+export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds, onConfirmarPedido, onLimparComandas  }) {
   const funcionario = getFuncionario();
   const token = getToken();
   const [descricaoCliente, setDescricaoCliente] = useState('');
@@ -43,6 +43,10 @@ export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds, on
         if (onConfirmarPedido) {
           onConfirmarPedido();
         }
+
+        if (onLimparComandas) {
+        onLimparComandas(); 
+      }
         toast.success("Venda realizada com sucesso!");
       })
       .catch((err) => {

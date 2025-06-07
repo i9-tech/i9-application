@@ -10,8 +10,11 @@ export function ProdutoComanda({
     quantidade: quantidadeInicial,
     removerProduto,
     atualizarQuantidade,
+    tipo,
     onClick = () => { },
 }) {
+
+     console.log('Produto recebido:', produto);
     const [quantidade, setQuantidade] = useState(quantidadeInicial || 1);
 
     const tokenImagem = enviroments.tokenURL;
@@ -23,6 +26,8 @@ export function ProdutoComanda({
         } else {
             setUrlImagem(imagemPadrao);
         }
+
+    
     }, [imagem, tokenImagem]);
 
     useEffect(() => {
@@ -51,7 +56,10 @@ export function ProdutoComanda({
 
 
     return (
-        <div className="card-produto" onClick={() => onClick(produto, quantidade)}>
+        <div
+            className="card-produto"
+            onClick={tipo === 'prato' ? () => onClick(produto, quantidade) : undefined}
+        >
             <div className='img-obs'>
                 {urlImagem && (
                     <img
@@ -61,7 +69,9 @@ export function ProdutoComanda({
                         alt={`Imagem de ${produto}`}
                     />
                 )}
-                <span className="observacao-produto">Observação</span>
+                {tipo === 'prato' && (
+                    <span className="observacao-produto">Observação</span>
+                )}
             </div>
             <div className="detalhes-produto">
                 <span className="nome-produto" title={produto}>{produto}</span>

@@ -5,8 +5,9 @@ import { useState } from 'react';
 import api from '../../../provider/api';
 import { ENDPOINTS } from '../../../utils/endpoints';
 import { getFuncionario, getToken } from '../../../utils/auth';
+import { toast } from 'react-toastify';
 
-export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds }) {
+export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds, onConfirmarPedido }) {
   const funcionario = getFuncionario();
   const token = getToken();
   const [descricaoCliente, setDescricaoCliente] = useState('');
@@ -15,9 +16,9 @@ export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds }) 
   const [formaPagamento, setFormaPagamento] = useState('Débito');
   const [modalAbertoInfoComanda, setModalAbertoInfoComanda] = useState(false);
 
-
-  const abrirModalInforComanda = () => {
-    const hoje = new Date().toISOString().split("T")[0];
+  const abrirModalInforComanda = (e) => {
+    e.preventDefault();
+    const hoje = new Date().toLocaleDateString('pt-BR').split('/').reverse().join('-');
 
     api
       .post(
@@ -39,10 +40,14 @@ export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds }) 
       .then((res) => {
         setPedido(res.data);
         setModalAbertoInfoComanda(true);
-        console.log(`Venda gerada: `, res.data);
+        if (onConfirmarPedido) {
+          onConfirmarPedido();
+        }
+        toast.success("Venda realizada com sucesso!");
       })
       .catch((err) => {
         console.log("Erro ao gerar venda: ", err);
+        toast.error("Erro ao gerar venda!");
       });
   }
 
@@ -64,27 +69,30 @@ export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds }) 
           <h2>Informações Sobre o Pedido</h2>
         </div>
 
-        <div id="observacoes-container">
-          <label>Nome/Descrição do Cliente</label>
+        <form id="observacoes-container" onSubmit={abrirModalInforComanda}>
+          <label>Nome/Descrição do Cliente <span style={{ color: 'red' }}>*</span></label>
           <input
             type="text"
             placeholder="Nome/Descrição do Cliente"
             value={descricaoCliente}
             onChange={(e) => setDescricaoCliente(e.target.value)}
+            required
           />
 
-          <label>Mesa</label>
+          <label>Mesa <span style={{ color: 'red' }}>*</span></label>
           <input
             type="number"
             placeholder="Número da Mesa"
             value={mesa}
             onChange={(e) => setMesa(e.target.value)}
+            required
           />
 
-          <label>Forma de Pagamento</label>
+          <label>Forma de Pagamento <span style={{ color: 'red' }}>*</span></label>
           <select
             value={formaPagamento}
-            onChange={(e) => setFormaPagamento(e.target.value)}>
+            onChange={(e) => setFormaPagamento(e.target.value)}
+            required>
             <option value="Débito">Débito</option>
             <option value="Crédito">Crédito</option>
             <option value="Dinheiro">Dinheiro</option>
@@ -93,11 +101,10 @@ export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds }) 
             <option value="VA">Vale Alimentação</option>
           </select>
 
-        </div>
-
-        <div className="botoes-modal">
-          <BotaoGenericoAtendente texto={"Confirmar Pedido"} onClick={abrirModalInforComanda}></BotaoGenericoAtendente>
-        </div>
+          <div className="botoes-modal">
+            <BotaoGenericoAtendente texto={"Confirmar Pedido"} type="submit" />
+          </div>
+        </form>
       </div>
     </div>
   );

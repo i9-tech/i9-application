@@ -38,6 +38,11 @@ export function Dashboard() {
     year: "numeric",
   });
 
+   const horarioAtual = new Date().toLocaleTimeString("pt-BR", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
   useEffect(() => {
     api
       .get(`${ENDPOINTS.VENDA_KPIS}/${funcionario.empresaId}`, {
@@ -152,7 +157,7 @@ export function Dashboard() {
 
   return (
     <>
-      <LayoutTela titulo="Dashboard" adicional={diaAtual}>
+      <LayoutTela titulo="Dashboard" adicional={`${diaAtual} - ${horarioAtual}`}>
         <article className="dashboard">
           <section className="kpis">
             <Kpi

@@ -15,12 +15,26 @@ import api from "../../provider/api";
 import { getFuncionario } from "../../utils/auth";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { toast } from "react-toastify";
+import LayoutTela from "../../components/LayoutTela/LayoutTela";
+import { corrigirDataISO } from "../../utils/utils";
+import { ROUTERS } from "../../utils/routers";
 
 export function Atendente() {
   const permissao = getPermissoes();
   if (permissao.length === 0) {
-    Navigate("/unauthorized");
+    Navigate(ROUTERS.UNAUTHORIZED);
   }
+
+  const diaAtual = new Date().toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
+  const horarioAtual = new Date().toLocaleTimeString("pt-BR", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
 
   const funcionario = getFuncionario();
   const token = getToken();
@@ -332,7 +346,7 @@ export function Atendente() {
 
   return (
     <>
-      <Navbar />
+    <LayoutTela titulo={"Menu de Atendimento"} adicional={`${diaAtual} - ${horarioAtual}`}>
       <section className="menu-atendente">
         {modalAberto && produtoSelecionado && (
           <ModalObservacoes
@@ -347,7 +361,7 @@ export function Atendente() {
         )}
 
         <div className="todos-produtos">
-          <h1>Escolha o Setor</h1>
+          <h1>Escolha um Setor:</h1>
           <div className="setores">
             <ElementoTotal
               key="todos"
@@ -478,6 +492,8 @@ export function Atendente() {
           />
         </section>
       </aside>
+    </LayoutTela>
+
     </>
   );
 }

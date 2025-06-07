@@ -9,6 +9,7 @@ import { ENDPOINTS } from "../../../utils/endpoints";
 import { getFuncionario, getToken } from "../../../utils/auth";
 import { enviroments } from "../../../utils/enviroments";
 
+
 const CadastroPratoFormulario = ({
   pratoSelecionado,
   setPratoSelecionado,

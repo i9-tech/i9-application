@@ -20,13 +20,7 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import CadastroSetoresCategorias from "./pages/CadastroSetoresCategorias/CadastroSetoresCategorias";
 
-
 function App() {
-  // return (
-  //   <Routes>
-  //     <Route path={ROUTERS.DASHBOARD} element={<Dashboard />} />
-  //   </Routes>
-  // );
 
   return (
     <>

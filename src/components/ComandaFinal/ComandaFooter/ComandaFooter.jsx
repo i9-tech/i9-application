@@ -1,19 +1,36 @@
-import React from 'react'
-import CheckboxCozinha from '../../Botoes/CheckboxCozinha/CheckboxCozinha'
+import React from "react";
+import CheckboxCozinha from "../../Botoes/CheckboxCozinha/CheckboxCozinha";
 
-export default function ComandaFooter({ qtdItens, index, onCompletar }) {
-  const checkboxId = `checkbox-footer-${index}` 
+export default function ComandaFooter({
+  qtdItens,
+  index,
+  onCompletar,
+  disabled,
+}) {
+  const checkboxId = `checkbox-footer-${index}`;
 
-  const handleChange = (e) => {
-    if (e.target.checked) {
-      onCompletar(); 
+  const handleClick = () => {
+    if (disabled) {
+      alert(
+        "Todos os itens devem ser marcados como prontos antes de finalizar o pedido."
+      );
+      return;
     }
+    onCompletar();
   };
 
   return (
     <div className="rodape-conteudo">
-      <p className="itensQtd">{qtdItens} Itens</p>
-      <CheckboxCozinha id={checkboxId} texto="Completo" onChange={handleChange} />
+      <p className="itensQtd">
+        {qtdItens} {qtdItens === 1 ? "Item" : "Itens"}{" "}
+      </p>
+      <CheckboxCozinha
+        id={checkboxId}
+        texto="Completo"
+        onClick={handleClick}
+        disabled={disabled}
+        ativo={!disabled}
+      />
     </div>
-  )
+  );
 }

@@ -6,12 +6,12 @@ export function ModalObservacoes({ produto, quantidade, onClose, onSalvarObserva
   const [observacoes, setObservacoes] = useState([]);
 
   useEffect(() => {
-    const novasObservacoes = Array.from({ length: quantidade }, (_, i) => ({
-      id: i + 1,
-      texto: '',
-    }));
+    const novasObservacoes = Array.from({ length: quantidade }, (_, i) => {
+      const textoExistente = produto.observacoes?.[i]?.texto || '';
+      return { id: i + 1, texto: textoExistente };
+    });
     setObservacoes(novasObservacoes);
-  }, [quantidade]);
+  }, [quantidade, produto]);
 
   const handleChange = (id, novoTexto) => {
     setObservacoes(prev =>

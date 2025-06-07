@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import api from "../../provider/api";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario, getToken } from "../../utils/auth";
+import { formatarMoeda } from "../../utils/utils";
 
 export function Dashboard() {
   const funcionario = getFuncionario();
@@ -49,11 +50,13 @@ export function Dashboard() {
           ENDPOINTS.VENDA,
           {
             mesa: "1",
+            cliente: "Betina",
+            formaPagamento: "Débito",
             dataVenda: i % 2 == 0 ? hoje : ontem,
             itens: [i],
             funcionarioId: 1,
             valorTotal: 10.0,
-            vendaConcluida: true,
+            vendaConcluida: false,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -179,14 +182,7 @@ export function Dashboard() {
     setProdutoMaisVendido(maisVendido);
   };
 
-  const formatarMoeda = (valor) => {
-    const numero = Number(valor);
-    if (isNaN(numero)) return "R$ 0,00";
-    return numero.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-  };
+  
 
   return (
     <>

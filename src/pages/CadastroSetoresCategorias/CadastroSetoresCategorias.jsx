@@ -17,6 +17,9 @@ const CadastroSetoresCategorias = () => {
 
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
+  const [itemSelecionado, setItemSelecionado] = useState(null);
+
+  const [itemParaEditar, setItemParaEditar] = useState(null);
 
 
   const [setores, setSetores] = useState([]);
@@ -26,11 +29,18 @@ const CadastroSetoresCategorias = () => {
   const [tipoCadastro, setTipoCadastro] = useState(null);
 
   const handleEditarSetor = (item) => {
-    console.log("Editar setor:", item);
+    setTipoCadastro("setor");
+    setItemSelecionado(item);
+    setModalAberto(true);
+    console.log("HANDLE SETOR ", item)
   };
 
   const handleEditarCategoria = (item) => {
-    console.log("Editar categoria:", item);
+    setTipoCadastro("categoria");
+    setItemSelecionado(item);
+    setModalAberto(true);
+    console.log("HANDLE CATEGORIA ", item)
+
   };
 
 
@@ -180,7 +190,7 @@ const CadastroSetoresCategorias = () => {
             <InfoCardSCCard
               title="Setores"
               description="Visualize, edite e organize os setores cadastrados."
-              placeholder="Buscar setor por nome."
+              placeholder="Procurar Setor"
               onSearch={handleBuscaSetor}
             >
               <DadosTabela
@@ -193,7 +203,7 @@ const CadastroSetoresCategorias = () => {
             <InfoCardSCCard
               title="Categorias"
               description="Visualize, edite e organize as categorias cadastradas."
-              placeholder="Buscar categoria por nome."
+              placeholder="Procurar Categoria"
               onSearch={handleBuscaCategoria}
             >
               <DadosTabela
@@ -211,16 +221,31 @@ const CadastroSetoresCategorias = () => {
 
           <Modal
             isOpen={modalAberto}
-            onClose={fecharModal}
+            onClose={() => {
+              fecharModal();
+              setItemSelecionado(null);
+            }}
             tipo={tipoCadastro}
-            onSalvar={(novaCategoriaOuSetor) => {
+            itemParaEditar={itemSelecionado}
+            onSalvar={(novoOuEditado) => {
               if (tipoCadastro === 'categoria') {
-                setCategorias((prev) => [...prev, novaCategoriaOuSetor]);
+                setCategorias((prev) => {
+                  const existe = prev.find((c) => c.id === novoOuEditado.id);
+                  return existe
+                    ? prev.map((c) => (c.id === novoOuEditado.id ? novoOuEditado : c))
+                    : [...prev, novoOuEditado];
+                });
               } else if (tipoCadastro === 'setor') {
-                setSetores((prev) => [...prev, novaCategoriaOuSetor]);
+                setSetores((prev) => {
+                  const existe = prev.find((s) => s.id === novoOuEditado.id);
+                  return existe
+                    ? prev.map((s) => (s.id === novoOuEditado.id ? novoOuEditado : s))
+                    : [...prev, novoOuEditado];
+                });
               }
             }}
           />
+
         </div>
       </LayoutTela>
     </>

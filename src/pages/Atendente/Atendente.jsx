@@ -180,10 +180,12 @@ export function Atendente() {
   }
 
   function abrirModal(produto, quantidade) {
-    setProdutoSelecionado({ nome: produto });
+    const item = comanda.find(i => i.nome === produto);
+    setProdutoSelecionado({ nome: produto, observacoes: item?.observacoes || [] });
     setQuantidadeSelecionada(quantidade);
     setModalAberto(true);
   }
+
 
   function fecharModal() {
     setModalAberto(false);
@@ -199,6 +201,7 @@ export function Atendente() {
   };
 
   function salvarObservacoes(observacoesRecebidas) {
+    console.log("Salvando observação:", observacoesRecebidas); // ⬅️ Adicione isso
     setComanda((prev) => {
       return prev.map((item) => {
         if (item.nome === produtoSelecionado.nome) {
@@ -212,6 +215,7 @@ export function Atendente() {
     });
     fecharModal();
   }
+
 
   const totalItens = comanda.reduce((totalDeItens, item) => totalDeItens + item.quantidade, 0);
 
@@ -231,13 +235,14 @@ export function Atendente() {
         produto: item.produto,
         nome: item.nome,
         valorUnitario: item.preco,
-        observacao: item.observacoes?.[i]?.texto || "",
+        observacao: Array.isArray(item.observacoes) && item.observacoes[i]
+          ? item.observacoes[i].texto || ""
+          : "",
         funcionario: funcionario.userId,
         tipo: item.tipo
       });
-
-
     }
+    console.log("Comanda com observações:", comanda);
   });
 
   const [enviarPedido, setEnviarPedido] = useState(false);
@@ -261,7 +266,8 @@ export function Atendente() {
           : {
             venda: "venda5",
             prato: { id: item.id },
-            funcionario: { id: funcionario.userId },
+ ...(item.observacao ? { observacao: item.observacao } : {}),
+             funcionario: { id: funcionario.userId },
           };
 
       return api
@@ -270,6 +276,8 @@ export function Atendente() {
         })
         .then((res) => {
           console.log("Item enviado com sucesso:", res.data);
+          console.log("Enviando para o carrinho:", body);
+
           return res.data.id;
         })
         .catch((err) => {
@@ -277,6 +285,7 @@ export function Atendente() {
           toast.error("Erro ao enviar item ao carrinho!");
           return null;
         });
+
     });
 
     Promise.all(promises).then((ids) => {

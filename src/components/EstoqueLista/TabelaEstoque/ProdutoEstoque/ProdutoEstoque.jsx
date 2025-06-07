@@ -8,6 +8,7 @@ import { ENDPOINTS } from "../../../../utils/endpoints";
 import { getFuncionario } from "../../../../utils/auth";
 import Swal from "sweetalert2";
 import { imagemPadrao } from "../../../../assets/imagemPadrao";
+import { corrigirDataISO } from "../../../../utils/utils";
 
 const ProdutoEstoque = ({ produto, buscar }) => {
   const funcionario = getFuncionario();
@@ -21,7 +22,7 @@ const ProdutoEstoque = ({ produto, buscar }) => {
 
   const formatarDados = useCallback((produto) => {
     // FORMATAÇÃO DATA
-    const dataFormatada = new Date(produto.dataRegistro).toLocaleDateString("pt-BR");
+    const dataFormatada = corrigirDataISO(produto.dataRegistro);
     setDataFormatada(dataFormatada);
 
     // FORMATAÇÃO VALOR

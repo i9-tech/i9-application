@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 export default function Comanda({
   pedido,
   index,
-  numeroPedido,
   atualizarComandas
 }) {
   const token = getToken();
@@ -41,7 +40,7 @@ export default function Comanda({
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        toast.success(`Pedido ${numeroPedido} concluido com sucesso!`);
+        toast.success(`Pedido ${pedido.id} concluido com sucesso!`);
         atualizarComandas(pedido.id);
         console.log("Pedido finalizado: ", res.data);
       })
@@ -58,7 +57,7 @@ export default function Comanda({
       <div className="comanda">
         <div className="cabecalho-comanda">
           <ComandaHeader
-            numeroPedido={numeroPedido + 1}
+            numeroPedido={pedido.id}
             dataHora={pedido.dataVenda}
           />
         </div>

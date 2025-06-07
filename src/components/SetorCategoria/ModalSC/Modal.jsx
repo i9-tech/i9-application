@@ -13,7 +13,7 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
 
   const [nome, setNome] = useState('');
   const [imagem, setImagem] = useState(null);
-  const [urlImagem, setUrlImagem] = useState(''); 
+  const [urlImagem, setUrlImagem] = useState('');
   const [imagemSelecionada, setImagemSelecionada] = useState('');
   const [modalImagensAberto, setModalImagensAberto] = useState(false);
 
@@ -36,7 +36,7 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
     }
   }, [itemParaEditar, isOpen]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!nome.trim()) {
@@ -44,79 +44,90 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
       return;
     }
 
-    try {
-      let imagemUrlFinal = urlImagem;
+    let imagemUrlFinal = urlImagem;
 
+    const uploadImagem = () => {
       if (imagem) {
         const formData = new FormData();
         formData.append('file', imagem);
 
-        const res = await api.post(ENDPOINTS.AZURE_IMAGEM, formData, {
+        return api.post(ENDPOINTS.AZURE_IMAGEM, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
+        }).then((res) => {
+          imagemUrlFinal = res.data.imageUrl;
+          setUrlImagem(imagemUrlFinal);
         });
-        imagemUrlFinal = res.data.imageUrl;
-        setUrlImagem(imagemUrlFinal);
-      }
-
-      const dados = {
-        nome,
-        imagem: imagemUrlFinal || '',
-      };
-
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      if (tipo === 'categoria') {
-        if (itemParaEditar) {
-          const response = await api.put(
-            `${ENDPOINTS.CATEGORIAS}/${itemParaEditar.id}/${funcionario.userId}`,
-            { nome },
-            { headers }
-          );
-          toast.success('Categoria atualizada com sucesso!');
-          onSalvar(response.data);
-          onClose();
-        } else {
-          const response = await api.post(
-            `${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`,
-            { nome },
-            { headers }
-          );
-          toast.success('Categoria cadastrada com sucesso!');
-          onSalvar(response.data);
-          setNome('');
-          onClose();
-        }
       } else {
-        if (itemParaEditar) {
-          const response = await api.patch(
-            `${ENDPOINTS.SETORES}/${itemParaEditar.id}/${funcionario.userId}`,
-            dados,
-            { headers }
-          );
-          toast.success('Setor atualizado com sucesso!');
-          onSalvar(response.data);
-          onClose();
-        } else {
-          const response = await api.post(
-            `${ENDPOINTS.SETORES}/${funcionario.userId}`,
-            dados,
-            { headers }
-          );
-          toast.success('Setor cadastrado com sucesso!');
-          onSalvar(response.data);
-          setNome('');
-          onClose();
-        }
+        return Promise.resolve();
       }
-    } catch (error) {
-      toast.error(`Erro ao ${itemParaEditar ? 'atualizar' : 'cadastrar'} ${tipo}!`);
-      console.error(`Erro ao salvar ${tipo}:`, error);
-    }
+    };
+
+    uploadImagem()
+      .then(() => {
+        const dados = {
+          nome,
+          imagem: imagemUrlFinal || '',
+        };
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        if (tipo === 'categoria') {
+          if (itemParaEditar) {
+            return api.put(
+              `${ENDPOINTS.CATEGORIAS}/${itemParaEditar.id}/${funcionario.userId}`,
+              { nome },
+              { headers }
+            ).then((response) => {
+              toast.success('Categoria atualizada com sucesso!');
+              onSalvar(response.data);
+              onClose();
+            });
+          } else {
+            return api.post(
+              `${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`,
+              { nome },
+              { headers }
+            ).then((response) => {
+              toast.success('Categoria cadastrada com sucesso!');
+              onSalvar(response.data);
+              setNome('');
+              onClose();
+            });
+          }
+        } else {
+          if (itemParaEditar) {
+            return api.patch(
+              `${ENDPOINTS.SETORES}/${itemParaEditar.id}/${funcionario.userId}`,
+              dados,
+              { headers }
+            ).then((response) => {
+              toast.success('Setor atualizado com sucesso!');
+              onSalvar(response.data);
+              onClose();
+            });
+          } else {
+            return api.post(
+              `${ENDPOINTS.SETORES}/${funcionario.userId}`,
+              dados,
+              { headers }
+            ).then((response) => {
+              toast.success('Setor cadastrado com sucesso!');
+              onSalvar(response.data);
+              setNome('');
+              onClose();
+            });
+          }
+        }
+      })
+      .catch((error) => {
+        toast.error(`Erro ao ${itemParaEditar ? 'atualizar' : 'cadastrar'} ${tipo}!`);
+        console.error(`Erro ao salvar ${tipo}:`, error);
+      });
   };
 
   const handleImagemChange = (e) => {
@@ -133,16 +144,16 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
       ? 'Editar Setor'
       : 'Editar Categoria'
     : tipo === 'setor'
-    ? 'Cadastro de Setor'
-    : 'Cadastro de Categoria';
+      ? 'Cadastro de Setor'
+      : 'Cadastro de Categoria';
 
   const subtitulo = itemParaEditar
     ? tipo === 'setor'
       ? 'Edite as informações do setor selecionado.'
       : 'Edite as informações da categoria selecionada.'
     : tipo === 'setor'
-    ? 'Cadastre um novo setor da empresa. Os setores facilitam a organização operacional e a gestão dos pedidos. Exemplos: Restaurante, Lanchonete, Pastelaria...'
-    : 'Cadastre novas categorias para produtos e pratos. As categorias ajudam a organizar os itens nas telas de atendente e estoque, facilitando a visualização. Exemplos: Doces, Salgados, Bebidas...';
+      ? 'Cadastre um novo setor da empresa. Os setores facilitam a organização operacional e a gestão dos pedidos. Exemplos: Restaurante, Lanchonete, Pastelaria...'
+      : 'Cadastre novas categorias para produtos e pratos. As categorias ajudam a organizar os itens nas telas de atendente e estoque, facilitando a visualização. Exemplos: Doces, Salgados, Bebidas...';
 
   const labelNome = tipo === 'setor' ? 'Nome do Setor:' : 'Nome da Categoria:';
 
@@ -234,12 +245,11 @@ const Modal = ({ isOpen, onClose, tipo = 'setor', onSalvar, itemParaEditar = nul
                   key={index}
                   src={src}
                   alt={`Imagem ${index + 1}`}
-                  className={`imagem-opcao ${
-                    imagemSelecionada === src ? 'selecionada' : ''
-                  }`}
+                  className={`imagem-opcao ${imagemSelecionada === src ? 'selecionada' : ''
+                    }`}
                   onClick={() => {
                     setImagemSelecionada(src);
-                    setImagem(null); 
+                    setImagem(null);
                     setUrlImagem(src);
                     setModalImagensAberto(false);
                   }}

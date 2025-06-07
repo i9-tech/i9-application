@@ -12,6 +12,7 @@ input[type="checkbox"] {
     border-radius: 8px;
     background-color: var(--color-font);;
     color: var(--destaque);
+    height: max-content;
     font-size: 16px;
     font-weight: 400;
     cursor: pointer;

@@ -1,6 +1,7 @@
 .card-produto {
+    position: relative; 
     min-width: 280px;
-    min-height: 80px;
+    min-height: 95px;
     display: flex;
     align-items: center;
     background-color: #ffffff;
@@ -9,21 +10,17 @@
     border: 1.5px solid var(--cor-secundaria);
     border-left: 20px solid var(--cor-secundaria);
     cursor: pointer;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .img-obs{
     display: flex; 
     flex-direction: column;
     align-items: center;
+    top:10px
 }
 
-.observacao-produto{
-    color: grey;
-    font-style: italic; 
-    text-decoration: underline; 
-    font-size: 10px;
-    align-self: center;
-}
 
 .imagem-produto {
     margin-left: 8px;
@@ -74,3 +71,29 @@
     font-size: 1em;
 }
 
+
+.observacao-produto {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    background-color: #d7c7c708;
+    font-weight: bold;
+    color: #FF6868;
+    font-size: 12px;
+    padding: 2px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    z-index: 1;
+}
+
+
+.observacao-produto:hover {
+    background-color: #83a2ff22;
+}

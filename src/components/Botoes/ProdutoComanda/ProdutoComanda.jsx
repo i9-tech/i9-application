@@ -2,6 +2,7 @@ import './ProdutoComanda.css';
 import { useState, useEffect } from 'react';
 import { enviroments } from '../../../utils/enviroments';
 import { imagemPadrao } from '../../../assets/imagemPadrao';
+import { CiEdit } from "react-icons/ci";
 
 export function ProdutoComanda({
     produto,
@@ -61,37 +62,45 @@ export function ProdutoComanda({
 
     return (
         <div
-            className="card-produto"
+            className="card-produto1"
             onClick={tipo === 'prato' ? () => onClick(produto, quantidade) : undefined}
         >
-            <div className='img-obs'>
-                {urlImagem && (
-                    <img
-                        src={urlImagem}
-                        title={`Imagem de ${produto}`}
-                        className="imagem-produto"
-                        alt={`Imagem de ${produto}`}
-                    />
-                )}
+            <div className="card-produto">
+                <div className="img-obs">
+                    {urlImagem && (
+                        <img
+                            src={urlImagem}
+                            title={`Imagem de ${produto}`}
+                            className="imagem-produto"
+                            alt={`Imagem de ${produto}`}
+                        />
+                    )}
+                </div>
+
+                <div className="detalhes-produto">
+                    <span className="nome-produto" title={produto}>{produto}</span>
+                    <span className="preco-produto">
+                        R$ {(preco * quantidade).toLocaleString('pt-BR', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        })}
+                    </span>
+                </div>
+
+                <div className="controles-quantidade" onClick={e => e.stopPropagation()}>
+                    <button className="btn-diminuir" onClick={diminuir}>-</button>
+                    <span className="quantidade">{quantidade}</span>
+                    <button className="btn-aumentar" onClick={aumentar}>+</button>
+                </div>
+
                 {tipo === 'prato' && (
-                    <span className="observacao-produto">Observação</span>
+                    <div className="observacao-produto">
+                        Adicionar Observação
+                         <CiEdit size={20}/>
+                    </div>
                 )}
-            </div>
-            <div className="detalhes-produto">
-                <span className="nome-produto" title={produto}>{produto}</span>
-                <span className="preco-produto">R$ {(preco * quantidade).toLocaleString('pt-BR', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                })}</span>
-            </div>
-            <div className="controles-quantidade" onClick={e => e.stopPropagation()}>
-                <button className="btn-diminuir" onClick={diminuir}>-</button>
-                <span className="quantidade">{quantidade}</span>
-                <button className="btn-aumentar" onClick={aumentar}>+</button>
-                <br />
             </div>
         </div>
     );
 }
-
 export default ProdutoComanda;

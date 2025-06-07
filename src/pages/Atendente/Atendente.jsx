@@ -9,7 +9,7 @@ import ProdutoComanda from "../../components/Botoes/ProdutoComanda/ProdutoComand
 import ModalConfirmarPedido from "../../components/Botoes/ModalConfirmarPedido/ModalConfirmarPedido";
 import Navbar from "../../components/Navbar/Navbar";
 import { getPermissoes, getToken } from "../../utils/auth";
-import todos from '../../assets/todos.png';
+import todos from "../../assets/todos.png";
 import { Navigate } from "react-router-dom";
 import api from "../../provider/api";
 import { getFuncionario } from "../../utils/auth";
@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import { corrigirDataISO } from "../../utils/utils";
 import { ROUTERS } from "../../utils/routers";
+import Relogio from "../../components/Relogio/Relogio";
 
 export function Atendente() {
   const permissao = getPermissoes();
@@ -32,9 +33,9 @@ export function Atendente() {
   });
 
   const horarioAtual = new Date().toLocaleTimeString("pt-BR", {
-  hour: "2-digit",
-  minute: "2-digit",
-});
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   const funcionario = getFuncionario();
   const token = getToken();
@@ -50,19 +51,18 @@ export function Atendente() {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
 
-
   const [modalAberto, setModalAberto] = useState(false);
   const [confirmarPedido, setConfirmarPedido] = useState(false);
-
 
   const [itemCarrinhoIds, setItemCarrinhoIds] = useState([]);
 
   useEffect(() => {
-    api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api
+      .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           setSetores(res.data);
@@ -73,11 +73,12 @@ export function Atendente() {
         toast.error("Erro ao buscar setores!");
       });
 
-    api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api
+      .get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           setCategorias(res.data);
@@ -88,11 +89,12 @@ export function Atendente() {
         toast.error("Erro ao buscar categorias!");
       });
 
-    api.get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api
+      .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           const produtosComTipo = res.data.map((item) => ({
@@ -107,27 +109,26 @@ export function Atendente() {
         toast.error("Erro ao buscar produtos!");
       });
 
-    api.get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api
+      .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           const pratosComTipo = res.data.map((item) => ({
             ...item,
             tipo: "prato",
           }));
-          setProdutos(prev => [...prev, ...pratosComTipo]);
+          setProdutos((prev) => [...prev, ...pratosComTipo]);
         }
       })
       .catch((err) => {
         console.error("Erro ao buscar pratos:", err);
         toast.error("Erro ao buscar pratos!");
       });
-
   }, [funcionario.userId, token]);
-
 
   const adicionarNaComanda = (produto) => {
     setComanda((prev) => {
@@ -160,12 +161,11 @@ export function Atendente() {
     });
   };
 
-
   function atualizarQuantidade(produto, quantidade) {
     const qtd = Number(quantidade) || 0;
 
-    setComanda(prev => {
-      const index = prev.findIndex(item => item.nome === produto);
+    setComanda((prev) => {
+      const index = prev.findIndex((item) => item.nome === produto);
       if (index !== -1) {
         const produtoAtual = prev[index];
         if (produtoAtual.quantidade === qtd) {
@@ -188,12 +188,14 @@ export function Atendente() {
   }
 
   function abrirModal(produto, quantidade) {
-    const item = comanda.find(i => i.nome === produto);
-    setProdutoSelecionado({ nome: produto, observacoes: item?.observacoes || [] });
+    const item = comanda.find((i) => i.nome === produto);
+    setProdutoSelecionado({
+      nome: produto,
+      observacoes: item?.observacoes || [],
+    });
     setQuantidadeSelecionada(quantidade);
     setModalAberto(true);
   }
-
 
   function fecharModal() {
     setModalAberto(false);
@@ -223,8 +225,10 @@ export function Atendente() {
     fecharModal();
   }
 
-
-  const totalItens = comanda.reduce((totalDeItens, item) => totalDeItens + item.quantidade, 0);
+  const totalItens = comanda.reduce(
+    (totalDeItens, item) => totalDeItens + item.quantidade,
+    0
+  );
 
   const totalPedido = comanda.reduce(
     (total, item) => total + item.precoTotal,
@@ -241,11 +245,12 @@ export function Atendente() {
           produto: item.produto,
           nome: item.nome,
           valorUnitario: item.valorUnitario,
-          observacao: Array.isArray(item.observacoes) && item.observacoes[i]
-            ? item.observacoes[i].texto || ""
-            : "",
+          observacao:
+            Array.isArray(item.observacoes) && item.observacoes[i]
+              ? item.observacoes[i].texto || ""
+              : "",
           funcionario: funcionario.userId,
-          tipo: item.tipo
+          tipo: item.tipo,
         });
       }
     });
@@ -265,16 +270,16 @@ export function Atendente() {
       const body =
         item.tipo === "produto"
           ? {
-            venda: "venda5",
-            produto: { id: item.id },
-            funcionario: { id: funcionario.userId },
-          }
+              venda: "venda5",
+              produto: { id: item.id },
+              funcionario: { id: funcionario.userId },
+            }
           : {
-            venda: "venda5",
-            prato: { id: item.id },
-            ...(item.observacao ? { observacao: item.observacao } : {}),
-            funcionario: { id: funcionario.userId },
-          };
+              venda: "venda5",
+              prato: { id: item.id },
+              ...(item.observacao ? { observacao: item.observacao } : {}),
+              funcionario: { id: funcionario.userId },
+            };
 
       return api
         .post(url, body, {
@@ -288,12 +293,11 @@ export function Atendente() {
           toast.error("Erro ao enviar item ao carrinho!");
           return null;
         });
-
     });
 
     Promise.all(promises).then((ids) => {
       const idsValidos = ids.filter((id) => id !== null);
-      setItemCarrinhoIds(idsValidos)
+      setItemCarrinhoIds(idsValidos);
       setConfirmarPedido(true);
       setEnviarPedido(false);
     });
@@ -305,11 +309,12 @@ export function Atendente() {
   }
 
   function carregarDados() {
-    api.get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api
+      .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           const produtosComTipo = res.data.map((item) => ({
@@ -324,11 +329,12 @@ export function Atendente() {
         toast.error("Erro ao buscar produtos!");
       });
 
-    api.get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api
+      .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           const pratosComTipo = res.data.map((item) => ({
@@ -346,154 +352,178 @@ export function Atendente() {
 
   return (
     <>
-    <LayoutTela titulo={"Menu de Atendimento"} adicional={`${diaAtual} - ${horarioAtual}`}>
-      <section className="menu-atendente">
-        {modalAberto && produtoSelecionado && (
-          <ModalObservacoes
-            produto={produtoSelecionado}
-            quantidade={quantidadeSelecionada}
-            onClose={fecharModal}
-            onSalvarObservacoes={salvarObservacoes}
-          />
-        )}
-        {confirmarPedido && (
-          <ModalConfirmarPedido onClose={fecharModalConfirmarPedido} statusModal={setConfirmarPedido} itemCarrinhoIds={itemCarrinhoIds} onLimparComandas={limparComandas} />
-        )}
-
-        <div className="todos-produtos">
-          <h1>Escolha um Setor:</h1>
-          <div className="setores">
-            <ElementoTotal
-              key="todos"
-              nome="Todos"
-              imagem={todos}
-              quantidade={produtos.length}
-              onClick={() => setSetorSelecionado("Todos")}
+      <LayoutTela
+        titulo={"Menu de Atendimento"}
+        adicional={
+          <>
+            {diaAtual} - <Relogio />
+          </>
+        }
+      >
+        <section className="menu-atendente">
+          {modalAberto && produtoSelecionado && (
+            <ModalObservacoes
+              produto={produtoSelecionado}
+              quantidade={quantidadeSelecionada}
+              onClose={fecharModal}
+              onSalvarObservacoes={salvarObservacoes}
             />
-            {setores.map((setor) => (
-              <ElementoTotal
-                key={setor.id}
-                nome={setor.nome}
-                imagem={setor.imagem}
-                quantidade={
-                  produtos.filter((p) => p.setor && p.setor.nome === setor.nome).length
-                }
-                onClick={() => setSetorSelecionado(setor.nome)}
-              />
-            ))}
-          </div>
+          )}
+          {confirmarPedido && (
+            <ModalConfirmarPedido
+              onClose={fecharModalConfirmarPedido}
+              statusModal={setConfirmarPedido}
+              itemCarrinhoIds={itemCarrinhoIds}
+              onLimparComandas={limparComandas}
+            />
+          )}
 
-          <div className="header-container">
-            <h1> Setor: {setorSelecionado} </h1>
-            <div className="barra-pesquisa">
-              <input
-                type="text"
-                placeholder="Procurar Produto"
-                className="input-pesquisa-produtos"
-                value={buscaProduto}
-                onChange={(e) => setBuscaProduto(e.target.value)}
+          <div className="todos-produtos">
+            <h1>Escolha um Setor:</h1>
+            <div className="setores">
+              <ElementoTotal
+                key="todos"
+                nome="Todos"
+                imagem={todos}
+                quantidade={produtos.length}
+                onClick={() => setSetorSelecionado("Todos")}
               />
-              <button className="lupa-pesquisa">
-                <img src={LupaPesquisa} alt="Pesquisar" />
-              </button>
+              {setores.map((setor) => (
+                <ElementoTotal
+                  key={setor.id}
+                  nome={setor.nome}
+                  imagem={setor.imagem}
+                  quantidade={
+                    produtos.filter(
+                      (p) => p.setor && p.setor.nome === setor.nome
+                    ).length
+                  }
+                  onClick={() => setSetorSelecionado(setor.nome)}
+                />
+              ))}
+            </div>
+
+            <div className="header-container">
+              <h1> Setor: {setorSelecionado} </h1>
+              <div className="barra-pesquisa">
+                <input
+                  type="text"
+                  placeholder="Procurar Produto"
+                  className="input-pesquisa-produtos"
+                  value={buscaProduto}
+                  onChange={(e) => setBuscaProduto(e.target.value)}
+                />
+                <button className="lupa-pesquisa">
+                  <img src={LupaPesquisa} alt="Pesquisar" />
+                </button>
+              </div>
+            </div>
+
+            <div className="produtos-por-categoria">
+              {categorias.map((categoria) => {
+                const produtosFiltrados = produtos.filter((produto) => {
+                  const mesmoSetor =
+                    setorSelecionado === "Todos" ||
+                    (produto.setor &&
+                      produto.setor.nome &&
+                      produto.setor.nome.trim().toLowerCase() ===
+                        setorSelecionado.trim().toLowerCase());
+
+                  const mesmaCategoria =
+                    produto.categoria &&
+                    produto.categoria.nome &&
+                    produto.categoria.nome.trim().toLowerCase() ===
+                      categoria.nome.trim().toLowerCase();
+
+                  const nomeCombina = produto.nome
+                    .toLowerCase()
+                    .includes(buscaProduto.toLowerCase());
+
+                  return mesmoSetor && mesmaCategoria && nomeCombina;
+                });
+
+                if (produtosFiltrados.length === 0) return null;
+
+                return (
+                  <div key={categoria.id} className="categoria">
+                    <h1>{categoria.nome}</h1>
+                    <div className="produtos-da-categoria">
+                      {produtosFiltrados.map((produto, index) => {
+                        const itemComanda = comanda.find(
+                          (item) => item.nome === produto.nome
+                        );
+                        const quantidadeNaComanda = itemComanda
+                          ? itemComanda.quantidade
+                          : 0;
+                        const quantidadeRestante =
+                          produto.quantidade - quantidadeNaComanda;
+
+                        return (
+                          <ElementoProduto
+                            key={`${produto.id}-${index}`}
+                            id={produto.id}
+                            nome={produto.nome}
+                            descricao={produto.descricao}
+                            preco={produto.valorUnitario || produto.valorVenda}
+                            onAdicionar={adicionarNaComanda}
+                            imagem={produto.imagem}
+                            quantidade={
+                              produto.tipo === "produto"
+                                ? quantidadeRestante || 0
+                                : null
+                            }
+                            tipo={produto.tipo}
+                            disabled={
+                              quantidadeRestante <= 0 ||
+                              produto.disponivel === false
+                            }
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
+        </section>
 
-          <div className="produtos-por-categoria">
-            {categorias.map((categoria) => {
-              const produtosFiltrados = produtos.filter((produto) => {
-                const mesmoSetor =
-                  setorSelecionado === "Todos" ||
-                  (
-                    produto.setor &&
-                    produto.setor.nome &&
-                    produto.setor.nome.trim().toLowerCase() === setorSelecionado.trim().toLowerCase()
-                  );
+        <aside className="menu-comanda">
+          <header className="header-comanda">
+            <h1>Comandas</h1>
+          </header>
 
-                const mesmaCategoria =
-                  produto.categoria &&
-                  produto.categoria.nome &&
-                  produto.categoria.nome.trim().toLowerCase() === categoria.nome.trim().toLowerCase();
-
-                const nomeCombina =
-                  produto.nome.toLowerCase().includes(buscaProduto.toLowerCase());
-
-                return mesmoSetor && mesmaCategoria && nomeCombina;
-              });
-
-              if (produtosFiltrados.length === 0) return null;
-
+          <div className="produtos-adicionados-comanda">
+            {comanda.map((item, index) => {
               return (
-                <div key={categoria.id} className="categoria">
-                  <h1>{categoria.nome}</h1>
-                  <div className="produtos-da-categoria">
-                    {produtosFiltrados.map((produto, index) => {
-                      const itemComanda = comanda.find((item) => item.nome === produto.nome);
-                      const quantidadeNaComanda = itemComanda ? itemComanda.quantidade : 0;
-                      const quantidadeRestante = produto.quantidade - quantidadeNaComanda;
-
-                      return (
-                        <ElementoProduto
-                          key={`${produto.id}-${index}`}
-                          id={produto.id}
-                          nome={produto.nome}
-                          descricao={produto.descricao}
-                          preco={produto.valorUnitario || produto.valorVenda}
-                          onAdicionar={adicionarNaComanda}
-                          imagem={produto.imagem}
-                          quantidade={produto.tipo === 'produto' ? quantidadeRestante || 0 : null}
-                          tipo={produto.tipo}
-                          disabled={quantidadeRestante <= 0 || produto.disponivel === false}
-                        />
-                      );
-                    })}
-
-                  </div>
-                </div>
+                <ProdutoComanda
+                  key={index}
+                  produto={item.nome}
+                  preco={item.preco}
+                  imagem={item.imagem}
+                  quantidade={item.quantidade}
+                  atualizarQuantidade={atualizarQuantidade}
+                  onClick={abrirModal}
+                  removerProduto={removerProdutoDaComanda}
+                  tipo={item.tipo}
+                />
               );
             })}
           </div>
 
-        </div>
-      </section>
-
-      <aside className="menu-comanda">
-        <header className="header-comanda">
-          <h1>Comandas</h1>
-        </header>
-
-        <div className="produtos-adicionados-comanda">
-          {comanda.map((item, index) => {
-            return (
-              <ProdutoComanda
-                key={index}
-                produto={item.nome}
-                preco={item.preco}
-                imagem={item.imagem}
-                quantidade={item.quantidade}
-                atualizarQuantidade={atualizarQuantidade}
-                onClick={abrirModal}
-                removerProduto={removerProdutoDaComanda}
-                tipo={item.tipo}
-              />
-            );
-          })}
-        </div>
-
-        <section className="botao-confirmar">
-          <BotaoConfirmar
-            quantidade={totalItens}
-            totalPedido={totalPedido}
-            onClick={() => {
-              abrirModalConfirmarPedido();
-              setEnviarPedido(true);
-            }}
-            disabled={comandaExpandida.length === 0}
-          />
-        </section>
-      </aside>
-    </LayoutTela>
-
+          <section className="botao-confirmar">
+            <BotaoConfirmar
+              quantidade={totalItens}
+              totalPedido={totalPedido}
+              onClick={() => {
+                abrirModalConfirmarPedido();
+                setEnviarPedido(true);
+              }}
+              disabled={comandaExpandida.length === 0}
+            />
+          </section>
+        </aside>
+      </LayoutTela>
     </>
   );
 }

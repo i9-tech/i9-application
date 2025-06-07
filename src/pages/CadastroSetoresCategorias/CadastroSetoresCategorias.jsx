@@ -19,11 +19,11 @@ const CadastroSetoresCategorias = () => {
   const token = localStorage.getItem("token");
   const [itemSelecionado, setItemSelecionado] = useState(null);
 
-  const [itemParaEditar, setItemParaEditar] = useState(null);
-
-
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  const [produtos, setProdutos] = useState([]);
+  const [pratos, setPratos] = useState([]);
+
 
   const [modalAberto, setModalAberto] = useState(false);
   const [tipoCadastro, setTipoCadastro] = useState(null);
@@ -91,8 +91,49 @@ const CadastroSetoresCategorias = () => {
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
       });
+
+    api
+      .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        setProdutos(res.data);
+      })
+      .catch((err) => {
+        console.error("Erro ao ao buscar produtos:", err);
+      });
+
+    api
+      .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        setPratos(res.data);
+      })
+      .catch((err) => {
+        console.error("Erro ao ao buscar produtos:", err);
+      });
+
+
   }, [funcionario.userId, token]);
 
+  function adicionarContagemProdutosPratos(lista, tipo) {
+    return lista.map(item => {
+      const qtdProdutos = produtos.filter(p => {
+        if (tipo === "setor") return p.setor?.id === item.id;
+        if (tipo === "categoria") return p.categoria?.id === item.id;
+        return false;
+      }).length;
+
+      const qtdPratos = pratos.filter(p => {
+        if (tipo === "setor") return p.setor?.id === item.id;
+        if (tipo === "categoria") return p.categoria?.id === item.id;
+        return false;
+      }).length;
+
+      return {
+        ...item,
+        produtos: qtdProdutos,
+        pratos: qtdPratos,
+      };
+    });
+  }
 
   const handleExcluirSetor = (setor) => {
     Swal.fire({
@@ -182,6 +223,11 @@ const CadastroSetoresCategorias = () => {
     c.nome.toLowerCase().includes(buscaCategoria.toLowerCase())
   );
 
+
+  const setoresFiltradasComContagem = adicionarContagemProdutosPratos(setoresFiltradas, "setor");
+  const categoriasFiltradasComContagem = adicionarContagemProdutosPratos(categoriasFiltradas, "categoria");
+
+
   return (
     <>
       <LayoutTela titulo="Cadastro de Setores e Categorias">
@@ -194,7 +240,7 @@ const CadastroSetoresCategorias = () => {
               onSearch={handleBuscaSetor}
             >
               <DadosTabela
-                dados={setoresFiltradas}
+                dados={setoresFiltradasComContagem}
                 aoEditar={handleEditarSetor}
                 aoExcluir={handleExcluirSetor}
               />
@@ -207,7 +253,7 @@ const CadastroSetoresCategorias = () => {
               onSearch={handleBuscaCategoria}
             >
               <DadosTabela
-                dados={categoriasFiltradas}
+                dados={categoriasFiltradasComContagem}
                 aoEditar={handleEditarCategoria}
                 aoExcluir={handleExcluirCategoria}
               />

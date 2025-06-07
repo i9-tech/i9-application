@@ -1,5 +1,5 @@
 import "./ElementoImagem.css";
-import ImagemComida from "../assets/comida.png";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
 export function ElementoImagem({ imagemSecao, respostaPergunta }) {

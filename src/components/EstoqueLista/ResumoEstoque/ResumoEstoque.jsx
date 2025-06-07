@@ -1,48 +1,134 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import "./ResumoEstoque.css";
+import api from "../../../provider/api";
+import { getFuncionario } from "../../../utils/auth";
+import { ENDPOINTS } from "../../../utils/endpoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FiHelpCircle } from "react-icons/fi";
+
 
 export function ResumoEstoque({
-  valorEstoque = 0,
-  valorVenda = 0,
-  lucroPrevisto = 0,
-  estoqueBaixo = 0,
   semEstoque = 0,
-  // pertoValidade = 0,
-  totalEmEstoque = 0,
+  lucroLiquido = 0,
 }) {
+  const token = localStorage.getItem("token");
+  const funcionario = getFuncionario();
+
+  const [lucroBruto, setLucroBruto] = useState(0);
+  const [valorTotalEstoque, setValorTotalEstoque] = useState(0);
+  const [estoqueBaixo, setEstoqueBaixo] = useState(0);
+  const [emEstoque, setEmEstoque] = useState(0);
+
+
+  useEffect(() => {
+    api
+      .get(`${ENDPOINTS.PRODUTOS_COMPRA}/${funcionario.userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        if (res.data) {
+          setValorTotalEstoque(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar valor de compra do estoque:", err);
+        toast.error("Erro ao buscar valor de compra do estoque!");
+      });
+
+    api
+      .get(`${ENDPOINTS.PRODUTOS_LUBRO_BRUTO}/${funcionario.userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        if (res.data) {
+          setLucroBruto(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar lucro bruto do estoque:", err);
+        toast.error("Erro ao buscar lucro bruto do estoque!");
+      });
+
+    api
+      .get(`${ENDPOINTS.PRODUTOS_ESTOQUE_BAIXO}/${funcionario.userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        if (res.data) {
+          setEstoqueBaixo(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar quantidade de produtos em estoque baixo do estoque:", err);
+        toast.error("Erro ao buscar quantidade de produtos em estoque baixo do estoque!");
+      });
+
+    api
+      .get(`${ENDPOINTS.PRODUTOS_QUANTIDADE_ESTOQUE}/${funcionario.userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        if (res.data) {
+          setEmEstoque(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar quantidade de produtos em estoque:", err);
+        toast.error("Erro ao buscar quantidade de produtos em estoque!");
+      });
+  }, [funcionario.userId, token]);
+
   return (
     <>
       <div className="resumo-bloco-prod">
         <div className="resumo-container-prod">
           <div className="resumo-item-prod">
             <span className="resumo-valor-prod">
-              {valorEstoque.toLocaleString("pt-BR", {
+              {valorTotalEstoque.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
+              <FiHelpCircle className="icone-ajuda"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Soma do valor de compra de todos os produtos em estoque."
+              />
             </span>
-            <span className="resumo-label-prod">Valor total do Estoque</span>
+            <span className="resumo-label-prod">
+              Valor Total do Estoque
+            </span>
           </div>
 
           <div className="resumo-item-prod">
             <span className="resumo-valor-prod">
-              {valorVenda.toLocaleString("pt-BR", {
+              {lucroBruto.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
+              <FiHelpCircle className="icone-ajuda"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Soma do valor de venda de todos os produtos em estoque."
+                />
             </span>
-            <span className="resumo-label-prod">Valor estimado de venda</span>
+            <span className="resumo-label-prod">
+              Lucro Bruto
+            </span>
           </div>
 
           <div className="resumo-item-prod">
             <span className="resumo-valor-prod">
-              {lucroPrevisto.toLocaleString("pt-BR", {
+              {lucroLiquido.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
-            </span>
+              <FiHelpCircle className="icone-ajuda"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Diferença entre preço de venda e compra de todos os produtos. (Venda - Compra)." />
 
-            <span className="resumo-label-prod">Lucro bruto esperado</span>
+            </span>
+            <span className="resumo-label-prod">
+              Lucro Líquido Esperado
+            </span>
           </div>
         </div>
 
@@ -64,18 +150,10 @@ export function ResumoEstoque({
               <span className="resumo-label-prod">Sem Estoque</span>
             </div>
 
-            {/* <div className="kpi-coluna">
-              <span className="resumo-valor">
-                <span className="bolinha laranja" />
-                {pertoValidade}
-              </span>
-              <span className="resumo-label">Perto da Validade</span>
-            </div> */}
-
             <div className="kpi-coluna-prod">
               <span className="resumo-valor-prod">
                 <span className="bolinha-prod verde" />
-                {totalEmEstoque}
+                {emEstoque}
               </span>
               <span className="resumo-label-prod">Em Estoque</span>
             </div>

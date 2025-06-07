@@ -1,56 +1,92 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./CadastroPratoFormulario.css";
 import api from "../../../provider/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { ROUTERS } from "../../../utils/routers";
+import { ENDPOINTS } from "../../../utils/endpoints";
+import { getFuncionario, getToken } from "../../../utils/auth";
+import { enviroments } from "../../../utils/enviroments";
 
-const categorias = ["Bebida", "Entrada", "Prato Principal", "Sobremesa"];
-const setores = ["Cozinha", "Estoque", "Atendimento"];
 
 const CadastroPratoFormulario = ({
   pratoSelecionado,
   setPratoSelecionado,
-  onSubmit,
+  descricao,
+  setDescricao,
+  imagem,
+  setImagem,
 }) => {
   const navigate = useNavigate();
+  const funcionario = getFuncionario();
+  const token = getToken();
+  const [urlImagemTemporaria, setUrlImagemTemporaria] = useState("");
+  const [categorias, setCategorias] = useState([]);
+  const [setores, setSetores] = useState([]);
+
   const [prato, setPrato] = useState({
     nome: "",
-    venda: "",
+    venda: 0,
     setor: "",
     categoria: "",
-    ingredientes: [],
+    disponivel: true,
   });
-
-  const [produtos, setProdutos] = useState([]);
-
-  useEffect(() => {
-    api
-      .get("/produtos")
-      .then((res) => setProdutos(res.data))
-      .catch((err) => console.error("Erro ao buscar produtos:", err));
-  }, []);
 
   useEffect(() => {
     if (pratoSelecionado) {
+      console.log("🔍 Prato recebido para edição:", pratoSelecionado);
       setPrato({
         nome: pratoSelecionado.nome || "",
-        venda: pratoSelecionado.venda || "",
-        setor: pratoSelecionado.setor || "",
-        categoria: pratoSelecionado.categoria || "",
-        ingredientes: pratoSelecionado.ingredientes || [],
+        venda:
+          pratoSelecionado.valorVenda !== undefined &&
+            pratoSelecionado.valorVenda !== ""
+            ? parseFloat(pratoSelecionado.valorVenda).toFixed(2)
+            : "",
+        setor: pratoSelecionado.setor?.id || "",
+        categoria: pratoSelecionado.categoria?.id || "",
+        disponivel: pratoSelecionado.disponivel ?? true,
       });
     }
   }, [pratoSelecionado]);
 
+  useEffect(() => {
+    api
+      .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setSetores(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar setores:", err);
+        toast.error("Erro ao buscar setores!");
+      });
+
+    api
+      .get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setCategorias(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar setores:", err);
+        toast.error("Erro ao buscar setores!");
+      });
+  }, [funcionario.userId, token]);
+
   const validarCampos = () => {
     if (!prato.nome || !prato.venda || !prato.categoria) {
       toast.error("Preencha todos os campos obrigatórios!");
-      return false;
-    }
-    const vendaValida = parseFloat(prato.preco);
-    if (isNaN(vendaValida) || vendaValida < 0) {
-      toast.error("Venda inválida!");
       return false;
     }
     return true;
@@ -62,22 +98,114 @@ const CadastroPratoFormulario = ({
       venda: "",
       setor: "",
       categoria: "",
-      ingredientes: [],
+      disponivel: true,
     });
+    setDescricao("");
+    setImagem("");
     setPratoSelecionado(null);
-    navigate("/estoque-pratos");
+    navigate(ROUTERS.ESTOQUE_PRATOS);
+
+    if (enviroments === "jsonserver") {
+      URL.revokeObjectURL(urlImagemTemporaria);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validarCampos()) {
-      const dados = {
-        ...prato,
-        venda: parseFloat(prato.venda),
-        tempoPreparo: prato.tempoPreparo ? parseInt(prato.tempoPreparo) : null,
-      };
-      onSubmit(dados);
+      buscarURLImagem();
     }
+  };
+
+  const buscarURLImagem = () => {
+    if (enviroments.ambiente === "jsonserver") {
+      const urlJsonServer = URL.createObjectURL(imagem);
+      setUrlImagemTemporaria(urlJsonServer);
+      salvarPrato(urlJsonServer);
+    } else {
+      const formData = new FormData();
+      formData.append("file", imagem);
+      api
+        .post(ENDPOINTS.AZURE_IMAGEM, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          // console.log("data: ", res);
+          salvarPrato(res.data.imageUrl);
+        })
+        .catch((err) => {
+          if (imagem) {
+            salvarPrato(imagem);
+            return;
+          }
+          if (imagem == "") {
+            salvarPrato("");
+            return;
+          }
+          console.log("erro ao adicionar imagem ao blob storage: ", err);
+        });
+    }
+  };
+
+  const salvarPrato = (urlImagem) => {
+    const dados = {
+      nome: prato.nome,
+      valorVenda: parseFloat(prato.venda),
+      descricao: descricao,
+      imagem: urlImagem,
+      disponivel: prato.disponivel,
+      funcionario: { id: funcionario.userId },
+      setor: { id: prato.setor },
+      categoria: { id: prato.categoria },
+    };
+
+    const metodo = pratoSelecionado
+      ? api.patch(
+        `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
+        dados,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+    metodo
+      .then(() => {
+        toast.success(
+          pratoSelecionado
+            ? "Prato editado com sucesso!"
+            : "Prato cadastrado com sucesso!"
+        );
+        limparFormulario();
+      })
+      .catch((error) => {
+        console.error("Erro ao salvar prato:", error.response?.data || error);
+        toast.error("Erro ao salvar prato!");
+      });
+  };
+
+  const formatarParaReal = (valor) => {
+    if (valor == null) return "R$ 0,00";
+
+    const numero = String(valor).replace(/\D/g, "");
+    const valorNumerico = (parseInt(numero, 10) / 100).toFixed(2);
+    return (
+      "R$ " +
+      valorNumerico.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    );
+  };
+
+  const capitalizarPalavras = (texto) => {
+    return texto
+      .toLowerCase()
+      .split(" ")
+      .map((palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1))
+      .join(" ");
   };
 
   return (
@@ -88,83 +216,104 @@ const CadastroPratoFormulario = ({
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>
         <div className="grupo-inputs">
-          <label>Nome do Prato </label>
+          <label>
+            Nome do Prato <span aria-hidden="true" style={{ color: 'red' }}>*</span>
+          </label>
           <input
             type="text"
             value={prato.nome}
-            onChange={(e) => setPrato({ ...prato, nome: e.target.value })}
+            onChange={(e) => {
+              const capitalizado = capitalizarPalavras(e.target.value);
+              setPrato({ ...prato, nome: capitalizado });
+            }}
             required
+            placeholder="Prato Feito Contra-Filé"
           />
         </div>
 
         <div className="grupo-inputs">
-          <label>Venda (R$) </label>
+          <label>Venda (R$) <span aria-hidden="true" style={{ color: 'red' }}>*</span>
+
+          </label>
           <input
-            type="number"
+            type="text"
             step="0.01"
-            value={prato.venda}
-            onChange={(e) => setPrato({ ...prato, venda: e.target.value })}
+            value={formatarParaReal(prato.venda)}
+            onChange={(e) => {
+              const apenasNumeros = e.target.value.replace(/\D/g, "");
+              const valorEmReais = (
+                parseInt(apenasNumeros || "0", 10) / 100
+              ).toFixed(2);
+              setPrato({ ...prato, venda: valorEmReais });
+            }}
             required
           />
         </div>
 
-        <div className="linha-dupla">
-          <div className="grupo-inputs">
-            <label>Categoria</label>
-            <select
-              value={prato.categoria}
-              onChange={(e) =>
-                setPrato({ ...prato, categoria: e.target.value })
-              }
-              required
-            >
-              <option value="">Selecione uma categoria</option>
-              {categorias.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="grupo-inputs">
-            <label>Setor</label>
-            <select
-              value={prato.setor}
-              onChange={(e) => setPrato({ ...prato, setor: e.target.value })}
-              required
-            >
-              <option value="">Selecione um setor</option>
-              {setores.map((set) => (
-                <option key={set} value={set}>
-                  {set}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
         <div className="grupo-inputs">
-          <label>Ingredientes</label>
+          <label>Categoria <span aria-hidden="true" style={{ color: 'red' }}>*</span> </label>
           <select
-            multiple
-            value={prato.ingredientes}
+            value={prato.categoria}
             onChange={(e) =>
-              setPrato({
-                ...prato,
-                ingredientes: Array.from(
-                  e.target.selectedOptions,
-                  (opt) => opt.value
-                ),
-              })
+              setPrato({ ...prato, categoria: parseInt(e.target.value) })
             }
+            required
           >
-            {produtos.map((prod) => (
-              <option key={prod.id} value={prod.id}>
-                {prod.nome}
+            <option value="">Selecione uma Categoria</option>
+            {categorias.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.nome}
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="grupo-inputs">
+          <label>Setor <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+          <select
+            value={prato.setor}
+            onChange={(e) =>
+              setPrato({ ...prato, setor: parseInt(e.target.value) })
+            }
+            required
+          >
+            <option value="">Selecione um Setor</option>
+            {setores.map((set) => (
+              <option key={set.id} value={set.id}>
+                {set.nome}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="grupo-inputs">
+          <label>Disponibilidade <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+          <div className="checkbox-pratos">
+            <label className="caixinhas-checkbox">
+              <input
+                type="checkbox"
+                className="estilo-checkbox"
+                checked={prato.disponivel === true}
+                onChange={() =>
+                  setPrato((prev) => ({ ...prev, disponivel: true }))
+                }
+              />
+              <span className="checado"></span>
+              Ativo
+            </label>
+            <label className="caixinhas-checkbox">
+              <input
+                type="checkbox"
+                className="estilo-checkbox"
+                checked={prato.disponivel === false}
+                onChange={() =>
+                  setPrato((prev) => ({ ...prev, disponivel: false }))
+                }
+              />
+              <span className="checado"></span>
+              Inativo
+            </label>
+          </div>
         </div>
 
         <div className="botoes-prato">

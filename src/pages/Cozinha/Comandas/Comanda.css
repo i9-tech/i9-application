@@ -1,0 +1,52 @@
+.pedidos {
+    background: #F4F4F4;
+    min-width: 461px;
+    height: auto;
+    border-radius: 15px;
+    padding: 20px 20px 30px 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.comandaHead {
+    padding: 2px 20px 20px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 19px;
+}
+
+.comandaHead h3 {
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.comandaHead p {
+    margin-top: 2px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.579);
+}
+
+.btn-info {
+    background: #0F14B8;
+    color: #F4F4F4;
+    border: none;
+    min-width: 45px;
+    height: 45px;
+    font-weight: bold;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.btn-info:hover {
+    background-color: #0E2361;
+}
+
+.imagem {
+    min-width: 96px;
+    height: 69px;
+    border-radius: 5px;
+    margin-left: 10px;
+    background-color: #0F14B8;
+}

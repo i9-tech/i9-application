@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ComandaInfo({cliente, mesa, pagamento, index}) {
+export default function ComandaInfo({cliente, mesa, pagamento}) {
     return (
         <>
             <div className="pedidoCliente">

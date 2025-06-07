@@ -18,7 +18,7 @@
     .grupo-inputs {
       display: flex;
       flex-direction: column;
-      margin-bottom: 24px;
+      margin-bottom: 14px;
   
       label {
         font-size: 14px;
@@ -28,7 +28,8 @@
       }
   
       input,
-      textarea {
+      textarea,
+      select {
         padding: 12px;
         border: 1px solid #ccc;
         border-radius: 6px;
@@ -58,7 +59,7 @@
       display: flex;
       justify-content: space-between;
       gap: 30px;
-      margin-bottom: 24px;
+      margin-bottom: 10px;
   
       > div {
         flex: 1;

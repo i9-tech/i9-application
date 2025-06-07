@@ -1,5 +1,5 @@
 .tabela-container-prod {
-  max-height: 72%;
+  max-height: 100%;
   overflow-y: auto;
   border: 1px solid #ccc;
 }

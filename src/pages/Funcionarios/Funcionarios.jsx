@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import CadastroFuncionarioFormulario from "../../components/Funcionario/FuncionarioForm/CadastroFuncionarioFormulario";
 import TabelaFuncionarios from "../../components/Funcionario/FuncionarioTab/TabelaFuncionarios";
-import Navbar from "../../components/Navbar/Navbar";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import "./Funcionarios.css";
 import FuncionarioFoto from "../../components/Funcionario/FuncionarioFoto/FuncionarioFoto";
@@ -10,6 +9,7 @@ import { getFuncionario } from "../../utils/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { ENDPOINTS } from "../../utils/endpoints";
 
 
 export function Funcionarios() {
@@ -17,11 +17,11 @@ export function Funcionarios() {
   const [funcionarioSelecionado, setFuncionarioSelecionado] = useState(null);
   const [funcionarios, setFuncionarios] = useState([]);
 
-
   useEffect(() => {
+    if (!funcionarioLogin?.userId) return;
     const fetchFuncionarios = async () => {
       try {
-        const response = await api.get(`/colaboradores/${funcionarioLogin.empresaId}`, {
+        const response = await api.get(`${ENDPOINTS.FUNCIONARIOS}/${funcionarioLogin.empresaId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -33,7 +33,7 @@ export function Funcionarios() {
     };
 
     fetchFuncionarios();
-  }, []);
+  }, [funcionarioLogin?.userId, funcionarioLogin?.empresaId]);
 
   const handleSelecionar = (funcionario) => {
     setFuncionarioSelecionado(funcionario);
@@ -70,7 +70,7 @@ export function Funcionarios() {
 
         api
           .delete(
-            `/colaboradores/${funcionario.id}/${funcionarioLogin.empresaId}`,
+            `${ENDPOINTS.FUNCIONARIOS}/${funcionario.id}/${funcionarioLogin.empresaId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -97,10 +97,6 @@ export function Funcionarios() {
       <div className="container-funcionario">
         <div className="coluna-esquerda">
           <CadastroFuncionarioFormulario funcionarioSelecionado={funcionarioSelecionado} setFuncionarioSelecionado={setFuncionarioSelecionado} />
-        </div>
-
-        <div className="coluna-meio">
-          <FuncionarioFoto />
         </div>
 
         <div className="coluna-direita">

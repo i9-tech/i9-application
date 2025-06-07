@@ -1,10 +1,15 @@
 import './Navbar.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Options } from '../Options/Options';
 import iconePerfil from '../../assets/user-icone-branco.svg';
+import { getFuncionario } from '../../utils/auth';
+import { Tooltip } from 'react-tooltip';
 
 
 export function Navbar() {
+    const funcionario = getFuncionario();
+    const [isNavbarOpen, setIsNavbarOpen] = useState(false)
+
     useEffect(() => {
         const itensMenu = document.querySelectorAll('.navbar ul li');
 
@@ -22,15 +27,25 @@ export function Navbar() {
 
     return (
         <>
-        <nav className="navbar" id="navbar">
+        <nav className={`navbar ${isNavbarOpen ? 'aberta' : ''}`} id="navbar">
             <div className="user">
                 <i><img src={iconePerfil} alt="Icone de Usuário" /></i>
-                <span>Patricia</span>
+                <span>{funcionario.nome}</span>
             </div>
             <ul>
-                <Options />
+                <Options isNavbarOpen={isNavbarOpen} setIsNavbarOpen={setIsNavbarOpen} />
             </ul>
         </nav>
+        <Tooltip
+        id="tooltip-navbar"
+        place="right"
+        style={{
+          maxWidth: "200px",
+          whiteSpace: "pre-line",
+          wordBreak: "break-word",
+          zIndex: 2,
+        }}
+      />
         </>
     );
 }

@@ -9,23 +9,27 @@ import ModalCadastroCategoria from "../../components/Modais/ModalCadastroCategor
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { ENDPOINTS } from "../../utils/endpoints";
+import LayoutTela from "../../components/LayoutTela/LayoutTela";
 
 
 export function CadastroSetorCategoria() {
-    const funcionario = getFuncionario();
-    const [setores, setSetores] = useState([]);
-    const [categorias, setCategorias] = useState([]);
+  const funcionario = getFuncionario();
+  const [setores, setSetores] = useState([]);
+  const [setoresFiltrados, setSetoresFiltrados] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [categoriasFiltradas, setCategoriasFiltradas] = useState([]);
 
-    const [setorSelecionado, setSetorSelecionado] = useState(null);
-    const [modalSetorOpen, setModalSetorOpen] = useState(false);
+  const [setorSelecionado, setSetorSelecionado] = useState(null);
+  const [modalSetorOpen, setModalSetorOpen] = useState(false);
 
-    const [categoriaSelecionado, setCategoriaSelecionada] = useState(null);
-    const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
+  const [categoriaSelecionado, setCategoriaSelecionada] = useState(null);
+  const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
 
     useEffect(() => {
         const fetchSetores = async () => {
             try {
-                const response = await api.get(`/setores/${funcionario.userId}`, {
+                const response = await api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
@@ -36,11 +40,11 @@ export function CadastroSetorCategoria() {
             }
         };
 
-        fetchSetores();
+    fetchSetores();
 
         const fetchCategorias = async () => {
             try {
-                const response = await api.get(`/categorias/${funcionario.userId}`, {
+                const response = await api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
@@ -51,33 +55,33 @@ export function CadastroSetorCategoria() {
             }
         };
 
-        fetchCategorias();
-    }, []);
+    fetchCategorias();
+  }, [funcionario?.userId]);
 
-    const handleEditarSetor = (setor) => {
-        setSetorSelecionado(setor);
-        setModalSetorOpen(true);
-    }
+  const handleEditarSetor = (setor) => {
+    setSetorSelecionado(setor);
+    setModalSetorOpen(true);
+  };
 
-    const handleDeletarSetor = (setor) => {
-        Swal.fire({
-            title: "Tem certeza?",
-            text: `Deseja excluir o setor ${setor.nome}?`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sim, excluir",
-            cancelButtonText: "Cancelar",
-            customClass: {
-                confirmButton: 'btn-aceitar',
-                cancelButton: 'btn-cancelar',
-            },
-            buttonsStyling: false,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const token = localStorage.getItem("token");
+  const handleDeletarSetor = (setor) => {
+    Swal.fire({
+      title: "Tem certeza?",
+      text: `Deseja excluir o setor ${setor.nome}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir",
+      cancelButtonText: "Cancelar",
+      customClass: {
+        confirmButton: "btn-aceitar",
+        cancelButton: "btn-cancelar",
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
 
                 api
-                    .delete(`/setores/${setor.id}/${funcionario.userId}`, {
+                    .delete(`${ENDPOINTS.SETORES}/${setor.id}/${funcionario.userId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
@@ -95,31 +99,31 @@ export function CadastroSetorCategoria() {
         });
     };
 
-    const handleEditarCategoria = (categoria) => {
-        console.log("Editar categoria:", categoria);
-        setCategoriaSelecionada(categoria);
-        setModalCategoriaOpen(true);
-    };
+  const handleEditarCategoria = (categoria) => {
+    console.log("Editar categoria:", categoria);
+    setCategoriaSelecionada(categoria);
+    setModalCategoriaOpen(true);
+  };
 
-    const handleDeletarCategoria = (categoria) => {
-        Swal.fire({
-            title: "Tem certeza?",
-            text: `Deseja excluir a categoria ${categoria.nome}?`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sim, excluir",
-            cancelButtonText: "Cancelar",
-            customClass: {
-                confirmButton: 'btn-aceitar',
-                cancelButton: 'btn-cancelar',
-            },
-            buttonsStyling: false,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const token = localStorage.getItem("token");
+  const handleDeletarCategoria = (categoria) => {
+    Swal.fire({
+      title: "Tem certeza?",
+      text: `Deseja excluir a categoria ${categoria.nome}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir",
+      cancelButtonText: "Cancelar",
+      customClass: {
+        confirmButton: "btn-aceitar",
+        cancelButton: "btn-cancelar",
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
 
                 api
-                    .delete(`/categorias/${categoria.id}/${funcionario.userId}`, {
+                    .delete(`${ENDPOINTS.CATEGORIAS}/${categoria.id}/${funcionario.userId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
@@ -137,136 +141,177 @@ export function CadastroSetorCategoria() {
         });
     };
 
-    return (
-        <>
-            <Navbar />
-            <div className="container-setor-categoria">
-
-                <div className="cadastro-setor">
-                    <div className="container-pesquisa">
-                        <div className="barra-pesquisa">
-                            <input
-                                type="text"
-                                placeholder="Procurar Setor"
-                                className="input-pesquisa-produtos"
-                            />
-                            <button className="lupa-pesquisa">
-                                <img src={LupaPesquisa} alt="Pesquisar" />
-                            </button>
-                        </div>
-                        <button
-                            className="botao-add-pesquisa"
-                            onClick={() => setModalSetorOpen(true)}
-                        >
-                            Cadastrar Setor
-                        </button>
-                    </div>
-
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Nome do Setor</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {setores.map((setor) => (
-                                <tr key={setor.id}>
-                                    <td>{setor.nome}</td>
-                                    <td>
-                                        <button type="button" onClick={() => handleEditarSetor(setor)}>✏️</button>
-                                        <span> | </span>
-                                        <button type="button" onClick={() => handleDeletarSetor(setor)}>🗑️</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div className="cadastro-categoria">
-                    <div className="container-pesquisa">
-                        <div className="barra-pesquisa">
-                            <input
-                                type="text"
-                                placeholder="Procurar Categoria"
-                                className="input-pesquisa-produtos"
-                            />
-                            <button className="lupa-pesquisa">
-                                <img src={LupaPesquisa} alt="Pesquisar" />
-                            </button>
-                        </div>
-                        <button className="botao-add-pesquisa"
-                            onClick={() => setModalCategoriaOpen(true)}>Cadastrar Categoria</button>
-                    </div>
-
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Nome da Categoria</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {categorias.map((categoria) => (
-                                <tr key={categoria.id}>
-                                    <td>{categoria.nome}</td>
-                                    <td>
-                                        <button type="button" onClick={() => handleEditarCategoria(categoria)}>✏️</button>
-                                        <span> | </span>
-                                        <button type="button" onClick={() => handleDeletarCategoria(categoria)}>🗑️</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-                <ToastContainer
-                    position="top-right"
-                    autoClose={3000}
-                    theme="light"
+  return (
+    <>
+      <LayoutTela titulo="Cadastro de Setores e Categorias">
+        <div className="container-setor-categoria">
+          <div className="cadastro-setor">
+            <div className="container-pesquisa">
+              <div className="barra-pesquisa">
+                <input
+                  type="text"
+                  placeholder="Procurar Setor"
+                  className="input-pesquisa-produtos"
+                  onKeyUp={(e) => {
+                    const setorBuscado = e.target.value.toLowerCase();
+                    if (setorBuscado === "") {
+                      setSetoresFiltrados(setores);
+                    } else {
+                      const encontrados = setores.filter((setor) =>
+                        setor.nome.toLowerCase().includes(setorBuscado)
+                      );
+                      setSetoresFiltrados(encontrados);
+                    }
+                  }}
                 />
+                <button className="lupa-pesquisa">
+                  <img src={LupaPesquisa} alt="Pesquisar" />
+                </button>
+              </div>
+              <button
+                className="botao-add-pesquisa"
+                onClick={() => setModalSetorOpen(true)}
+              >
+                Cadastrar Setor
+              </button>
             </div>
 
-            {modalSetorOpen && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <ModalCadastroSetor
-                            onCancelar={() => {
-                                setModalSetorOpen(false);
-                                setSetorSelecionado(null);
-                            }}
-                            onSalvar={() => {
-                                setModalSetorOpen(false);
-                                setSetorSelecionado(null);
-                            }}
-                            setorSelecionado={setorSelecionado}
-                        />
-                    </div>
-                </div>
-            )}
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Nome do Setor</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {setoresFiltrados.map((setor) => (
+                  <tr key={setor.id}>
+                    <td>{setor.nome}</td>
+                    <td>
+                      <button
+                        type="button"
+                        onClick={() => handleEditarSetor(setor)}
+                      >
+                        ✏️
+                      </button>
+                      <span> | </span>
+                      <button
+                        type="button"
+                        onClick={() => handleDeletarSetor(setor)}
+                      >
+                        🗑️
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-            {modalCategoriaOpen && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <ModalCadastroCategoria
-                            onCancelar={() => {
-                                setModalCategoriaOpen(false);
-                                setSetorSelecionado(null);
-                            }}
-                            onSalvar={() => {
-                                setModalCategoriaOpen(false);
-                                setSetorSelecionado(null);
-                            }}
-                            categoriaSelecionada={categoriaSelecionado}
-                        />
-                    </div>
-                </div>
-            )}
+          <div className="cadastro-categoria">
+            <div className="container-pesquisa">
+              <div className="barra-pesquisa">
+                <input
+                  type="text"
+                  placeholder="Procurar Categoria"
+                  className="input-pesquisa-produtos"
+                  onKeyUp={(e) => {
+                    const categoriaBuscada = e.target.value.toLowerCase();
+                    if (categoriaBuscada === "") {
+                      setCategoriasFiltradas(categorias);
+                    } else {
+                      const encontrados = categorias.filter((categoria) =>
+                        categoria.nome.toLowerCase().includes(categoriaBuscada)
+                      );
+                      setCategoriasFiltradas(encontrados);
+                    }
+                  }}
+                />
+                <button className="lupa-pesquisa">
+                  <img src={LupaPesquisa} alt="Pesquisar" />
+                </button>
+              </div>
+              <button
+                className="botao-add-pesquisa"
+                onClick={() => setModalCategoriaOpen(true)}
+              >
+                Cadastrar Categoria
+              </button>
+            </div>
 
-        </>
-    );
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Nome da Categoria</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {categoriasFiltradas.map((categoria) => (
+                  <tr key={categoria.id}>
+                    <td>{categoria.nome}</td>
+                    <td>
+                      <button
+                        type="button"
+                        onClick={() => handleEditarCategoria(categoria)}
+                      >
+                        ✏️
+                      </button>
+                      <span> | </span>
+                      <button
+                        type="button"
+                        onClick={() => handleDeletarCategoria(categoria)}
+                      >
+                        🗑️
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <ToastContainer position="top-right" autoClose={3000} theme="light" />
+        </div>
+
+        {modalSetorOpen && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <ModalCadastroSetor
+                onCancelar={() => {
+                  setModalSetorOpen(false);
+                  setSetorSelecionado(null);
+                }}
+                onSalvar={() => {
+                  setModalSetorOpen(false);
+                  setSetorSelecionado(null);
+                }}
+                setorSelecionado={setorSelecionado}
+              />
+            </div>
+          </div>
+        )}
+
+        {modalCategoriaOpen && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <ModalCadastroCategoria
+                onCancelar={() => {
+                  setModalCategoriaOpen(false);
+                  setSetorSelecionado(null);
+                }}
+                onSalvar={() => {
+                  setModalCategoriaOpen(false);
+                  setSetorSelecionado(null);
+                }}
+                categoriaSelecionada={categoriaSelecionado}
+              />
+            </div>
+          </div>
+        )}
+      </LayoutTela>
+    </>
+  );
 }
 
 export default CadastroSetorCategoria;

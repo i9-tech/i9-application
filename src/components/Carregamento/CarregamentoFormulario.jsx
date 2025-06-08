@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./Carregamento.css";
 // import LOGO from "../../assets/logo-i9-branca.png";
 import LOGO from "../../assets/logo-i9.png";

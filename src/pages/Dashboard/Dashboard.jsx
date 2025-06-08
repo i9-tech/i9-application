@@ -39,11 +39,6 @@ export function Dashboard() {
     year: "numeric",
   });
 
-  const horarioAtual = new Date().toLocaleTimeString("pt-BR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
   useEffect(() => {
     api
       .get(`${ENDPOINTS.VENDA_KPIS}/${funcionario.empresaId}`, {

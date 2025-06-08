@@ -105,6 +105,36 @@ http://localhost:5173
 
 ***
 
+## 🔐 Variáveis de Ambiente no Frontend
+
+As variáveis de ambiente são utilizadas para configurar o ambiente de execução (dev, prod, etc.), definir URLs de APIs e armazenar tokens e credenciais (como o token de imagem da Azure).
+
+### Frontend (Vite)
+
+As variáveis ficam em arquivos `.env` e precisam seguir o padrão do Vite: `VITE_NOME_DA_VARIAVEL`.
+
+Exemplo no arquivo `.env`:
+
+```env
+VITE_AMBIENTE=spring
+VITE_IMAGE_TOKEN_URL=https://...
+```
+Essas variáveis são consumidas no código usando `import.meta.env`:
+
+```javascript
+const token = import.meta.env.VITE_IMAGE_TOKEN_URL;
+```
+Para facilitar, o projeto centraliza essas configurações no arquivo `src/utils/enviroments.js`, que faz o mapeamento das variáveis e, com base no ambiente (`VITE_AMBIENTE`), define a URL da API correspondente (ex: JSON Server, Spring Boot, Produção).
+
+**💡 Dica:** mantenha o arquivo `.env` com valores genéricos no repositório e use o `.env.local` com os dados reais apenas localmente (esse arquivo deve estar listado no `.gitignore`).
+
+### ⚠️ Atenção às variáveis!
+Nunca suba arquivos com variáveis sensíveis preenchidas para o repositório.
+
+Certifique-se de que arquivos como `.env.local` estejam listados no seu `.gitignore`.
+<br/>
+***
+
 ## ⚠️ ATENÇÃO
 Para acessar qualquer função dentro da nossa aplicação, será necessário informar um `token de segurança` a partir de um **login**. Existe um usuário padrão que é criado para testes, é possível utilizar seu login com as credenciais:
 

@@ -43,6 +43,16 @@
         resize: vertical;
         min-height: 80px;
       }
+
+      select {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #fff;
+        font-size: 15px;
+        box-sizing: border-box;
+        width: 100%;
+      }
     }
   
     .linha-dupla {

@@ -19,13 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
-
 function App() {
-  // return (
-  //   <Routes>
-  //     <Route path={ROUTERS.DASHBOARD} element={<Dashboard />} />
-  //   </Routes>
-  // );
 
   return (
     <>

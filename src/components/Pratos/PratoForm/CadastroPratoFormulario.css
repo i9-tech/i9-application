@@ -77,10 +77,14 @@
   box-sizing: border-box;
 }
 
-.formulario-prato .linha-dupla input[type="date"] {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+.formulario-prato select {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 15px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .formulario-prato .botoes-prato {

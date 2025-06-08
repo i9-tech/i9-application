@@ -11,6 +11,7 @@ import api from "../../provider/api";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario, getToken } from "../../utils/auth";
 import { formatarMoeda } from "../../utils/utils";
+import Relogio from "../../components/Relogio/Relogio";
 
 export function Dashboard() {
   const funcionario = getFuncionario();
@@ -37,40 +38,6 @@ export function Dashboard() {
     month: "long",
     year: "numeric",
   });
-
-  useEffect(() => {
-    const hoje = new Date().toISOString().split("T")[0];
-    const ontem = new Date(new Date().setDate(new Date().getDate() - 1))
-      .toISOString()
-      .split("T")[0];
-
-    for (let i = 0; i < 47; i++) {
-      api
-        .post(
-          ENDPOINTS.VENDA,
-          {
-            mesa: "1",
-            cliente: "Betina",
-            formaPagamento: "Débito",
-            dataVenda: i % 2 == 0 ? hoje : ontem,
-            itens: [i],
-            funcionarioId: 1,
-            valorTotal: 10.0,
-            vendaConcluida: false,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-        .then(() => {
-          console.log(`Venda ${i} gerada!`);
-        })
-        .catch((err) => {
-          console.log("Erro ao gerar venda: ", err);
-        });
-    }
-    setIsDadosDisponiveis(true);
-  }, [token]);
 
   useEffect(() => {
     api
@@ -117,7 +84,6 @@ export function Dashboard() {
       })
       .then((res) => {
         setDadosCategorias(res.data);
-        console.log("Categorias recuperadas: ", res.data);
       })
       .catch((err) => {
         console.log("Erro ao buscar categorias: ", err);
@@ -136,11 +102,12 @@ export function Dashboard() {
           })
         );
         setSetores(setoresFormatados);
-        // console.log("Setores recuperados: ", setoresFormatados);
       })
       .catch((err) => {
         console.log("Erro ao buscar setores: ", err);
       });
+
+    setIsDadosDisponiveis(true);
   }, [isDadosDisponiveis, token, funcionario.empresaId]);
 
   const tratarKpis = (kpi) => {
@@ -151,6 +118,8 @@ export function Dashboard() {
     const lucroLiquidoDiario = Number(kpi.lucroLiquidoDiario ?? 0);
     const totalMercadoriaDiario = Number(kpi.totalMercadoriaDiario ?? 0);
     const vendasDiaria = Number(kpi.vendasDiaria ?? 0);
+    console.log(kpi.vendasDiaria);
+    console.log(kpi.vendasDiariaOntem);
     const vendasDiariaOntem = Number(kpi.vendasDiariaOntem ?? 0);
 
     const diferencaBruto = lucroDiario - lucroDiarioOntem;
@@ -182,11 +151,16 @@ export function Dashboard() {
     setProdutoMaisVendido(maisVendido);
   };
 
-  
-
   return (
     <>
-      <LayoutTela titulo="Dashboard" adicional={diaAtual}>
+      <LayoutTela
+        titulo="Dashboard"
+        adicional={
+          <>
+            {diaAtual} - <Relogio />
+          </>
+        }
+      >
         <article className="dashboard">
           <section className="kpis">
             <Kpi
@@ -211,8 +185,10 @@ export function Dashboard() {
             />
             <Kpi
               key={"absdass"}
-              titulo={"Quantidade de Vendas"}
-              valor={`${quantidadeTotalVendida || 0} vendas`}
+              titulo={"Vendas Realizadas"}
+              valor={`${quantidadeTotalVendida || 0} venda${
+                quantidadeTotalVendida !== 1 ? "s" : ""
+              }`}
               adicional={`${
                 isVendaMaior && diferencaVenda > 0
                   ? "+"

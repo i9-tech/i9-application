@@ -10,12 +10,14 @@ import { ROUTERS } from "../../../utils/routers";
 import { enviroments } from "../../../utils/enviroments";
 
 const CadastroProdutoFormulario = ({
+  setPorcentagemCarregamento,
   produtoSelecionado,
   setProdutoSelecionado,
   descricao,
   setDescricao,
   imagem,
   setImagem,
+  setIsSendingData,
 }) => {
   const navigate = useNavigate();
   const funcionario = getFuncionario();
@@ -29,6 +31,8 @@ const CadastroProdutoFormulario = ({
     codigo: "",
     nome: "",
     quantidade: "",
+    categoria: "",
+    setor: "",
     valorCompra: 0,
     valorUnitario: 0,
     quantidadeMin: "",
@@ -41,8 +45,16 @@ const CadastroProdutoFormulario = ({
         codigo: produtoSelecionado.codigo || "",
         nome: produtoSelecionado.nome || "",
         quantidade: produtoSelecionado.quantidade || "",
-        valorCompra: produtoSelecionado.valorCompra !== undefined && produtoSelecionado.valorCompra !== "" ? Number(produtoSelecionado.valorCompra).toFixed(2) : "",
-        valorUnitario: produtoSelecionado.valorUnitario !== undefined && produtoSelecionado.valorUnitario !== "" ? Number(produtoSelecionado.valorUnitario).toFixed(2) : "",
+        valorCompra:
+          produtoSelecionado.valorCompra !== undefined &&
+          produtoSelecionado.valorCompra !== ""
+            ? Number(produtoSelecionado.valorCompra).toFixed(2)
+            : "",
+        valorUnitario:
+          produtoSelecionado.valorUnitario !== undefined &&
+          produtoSelecionado.valorUnitario !== ""
+            ? Number(produtoSelecionado.valorUnitario).toFixed(2)
+            : "",
         quantidadeMin: produtoSelecionado.quantidadeMin || "",
         quantidadeMax: produtoSelecionado.quantidadeMax || "",
         dataRegistro: produtoSelecionado.dataRegistro || "",
@@ -57,6 +69,8 @@ const CadastroProdutoFormulario = ({
       codigo: "",
       nome: "",
       quantidade: "",
+      categoria: "",
+      setor: "",
       valorCompra: "",
       valorUnitario: "",
       quantidadeMin: "",
@@ -65,6 +79,7 @@ const CadastroProdutoFormulario = ({
     setDescricao("");
     setImagem("");
     setProdutoSelecionado(null);
+    setIsSendingData(false);
     navigate(ROUTERS.ESTOQUE_PRODUTOS);
 
     if (enviroments === "jsonserver") {
@@ -73,7 +88,13 @@ const CadastroProdutoFormulario = ({
   };
 
   const validarCampos = () => {
-    if (!produto.codigo || !produto.nome || !produto.quantidade) {
+    if (
+      !produto.codigo ||
+      !produto.nome ||
+      !produto.quantidade ||
+      !produto.categoria ||
+      !produto.setor
+    ) {
       toast.error("Preencha todos os campos obrigatórios!");
       return false;
     }
@@ -116,14 +137,24 @@ const CadastroProdutoFormulario = ({
     return true;
   };
 
-  const buscarURLImagem = () => {
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const buscarURLImagem = async () => {
+    setPorcentagemCarregamento(10);
+    await sleep(200);
+
     if (enviroments.ambiente === "jsonserver") {
       const urlJsonServer = URL.createObjectURL(imagem);
+      setPorcentagemCarregamento(30);
+      await sleep(200);
       setUrlImagemTemporaria(urlJsonServer);
       salvarProduto(urlJsonServer);
     } else {
       const formData = new FormData();
       formData.append("file", imagem);
+      setPorcentagemCarregamento(20);
+      await sleep(200);
+
       api
         .post(ENDPOINTS.AZURE_IMAGEM, formData, {
           headers: {
@@ -131,25 +162,35 @@ const CadastroProdutoFormulario = ({
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => {
-          // console.log("data: ", res);
+        .then(async (res) => {
+          setPorcentagemCarregamento(40);
+          await sleep(200);
           salvarProduto(res.data.imageUrl);
         })
-        .catch((err) => {
-          if (imagem) {
-            salvarProduto(imagem);
-            return;
-          }
-          if (imagem == "") {
-            salvarProduto("");
-            return;
-          }
+        .catch(async (err) => {
           console.log("erro ao adicionar imagem ao blob storage: ", err);
+
+          if (imagem) {
+            setPorcentagemCarregamento(40);
+            await sleep(200);
+            salvarProduto(imagem);
+          } else {
+            setPorcentagemCarregamento(40);
+            await sleep(200);
+            salvarProduto("");
+          }
+
+          console.log("erro ao adicionar imagem ao blob storage: ", err);
+          setTimeout(() => {
+            setIsSendingData(false);
+          }, 2500);
         });
     }
   };
 
-  const salvarProduto = (urlImagem) => {
+  const salvarProduto = async (urlImagem) => {
+    setPorcentagemCarregamento(60);
+    await sleep(200);
     const dados = {
       codigo: produto.codigo,
       nome: produto.nome,
@@ -184,20 +225,23 @@ const CadastroProdutoFormulario = ({
           toast.error("Erro ao salvar produto!");
         });
     } else {
-      console.log("funcionario.id:", funcionario.userId);
+      setPorcentagemCarregamento(80);
       const metodo = produtoSelecionado
         ? api.patch(
-          `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`,
-          dados,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
+            `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`,
+            dados,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
         : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+            headers: { Authorization: `Bearer ${token}` },
+          });
       metodo
-        .then(() => {
+        .then(async () => {
+          setPorcentagemCarregamento(90);
+          await sleep(200);
+          setPorcentagemCarregamento(100);
           toast.success(
             produtoSelecionado
               ? "Produto editado com sucesso!"
@@ -208,6 +252,9 @@ const CadastroProdutoFormulario = ({
         .catch((error) => {
           console.error("Erro ao salvar produto:", error);
           toast.error("Erro ao salvar produto!");
+          setTimeout(() => {
+            setIsSendingData(false);
+          }, 2000);
         });
     }
   };
@@ -249,6 +296,7 @@ const CadastroProdutoFormulario = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validarCampos()) {
+      setIsSendingData(true);
       buscarURLImagem();
     }
   };
@@ -282,7 +330,12 @@ const CadastroProdutoFormulario = ({
       <form className="formulario-inputs" onSubmit={handleSubmit}>
         <div className="linha-dupla">
           <div>
-            <label htmlFor="codigo">Código do Produto  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+            <label htmlFor="codigo">
+              Código do Produto{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
             <input
               id="codigo"
               type="number"
@@ -297,7 +350,12 @@ const CadastroProdutoFormulario = ({
             />
           </div>
           <div>
-            <label htmlFor="quantidade">Quantidade para Cadastro  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+            <label htmlFor="quantidade">
+              Quantidade para Cadastro{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
             <input
               id="quantidade"
               type="number"
@@ -313,7 +371,12 @@ const CadastroProdutoFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label htmlFor="nome">Nome do Produto  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+          <label htmlFor="nome">
+            Nome do Produto{" "}
+            <span aria-hidden="true" style={{ color: "red" }}>
+              *
+            </span>
+          </label>
           <input
             id="nome"
             type="text"
@@ -330,7 +393,12 @@ const CadastroProdutoFormulario = ({
 
         <div className="linha-dupla">
           <div className="grupo-inputs">
-            <label>Setor  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+            <label>
+              Setor{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
             <select
               value={produto.setor}
               onChange={(e) =>
@@ -348,7 +416,12 @@ const CadastroProdutoFormulario = ({
           </div>
 
           <div className="grupo-inputs">
-            <label>Categoria  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+            <label>
+              Categoria{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
             <select
               value={produto.categoria}
               onChange={(e) =>
@@ -368,7 +441,12 @@ const CadastroProdutoFormulario = ({
 
         <div className="linha-dupla">
           <div>
-            <label>Valor de Compra Unitária  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+            <label>
+              Valor de Compra Unitária{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
             <input
               type="text"
               value={formatarParaReal(produto.valorCompra)}
@@ -383,7 +461,12 @@ const CadastroProdutoFormulario = ({
             />
           </div>
           <div>
-            <label>Valor de Venda  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+            <label>
+              Valor de Venda{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
             <input
               type="text"
               value={formatarParaReal(produto.valorUnitario)}
@@ -401,7 +484,12 @@ const CadastroProdutoFormulario = ({
 
         <div className="linha-dupla">
           <div>
-            <label>Quantidade Mínima para Estoque  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+            <label>
+              Quantidade Mínima para Estoque{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
             <input
               type="number"
               value={produto.quantidadeMin}
@@ -414,7 +502,12 @@ const CadastroProdutoFormulario = ({
             />
           </div>
           <div>
-            <label>Quantidade Máxima para Estoque  <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+            <label>
+              Quantidade Máxima para Estoque{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
             <input
               type="number"
               value={produto.quantidadeMax}

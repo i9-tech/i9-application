@@ -1,173 +1,173 @@
-.menu-atendente{
+.menu-atendente {
+  display: flex;
+  flex-direction: column;
+  width: 74vw;
+  height: 88vh;
+  margin-left: -64px;
+  overflow-y: scroll;
+
+  h1 {
+    width: 91%;
+  }
+
+ .setores {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .header-container {
+    width: 98%;
+    height: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1 {
+      font-size: 22px;
+    }
+  }
+
+  .barra-pesquisa {
+    display: flex;
+    align-items: center;
+  }
+
+  .barra-pesquisa {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    border: 1.5px solid var(--azul-claro);
+    background-color: white;
+    padding: 2px;
+  }
+
+  .input-pesquisa-produtos {
+    border: none;
+    outline: none;
+    padding: 10px;
+    flex: 1;
+    font-size: 16px;
+    color: #000000;
+  }
+
+  .lupa-pesquisa {
+    background-color: #5179ef;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: 8px;
+  }
+
+  .lupa-pesquisa img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .todos-produtos {
+    margin: 0rem 0rem 4rem 4rem;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .produtos-da-categoria {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+  }
+
+  .categoria {
+    margin: 0px 0px 30px 0px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 77vw; 
-    height: 100vh;
-    overflow-y: scroll;
-    margin-right: 20vw;
-    padding-top: 1rem;      
-    
-    h1{
-        width: 91%;
-    }
 
-    .setores{
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
+    h1 {
+      position: relative;
+      margin: 0px 0px 10px 0px;
+      left: 10px;
     }
-    
-    .header-container {
-        width: 98%;
-        display: flex;
-        justify-content: space-between; 
-        align-items: center; 
-    }
-    
-    .barra-pesquisa {
-        display: flex;
-        align-items: center; 
-    }
-    
-    
-    .barra-pesquisa {
-        display: flex;
-        align-items: center;
-        border-radius: 8px;
-        border: 1.5px solid var(--azul-claro); 
-        background-color: white; 
-        padding: 2px;
-    }
-    
-    .input-pesquisa-produtos {
-        border: none;
-        outline: none;
-        padding: 10px;
-        flex: 1;
-        font-size: 16px;
-        color: #000000;
-    }
-    
-    .lupa-pesquisa {
-        background-color: #5179EF; 
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        padding: 8px;
-        margin-left: 8px;
-    }
-    
-    .lupa-pesquisa img {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .todos-produtos{
-        margin: 0rem 0rem 4rem 4rem;
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    .produtos-da-categoria{
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    .categoria{
-        margin: 0px 0px 30px 0px;
-        display: flex;
-        flex-direction: column;
-
-        h1{
-            position: relative;
-            margin: 0px 0px 10px 0px;
-            left: 10px;
-        }
-    }
-
+  }
 }
 
 .menu-atendente::-webkit-scrollbar {
-    width: 20px;
+  width: 20px;
 }
 
 .menu-atendente::-webkit-scrollbar-track {
-    background: transparent;
-    border: 1px solid  rgba(43, 43, 43, 0.1);
+  background: transparent;
+  border: 1px solid rgba(43, 43, 43, 0.1);
 }
 
 .menu-atendente::-webkit-scrollbar-thumb {
-    background-color: rgba(43, 43, 43, 0.1);
-    border-radius: 10px;
-    border: 1px solid #2b2b2b3d;
-    background-clip: content-box;
+  background-color: rgba(43, 43, 43, 0.1);
+  border-radius: 10px;
+  border: 1px solid #2b2b2b3d;
+  background-clip: content-box;
 }
 
 .menu-atendente::-webkit-scrollbar-thumb:hover {
-    background-color:#2b2b2b28;
+  background-color: #2b2b2b28;
 }
 
 .menu-comanda {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 23vw;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+
+  .header-comanda {
+    padding: 34px;
+    text-align: center;
+  }
+
+  .botao-confirmar {
+    border-top: 3px solid rgba(43, 43, 43, 0.1);
+    margin-top: auto;
+    margin-bottom: 20px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0px 0px 0px;
+  }
+
+  .produtos-adicionados-comanda {
+    width: 90%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 21.5vw;
+    overflow-y: scroll;
+    gap: 1rem;
     height: 100vh;
-    position: fixed;
-    right: 0;
-    top: 0;
+    margin-bottom: 10px;
+    overflow-y: auto;
 
-    .header-comanda {
-        padding: 20px;
-        text-align: center;
+    &::-webkit-scrollbar {
+      width: 10px;
     }
 
-    .botao-confirmar {
-        border-top: 3px solid rgba(43, 43, 43, 0.1);
-        margin-top: auto;
-        margin-bottom: 20px;
-        width: auto;
-        display: flex;
-        justify-content: center;
-        padding: 10px 0px 0px 0px;
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border: 1px solid rgba(43, 43, 43, 0.1);
     }
 
-    .produtos-adicionados-comanda{
-        width: 90%;
-        display: flex;
-        flex-direction: column;
-        overflow-y: scroll;
-        gap: 1rem;
-        height: 100vh;
-        margin-bottom: 10px;
-        overflow-y: auto;
-
-        &::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        &::-webkit-scrollbar-track {
-            background: transparent;
-            border: 1px solid  rgba(43, 43, 43, 0.1);
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: rgba(43, 43, 43, 0.1);
-            border-radius: 10px;
-            border: 1px solid #2b2b2b3d;
-            background-clip: content-box;
-        }
-
-        &::-webkit-scrollbar-thumb:hover {
-            background-color:#2b2b2b28;
-        }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(43, 43, 43, 0.1);
+      border-radius: 10px;
+      border: 1px solid #2b2b2b3d;
+      background-clip: content-box;
     }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #2b2b2b28;
+    }
+  }
 }
-

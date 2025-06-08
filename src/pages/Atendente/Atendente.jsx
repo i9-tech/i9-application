@@ -54,6 +54,8 @@ export function Atendente() {
 
   const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
+  const [carregou, setCarregou] = useState(false);
+
 
   const [errorPrato, setErrorPrato] = useState(false);
   const [errorProduto, setErrorProduto] = useState(false);
@@ -99,42 +101,25 @@ export function Atendente() {
   }, [funcionario.userId, token]);
 
   useEffect(() => {
-    const requisicaoProdutos = api
-      .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          const produtosComTipo = res.data.map((item) => ({
-            ...item,
-            tipo: "produto",
-          }));
-          setProdutos(produtosComTipo);
-        }
-      })
-      .catch((err) => {
-        setErrorProduto(true);
-        console.error("Erro ao buscar produtos:", err);
-        toast.error("Erro ao buscar produtos!");
-      });
+    const headers = { Authorization: `Bearer ${token}` };
 
-    const requisicaoPratos = api
-      .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          const pratosComTipo = res.data.map((item) => ({
-            ...item,
-            tipo: "prato",
-          }));
-          setProdutos((prev) => [...prev, ...pratosComTipo]);
-        }
-      })
-      .catch((err) => {
-        setErrorPrato(true);
-        console.error("Erro ao buscar pratos:", err);
-        toast.error("Erro ao buscar pratos!");
+    const requisicaoProdutos = api.get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, { headers });
+    const requisicaoPratos = api.get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers });
+
+    Promise.all([requisicaoProdutos, requisicaoPratos])
+      .then(([produtosResponse, pratosResponse]) => {
+        const produtosComTipo = produtosResponse.data.map((produto) => ({
+          ...produto,
+          tipo: "produto"
+        }));
+
+        const pratosComTipo = pratosResponse.data.map((prato) => ({
+          ...prato,
+          tipo: "prato"
+        }));
+
+        setProdutos([...produtosComTipo, ...pratosComTipo]);
+       setCarregou(true);
       });
 
     Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(() => {

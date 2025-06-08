@@ -9,8 +9,11 @@ import "./Produtos.css";
 import { useParams } from "react-router-dom";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario, getToken } from "../../utils/auth";
+import CarregamentoFormulario from "../../components/Carregamento/CarregamentoFormulario";
 
 export function Produtos() {
+  const [porcentagemCarregamento, setPorcentagemCarregamento] = useState(0);
+  const [isSendingData, setIsSendingData] = useState(false);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const params = useParams();
   const token = getToken();
@@ -21,7 +24,7 @@ export function Produtos() {
   useEffect(() => {
     if (params.id != null) {
       api
-        .get(`${ENDPOINTS.PRODUTOS}/${params.id}/${funcionario.userId}`,{
+        .get(`${ENDPOINTS.PRODUTOS}/${params.id}/${funcionario.userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
@@ -37,16 +40,23 @@ export function Produtos() {
   }, [params.id, funcionario.userId, token]);
   return (
     <>
+      {isSendingData && (
+        <CarregamentoFormulario
+          porcentagemCarregamento={porcentagemCarregamento}
+        />
+      )}
       <LayoutTela titulo="Adição de Estoque">
         <div className="container-produto">
           <div className="coluna-esquerda">
             <CadastroProdutoFormulario
+              setPorcentagemCarregamento={setPorcentagemCarregamento}
               produtoSelecionado={produtoSelecionado}
               setProdutoSelecionado={setProdutoSelecionado}
               descricao={descricao}
               setDescricao={setDescricao}
               imagem={imagem}
               setImagem={setImagem}
+              setIsSendingData={setIsSendingData}
             />
           </div>
 
@@ -62,7 +72,6 @@ export function Produtos() {
           </div>
         </div>
       </LayoutTela>
-
       <ToastContainer position="top-right" autoClose={3000} theme="light" />
     </>
   );

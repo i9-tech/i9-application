@@ -43,76 +43,43 @@ export function Atendente() {
 
   const [itemCarrinhoIds, setItemCarrinhoIds] = useState([]);
 
-  useEffect(() => {
-    api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          setSetores(res.data);
-        }
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar setores:", err);
-        toast.error("Erro ao buscar setores!");
-      });
+  const [carregou, setCarregou] = useState(false);
 
-    api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          setCategorias(res.data);
-        }
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar categorias:", err);
-        toast.error("Erro ao buscar categorias!");
-      });
+useEffect(() => {
+  if (!funcionario || carregou) return;
 
-    api.get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          const produtosComTipo = res.data.map((item) => ({
-            ...item,
-            tipo: "produto",
-          }));
-          setProdutos(produtosComTipo);
-        }
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar produtos:", err);
-        toast.error("Erro ao buscar produtos!");
-      });
+  const headers = {
+    Authorization: `Bearer ${token}`
+  };
 
-    api.get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          const pratosComTipo = res.data.map((item) => ({
-            ...item,
-            tipo: "prato",
-          }));
-          setProdutos(prev => [...prev, ...pratosComTipo]);
-        }
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar pratos:", err);
-        toast.error("Erro ao buscar pratos!");
-      });
+  Promise.all([
+    api.get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, { headers }),
+    api.get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers })
+  ])
+    .then(([produtosResponse, pratosResponse]) => {
+      const produtosComTipo = produtosResponse.data.map((produto) => ({
+        ...produto,
+        tipo: "produto"
+      }));
 
-  }, [funcionario.userId, token]);
+      const pratosComTipo = pratosResponse.data.map((prato) => ({
+        ...prato,
+        tipo: "prato"
+      }));
+
+      setProdutos([...produtosComTipo, ...pratosComTipo]);
+      setCarregou(true);
+    });
+
+  api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, { headers }).then((response) => {
+    setSetores(response.data);
+  });
+
+  api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, { headers }).then((response) => {
+    setCategorias(response.data);
+  });
+}, [funcionario, carregou]);
+
 
 
   const adicionarNaComanda = (produto) => {

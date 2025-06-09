@@ -208,12 +208,20 @@ const CadastroSetoresCategorias = () => {
   const [buscaSetor, setBuscaSetor] = useState("");
   const [buscaCategoria, setBuscaCategoria] = useState("");
 
+  function removerAcentos(str) {
+    return str
+      ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      : "";
+  }
+
   const handleBuscaSetor = (value) => {
     setBuscaSetor(value);
   };
 
   const setoresFiltradas = setores.filter((s) =>
-    s.nome.toLowerCase().includes(buscaSetor.toLowerCase())
+    removerAcentos(s.nome.toLowerCase()).includes(
+      removerAcentos(buscaSetor.toLowerCase())
+    )
   );
 
   const handleBuscaCategoria = (value) => {
@@ -221,7 +229,9 @@ const CadastroSetoresCategorias = () => {
   };
 
   const categoriasFiltradas = categorias.filter((c) =>
-    c.nome.toLowerCase().includes(buscaCategoria.toLowerCase())
+    removerAcentos(c.nome.toLowerCase()).includes(
+      removerAcentos(buscaCategoria.toLowerCase())
+    )
   );
 
   const setoresFiltradasComContagem = adicionarContagemProdutosPratos(

@@ -16,9 +16,13 @@ const TabelaEstoque = ({
   const listaProdutos = Array.isArray(produtos) ? produtos : [produtos];
 
   const produtosFiltrados = listaProdutos.filter((p) => {
-    const nomeMatch = p.nome
-      ?.toLowerCase()
-      .includes(termoBusca?.toLowerCase() || "");
+    const normalize = (str) =>
+      (str || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+    const nomeMatch = normalize(p.nome).includes(normalize(termoBusca));
 
     const statusMatch =
       !filtroStatus ||

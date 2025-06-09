@@ -19,9 +19,13 @@ const TabelaPratos = ({
     // Filtro por nome
     if (
       termoBusca &&
-      !p.nome?.toLowerCase().includes(termoBusca.toLowerCase())
+      !removeAccents(p.nome || "").toLowerCase().includes(removeAccents(termoBusca).toLowerCase())
     ) {
       return false;
+    }
+
+    function removeAccents(str) {
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
 
     // Filtro por status

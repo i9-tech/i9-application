@@ -454,9 +454,12 @@ export function Atendente() {
                       produto.categoria.nome.trim().toLowerCase() ===
                       categoria.nome.trim().toLowerCase();
 
-                    const nomeCombina = produto.nome
-                      .toLowerCase()
-                      .includes(buscaProduto.toLowerCase());
+                    function removerAcentos(str) {
+                      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    }
+
+                    const nomeCombina = removerAcentos(produto.nome.toLowerCase())
+                      .includes(removerAcentos(buscaProduto.toLowerCase()));
 
                     return mesmoSetor && mesmaCategoria && nomeCombina;
                   });

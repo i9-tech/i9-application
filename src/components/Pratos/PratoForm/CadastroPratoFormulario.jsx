@@ -11,12 +11,14 @@ import { enviroments } from "../../../utils/enviroments";
 
 
 const CadastroPratoFormulario = ({
+  setPorcentagemCarregamento,
   pratoSelecionado,
   setPratoSelecionado,
   descricao,
   setDescricao,
   imagem,
   setImagem,
+  setIsSendingData,
 }) => {
   const navigate = useNavigate();
   const funcionario = getFuncionario();
@@ -40,7 +42,7 @@ const CadastroPratoFormulario = ({
         nome: pratoSelecionado.nome || "",
         venda:
           pratoSelecionado.valorVenda !== undefined &&
-            pratoSelecionado.valorVenda !== ""
+          pratoSelecionado.valorVenda !== ""
             ? parseFloat(pratoSelecionado.valorVenda).toFixed(2)
             : "",
         setor: pratoSelecionado.setor?.id || "",
@@ -103,6 +105,7 @@ const CadastroPratoFormulario = ({
     setDescricao("");
     setImagem("");
     setPratoSelecionado(null);
+    setIsSendingData(false);
     navigate(ROUTERS.ESTOQUE_PRATOS);
 
     if (enviroments === "jsonserver") {
@@ -113,18 +116,28 @@ const CadastroPratoFormulario = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validarCampos()) {
+      setIsSendingData(true);
       buscarURLImagem();
     }
   };
 
-  const buscarURLImagem = () => {
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const buscarURLImagem = async () => {
+    setPorcentagemCarregamento(10);
+    await sleep(200);
     if (enviroments.ambiente === "jsonserver") {
       const urlJsonServer = URL.createObjectURL(imagem);
+      setPorcentagemCarregamento(30);
+      await sleep(200);
       setUrlImagemTemporaria(urlJsonServer);
       salvarPrato(urlJsonServer);
     } else {
       const formData = new FormData();
       formData.append("file", imagem);
+      setPorcentagemCarregamento(20);
+      await sleep(200);
+
       api
         .post(ENDPOINTS.AZURE_IMAGEM, formData, {
           headers: {
@@ -132,25 +145,35 @@ const CadastroPratoFormulario = ({
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => {
-          // console.log("data: ", res);
+        .then(async (res) => {
+          setPorcentagemCarregamento(40);
+          await sleep(200);
           salvarPrato(res.data.imageUrl);
         })
-        .catch((err) => {
+        .catch(async (err) => {
           if (imagem) {
+            setPorcentagemCarregamento(40);
+            await sleep(200);
             salvarPrato(imagem);
             return;
           }
           if (imagem == "") {
             salvarPrato("");
+            setPorcentagemCarregamento(40);
+            await sleep(200);
             return;
           }
           console.log("erro ao adicionar imagem ao blob storage: ", err);
+          setTimeout(() => {
+            setIsSendingData(false);
+          }, 2500);
         });
     }
   };
 
-  const salvarPrato = (urlImagem) => {
+  const salvarPrato = async (urlImagem) => {
+    setPorcentagemCarregamento(60);
+    await sleep(200);
     const dados = {
       nome: prato.nome,
       valorVenda: parseFloat(prato.venda),
@@ -161,21 +184,24 @@ const CadastroPratoFormulario = ({
       setor: { id: prato.setor },
       categoria: { id: prato.categoria },
     };
-
+    setPorcentagemCarregamento(80);
     const metodo = pratoSelecionado
       ? api.patch(
-        `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
-        dados,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+          `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
+          dados,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
       : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
     metodo
-      .then(() => {
+      .then(async () => {
+        setPorcentagemCarregamento(90);
+        await sleep(200);
+        setPorcentagemCarregamento(100);
         toast.success(
           pratoSelecionado
             ? "Prato editado com sucesso!"
@@ -186,6 +212,9 @@ const CadastroPratoFormulario = ({
       .catch((error) => {
         console.error("Erro ao salvar prato:", error.response?.data || error);
         toast.error("Erro ao salvar prato!");
+        setTimeout(() => {
+            setIsSendingData(false);
+          }, 2500);
       });
   };
 
@@ -217,7 +246,10 @@ const CadastroPratoFormulario = ({
       <form className="formulario-inputs" onSubmit={handleSubmit}>
         <div className="grupo-inputs">
           <label>
-            Nome do Prato <span aria-hidden="true" style={{ color: 'red' }}>*</span>
+            Nome do Prato{" "}
+            <span aria-hidden="true" style={{ color: "red" }}>
+              *
+            </span>
           </label>
           <input
             type="text"
@@ -232,8 +264,11 @@ const CadastroPratoFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label>Venda (R$) <span aria-hidden="true" style={{ color: 'red' }}>*</span>
-
+          <label>
+            Venda (R$){" "}
+            <span aria-hidden="true" style={{ color: "red" }}>
+              *
+            </span>
           </label>
           <input
             type="text"
@@ -251,7 +286,12 @@ const CadastroPratoFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label>Categoria <span aria-hidden="true" style={{ color: 'red' }}>*</span> </label>
+          <label>
+            Categoria{" "}
+            <span aria-hidden="true" style={{ color: "red" }}>
+              *
+            </span>{" "}
+          </label>
           <select
             value={prato.categoria}
             onChange={(e) =>
@@ -269,7 +309,12 @@ const CadastroPratoFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label>Setor <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+          <label>
+            Setor{" "}
+            <span aria-hidden="true" style={{ color: "red" }}>
+              *
+            </span>
+          </label>
           <select
             value={prato.setor}
             onChange={(e) =>
@@ -287,7 +332,12 @@ const CadastroPratoFormulario = ({
         </div>
 
         <div className="grupo-inputs">
-          <label>Disponibilidade <span aria-hidden="true" style={{ color: 'red' }}>*</span></label>
+          <label>
+            Disponibilidade{" "}
+            <span aria-hidden="true" style={{ color: "red" }}>
+              *
+            </span>
+          </label>
           <div className="checkbox-pratos">
             <label className="caixinhas-checkbox">
               <input

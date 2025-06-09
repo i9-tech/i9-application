@@ -9,9 +9,11 @@ import "./Pratos.css";
 import { useParams } from "react-router-dom";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario, getToken } from "../../utils/auth";
-
+import CarregamentoFormulario from "../../components/Carregamento/CarregamentoFormulario";
 
 export function Pratos() {
+  const [porcentagemCarregamento, setPorcentagemCarregamento] = useState(0);
+  const [isSendingData, setIsSendingData] = useState(false);
   const [pratoSelecionado, setPratoSelecionado] = useState(null);
   const params = useParams();
   const token = getToken();
@@ -40,16 +42,23 @@ export function Pratos() {
 
   return (
     <>
+      {isSendingData && (
+        <CarregamentoFormulario
+          porcentagemCarregamento={porcentagemCarregamento}
+        />
+      )}
       <LayoutTela titulo="Adição de Pratos">
         <div className="container-prato">
           <div className="coluna-esquerda">
             <CadastroPratoFormulario
+              setPorcentagemCarregamento={setPorcentagemCarregamento}
               pratoSelecionado={pratoSelecionado}
               setPratoSelecionado={setPratoSelecionado}
               descricao={descricao}
               setDescricao={setDescricao}
               imagem={imagem}
               setImagem={setImagem}
+              setIsSendingData={setIsSendingData}
             />
           </div>
 

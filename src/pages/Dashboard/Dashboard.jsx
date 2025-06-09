@@ -11,6 +11,7 @@ import api from "../../provider/api";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario, getToken } from "../../utils/auth";
 import { formatarMoeda } from "../../utils/utils";
+import Relogio from "../../components/Relogio/Relogio";
 
 export function Dashboard() {
   const funcionario = getFuncionario();
@@ -117,8 +118,8 @@ export function Dashboard() {
     const lucroLiquidoDiario = Number(kpi.lucroLiquidoDiario ?? 0);
     const totalMercadoriaDiario = Number(kpi.totalMercadoriaDiario ?? 0);
     const vendasDiaria = Number(kpi.vendasDiaria ?? 0);
-    console.log(kpi.vendasDiaria)
-    console.log(kpi.vendasDiariaOntem)
+    console.log(kpi.vendasDiaria);
+    console.log(kpi.vendasDiariaOntem);
     const vendasDiariaOntem = Number(kpi.vendasDiariaOntem ?? 0);
 
     const diferencaBruto = lucroDiario - lucroDiarioOntem;
@@ -152,7 +153,14 @@ export function Dashboard() {
 
   return (
     <>
-      <LayoutTela titulo="Dashboard" adicional={diaAtual}>
+      <LayoutTela
+        titulo="Dashboard"
+        adicional={
+          <>
+            {diaAtual} - <Relogio />
+          </>
+        }
+      >
         <article className="dashboard">
           <section className="kpis">
             <Kpi
@@ -178,7 +186,9 @@ export function Dashboard() {
             <Kpi
               key={"absdass"}
               titulo={"Vendas Realizadas"}
-              valor={`${quantidadeTotalVendida || 0} venda${quantidadeTotalVendida !== 1 ? 's' : ''}`}
+              valor={`${quantidadeTotalVendida || 0} venda${
+                quantidadeTotalVendida !== 1 ? "s" : ""
+              }`}
               adicional={`${
                 isVendaMaior && diferencaVenda > 0
                   ? "+"

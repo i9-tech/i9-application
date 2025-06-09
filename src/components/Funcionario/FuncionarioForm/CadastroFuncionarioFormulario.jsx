@@ -115,8 +115,9 @@ const CadastroFuncionarioFormulario = ({
       })
       .catch((error) => {
         clearInterval(interval);
-        toast.error("Erro ao cadastrar funcionário!");
+        toast.error("Erro ao cadastrar funcionário! CPF Já cadastrado!");
         console.error("Erro ao cadastrar funcionário!", error);
+         console.log('Mensagem exata do backend:', error.response.data);
       })
       .finally(() => {
         setLoading(false);
@@ -169,7 +170,7 @@ const CadastroFuncionarioFormulario = ({
       .finally(() => {
         setTimeout(() => {
           setLoading(false);
-        }, 400);
+        }, 100);
       });
   };
 

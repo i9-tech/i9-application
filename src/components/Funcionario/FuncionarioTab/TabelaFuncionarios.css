@@ -3,7 +3,6 @@
   border-radius: 10px;
   padding: 10px;
   width: 350px;
-  margin: 20px auto;
   background-color: white;
 }
 
@@ -22,7 +21,7 @@
 }
 
 .corpo-tabela {
-  max-height: 500px;
+  max-height: 330px;
   overflow-y: auto;
 }
 

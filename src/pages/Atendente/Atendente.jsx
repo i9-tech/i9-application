@@ -54,11 +54,11 @@ export function Atendente() {
 
   const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
-  const [carregou, setCarregou] = useState(false);
+  const [_carregou, setCarregou] = useState(false);
 
 
-  const [errorPrato, setErrorPrato] = useState(false);
-  const [errorProduto, setErrorProduto] = useState(false);
+  const [errorPrato] = useState(false);
+  const [errorProduto] = useState(false);
   const [errorSetor, setErrorSetor] = useState(false);
 
   useEffect(() => {

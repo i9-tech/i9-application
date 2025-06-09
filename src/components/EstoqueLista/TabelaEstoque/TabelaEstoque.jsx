@@ -12,6 +12,7 @@ const TabelaEstoque = ({
   termoBusca,
   buscarProdutos,
   setorSelecionado,
+  categoriaSelecionada,
 }) => {
   const listaProdutos = Array.isArray(produtos) ? produtos : [produtos];
 
@@ -20,6 +21,7 @@ const TabelaEstoque = ({
       (str || "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
+      .trim()
       .toLowerCase();
 
     const nomeMatch = normalize(p.nome).includes(normalize(termoBusca));
@@ -34,7 +36,10 @@ const TabelaEstoque = ({
     const setorMatch =
       !setorSelecionado || String(p.setor?.id) === String(setorSelecionado);
 
-    return nomeMatch && statusMatch && setorMatch;
+       const categoriaMatch =
+      !categoriaSelecionada || String(p.categoria?.id) === String(categoriaSelecionada);
+
+    return nomeMatch && statusMatch && setorMatch && categoriaMatch;
   });
 
   return (

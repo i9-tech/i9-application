@@ -57,10 +57,10 @@ export function Atendente() {
 
   const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
-  const [_carregou, setCarregou] = useState(false);
+  const [carregou, setCarregou] = useState(false);
 
-  const [errorPrato] = useState(false);
-  const [errorProduto] = useState(false);
+  const [errorPrato, setErrorPrato] = useState(false);
+  const [errorProduto, setErrorProduto] = useState(false);
   const [errorSetor, setErrorSetor] = useState(false);
 
   const [isSemResultado, setIsSemResultado] = useState(false);
@@ -116,28 +116,39 @@ export function Atendente() {
       { headers }
     );
 
-    Promise.all([requisicaoProdutos, requisicaoPratos]).then(
-      ([produtosResponse, pratosResponse]) => {
-        const produtosComTipo = produtosResponse.data.map((produto) => ({
-          ...produto,
-          tipo: "produto",
-        }));
+    Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(
+      (results) => {
+        const [produtosResult, pratosResult] = results;
 
-        const pratosComTipo = pratosResponse.data.map((prato) => ({
-          ...prato,
-          tipo: "prato",
-        }));
+        let produtosComTipo = [];
+        let pratosComTipo = [];
+
+        if (produtosResult.status === "fulfilled") {
+          produtosComTipo = produtosResult.value.data.map((produto) => ({
+            ...produto,
+            tipo: "produto",
+          }));
+        } else {
+          setErrorProduto(true);
+        }
+
+        if (pratosResult.status === "fulfilled") {
+          pratosComTipo = pratosResult.value.data.map((prato) => ({
+            ...prato,
+            tipo: "prato",
+          }));
+        } else {
+          setErrorPrato(true);
+        }
 
         setProdutos([...produtosComTipo, ...pratosComTipo]);
         setCarregou(true);
+
+        setTimeout(() => {
+          setIsProdutosCarregando(false);
+        }, 1000);
       }
     );
-
-    Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(() => {
-      setTimeout(() => {
-        setIsProdutosCarregando(false);
-      }, 1000);
-    });
   }, [funcionario.userId, token]);
 
   const adicionarNaComanda = (produto) => {
@@ -460,7 +471,9 @@ export function Atendente() {
                   ))}
                 </div>
               ) : (
-                <NoDataAtendimento />
+                <div style={{ width: "68vw" }}>
+                  <NoDataAtendimento />
+                </div>
               )}
             </div>
 

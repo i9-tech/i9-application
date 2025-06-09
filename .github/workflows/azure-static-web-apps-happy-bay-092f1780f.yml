@@ -1,4 +1,4 @@
-name: Azure Static Web Apps CI/CD
+name: 💻 Serviço de App Web Estático da Azure CI/CD
 
 on:
   push:

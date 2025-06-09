@@ -401,36 +401,6 @@ export function Atendente() {
             />
           )}
 
-          <div className="todos-produtos">
-            <h1>Escolha um Setor:</h1>
-            {isSetoresCarregando && !errorSetor ? (
-              <SetoresCarregamento quantidadeCards={7} />
-            ) : !errorSetor ? (
-              <div className="setores">
-                <ElementoTotal
-                  key="todos"
-                  nome="Todos"
-                  imagem={todos}
-                  quantidade={produtos.length}
-                  onClick={() => setSetorSelecionado("Todos")}
-                />
-                {setores.map((setor) => (
-                  <ElementoTotal
-                    key={setor.id}
-                    nome={setor.nome}
-                    imagem={setor.imagem}
-                    quantidade={
-                      produtos.filter(
-                        (p) => p.setor && p.setor.nome === setor.nome
-                      ).length
-                    }
-                    onClick={() => setSetorSelecionado(setor.nome)}
-                  />
-                ))}
-              </div>
-            ) : (
-              <NoDataAtendimento />
-            )}
         <div className="todos-produtos">
           <h1>Escolha o Setor</h1>
           <div className="setores">

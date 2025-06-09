@@ -12,6 +12,7 @@ export function ProdutoComanda({
     removerProduto,
     atualizarQuantidade,
     tipo,
+    quantidadeRestante,
     onClick = () => { },
 }) {
     const [quantidade, setQuantidade] = useState(quantidadeInicial || 1);
@@ -40,6 +41,7 @@ export function ProdutoComanda({
     }
 
     function aumentar() {
+        if(quantidadeRestante <= 0) return;
         const novaQtd = quantidade + 1;
         setQuantidade(novaQtd);
         atualizarQuantidade(produto, novaQtd);
@@ -90,7 +92,7 @@ export function ProdutoComanda({
                 <div className="controles-quantidade" onClick={e => e.stopPropagation()}>
                     <button className="btn-diminuir" onClick={diminuir}>-</button>
                     <span className="quantidade">{quantidade}</span>
-                    <button className="btn-aumentar" onClick={aumentar}>+</button>
+                    <button className="btn-aumentar" onClick={aumentar} disabled={quantidadeRestante <= 0}>+</button>
                 </div>
 
                 {tipo === 'prato' && (

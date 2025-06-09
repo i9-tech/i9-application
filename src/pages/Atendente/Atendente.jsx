@@ -119,7 +119,7 @@ export function Atendente() {
         }));
 
         setProdutos([...produtosComTipo, ...pratosComTipo]);
-       setCarregou(true);
+        setCarregou(true);
       });
 
     Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(() => {
@@ -269,16 +269,16 @@ export function Atendente() {
       const body =
         item.tipo === "produto"
           ? {
-              venda: "venda5",
-              produto: { id: item.id },
-              funcionario: { id: funcionario.userId },
-            }
+            venda: "venda5",
+            produto: { id: item.id },
+            funcionario: { id: funcionario.userId },
+          }
           : {
-              venda: "venda5",
-              prato: { id: item.id },
-              ...(item.observacao ? { observacao: item.observacao } : {}),
-              funcionario: { id: funcionario.userId },
-            };
+            venda: "venda5",
+            prato: { id: item.id },
+            ...(item.observacao ? { observacao: item.observacao } : {}),
+            funcionario: { id: funcionario.userId },
+          };
 
       return api
         .post(url, body, {
@@ -441,13 +441,13 @@ export function Atendente() {
                       (produto.setor &&
                         produto.setor.nome &&
                         produto.setor.nome.trim().toLowerCase() ===
-                          setorSelecionado.trim().toLowerCase());
+                        setorSelecionado.trim().toLowerCase());
 
                     const mesmaCategoria =
                       produto.categoria &&
                       produto.categoria.nome &&
                       produto.categoria.nome.trim().toLowerCase() ===
-                        categoria.nome.trim().toLowerCase();
+                      categoria.nome.trim().toLowerCase();
 
                     const nomeCombina = produto.nome
                       .toLowerCase()
@@ -516,6 +516,17 @@ export function Atendente() {
 
           <div className="produtos-adicionados-comanda">
             {comanda.map((item, index) => {
+              const produtoEstoque = produtos.find(p => p.nome === item.nome);
+
+              const itemComanda = comanda.find(
+                (item) => item.nome === produtoEstoque.nome
+              );
+              const quantidadeNaComanda = itemComanda
+                ? itemComanda.quantidade
+                : 0;
+              const quantidadeRestante =
+                produtoEstoque.quantidade - quantidadeNaComanda;
+
               return (
                 <ProdutoComanda
                   key={index}
@@ -527,6 +538,7 @@ export function Atendente() {
                   onClick={abrirModal}
                   removerProduto={removerProdutoDaComanda}
                   tipo={item.tipo}
+                  quantidadeRestante={quantidadeRestante}
                 />
               );
             })}

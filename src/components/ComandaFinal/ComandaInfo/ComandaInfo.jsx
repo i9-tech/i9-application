@@ -5,7 +5,7 @@ export default function ComandaInfo({cliente, mesa, pagamento}) {
         <>
             <div className="pedidoCliente">
                 <p>Cliente <span>{cliente}</span></p>
-                <p>Mesa <span>{mesa}</span></p>
+                <p>Mesa <span>{mesa || "Não Informado"}</span></p>
                 <p>Pagamento <span>{pagamento}</span></p>
             </div>
         </>

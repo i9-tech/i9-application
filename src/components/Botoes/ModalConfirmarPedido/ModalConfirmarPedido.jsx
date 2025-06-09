@@ -24,8 +24,8 @@ export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds, on
       .post(
         ENDPOINTS.VENDA,
         {
-          mesa: mesa,
-          cliente: descricaoCliente,
+          mesa: mesa || "",
+          cliente: descricaoCliente || "Não informado",
           formaPagamento: formaPagamento,
           dataVenda: hoje,
           itens: itemCarrinhoIds,
@@ -74,22 +74,20 @@ export function ModalConfirmarPedido({ onClose, statusModal, itemCarrinhoIds, on
         </div>
 
         <form id="observacoes-container" onSubmit={abrirModalInforComanda}>
-          <label>Nome/Descrição do Cliente <span style={{ color: 'red' }}>*</span></label>
+          <label>Nome/Descrição do Cliente</label>
           <input
             type="text"
             placeholder="Nome/Descrição do Cliente"
             value={descricaoCliente}
             onChange={(e) => setDescricaoCliente(e.target.value)}
-            required
           />
 
-          <label>Mesa <span style={{ color: 'red' }}>*</span></label>
+          <label>Mesa</label>
           <input
             type="number"
             placeholder="Número da Mesa"
             value={mesa}
             onChange={(e) => setMesa(e.target.value)}
-            required
           />
 
           <label>Forma de Pagamento <span style={{ color: 'red' }}>*</span></label>

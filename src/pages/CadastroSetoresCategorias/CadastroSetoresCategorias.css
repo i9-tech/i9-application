@@ -1,0 +1,29 @@
+.pagina-container {
+  background-color: #f4f4f4;
+  padding: 32px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 50px;
+}
+
+.cadastro-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.info-s-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  width: 652px;
+  box-sizing: border-box;
+}
+
+
+
+

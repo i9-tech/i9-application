@@ -1,4 +1,4 @@
-.linha-produto td {
+.linha-produto-prod td {
   padding: 10px 16px;
   font-size: 14px;
   border-bottom: 1px solid #ddd;
@@ -6,9 +6,10 @@
   white-space: nowrap;
   justify-content: space-between;
   vertical-align: middle;
+  text-align: center;
 }
 
-.imagem-container {
+.imagem-container-prod {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,14 +22,14 @@
   margin: 0 auto;
 }
 
-.imagem-container img {
+.imagem-container-prod img {
   max-height: 100%;
   max-width: 100%;
   object-fit: contain;
 }
 
 /* botãozinhos */
-.acoes button {
+.acoes-prod button {
   background: none;
   border: none;
   color: #0077cc;
@@ -36,55 +37,48 @@
   font-size: 14px;
 }
 
-.acoes button:hover {
+.acoes-prod button:hover {
   text-decoration: underline;
 }
 
-
 /* Cód. */
-.linha-produto td:nth-child(1) {
+.linha-produto-prod td:nth-child(1) {
   width: 100px;
 }
 
 /* Imagem */
-.linha-produto td:nth-child(2) {
+.linha-produto-prod td:nth-child(2) {
   width: 150px;
-  /* background-color: #0077cc; */
 }
 
 /* Nome */
-.linha-produto td:nth-child(3) {
+.linha-produto-prod td:nth-child(3) {
   width: 180px;
 }
 
-/* Validade */
-/* .linha-produto td:nth-child(4) {
-  width: 120px;
-} */
-
-/* Compra */
-.linha-produto td:nth-child(4) {
+/* compra */
+.linha-produto-prod td:nth-child(4) {
   width: 100px;
 }
 
-/* Venda */
-.linha-produto td:nth-child(5) {
+/* venda */
+.linha-produto-prod td:nth-child(5) {
   width: 100px;
 }
 
-/* Estoque */
-.linha-produto td:nth-child(6) {
+/* estoque */
+.linha-produto-prod td:nth-child(6) {
   width: 100px;
 }
 
 /* Registro */
-.linha-produto td:nth-child(7) {
+.linha-produto-prod td:nth-child(7) {
   width: 140px;
 }
 
 /* Descrição */
-.linha-produto td:nth-child(8) {
-  width: 190px;
+.linha-produto-prod td:nth-child(8) {
+  width: 220px;
   text-align: center;
   vertical-align: middle;
   padding: 8px;
@@ -93,8 +87,7 @@
   white-space: nowrap;
 }
 
-
-/* Status */
-.linha-produto td:nth-child(9) {
-  width: 50px;
+/* Ações */
+.linha-produto-prod td:nth-child(9) {
+  width: 100px;
 }

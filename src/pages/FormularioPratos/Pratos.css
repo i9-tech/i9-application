@@ -1,0 +1,18 @@
+.container-prato {
+    display: flex;
+    width: 97%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.coluna-esquerda {
+  flex: 1.2;
+}
+
+.coluna-direita {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,9 +1,8 @@
 import axios from "axios";
+import { enviroments } from "../utils/enviroments";
 
 const api = axios.create({
-  // baseURL: "http://localhost:3000", /* CONSUMIR DADOS DO JSON SERVER */ 
-  // baseURL: "http://localhost:8080", /* CONSUMIR DADOS DO BACKEND SPRINGBOOT */
-    baseURL: "https://i9-server-djgeexgnhsbmbkc6.eastus-01.azurewebsites.net/", /* CONSUMIR DADOS DA AZURE */ 
+  baseURL: enviroments.apiURL,
   headers: {
     "Content-Type": "application/json",
   },

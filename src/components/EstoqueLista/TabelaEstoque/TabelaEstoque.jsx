@@ -1,48 +1,60 @@
+import { Tooltip } from "react-tooltip";
 import CabecalhoEstoque from "./CabecalhoEstoque/CabecalhoEstoque";
 import ProdutoEstoque from "./ProdutoEstoque/ProdutoEstoque";
 import "./TabelaEstoque.css";
+import CarregamentoEstoque from "../../Estoque/CarregamentoEstoque";
+import NoDataEstoque from "../../Estoque/NoDataEstoque";
 
-const TabelaEstoque = ({ produtos, setProdutos, filtroStatus }) => {
+const TabelaEstoque = ({
+  isLoadingData,
+  produtos,
+  filtroStatus,
+  termoBusca,
+  buscarProdutos,
+  setorSelecionado,
+}) => {
+  const listaProdutos = Array.isArray(produtos) ? produtos : [produtos];
 
-  const hoje = new Date();
+  const produtosFiltrados = listaProdutos.filter((p) => {
+    const normalize = (str) =>
+      (str || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
 
-  const produtosFiltrados = filtroStatus
-    ? produtos.filter((p) => {
-        if (filtroStatus === 'sem') return p.estoque === 0;
-        if (filtroStatus === 'baixo') return p.estoque <= 10 && p.estoque > 0;
-        if (filtroStatus === 'validade') {
-          const [d, m, a] = p.validade.split('/');
-          const validade = new Date(`${a}-${m}-${d}`);
-          return (validade - hoje) / (1000 * 60 * 60 * 24) <= 30 && p.estoque > 0;
-        }
-        return true;
-      })
-    : produtos;
+    const nomeMatch = normalize(p.nome).includes(normalize(termoBusca));
 
-  const handleDelete = (id) => {
-    const confirm = window.confirm("Deseja excluir este produto?");
-    if (confirm) {
-      setProdutos((prev) => prev.filter((p) => p.id !== id));
-    }
-  };
+    const statusMatch =
+      !filtroStatus ||
+      (filtroStatus === "sem" && p.quantidade === 0) ||
+      (filtroStatus === "baixo" &&
+        p.quantidade < p.quantidadeMin &&
+        p.quantidade > 0);
 
-  const handleEdit = (produto) => {
-    alert(`Editar produto: ${produto.nome}\n(ID: ${produto.id})`);
-  };
+    const setorMatch =
+      !setorSelecionado || String(p.setor?.id) === String(setorSelecionado);
+
+    return nomeMatch && statusMatch && setorMatch;
+  });
 
   return (
-    <div className="tabela-container">
-      <table className="tabela-estoque">
+    <div className="tabela-container-prod">
+      <table className="tabela-estoque-prod">
         <CabecalhoEstoque />
         <tbody>
-          {produtosFiltrados.map((produto) => (
-            <ProdutoEstoque
-              key={produto.id}
-              produto={produto}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
+          {isLoadingData ? (
+            <CarregamentoEstoque colunas={9} />
+          ) : produtosFiltrados.length > 0 ? (
+            produtosFiltrados.map((produto) => (
+              <ProdutoEstoque
+                key={produto.id}
+                produto={produto}
+                buscar={buscarProdutos}
+              />
+            ))
+          ) : (
+            <NoDataEstoque tipo="produto" />
+          )}
         </tbody>
       </table>
     </div>

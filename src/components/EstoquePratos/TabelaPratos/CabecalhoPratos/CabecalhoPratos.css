@@ -1,0 +1,61 @@
+.cabecalho-estoque {
+    background-color: #f9f9f9;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  
+  .cabecalho-estoque th {
+    padding: 10px 12px;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    color: #333;
+    border-bottom: 2px solid #ccc;
+    /* white-space: nowrap; */
+    vertical-align: middle;
+  }
+  
+  .cabecalho-estoque tr {
+    border-radius: 8px;
+  }
+  
+  .cabecalho-estoque th:nth-child(1) {
+    width: 100px;
+  } /* Cód. */
+  
+  .cabecalho-estoque th:nth-child(2) {
+    width: 100px;
+  } /* Imagem */
+  
+  .cabecalho-estoque th:nth-child(3) {
+    width: 220px;
+  } /* Nome */
+  
+  .cabecalho-estoque th:nth-child(4) {
+    width: 120px;
+    /* Descrição */
+  }
+  
+  .cabecalho-estoque th:nth-child(5) {
+    width: 110px;
+    /* Preço */
+    
+  } 
+  
+  .cabecalho-estoque th:nth-child(6) {
+    width: 110px;
+  } /* Disponibilidade */
+  
+  .cabecalho-estoque th:nth-child(7) {
+    width: 110px;
+  } /* Categoria */
+  
+  .cabecalho-estoque th:nth-child(8) {
+    width: 160px;
+  } /* Setor */
+  
+    .cabecalho-estoque th:nth-child(9) {
+    width: 100px;
+  } /* Status */
+  

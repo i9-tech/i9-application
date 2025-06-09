@@ -1,4 +1,4 @@
-.top-actions {
+.top-actions-prod {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -7,12 +7,12 @@
   justify-content: baseline;
 }
 
-.filtros-dropdown {
+.filtros-dropdown-prod {
   position: relative;
   display: inline-block;
 }
 
-.menu-filtros {
+.menu-filtros-prod {
   position: absolute;
   top: 100%;
   left: 0;
@@ -24,7 +24,7 @@
   min-width: 180px;
 }
 
-.menu-filtros button {
+.menu-filtros-prod button {
   display: block;
   background: none;
   border: none;
@@ -34,25 +34,25 @@
   cursor: pointer;
 }
 
-.menu-filtros button:hover {
+.menu-filtros-prod button:hover {
   background-color: #eee;
 }
 
-.top-actions input.search {
+.top-actions-prod input.search {
   padding: 8px;
   flex: 1;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
 
-.top-actions select {
+.top-actions-prod select {
   padding: 8px;
   border-radius: 6px;
   width: 200px;
   border: 1px solid #ccc;
 }
 
-.add-btn {
+.add-btn-prod {
   background: #0f2fe0;
   color: white;
   border: none;
@@ -61,7 +61,7 @@
   cursor: pointer;
 }
 
-.filtro {
+.filtro-prod {
   background: white;
   border: 1px solid #0f2fe0;
   color: #0f2fe0;
@@ -69,7 +69,7 @@
   border-radius: 6px;
 }
 
-.filtro-ativo {
+.filtro-ativo-prod {
   background-color: var(--hovers);
   border: 1px solid #aaa;
   padding: 8px 12px;
@@ -78,6 +78,6 @@
   color: white;
 }
 
-.filtro-ativo:hover {
+.filtro-ativo-prod:hover {
   color: #0f2fe0;
 }

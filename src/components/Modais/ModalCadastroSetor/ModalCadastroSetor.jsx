@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./ModalCadastroSetor.css";
 import { getFuncionario } from "../../../utils/auth";
 import api from "../../../provider/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ENDPOINTS } from "../../../utils/endpoints";
 
 
-const ModalCadastroSetor = ({ onCancelar, onSalvar, setorSelecionado }) => {
+const ModalCadastroSetor = ({ onCancelar, setorSelecionado }) => {
   const funcionario = getFuncionario();
   const [nomeSetor, setNomeSetor] = useState("");
 
@@ -33,7 +34,7 @@ const ModalCadastroSetor = ({ onCancelar, onSalvar, setorSelecionado }) => {
     const token = localStorage.getItem("token");
 
     api
-      .post(`/setores/${funcionario.userId}`, {
+      .post(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
         nome: nomeSetor,
       }, {
         headers: {
@@ -56,7 +57,7 @@ const ModalCadastroSetor = ({ onCancelar, onSalvar, setorSelecionado }) => {
     const token = localStorage.getItem("token");
 
     api
-      .put(`/setores/${setorSelecionado.id}/${funcionario.userId}`, {
+      .put(`${ENDPOINTS.SETORES}/${setorSelecionado.id}/${funcionario.userId}`, {
         nome: nomeSetor,
       }, {
         headers: {

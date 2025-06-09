@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./ModalCadastroCategoria.css";
 import { getFuncionario } from "../../../utils/auth";
 import api from "../../../provider/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ENDPOINTS } from "../../../utils/endpoints";
 
 
-const ModalCadastroCategoria = ({ onCancelar, onSalvar, categoriaSelecionada }) => {
+const ModalCadastroCategoria = ({ onCancelar, categoriaSelecionada }) => {
   const funcionario = getFuncionario();
   const [nomeCategoria, setNomeCategoria] = useState("");
 
@@ -33,7 +34,7 @@ const ModalCadastroCategoria = ({ onCancelar, onSalvar, categoriaSelecionada }) 
     const token = localStorage.getItem("token");
 
     api
-      .post(`/categorias/${funcionario.userId}`, {
+      .post(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
         nome: nomeCategoria,
       }, {
         headers: {
@@ -56,7 +57,7 @@ const ModalCadastroCategoria = ({ onCancelar, onSalvar, categoriaSelecionada }) 
     const token = localStorage.getItem("token");
 
     api
-      .put(`/categorias/${categoriaSelecionada.id}/${funcionario.userId}`, {
+      .put(`${ENDPOINTS.CATEGORIAS}/${categoriaSelecionada.id}/${funcionario.userId}`, {
         nome: nomeCategoria,
       }, {
         headers: {

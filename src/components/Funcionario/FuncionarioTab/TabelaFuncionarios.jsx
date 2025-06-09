@@ -18,7 +18,7 @@ function TabelaFuncionarios({
 
   const funcionariosFiltrados = funcionarios.filter((func) =>
     removerAcentos(func.nome.toLowerCase()).includes(
-      removerAcentos(filtroNome.toLowerCase())
+      removerAcentos(filtroNome.trim().toLowerCase())
     )
   );
 

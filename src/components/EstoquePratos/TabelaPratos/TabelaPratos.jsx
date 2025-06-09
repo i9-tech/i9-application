@@ -25,7 +25,7 @@ const TabelaPratos = ({
     }
 
     function removeAccents(str) {
-      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
     }
 
     // Filtro por status

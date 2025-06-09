@@ -10,6 +10,12 @@ export function calcularResumoEstoque(produtos) {
     return acc + p.valorUnitario * p.quantidade;
   }, 0);
 
+
+  const lucroBruto = produtos.reduce((acc, p) => {
+    return acc + p.valorUnitario * p.quantidade;
+  }, 0);
+
+
   // Lucro previsto = (valor de venda - valor de compra) * quantidade
   const lucroLiquido = produtos.reduce((acc, p) => {
     return acc + (p.valorUnitario - p.valorCompra) * p.quantidade;
@@ -34,7 +40,8 @@ export function calcularResumoEstoque(produtos) {
   }).length;
 
   // Total de produtos com estoque > 0
-  const totalEmEstoque = produtos.filter((p) => p.quantidade > 0).length;
+  // Soma total de itens em estoque (quantidade, não número de produtos)
+  const totalEmEstoque = produtos.reduce((acc, p) => acc + (p.quantidade > 0 ? p.quantidade : 0), 0);
 
   return {
     valorEstoque,
@@ -44,5 +51,6 @@ export function calcularResumoEstoque(produtos) {
     semEstoque,
     pertoValidade,
     totalEmEstoque,
+    lucroBruto
   };
 }

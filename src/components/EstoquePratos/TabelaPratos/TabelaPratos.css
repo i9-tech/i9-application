@@ -1,5 +1,6 @@
 .tabela-container {
     max-height: 72%;
+    border-radius: 8px;
     overflow-y: auto;
     border: 1px solid #ccc;
   }
@@ -13,7 +14,8 @@
   .cabecalho-estoque th {
     position: sticky;
     top: 0;
-    background: #fff;
+  color: white;
+  background-color: #0000cc;
     z-index: 1;
     padding: 8px;
     text-align: center;

@@ -76,7 +76,7 @@
           -webkit-appearance: none;
           width: 20px;
           height: 20px;
-          border: 2px solid #007bff;
+          border: 2px solid #0000cc;
           border-radius: 4px;
           background-color: white;
           cursor: pointer;
@@ -84,8 +84,8 @@
           transition: all 0.2s ease;
 
           &:checked {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #0000cc;
+            border-color: #0000cc;
 
             &::after {
               content: "✓";
@@ -128,7 +128,7 @@
     }
 
     .btn-cadastrar-funcionario {
-      background-color: #0050ff;
+      background-color: #0000cc;
       color: white;
       border: none;
 

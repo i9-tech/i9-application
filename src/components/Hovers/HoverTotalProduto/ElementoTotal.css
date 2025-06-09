@@ -11,7 +11,8 @@
     padding: 1rem;
     border-radius: 1rem;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.15);
     border: none;
     outline: none;
     font-size: 16px;

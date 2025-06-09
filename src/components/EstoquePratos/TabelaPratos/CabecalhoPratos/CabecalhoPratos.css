@@ -29,30 +29,30 @@
   } /* Imagem */
   
   .cabecalho-estoque th:nth-child(3) {
-    width: 130px;
+    width: 220px;
   } /* Nome */
   
   .cabecalho-estoque th:nth-child(4) {
-    width: 220px;
+    width: 120px;
     /* Descrição */
   }
   
   .cabecalho-estoque th:nth-child(5) {
-    width: 100px;
+    width: 110px;
     /* Preço */
     
   } 
   
   .cabecalho-estoque th:nth-child(6) {
-    width: 130px;
+    width: 110px;
   } /* Disponibilidade */
   
   .cabecalho-estoque th:nth-child(7) {
-    width: 140px;
+    width: 110px;
   } /* Categoria */
   
   .cabecalho-estoque th:nth-child(8) {
-    width: 110px;
+    width: 160px;
   } /* Setor */
   
     .cabecalho-estoque th:nth-child(9) {

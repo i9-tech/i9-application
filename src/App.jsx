@@ -18,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
+import CadastroSetoresCategorias from "./pages/CadastroSetoresCategorias/CadastroSetoresCategorias";
 
 function App() {
 
@@ -96,7 +97,7 @@ function App() {
             path={ROUTERS.SETOR_CATEGORIA}
             element={
               <RotaPrivada permissao="ROLE_PROPRIETARIO">
-                <CadastroSetorCategoria />
+                <CadastroSetoresCategorias />
               </RotaPrivada>
             }
           />

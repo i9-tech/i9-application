@@ -20,6 +20,8 @@ import Relogio from "../../components/Relogio/Relogio";
 import SetoresCarregamento from "../../components/Atendimento/SetoresCarregamento";
 import CardsAtendimentoCarregamento from "../../components/Atendimento/CardsAtendimentoCarregamento";
 import NoDataAtendimento from "../../components/Atendimento/NoDataAtendimento";
+import { enviroments } from "../../utils/enviroments";
+import { imagemPadrao } from "../../assets/imagemPadrao";
 
 export function Atendente() {
   const permissao = getPermissoes();
@@ -43,6 +45,7 @@ export function Atendente() {
   const [buscaProduto, setBuscaProduto] = useState("");
 
   const [comanda, setComanda] = useState([]);
+  const tokenUrl = enviroments.tokenURL;
 
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
@@ -383,36 +386,28 @@ export function Atendente() {
             />
           )}
 
-          <div className="todos-produtos">
-            <h1>Escolha um Setor:</h1>
-            {isSetoresCarregando && !errorSetor ? (
-              <SetoresCarregamento quantidadeCards={7} />
-            ) : !errorSetor ? (
-              <div className="setores">
-                <ElementoTotal
-                  key="todos"
-                  nome="Todos"
-                  imagem={todos}
-                  quantidade={produtos.length}
-                  onClick={() => setSetorSelecionado("Todos")}
-                />
-                {setores.map((setor) => (
-                  <ElementoTotal
-                    key={setor.id}
-                    nome={setor.nome}
-                    imagem={setor.imagem}
-                    quantidade={
-                      produtos.filter(
-                        (p) => p.setor && p.setor.nome === setor.nome
-                      ).length
-                    }
-                    onClick={() => setSetorSelecionado(setor.nome)}
-                  />
-                ))}
-              </div>
-            ) : (
-              <NoDataAtendimento />
-            )}
+        <div className="todos-produtos">
+          <h1>Escolha o Setor</h1>
+          <div className="setores">
+            <ElementoTotal
+              key="todos"
+              nome="Todos"
+              imagem={todos}
+              quantidade={produtos.length}
+              onClick={() => setSetorSelecionado("Todos")}
+            />
+            {setores.map((setor) => (
+              <ElementoTotal
+                key={setor.id}
+                nome={setor.nome}
+                imagem={setor.imagem ? setor.imagem + tokenUrl : imagemPadrao}
+                quantidade={
+                  produtos.filter((p) => p.setor && p.setor.nome === setor.nome).length
+                }
+                onClick={() => setSetorSelecionado(setor.nome)}
+              />
+            ))}
+          </div>
 
             <div className="header-container">
               <h1> Setor: {setorSelecionado} </h1>

@@ -30,7 +30,7 @@
     .comanda {
       width: 100%;
       height: auto;
-      background: white;
+      background: #fff;
       border-radius: 2%;
 
       .cabecalho-comanda {

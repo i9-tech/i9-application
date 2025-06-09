@@ -14,6 +14,7 @@
     box-sizing: border-box;
 }
 
+
 .img-obs{
     display: flex; 
     flex-direction: column;

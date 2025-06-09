@@ -59,10 +59,11 @@ export function Atendente() {
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
   const [_carregou, setCarregou] = useState(false);
 
-
   const [errorPrato] = useState(false);
   const [errorProduto] = useState(false);
   const [errorSetor, setErrorSetor] = useState(false);
+
+  const [isSemResultado, setIsSemResultado] = useState(false);
 
   useEffect(() => {
     api
@@ -106,24 +107,31 @@ export function Atendente() {
   useEffect(() => {
     const headers = { Authorization: `Bearer ${token}` };
 
-    const requisicaoProdutos = api.get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, { headers });
-    const requisicaoPratos = api.get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers });
+    const requisicaoProdutos = api.get(
+      `${ENDPOINTS.PRODUTOS}/${funcionario.userId}`,
+      { headers }
+    );
+    const requisicaoPratos = api.get(
+      `${ENDPOINTS.PRATOS}/${funcionario.userId}`,
+      { headers }
+    );
 
-    Promise.all([requisicaoProdutos, requisicaoPratos])
-      .then(([produtosResponse, pratosResponse]) => {
+    Promise.all([requisicaoProdutos, requisicaoPratos]).then(
+      ([produtosResponse, pratosResponse]) => {
         const produtosComTipo = produtosResponse.data.map((produto) => ({
           ...produto,
-          tipo: "produto"
+          tipo: "produto",
         }));
 
         const pratosComTipo = pratosResponse.data.map((prato) => ({
           ...prato,
-          tipo: "prato"
+          tipo: "prato",
         }));
 
         setProdutos([...produtosComTipo, ...pratosComTipo]);
         setCarregou(true);
-      });
+      }
+    );
 
     Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(() => {
       setTimeout(() => {
@@ -272,16 +280,16 @@ export function Atendente() {
       const body =
         item.tipo === "produto"
           ? {
-            venda: "venda5",
-            produto: { id: item.id },
-            funcionario: { id: funcionario.userId },
-          }
+              venda: "venda5",
+              produto: { id: item.id },
+              funcionario: { id: funcionario.userId },
+            }
           : {
-            venda: "venda5",
-            prato: { id: item.id },
-            ...(item.observacao ? { observacao: item.observacao } : {}),
-            funcionario: { id: funcionario.userId },
-          };
+              venda: "venda5",
+              prato: { id: item.id },
+              ...(item.observacao ? { observacao: item.observacao } : {}),
+              funcionario: { id: funcionario.userId },
+            };
 
       return api
         .post(url, body, {
@@ -358,6 +366,41 @@ export function Atendente() {
     });
   }
 
+  useEffect(() => {
+    const temResultados = categorias.some((categoria) =>
+      produtos.some((produto) => {
+        const mesmoSetor =
+          setorSelecionado === "Todos" ||
+          (produto.setor &&
+            produto.setor.nome &&
+            produto.setor.nome.trim().toLowerCase() ===
+              setorSelecionado.trim().toLowerCase());
+
+        const mesmaCategoria =
+          produto.categoria &&
+          produto.categoria.nome &&
+          produto.categoria.nome.trim().toLowerCase() ===
+            categoria.nome.trim().toLowerCase();
+
+        const buscaValida = buscaProduto.trim() !== "";
+
+        function removerAcentos(str) {
+          return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        const nomeCombina = buscaValida
+          ? removerAcentos(produto.nome.toLowerCase()).includes(
+              removerAcentos(buscaProduto.toLowerCase())
+            )
+          : true;
+
+        return mesmoSetor && mesmaCategoria && nomeCombina;
+      })
+    );
+
+    setIsSemResultado(!temResultados);
+  }, [produtos, categorias, setorSelecionado, buscaProduto]);
+
   return (
     <>
       <LayoutTela
@@ -386,38 +429,40 @@ export function Atendente() {
             />
           )}
 
-        <div className="todos-produtos">
-          <h1>Escolha o Setor</h1>
-          <div className="setores">
-            {isSetoresCarregando && !errorSetor ? (
-              <SetoresCarregamento quantidadeCards={7} />
-            ) : !errorSetor ? (
-              <div className="setores">
-                <ElementoTotal
-                  key="todos"
-                  nome="Todos"
-                  imagem={todos}
-                  quantidade={produtos.length}
-                  onClick={() => setSetorSelecionado("Todos")}
-                />
-                {setores.map((setor) => (
+          <div className="todos-produtos">
+            <h1>Escolha o Setor</h1>
+            <div className="setores">
+              {isSetoresCarregando && !errorSetor ? (
+                <SetoresCarregamento quantidadeCards={7} />
+              ) : !errorSetor ? (
+                <div className="setores">
                   <ElementoTotal
-                    key={setor.id}
-                    nome={setor.nome}
-                    imagem={setor.imagem ? setor.imagem + tokenUrl : imagemPadrao}
-                    quantidade={
-                      produtos.filter(
-                        (p) => p.setor && p.setor.nome === setor.nome
-                      ).length
-                    }
-                    onClick={() => setSetorSelecionado(setor.nome)}
+                    key="todos"
+                    nome="Todos"
+                    imagem={todos}
+                    quantidade={produtos.length}
+                    onClick={() => setSetorSelecionado("Todos")}
                   />
-                ))}
-              </div>
-            ) : (
-              <NoDataAtendimento />
-            )}
-          </div>
+                  {setores.map((setor) => (
+                    <ElementoTotal
+                      key={setor.id}
+                      nome={setor.nome}
+                      imagem={
+                        setor.imagem ? setor.imagem + tokenUrl : imagemPadrao
+                      }
+                      quantidade={
+                        produtos.filter(
+                          (p) => p.setor && p.setor.nome === setor.nome
+                        ).length
+                      }
+                      onClick={() => setSetorSelecionado(setor.nome)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <NoDataAtendimento />
+              )}
+            </div>
 
             <div className="header-container">
               <h1> Setor: {setorSelecionado} </h1>
@@ -427,7 +472,10 @@ export function Atendente() {
                   placeholder="Procurar Produto"
                   className="input-pesquisa-produtos"
                   value={buscaProduto}
-                  onChange={(e) => setBuscaProduto(e.target.value)}
+                  onChange={(e) => {
+                    const valor = e.target.value;
+                    setBuscaProduto(valor);
+                  }}
                 />
                 <button className="lupa-pesquisa">
                   <img src={LupaPesquisa} alt="Pesquisar" />
@@ -446,20 +494,27 @@ export function Atendente() {
                       (produto.setor &&
                         produto.setor.nome &&
                         produto.setor.nome.trim().toLowerCase() ===
-                        setorSelecionado.trim().toLowerCase());
+                          setorSelecionado.trim().toLowerCase());
 
                     const mesmaCategoria =
                       produto.categoria &&
                       produto.categoria.nome &&
                       produto.categoria.nome.trim().toLowerCase() ===
-                      categoria.nome.trim().toLowerCase();
+                        categoria.nome.trim().toLowerCase();
 
                     function removerAcentos(str) {
-                      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                      return str
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "");
                     }
 
-                    const nomeCombina = removerAcentos(produto.nome.toLowerCase())
-                      .includes(removerAcentos(buscaProduto.toLowerCase()));
+                    const buscaValida = buscaProduto.trim() !== "";
+
+                    const nomeCombina = buscaValida
+                      ? removerAcentos(produto.nome.toLowerCase()).includes(
+                          removerAcentos(buscaProduto.toLowerCase())
+                        )
+                      : true;
 
                     return mesmoSetor && mesmaCategoria && nomeCombina;
                   });
@@ -513,6 +568,21 @@ export function Atendente() {
                   <NoDataAtendimento />
                 </div>
               )}
+              {!isProdutosCarregando &&
+                !errorPrato &&
+                !errorProduto &&
+                isSemResultado && (
+                  <p
+                    style={{
+                      width: "68vw",
+                      display: "flex",
+                      marginTop: "30px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    Não foram encontrados pratos e/ou produtos com esse nome.
+                  </p>
+                )}
             </div>
           </div>
         </section>
@@ -524,7 +594,7 @@ export function Atendente() {
 
           <div className="produtos-adicionados-comanda">
             {comanda.map((item, index) => {
-              const produtoEstoque = produtos.find(p => p.nome === item.nome);
+              const produtoEstoque = produtos.find((p) => p.nome === item.nome);
 
               const itemComanda = comanda.find(
                 (item) => item.nome === produtoEstoque.nome

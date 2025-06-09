@@ -13,6 +13,8 @@ const Modal = ({
   tipo = "setor",
   onSalvar,
   itemParaEditar = null,
+  setPorcentagemCarregamento,
+  setIsEnviandoDados,
 }) => {
   const funcionario = getFuncionario();
   const token = getToken();
@@ -42,98 +44,132 @@ const Modal = ({
     }
   }, [itemParaEditar, isOpen]);
 
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
+    setIsEnviandoDados(true);
+    setPorcentagemCarregamento(10);
+    await sleep(200);
 
-  if (!nome.trim()) {
-    alert("Preencha o nome antes de continuar.");
-    return;
-  }
-
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  let imagemUrlFinal = "";
-
-  try {
-    // CASO 1: Upload personalizado
-    if (imagem) {
-      const formData = new FormData();
-      formData.append("file", imagem);
-
-      const res = await api.post(ENDPOINTS.AZURE_IMAGEM, formData, {
-        headers: {
-          ...headers,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      imagemUrlFinal = res.data.imageUrl;
+    if (!nome.trim()) {
+      alert("Preencha o nome antes de continuar.");
+      setIsEnviandoDados(false);
+      return;
     }
 
-    else if (imagemSelecionada?.url) {
-      imagemUrlFinal = imagemSelecionada.url;
-    }
-
-    else {
-      imagemUrlFinal = urlImagem || imagemPadrao;
-    }
-
-    const dados = {
-      nome,
-      imagem: imagemUrlFinal,
+    const headers = {
+      Authorization: `Bearer ${token}`,
     };
 
-    if (tipo === "categoria") {
-      if (itemParaEditar) {
-        const response = await api.put(
-          `${ENDPOINTS.CATEGORIAS}/${itemParaEditar.id}/${funcionario.userId}`,
-          { nome },
-          { headers }
-        );
-        toast.success("Categoria atualizada com sucesso!");
-        onSalvar(response.data);
-        onClose();
-      } else {
-        const response = await api.post(
-          `${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`,
-          { nome },
-          { headers }
-        );
-        toast.success("Categoria cadastrada com sucesso!");
-        onSalvar(response.data);
-        setNome("");
-        onClose();
-      }
-    } else {
-      if (itemParaEditar) {
-        const response = await api.patch(
-          `${ENDPOINTS.SETORES}/${itemParaEditar.id}/${funcionario.userId}`,
-          dados,
-          { headers }
-        );
-        toast.success("Setor atualizado com sucesso!");
-        onSalvar(response.data);
-        onClose();
-      } else {
-        const response = await api.post(
-          `${ENDPOINTS.SETORES}/${funcionario.userId}`,
-          dados,
-          { headers }
-        );
-        toast.success("Setor cadastrado com sucesso!");
-        onSalvar(response.data);
-        setNome("");
-        onClose();
-      }
-    }
-  } catch (error) {
-    toast.error(`Erro ao ${itemParaEditar ? "atualizar" : "cadastrar"} ${tipo}!`);
-    console.error(`Erro ao salvar ${tipo}:`, error);
-  }
-};
+    let imagemUrlFinal = "";
 
+    try {
+      if (imagem) {
+        setPorcentagemCarregamento(20);
+        await sleep(200);
+
+        const formData = new FormData();
+        formData.append("file", imagem);
+
+        const res = await api.post(ENDPOINTS.AZURE_IMAGEM, formData, {
+          headers: {
+            ...headers,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        setPorcentagemCarregamento(40);
+        await sleep(200);
+
+        imagemUrlFinal = res.data.imageUrl;
+      } else if (imagemSelecionada?.url) {
+        setPorcentagemCarregamento(30);
+        await sleep(200);
+
+        imagemUrlFinal = imagemSelecionada.url;
+      } else {
+        setPorcentagemCarregamento(30);
+        await sleep(200);
+
+        imagemUrlFinal = urlImagem || imagemPadrao;
+      }
+
+      const dados = {
+        nome,
+        imagem: imagemUrlFinal,
+      };
+
+      setPorcentagemCarregamento(60);
+      await sleep(200);
+
+      if (tipo === "categoria") {
+        if (itemParaEditar) {
+          const response = await api.put(
+            `${ENDPOINTS.CATEGORIAS}/${itemParaEditar.id}/${funcionario.userId}`,
+            { nome },
+            { headers }
+          );
+          setPorcentagemCarregamento(90);
+          await sleep(200);
+
+          toast.success("Categoria atualizada com sucesso!");
+          onSalvar(response.data);
+          onClose();
+        } else {
+          const response = await api.post(
+            `${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`,
+            { nome },
+            { headers }
+          );
+          setPorcentagemCarregamento(90);
+          await sleep(200);
+
+          toast.success("Categoria cadastrada com sucesso!");
+          onSalvar(response.data);
+          setNome("");
+          onClose();
+        }
+      } else {
+        if (itemParaEditar) {
+          const response = await api.patch(
+            `${ENDPOINTS.SETORES}/${itemParaEditar.id}/${funcionario.userId}`,
+            dados,
+            { headers }
+          );
+          setPorcentagemCarregamento(90);
+          await sleep(200);
+
+          toast.success("Setor atualizado com sucesso!");
+          onSalvar(response.data);
+          onClose();
+        } else {
+          const response = await api.post(
+            `${ENDPOINTS.SETORES}/${funcionario.userId}`,
+            dados,
+            { headers }
+          );
+          setPorcentagemCarregamento(90);
+          await sleep(200);
+
+          toast.success("Setor cadastrado com sucesso!");
+          onSalvar(response.data);
+          setNome("");
+          onClose();
+        }
+      }
+
+      setPorcentagemCarregamento(100);
+      await sleep(200);
+    } catch (error) {
+      console.error(`Erro ao salvar ${tipo}:`, error);
+      toast.error(
+        `Erro ao ${itemParaEditar ? "atualizar" : "cadastrar"} ${tipo}!`
+      );
+    } finally {
+      setIsEnviandoDados(false);
+    }
+  };
 
   const handleImagemChange = (e) => {
     const file = e.target.files[0];
@@ -141,6 +177,7 @@ const Modal = ({
       setImagem(file);
       setImagemSelecionada("");
       setUrlImagem("");
+      setModalImagensAberto(false)
     }
   };
 
@@ -263,11 +300,12 @@ const Modal = ({
               ))}
               <div className="upload-imagem-customizada">
                 <label className="btn">
-                  Upload Imagem Personalizada
+                  Faça upload da foto do produto (JPG, PNG, JPEG)
                   <input
                     type="file"
-                    accept="image/*"
+                    accept="image/png, image/jpeg, image/jpg"
                     onChange={handleImagemChange}
+                    className="input-escondido"
                   />
                 </label>
               </div>

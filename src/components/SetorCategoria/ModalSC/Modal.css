@@ -15,7 +15,7 @@
   max-width: 540px;
   padding: 40px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .modal-form {
@@ -135,7 +135,6 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-
 .modal-content-fotos button {
   align-self: center;
 }
@@ -148,4 +147,26 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
+}
+
+.upload-imagem-customizada {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+
+.upload-imagem-customizada label {
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--destaque);
+  }
+}
+
+.input-escondido {
+  display: none;
 }

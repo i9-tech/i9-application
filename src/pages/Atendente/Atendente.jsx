@@ -389,13 +389,6 @@ export function Atendente() {
         <div className="todos-produtos">
           <h1>Escolha o Setor</h1>
           <div className="setores">
-            <ElementoTotal
-              key="todos"
-              nome="Todos"
-              imagem={todos}
-              quantidade={produtos.length}
-              onClick={() => setSetorSelecionado("Todos")}
-            />
             {isSetoresCarregando && !errorSetor ? (
               <SetoresCarregamento quantidadeCards={7} />
             ) : !errorSetor ? (

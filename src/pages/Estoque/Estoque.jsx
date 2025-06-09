@@ -18,6 +18,7 @@ export function Estoque() {
   const funcionario = getFuncionario();
   const [termoBusca, setTermoBusca] = useState("");
   const [setorSelecionado, setSetorSelecionado] = useState("");
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
   const [isLoadingData, setIsLoadingData] = useState(true);
 
   const buscarProdutos = useCallback(() => {
@@ -73,6 +74,8 @@ export function Estoque() {
             setTermoBusca={setTermoBusca}
             setorSelecionado={setorSelecionado}
             setSetorSelecionado={setSetorSelecionado}
+            categoriaSelecionada={categoriaSelecionada}
+            setCategoriaSelecionada={setCategoriaSelecionada}
           />
           <ResumoEstoque {...resumo} />
           <TabelaEstoque
@@ -81,6 +84,7 @@ export function Estoque() {
             filtroStatus={filtroStatus}
             termoBusca={termoBusca}
             setorSelecionado={setorSelecionado}
+            categoriaSelecionada={categoriaSelecionada}
             buscarProdutos={buscarProdutos}
           />
         </div>

@@ -9,7 +9,7 @@ import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 
 
-function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado }) {
+function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado, setCategoriaSelecionada, categoriaSeleciona }) {
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBus
   };
 
   const [setores, setSetores] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   useEffect(() => {
     api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
       headers: {
@@ -37,6 +38,22 @@ function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBus
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
       });
+
+    api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setCategorias(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar categorias:", err);
+        toast.error("Erro ao buscar categorias!");
+      });
+
   }, [funcionario.userId, token]);
 
   return (
@@ -86,10 +103,16 @@ function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBus
           ))}
         </select>
 
-        <select>
-          <option>Selecione a categoria</option>
-          <option>Doce</option>
-          <option>Bebida</option>
+        <select 
+          value={categoriaSeleciona}
+          onChange={(e) => setCategoriaSelecionada(e.target.value)}
+          >
+          <option value="">Todas Categorias</option>
+          {categorias.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.nome}
+            </option>
+          ))}
         </select>
 
         <button

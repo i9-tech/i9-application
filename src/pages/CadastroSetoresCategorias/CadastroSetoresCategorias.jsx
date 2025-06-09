@@ -219,7 +219,7 @@ const CadastroSetoresCategorias = () => {
 
   const setoresFiltradas = setores.filter((s) =>
     removerAcentos(s.nome.toLowerCase()).includes(
-      removerAcentos(buscaSetor.toLowerCase())
+      removerAcentos(buscaSetor.trim().toLowerCase())
     )
   );
 
@@ -229,7 +229,7 @@ const CadastroSetoresCategorias = () => {
 
   const categoriasFiltradas = categorias.filter((c) =>
     removerAcentos(c.nome.toLowerCase()).includes(
-      removerAcentos(buscaCategoria.toLowerCase())
+      removerAcentos(buscaCategoria.trim().toLowerCase())
     )
   );
 

@@ -127,7 +127,7 @@ export function Atendente() {
 
     Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(() => {
       setTimeout(() => {
-        setIsProdutosCarregando(false); // Exibe o loading por pelo menos 1s
+        setIsProdutosCarregando(false);
       }, 1000);
     });
   }, [funcionario.userId, token]);
@@ -396,17 +396,34 @@ export function Atendente() {
               quantidade={produtos.length}
               onClick={() => setSetorSelecionado("Todos")}
             />
-            {setores.map((setor) => (
-              <ElementoTotal
-                key={setor.id}
-                nome={setor.nome}
-                imagem={setor.imagem ? setor.imagem + tokenUrl : imagemPadrao}
-                quantidade={
-                  produtos.filter((p) => p.setor && p.setor.nome === setor.nome).length
-                }
-                onClick={() => setSetorSelecionado(setor.nome)}
-              />
-            ))}
+            {isSetoresCarregando && !errorSetor ? (
+              <SetoresCarregamento quantidadeCards={7} />
+            ) : !errorSetor ? (
+              <div className="setores">
+                <ElementoTotal
+                  key="todos"
+                  nome="Todos"
+                  imagem={todos}
+                  quantidade={produtos.length}
+                  onClick={() => setSetorSelecionado("Todos")}
+                />
+                {setores.map((setor) => (
+                  <ElementoTotal
+                    key={setor.id}
+                    nome={setor.nome}
+                    imagem={setor.imagem ? setor.imagem + tokenUrl : imagemPadrao}
+                    quantidade={
+                      produtos.filter(
+                        (p) => p.setor && p.setor.nome === setor.nome
+                      ).length
+                    }
+                    onClick={() => setSetorSelecionado(setor.nome)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <NoDataAtendimento />
+            )}
           </div>
 
             <div className="header-container">

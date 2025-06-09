@@ -4,7 +4,7 @@ import api from "../../../provider/api";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { getFuncionario, getToken } from "../../../utils/auth";
 import { toast } from "react-toastify";
-import { imagens, imagensFixas } from "./imagensFixas";
+import { imagens } from "./imagensFixas";
 import { imagemPadrao } from "../../../assets/imagemPadrao";
 
 const Modal = ({

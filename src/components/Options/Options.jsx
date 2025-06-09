@@ -42,9 +42,9 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             to={ROUTERS.DASHBOARD}
             {...(!isNavbarOpen
               ? {
-                  "data-tooltip-id": "tooltip-navbar",
-                  "data-tooltip-content": "Dashboard",
-                }
+                "data-tooltip-id": "tooltip-navbar",
+                "data-tooltip-content": "Dashboard",
+              }
               : {})}
           >
             <li key="dashboard">
@@ -60,9 +60,9 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             to={ROUTERS.ATENDENTE}
             {...(!isNavbarOpen
               ? {
-                  "data-tooltip-id": "tooltip-navbar",
-                  "data-tooltip-content": "Atendimento",
-                }
+                "data-tooltip-id": "tooltip-navbar",
+                "data-tooltip-content": "Atendimento",
+              }
               : {})}
           >
             <li key="atendente">
@@ -78,9 +78,9 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             to={ROUTERS.COMANDAS}
             {...(!isNavbarOpen
               ? {
-                  "data-tooltip-id": "tooltip-navbar",
-                  "data-tooltip-content": "Cozinha",
-                }
+                "data-tooltip-id": "tooltip-navbar",
+                "data-tooltip-content": "Cozinha",
+              }
               : {})}
           >
             <li key="cozinha">
@@ -96,9 +96,9 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             to={ROUTERS.ESTOQUE_PRODUTOS}
             {...(!isNavbarOpen
               ? {
-                  "data-tooltip-id": "tooltip-navbar",
-                  "data-tooltip-content": "Estoque de Produtos",
-                }
+                "data-tooltip-id": "tooltip-navbar",
+                "data-tooltip-content": "Estoque de Produtos",
+              }
               : {})}
           >
             <li key="estoque">
@@ -114,9 +114,9 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             to={ROUTERS.ESTOQUE_PRATOS}
             {...(!isNavbarOpen
               ? {
-                  "data-tooltip-id": "tooltip-navbar",
-                  "data-tooltip-content": "Estoque de Pratos",
-                }
+                "data-tooltip-id": "tooltip-navbar",
+                "data-tooltip-content": "Estoque de Pratos",
+              }
               : {})}
           >
             <li key="estoque-pratos">
@@ -132,9 +132,9 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             to={ROUTERS.SETOR_CATEGORIA}
             {...(!isNavbarOpen
               ? {
-                  "data-tooltip-id": "tooltip-navbar",
-                  "data-tooltip-content": "Setores e Categorias",
-                }
+                "data-tooltip-id": "tooltip-navbar",
+                "data-tooltip-content": "Setores e Categorias",
+              }
               : {})}
           >
             <li key="setor-categoria">
@@ -153,9 +153,9 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             to={ROUTERS.FUNCIONARIOS}
             {...(!isNavbarOpen
               ? {
-                  "data-tooltip-id": "tooltip-navbar",
-                  "data-tooltip-content": "Equipe",
-                }
+                "data-tooltip-id": "tooltip-navbar",
+                "data-tooltip-content": "Equipe",
+              }
               : {})}
           >
             <li key="funcionarios">
@@ -182,9 +182,9 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
           to={ROUTERS.LOGIN}
           {...(!isNavbarOpen
             ? {
-                "data-tooltip-id": "tooltip-navbar",
-                "data-tooltip-content": "Sair",
-              }
+              "data-tooltip-id": "tooltip-navbar",
+              "data-tooltip-content": "Sair",
+            }
             : {})}
         >
           <li key="sair" onClick={handleLogout}>
@@ -194,24 +194,24 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             <span>Sair</span>
           </li>
         </Link>
-        {permissoes.includes("ROLE_ATENDIMENTO") && (
-          <Link
-            onClick={handleNavbar}
-            {...(!isNavbarOpen
-              ? {
-                  "data-tooltip-id": "tooltip-navbar",
-                  "data-tooltip-content": "Abrir Menu",
-                }
-              : {})}
-          >
-            <li key="atendente">
-              <i className="seta-nav">
-                <MdOutlineKeyboardDoubleArrowRight />
-              </i>
-              <span>Fechar Menu</span>
-            </li>
-          </Link>
-        )}
+
+        <Link
+          onClick={handleNavbar}
+          {...(!isNavbarOpen
+            ? {
+              "data-tooltip-id": "tooltip-navbar",
+              "data-tooltip-content": "Abrir Menu",
+            }
+            : {})}
+        >
+          <li key="atendente">
+            <i className="seta-nav">
+              <MdOutlineKeyboardDoubleArrowRight />
+            </i>
+            <span>Fechar Menu</span>
+          </li>
+        </Link>
+
       </p>
     </>
   );

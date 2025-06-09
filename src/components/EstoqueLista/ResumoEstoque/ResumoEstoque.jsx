@@ -1,9 +1,5 @@
-import { useState, useEffect } from "react";
+
 import "./ResumoEstoque.css";
-import api from "../../../provider/api";
-import { getFuncionario } from "../../../utils/auth";
-import { ENDPOINTS } from "../../../utils/endpoints";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FiHelpCircle } from "react-icons/fi";
 

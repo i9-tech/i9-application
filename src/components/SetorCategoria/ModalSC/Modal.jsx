@@ -6,6 +6,7 @@ import { getFuncionario, getToken } from "../../../utils/auth";
 import { toast } from "react-toastify";
 import { imagens } from "./imagensFixas";
 import { imagemPadrao } from "../../../assets/imagemPadrao";
+import { enviroments } from "../../../utils/enviroments";
 
 const Modal = ({
   isOpen,
@@ -18,6 +19,7 @@ const Modal = ({
 }) => {
   const funcionario = getFuncionario();
   const token = getToken();
+  const tokenUrl = enviroments.tokenURL;
 
   const [nome, setNome] = useState("");
   const [imagem, setImagem] = useState(null);
@@ -32,7 +34,7 @@ const Modal = ({
         setUrlImagem(itemParaEditar.imagem);
         setImagemSelecionada(itemParaEditar.imagem);
       } else {
-        setUrlImagem(imagemPadrao);
+        setUrlImagem("");
         setImagemSelecionada("");
       }
       setImagem(null);
@@ -92,7 +94,11 @@ const Modal = ({
         setPorcentagemCarregamento(30);
         await sleep(200);
 
-        imagemUrlFinal = urlImagem || imagemPadrao;
+        if (urlImagem == imagemPadrao) {
+          imagemUrlFinal = "";
+        } else {
+          imagemUrlFinal = urlImagem;
+        }
       }
 
       const dados = {
@@ -177,7 +183,7 @@ const Modal = ({
       setImagem(file);
       setImagemSelecionada("");
       setUrlImagem("");
-      setModalImagensAberto(false)
+      setModalImagensAberto(false);
     }
   };
 
@@ -222,11 +228,11 @@ const Modal = ({
                   <label>Imagem:</label>
                   <div className="imagem-preview-wrapper-setor">
                     {imagemSelecionada ? (
-                      <img
-                        src={imagemSelecionada.fixa}
-                        alt="Imagem selecionada"
-                        className="imagem-preview-setor"
-                      />
+                        <img
+                          src={itemParaEditar ? (imagemSelecionada + tokenUrl) : imagemSelecionada.fixa}
+                          alt="Imagem selecionada"
+                          className="imagem-preview-setor"
+                        />
                     ) : urlImagem ? (
                       <img
                         src={urlImagem}

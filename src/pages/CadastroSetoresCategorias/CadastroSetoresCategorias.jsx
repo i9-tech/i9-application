@@ -31,7 +31,6 @@ const CadastroSetoresCategorias = () => {
     setTipoCadastro("setor");
     setItemSelecionado(item);
     setModalAberto(true);
-    console.log("HANDLE SETOR ", item);
   };
 
   const handleEditarCategoria = (item) => {

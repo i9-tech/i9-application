@@ -90,6 +90,7 @@
             height: 69px;
             border-radius: 5px;
             border: 1px solid #000;
+             overflow: hidden;
             /* background-color: #0f14b8; */
 
             img {

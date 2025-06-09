@@ -54,9 +54,11 @@ export function Atendente() {
 
   const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
+  const [_carregou, setCarregou] = useState(false);
 
-  const [errorPrato, setErrorPrato] = useState(false);
-  const [errorProduto, setErrorProduto] = useState(false);
+
+  const [errorPrato] = useState(false);
+  const [errorProduto] = useState(false);
   const [errorSetor, setErrorSetor] = useState(false);
 
   useEffect(() => {
@@ -99,42 +101,25 @@ export function Atendente() {
   }, [funcionario.userId, token]);
 
   useEffect(() => {
-    const requisicaoProdutos = api
-      .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          const produtosComTipo = res.data.map((item) => ({
-            ...item,
-            tipo: "produto",
-          }));
-          setProdutos(produtosComTipo);
-        }
-      })
-      .catch((err) => {
-        setErrorProduto(true);
-        console.error("Erro ao buscar produtos:", err);
-        toast.error("Erro ao buscar produtos!");
-      });
+    const headers = { Authorization: `Bearer ${token}` };
 
-    const requisicaoPratos = api
-      .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          const pratosComTipo = res.data.map((item) => ({
-            ...item,
-            tipo: "prato",
-          }));
-          setProdutos((prev) => [...prev, ...pratosComTipo]);
-        }
-      })
-      .catch((err) => {
-        setErrorPrato(true);
-        console.error("Erro ao buscar pratos:", err);
-        toast.error("Erro ao buscar pratos!");
+    const requisicaoProdutos = api.get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, { headers });
+    const requisicaoPratos = api.get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers });
+
+    Promise.all([requisicaoProdutos, requisicaoPratos])
+      .then(([produtosResponse, pratosResponse]) => {
+        const produtosComTipo = produtosResponse.data.map((produto) => ({
+          ...produto,
+          tipo: "produto"
+        }));
+
+        const pratosComTipo = pratosResponse.data.map((prato) => ({
+          ...prato,
+          tipo: "prato"
+        }));
+
+        setProdutos([...produtosComTipo, ...pratosComTipo]);
+        setCarregou(true);
       });
 
     Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(() => {
@@ -284,16 +269,16 @@ export function Atendente() {
       const body =
         item.tipo === "produto"
           ? {
-              venda: "venda5",
-              produto: { id: item.id },
-              funcionario: { id: funcionario.userId },
-            }
+            venda: "venda5",
+            produto: { id: item.id },
+            funcionario: { id: funcionario.userId },
+          }
           : {
-              venda: "venda5",
-              prato: { id: item.id },
-              ...(item.observacao ? { observacao: item.observacao } : {}),
-              funcionario: { id: funcionario.userId },
-            };
+            venda: "venda5",
+            prato: { id: item.id },
+            ...(item.observacao ? { observacao: item.observacao } : {}),
+            funcionario: { id: funcionario.userId },
+          };
 
       return api
         .post(url, body, {
@@ -456,13 +441,13 @@ export function Atendente() {
                       (produto.setor &&
                         produto.setor.nome &&
                         produto.setor.nome.trim().toLowerCase() ===
-                          setorSelecionado.trim().toLowerCase());
+                        setorSelecionado.trim().toLowerCase());
 
                     const mesmaCategoria =
                       produto.categoria &&
                       produto.categoria.nome &&
                       produto.categoria.nome.trim().toLowerCase() ===
-                        categoria.nome.trim().toLowerCase();
+                      categoria.nome.trim().toLowerCase();
 
                     const nomeCombina = produto.nome
                       .toLowerCase()
@@ -531,6 +516,17 @@ export function Atendente() {
 
           <div className="produtos-adicionados-comanda">
             {comanda.map((item, index) => {
+              const produtoEstoque = produtos.find(p => p.nome === item.nome);
+
+              const itemComanda = comanda.find(
+                (item) => item.nome === produtoEstoque.nome
+              );
+              const quantidadeNaComanda = itemComanda
+                ? itemComanda.quantidade
+                : 0;
+              const quantidadeRestante =
+                produtoEstoque.quantidade - quantidadeNaComanda;
+
               return (
                 <ProdutoComanda
                   key={index}
@@ -542,6 +538,7 @@ export function Atendente() {
                   onClick={abrirModal}
                   removerProduto={removerProdutoDaComanda}
                   tipo={item.tipo}
+                  quantidadeRestante={quantidadeRestante}
                 />
               );
             })}

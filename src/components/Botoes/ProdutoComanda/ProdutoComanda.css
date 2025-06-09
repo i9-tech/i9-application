@@ -97,3 +97,8 @@
 .observacao-produto:hover {
     background-color: #83a2ff22;
 }
+
+.btn-aumentar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -29,7 +29,14 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
 
   return (
     <>
-      <p style={{display: 'flex', flexDirection: 'column', height: '80%', gap: '0.5rem'}}>
+      <p
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "70%",
+          gap: "0.5rem",
+        }}
+      >
         {permissoes.includes("ROLE_PROPRIETARIO") && (
           <Link
             to={ROUTERS.DASHBOARD}
@@ -159,6 +166,18 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             </li>
           </Link>
         )}
+      </p>
+      <p
+        style={{
+          display: "flex",
+          height: "20%",
+          gap: "0.5rem",
+
+          flexDirection: "column",
+          justifyContent: "end",
+          width: "100%",
+        }}
+      >
         <Link
           to={ROUTERS.LOGIN}
           {...(!isNavbarOpen
@@ -175,8 +194,6 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             <span>Sair</span>
           </li>
         </Link>
-      </p>
-      <p style={{display: 'flex', height: '10%', flexDirection: 'column', justifyContent: 'end', width: '100%'}}>
         {permissoes.includes("ROLE_ATENDIMENTO") && (
           <Link
             onClick={handleNavbar}

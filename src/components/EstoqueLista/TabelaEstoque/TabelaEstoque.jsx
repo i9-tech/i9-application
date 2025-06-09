@@ -2,18 +2,30 @@ import { Tooltip } from "react-tooltip";
 import CabecalhoEstoque from "./CabecalhoEstoque/CabecalhoEstoque";
 import ProdutoEstoque from "./ProdutoEstoque/ProdutoEstoque";
 import "./TabelaEstoque.css";
+import CarregamentoEstoque from "../../Estoque/CarregamentoEstoque";
+import NoDataEstoque from "../../Estoque/NoDataEstoque";
 
-const TabelaEstoque = ({ produtos, filtroStatus, termoBusca, buscarProdutos, setorSelecionado }) => {
-
+const TabelaEstoque = ({
+  isLoadingData,
+  produtos,
+  filtroStatus,
+  termoBusca,
+  buscarProdutos,
+  setorSelecionado,
+}) => {
   const listaProdutos = Array.isArray(produtos) ? produtos : [produtos];
 
   const produtosFiltrados = listaProdutos.filter((p) => {
-    const nomeMatch = p.nome?.toLowerCase().includes(termoBusca?.toLowerCase() || "");
+    const nomeMatch = p.nome
+      ?.toLowerCase()
+      .includes(termoBusca?.toLowerCase() || "");
 
     const statusMatch =
       !filtroStatus ||
       (filtroStatus === "sem" && p.quantidade === 0) ||
-      (filtroStatus === "baixo" && p.quantidade < p.quantidadeMin && p.quantidade > 0);
+      (filtroStatus === "baixo" &&
+        p.quantidade < p.quantidadeMin &&
+        p.quantidade > 0);
 
     const setorMatch =
       !setorSelecionado || String(p.setor?.id) === String(setorSelecionado);
@@ -21,14 +33,14 @@ const TabelaEstoque = ({ produtos, filtroStatus, termoBusca, buscarProdutos, set
     return nomeMatch && statusMatch && setorMatch;
   });
 
-
-
   return (
     <div className="tabela-container-prod">
       <table className="tabela-estoque-prod">
         <CabecalhoEstoque />
         <tbody>
-          {produtosFiltrados.length > 0 ? (
+          {isLoadingData ? (
+            <CarregamentoEstoque colunas={9} />
+          ) : produtosFiltrados.length > 0 ? (
             produtosFiltrados.map((produto) => (
               <ProdutoEstoque
                 key={produto.id}
@@ -37,20 +49,7 @@ const TabelaEstoque = ({ produtos, filtroStatus, termoBusca, buscarProdutos, set
               />
             ))
           ) : (
-            <tr>
-              <td
-                colSpan="9"
-                style={{
-                  padding: "24px",
-                  textAlign: "center",
-                  color: "#888",
-                  fontSize: "1.1rem",
-                  background: "#fff",
-                }}>
-                Nenhum produto encontrado.
-              </td>
-
-            </tr>
+            <NoDataEstoque tipo="produto" />
           )}
         </tbody>
       </table>

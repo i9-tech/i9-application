@@ -16,6 +16,8 @@ import { getFuncionario } from "../../utils/auth";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { toast } from "react-toastify";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
+import { enviroments } from "../../utils/enviroments";
+import { imagemPadrao } from "../../assets/imagemPadrao";
 
 export function Atendente() {
   const permissao = getPermissoes();
@@ -33,6 +35,7 @@ export function Atendente() {
   const [buscaProduto, setBuscaProduto] = useState("");
 
   const [comanda, setComanda] = useState([]);
+  const tokenUrl = enviroments.tokenURL;
 
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
@@ -361,7 +364,7 @@ export function Atendente() {
               <ElementoTotal
                 key={setor.id}
                 nome={setor.nome}
-                imagem={setor.imagem}
+                imagem={setor.imagem ? setor.imagem + tokenUrl : imagemPadrao}
                 quantidade={
                   produtos.filter((p) => p.setor && p.setor.nome === setor.nome).length
                 }

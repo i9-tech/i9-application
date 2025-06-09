@@ -57,7 +57,6 @@ export function Atendente() {
 
   const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
-  const [carregou, setCarregou] = useState(false);
 
   const [errorPrato, setErrorPrato] = useState(false);
   const [errorProduto, setErrorProduto] = useState(false);
@@ -142,7 +141,6 @@ export function Atendente() {
         }
 
         setProdutos([...produtosComTipo, ...pratosComTipo]);
-        setCarregou(true);
 
         setTimeout(() => {
           setIsProdutosCarregando(false);

@@ -63,13 +63,23 @@
           overflow: hidden;
           display: flex;
           flex-direction: column;
-          gap: 10px;
-
-          p {
+          gap: 6px;
+          
+          .info-pedidoCliente {
             display: flex;
             justify-content: space-between;
             width: 100%;
             font-size: 20px;
+            font-weight: bold;
+            gap: 32px;
+            
+          }
+          
+          span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: normal;
           }
         }
 
@@ -90,11 +100,14 @@
             height: 69px;
             border-radius: 5px;
             border: 1px solid #000;
-             overflow: hidden;
+            overflow: hidden;
             /* background-color: #0f14b8; */
 
             img {
+              padding: 3px;
               width: 100%;
+              height: 100%;
+              object-fit: contain;
             }
           }
 
@@ -112,9 +125,10 @@
               display: -webkit-box;
               -webkit-box-orient: vertical;
               -webkit-line-clamp: 2;
-              line-clamp: 2;
-              box-orient: vertical;
               overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-word;
+              overflow-wrap: anywhere;
             }
 
             .observacao {
@@ -158,7 +172,7 @@
     }
   }
 }
- .tela-comandas::-webkit-scrollbar {
+.tela-comandas::-webkit-scrollbar {
   width: 20px;
 }
 

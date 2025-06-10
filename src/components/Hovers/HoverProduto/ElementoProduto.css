@@ -1,17 +1,17 @@
 .elemento-produto {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    width: 330px;
-    height: 160px;
-    border-radius: 1rem;
-    padding: 16px;
-    overflow: hidden;
-    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.15);
-    font-weight: 500;
-    cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  width: 330px;
+  height: 160px;
+  border-radius: 1rem;
+  padding: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.15);
+  font-weight: 500;
+  cursor: pointer;
 
   .conteudo-card {
     width: 85%;
@@ -45,6 +45,8 @@
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      word-break: break-word;
+      overflow-wrap: anywhere;
       text-overflow: ellipsis;
       opacity: 0.7;
     }
@@ -63,7 +65,7 @@
         display: flex;
 
         .rs {
-          color: #FF6868;
+          color: #ff6868;
         }
       }
 
@@ -115,8 +117,6 @@
     color: #ffffffd6;
   }
 }
-
-
 
 .elemento-produto.desabilitado {
   opacity: 0.6;

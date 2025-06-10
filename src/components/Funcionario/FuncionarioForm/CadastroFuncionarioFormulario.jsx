@@ -215,6 +215,7 @@ const CadastroFuncionarioFormulario = ({
           <input
             id="nome"
             type="text"
+            maxLength={40}
             placeholder="Informe o nome do funcionário"
             value={nomeFuncionario}
             onChange={(e) => setNomeFuncionario(e.target.value)}

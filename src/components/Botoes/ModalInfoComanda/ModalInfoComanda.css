@@ -39,6 +39,11 @@
   margin: 0.25rem 0;
 }
 
+.modal-info span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .modal-subtotal {
   display: flex;

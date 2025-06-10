@@ -1,6 +1,6 @@
 import "./Estoques.css";
 
-export default function CarregamentoEstoque({ colunas }) {
+export default function CarregamentoEstoque({ colunas, temImagem }) {
   return (
     <tr className="carregamento-estoque">
       {[...Array(colunas)].map((_, index) => {
@@ -10,7 +10,7 @@ export default function CarregamentoEstoque({ colunas }) {
         return (
           <td key={index} className="dado-carregamento-estoque">
             <div className="centralizador-carregamento">
-              {isImagem ? (
+              {isImagem && temImagem ? (
                 <div className="centralizar-imagem-carregamento" />
               ) : isUltimo ? (
                 <>

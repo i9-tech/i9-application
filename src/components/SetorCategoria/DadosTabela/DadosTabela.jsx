@@ -1,7 +1,9 @@
 import React from "react";
 import "./DadosTabela.css";
+import CarregamentoEstoque from "../../Estoque/CarregamentoEstoque";
+import NoDataEstoque from "../../Estoque/NoDataEstoque";
 
-const DadosTabela = ({ dados = [], aoEditar, aoExcluir }) => {
+const DadosTabela = ({ dados = [], aoEditar, aoExcluir, isLoadingData, tipo }) => {
     
   return (
     <div className="tabela-wrapper">
@@ -19,22 +21,9 @@ const DadosTabela = ({ dados = [], aoEditar, aoExcluir }) => {
       <div className="tabela-scroll-area">
         <table className="tabela-dados">
           <tbody>
-            {dados.length === 0 ? (
-              <tr>
-                <td
-                  colSpan="9"
-                  style={{
-                    padding: "24px",
-                    textAlign: "center",
-                    color: "#888",
-                    fontSize: "1.1rem",
-                    background: "#fff",
-                    border: "20px",
-                  }}>
-                  Nenhum dado encontrado.
-                </td>
-              </tr>
-            ) : (
+            {isLoadingData ? (
+              <CarregamentoEstoque colunas={4} temImagem={false} />
+            ) : dados.length > 0 ? (
               dados.map((item, index) => (
                 <tr key={index}>
                   <td>{item.nome}</td>
@@ -46,7 +35,10 @@ const DadosTabela = ({ dados = [], aoEditar, aoExcluir }) => {
                   </td>
                 </tr>
               ))
-            )}
+            ) : (
+              <NoDataEstoque tipo={tipo === "setor" ? "setor" : "categoria"} />
+            )
+          }
           </tbody>
         </table>
       </div>

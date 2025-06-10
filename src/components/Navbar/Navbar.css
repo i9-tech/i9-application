@@ -78,7 +78,7 @@
       align-items: center;
       justify-content: center;
       background-color: #ffffff;
-      flex-shrink: 0; 
+      flex-shrink: 0;
     }
 
     i img {
@@ -91,6 +91,12 @@
     span {
       opacity: 0;
       transform: translateX(-10px);
+      white-space: nowrap;
+    }
+
+    .nome-usuario {
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 

@@ -48,7 +48,7 @@ const TabelaEstoque = ({
         <CabecalhoEstoque />
         <tbody>
           {isLoadingData ? (
-            <CarregamentoEstoque colunas={9} />
+            <CarregamentoEstoque colunas={9} temImagem={true} />
           ) : produtosFiltrados.length > 0 ? (
             produtosFiltrados.map((produto) => (
               <ProdutoEstoque

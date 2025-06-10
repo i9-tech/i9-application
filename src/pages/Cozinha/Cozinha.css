@@ -44,6 +44,39 @@
           width: 100%;
           padding: 8px;
           border-bottom: 1px solid #ddd;
+          justify-content: space-between;
+        }
+
+        .cabecalho-concluir {
+          display: flex;
+          height: 100%;
+          align-items: center;
+          justify-content: center;
+
+          .cabecalho-botao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            gap: 8px;
+            border: 1px solid var(--destaque);
+            border-radius: 8px;
+            background-color: var(--color-font);
+            color: var(--destaque);
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid var(--destaque);
+
+            &:hover {
+              background-color: var(--destaque);
+              color: white;
+              img {
+                content: url("../../assets/check-branco.svg");
+              }
+            }
+          }
         }
       }
 
@@ -63,13 +96,22 @@
           overflow: hidden;
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 6px;
 
-          p {
+          .info-pedidoCliente {
             display: flex;
             justify-content: space-between;
             width: 100%;
             font-size: 20px;
+            font-weight: bold;
+            gap: 32px;
+          }
+
+          span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: normal;
           }
         }
 
@@ -90,11 +132,14 @@
             height: 69px;
             border-radius: 5px;
             border: 1px solid #000;
-             overflow: hidden;
+            overflow: hidden;
             /* background-color: #0f14b8; */
 
             img {
+              padding: 3px;
               width: 100%;
+              height: 100%;
+              object-fit: contain;
             }
           }
 
@@ -112,9 +157,10 @@
               display: -webkit-box;
               -webkit-box-orient: vertical;
               -webkit-line-clamp: 2;
-              line-clamp: 2;
-              box-orient: vertical;
               overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-word;
+              overflow-wrap: anywhere;
             }
 
             .observacao {
@@ -158,7 +204,7 @@
     }
   }
 }
- .tela-comandas::-webkit-scrollbar {
+.tela-comandas::-webkit-scrollbar {
   width: 20px;
 }
 

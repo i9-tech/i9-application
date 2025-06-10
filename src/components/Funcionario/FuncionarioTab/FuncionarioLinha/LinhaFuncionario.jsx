@@ -9,7 +9,7 @@ const LinhaFuncionario = ({
 }) => {
   return (
     <tr className="linha-funcionario" onClick={() => onSelecionar(funcionario)}>
-      <td>{funcionario.nome}</td>
+      <td title={funcionario.nome}>{funcionario.nome}</td>
       <td>
         <div>{funcionario.acessoSetorCozinha && "Cozinha"}</div>
         <div>{funcionario.acessoSetorEstoque && "Estoque"}</div>

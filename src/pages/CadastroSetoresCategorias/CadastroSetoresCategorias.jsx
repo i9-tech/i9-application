@@ -27,6 +27,8 @@ const CadastroSetoresCategorias = () => {
   const [modalAberto, setModalAberto] = useState(false);
   const [tipoCadastro, setTipoCadastro] = useState(null);
 
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
   const handleEditarSetor = (item) => {
     setTipoCadastro("setor");
     setItemSelecionado(item);
@@ -56,59 +58,76 @@ const CadastroSetoresCategorias = () => {
   };
 
   useEffect(() => {
-    api
-      .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          setSetores(res.data);
-        }
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar setores:", err);
-        toast.error("Erro ao buscar setores!");
-      });
+    const fetchData = async () => {
 
-    api
-      .get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          setCategorias(res.data);
-        }
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar setores:", err);
-        toast.error("Erro ao buscar setores!");
-      });
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
 
-    api
-      .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        setProdutos(res.data);
-      })
-      .catch((err) => {
-        console.error("Erro ao ao buscar produtos:", err);
-      });
+      let algumVazio = false;
 
-    api
-      .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        setPratos(res.data);
-      })
-      .catch((err) => {
-        console.error("Erro ao ao buscar produtos:", err);
-      });
+      const promises = [
+        api
+          .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, { headers })
+          .then((res) => {
+            if (Array.isArray(res.data)) {
+              setSetores(res.data);
+              if (res.data.length === 0) algumVazio = true;
+            }
+          })
+          .catch((err) => {
+            console.error("Erro ao buscar setores:", err);
+            toast.error("Erro ao buscar setores!");
+          }),
+
+        api
+          .get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, { headers })
+          .then((res) => {
+            if (Array.isArray(res.data)) {
+              setCategorias(res.data);
+              if (res.data.length === 0) algumVazio = true;
+            }
+          })
+          .catch((err) => {
+            console.error("Erro ao buscar categorias:", err);
+            toast.error("Erro ao buscar categorias!");
+          }),
+
+        api
+          .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, { headers })
+          .then((res) => {
+            setProdutos(res.data);
+            if (Array.isArray(res.data) && res.data.length === 0)
+              algumVazio = true;
+          })
+          .catch((err) => {
+            console.error("Erro ao buscar produtos:", err);
+          }),
+
+        api
+          .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers })
+          .then((res) => {
+            setPratos(res.data);
+            if (Array.isArray(res.data) && res.data.length === 0)
+              algumVazio = true;
+          })
+          .catch((err) => {
+            console.error("Erro ao buscar pratos:", err);
+          }),
+      ];
+
+      await Promise.allSettled(promises);
+
+      if (algumVazio) {
+        setTimeout(() => {
+          setIsLoadingData(false);
+        }, 1500);
+      } else {
+        setIsLoadingData(false);
+      }
+    };
+
+    fetchData();
   }, [funcionario.userId, token]);
 
   function adicionarContagemProdutosPratos(lista, tipo) {
@@ -208,9 +227,7 @@ const CadastroSetoresCategorias = () => {
   const [buscaCategoria, setBuscaCategoria] = useState("");
 
   function removerAcentos(str) {
-    return str
-      ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-      : "";
+    return str ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "") : "";
   }
 
   const handleBuscaSetor = (value) => {
@@ -259,9 +276,11 @@ const CadastroSetoresCategorias = () => {
               onSearch={handleBuscaSetor}
             >
               <DadosTabela
+                isLoadingData={isLoadingData}
                 dados={setoresFiltradasComContagem}
                 aoEditar={handleEditarSetor}
                 aoExcluir={handleExcluirSetor}
+                tipo={"setor"}
               />
             </InfoCardSCCard>
 
@@ -272,9 +291,11 @@ const CadastroSetoresCategorias = () => {
               onSearch={handleBuscaCategoria}
             >
               <DadosTabela
+                isLoadingData={isLoadingData}
                 dados={categoriasFiltradasComContagem}
                 aoEditar={handleEditarCategoria}
                 aoExcluir={handleExcluirCategoria}
+                tipo={"categoria"}
               />
             </InfoCardSCCard>
           </div>

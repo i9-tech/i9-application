@@ -9,7 +9,6 @@ import { getSaudacao } from "../../utils/utils";
 export function Navbar() {
   const funcionario = getFuncionario();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
-  
 
   useEffect(() => {
     const itensMenu = document.querySelectorAll(".navbar ul li");
@@ -32,10 +31,16 @@ export function Navbar() {
     <>
       <nav className={`navbar ${isNavbarOpen ? "aberta" : ""}`} id="navbar">
         <div className="user">
-          <i className={!isNavbarOpen ? "show" : "hide"} style={{marginLeft: '2px'}}>
+          <i
+            className={!isNavbarOpen ? "show" : "hide"}
+            style={{ marginLeft: "2px" }}
+          >
             <img src={LOGO_I9} alt="Ícone de Usuário" />
           </i>
-          <span className={isNavbarOpen ? "show" : "hide"}>
+          <span
+            title={`${getSaudacao()}, ${funcionario.nome}`}
+            className={`nome-usuario ${isNavbarOpen ? "show" : "hide"}`}
+          >
             {getSaudacao()}, {funcionario.nome}!
           </span>
         </div>

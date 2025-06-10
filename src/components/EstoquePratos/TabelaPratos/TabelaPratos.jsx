@@ -53,7 +53,7 @@ const TabelaPratos = ({
         <CabecalhoPratos />
         <tbody>
           {isLoadingData ? (
-            <CarregamentoEstoque colunas={9} />
+            <CarregamentoEstoque colunas={9} temImagem={true} />
           ) : pratosFiltrados.length > 0 ? (
             pratosFiltrados.map((prato) => (
               <PratoEstoque

@@ -8,16 +8,13 @@ import { getToken } from "../../../utils/auth";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function Comanda({
-  pedido,
-  index,
-  atualizarComandas
-}) {
+export default function Comanda({ pedido, index, atualizarComandas }) {
   const token = getToken();
   const [pedidosConcluidos, setPedidosConcluidos] = useState({});
   const todasCheckboxMarcadas = Object.values(pedidosConcluidos).every(
     (valor) => valor === true
   );
+  const [isCheckboxMarcadas, setIsCheckboxMarcadas] = useState(false);
 
   const marcarOuDesmarcarCheckbox = (id) => {
     setPedidosConcluidos((estadoAnterior) => ({
@@ -25,6 +22,14 @@ export default function Comanda({
       [id]: !estadoAnterior[id],
     }));
   };
+
+  const concluirTodos = (novoValor) => {
+    const novosPedidos = {};
+    pedido.itensCarrinho.forEach((item) => {
+      novosPedidos[item.id] = novoValor;
+    });
+    setPedidosConcluidos(novosPedidos);
+};
 
   useEffect(() => {
     const inicial = {};
@@ -59,6 +64,9 @@ export default function Comanda({
           <ComandaHeader
             numeroPedido={pedido.id}
             dataHora={pedido.dataVenda}
+            concluirTodos={concluirTodos}
+            isCheckboxMarcadas={isCheckboxMarcadas}
+            setIsCheckboxMarcadas={setIsCheckboxMarcadas}
           />
         </div>
 

@@ -2,7 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import iconeAtendimento from "../../assets/atendimento-icone-colorido-escuro.svg";
 import iconeDashboard from "../../assets/dashboard-icone-colorido-escuro.svg";
 import iconeCozinha from "../../assets/cozinha-icone-colorido-escuro.svg";
-import iconeEstoque from "../../assets/estoque-icone-colorido-escuro.svg";
+import iconeEstoqueProduto from "../../assets/estoque-produtos.svg";
+import iconeEstoquePrato from "../../assets/estoque-pratos.svg";
 import iconeEquipe from "../../assets/equipe-icone-colorido-escuro.svg";
 import iconeSair from "../../assets/sair-icone-colorido-escuro.svg";
 import setorCategoriaIcone from "../../assets/setor-categoria-icon.svg";
@@ -103,7 +104,7 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
           >
             <li key="estoque">
               <i>
-                <img src={iconeEstoque} alt="Icone de Estoque" />
+                <img src={iconeEstoqueProduto} alt="Icone de Estoque" />
               </i>
               <span>Estoque de Produtos</span>
             </li>
@@ -121,7 +122,7 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
           >
             <li key="estoque-pratos">
               <i>
-                <img src={iconeEstoque} alt="Icone de Estoque" />
+                <img src={iconeEstoquePrato} alt="Icone de Estoque" />
               </i>
               <span>Estoque de Pratos</span>
             </li>

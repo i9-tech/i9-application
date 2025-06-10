@@ -44,6 +44,39 @@
           width: 100%;
           padding: 8px;
           border-bottom: 1px solid #ddd;
+          justify-content: space-between;
+        }
+
+        .cabecalho-concluir {
+          display: flex;
+          height: 100%;
+          align-items: center;
+          justify-content: center;
+
+          .cabecalho-botao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            gap: 8px;
+            border: 1px solid var(--destaque);
+            border-radius: 8px;
+            background-color: var(--color-font);
+            color: var(--destaque);
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid var(--destaque);
+
+            &:hover {
+              background-color: var(--destaque);
+              color: white;
+              img {
+                content: url("../../assets/check-branco.svg");
+              }
+            }
+          }
         }
       }
 
@@ -64,7 +97,7 @@
           display: flex;
           flex-direction: column;
           gap: 6px;
-          
+
           .info-pedidoCliente {
             display: flex;
             justify-content: space-between;
@@ -72,9 +105,8 @@
             font-size: 20px;
             font-weight: bold;
             gap: 32px;
-            
           }
-          
+
           span {
             overflow: hidden;
             text-overflow: ellipsis;

@@ -13,7 +13,7 @@ export default function NoDataEstoque({tipo}) {
           background: "#fff",
         }}
       >
-        Nenhum {tipo} encontrado.
+        Nenhum dado de {tipo} encontrado.
       </td>
     </tr>
   );

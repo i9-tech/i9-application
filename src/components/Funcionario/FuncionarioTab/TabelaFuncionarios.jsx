@@ -3,8 +3,11 @@ import LinhaFuncionario from "../FuncionarioTab/FuncionarioLinha/LinhaFuncionari
 import "./TabelaFuncionarios.css";
 import CabecalhoFuncionarios from "../FuncionarioTab/FuncionarioCabecalho/CabecalhoFuncionarios";
 import ResumoFuncionario from "../FuncionarioTab/FuncionarioInfo/ResumoFuncionario";
+import CarregamentoEstoque from "../../Estoque/CarregamentoEstoque";
+import NoDataEstoque from "../../Estoque/NoDataEstoque";
 
 function TabelaFuncionarios({
+  isLoadingData,
   funcionarios,
   onEditar,
   onDeletar,
@@ -42,15 +45,21 @@ function TabelaFuncionarios({
       <div className="corpo-tabela">
         <table>
           <tbody>
-            {funcionariosFiltrados.map((funcionario) => (
-              <LinhaFuncionario
-                key={funcionario.id}
-                funcionario={funcionario}
-                onSelecionar={onSelecionar}
-                onEditar={onEditar}
-                onDeletar={onDeletar}
-              />
-            ))}
+            {isLoadingData ? (
+              <CarregamentoEstoque colunas={3} temImagem={false} />
+            ) : funcionariosFiltrados.length > 0 ? (
+              funcionariosFiltrados.map((funcionario) => (
+                <LinhaFuncionario
+                  key={funcionario.id}
+                  funcionario={funcionario}
+                  onSelecionar={onSelecionar}
+                  onEditar={onEditar}
+                  onDeletar={onDeletar}
+                />
+              ))
+            ) : (
+              <NoDataEstoque tipo="funcionário" />
+            )}
           </tbody>
         </table>
       </div>

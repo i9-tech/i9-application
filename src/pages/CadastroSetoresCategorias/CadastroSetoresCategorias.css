@@ -1,6 +1,6 @@
 .pagina-container {
   background-color: #f4f4f4;
-  padding: 32px;
+  padding: 32px 32px 0px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -22,6 +22,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   width: 652px;
   box-sizing: border-box;
+  height: 548px;
 }
 
 

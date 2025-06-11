@@ -15,7 +15,7 @@ export function ModalInfoComanda({ pedido, onClose }) {
             <strong>Cliente</strong> <span>{pedido.cliente}</span>
           </p>
           <p>
-            <strong>Mesa</strong> <span>{pedido.mesa}</span>
+            <strong>Mesa</strong> <span>{pedido.mesa ? pedido.mesa : "Não Informado"}</span>
           </p>
           <p>
             <strong>Pagamento</strong> <span>{pedido.formaPagamento}</span>

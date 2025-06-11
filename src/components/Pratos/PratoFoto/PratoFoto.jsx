@@ -71,6 +71,7 @@ const PratoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
         <textarea
           id="descricao"
           value={descricao}
+          maxLength={255}
           onChange={(e) => {
             setDescricao(e.target.value);
           }}

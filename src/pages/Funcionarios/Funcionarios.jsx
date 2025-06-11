@@ -11,13 +11,13 @@ import Swal from "sweetalert2";
 import { ENDPOINTS } from "../../utils/endpoints";
 import CarregamentoFormulario from "../../components/Carregamento/CarregamentoFormulario";
 
-
 export function Funcionarios() {
   const funcionarioLogin = getFuncionario();
   const [funcionarioSelecionado, setFuncionarioSelecionado] = useState(null);
   const [funcionarios, setFuncionarios] = useState([]);
 
   const [loading, setLoading] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(true);
   const [porcentagemCarregamento, setPorcentagemCarregamento] = useState(0);
 
   useEffect(() => {
@@ -31,9 +31,17 @@ export function Funcionarios() {
       })
       .then((response) => {
         setFuncionarios(response.data);
+        if (response.data.length === 0) {
+          setTimeout(() => {
+            setIsLoadingData(false);
+          }, 2500);
+        } else {
+          setIsLoadingData(false);
+        }
       })
       .catch((error) => {
         toast.error("Erro ao buscar os funcionários!");
+        setIsLoadingData(false);
         console.error("Erro ao buscar os funcionários:", error);
       });
   }, [funcionarioLogin.empresaId, funcionarioLogin.userId]);
@@ -61,8 +69,8 @@ export function Funcionarios() {
       confirmButtonText: "Sim, excluir",
       cancelButtonText: "Cancelar",
       customClass: {
-        confirmButton: 'btn-aceitar',
-        cancelButton: 'btn-cancelar',
+        confirmButton: "btn-aceitar",
+        cancelButton: "btn-cancelar",
       },
       buttonsStyling: false,
     }).then((result) => {
@@ -78,7 +86,6 @@ export function Funcionarios() {
           setPorcentagemCarregamento(progresso);
           if (progresso >= 100) clearInterval(interval);
         }, 400);
-
 
         api
           .delete(
@@ -112,23 +119,28 @@ export function Funcionarios() {
   };
 
   const atualizarListaFuncionarios = () => {
-    api.get(`${ENDPOINTS.FUNCIONARIOS}/${funcionarioLogin.empresaId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then(response => {
+    api
+      .get(`${ENDPOINTS.FUNCIONARIOS}/${funcionarioLogin.empresaId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
         setFuncionarios(response.data);
       })
-      .catch(error => {
-        console.error("Erro ao atualizar lista de funcionarios", error)
+      .catch((error) => {
+        console.error("Erro ao atualizar lista de funcionarios", error);
         toast.error("Erro ao atualizar lista dea funcionários");
       });
   };
 
   return (
     <>
-      {loading && <CarregamentoFormulario porcentagemCarregamento={porcentagemCarregamento} />}
+      {loading && (
+        <CarregamentoFormulario
+          porcentagemCarregamento={porcentagemCarregamento}
+        />
+      )}
 
       <LayoutTela titulo={"Cadastro de Funcionário"}>
         <div className="container-funcionario">
@@ -142,6 +154,7 @@ export function Funcionarios() {
 
           <div className="coluna-direita">
             <TabelaFuncionarios
+              isLoadingData={isLoadingData}
               funcionarios={funcionarios}
               onEditar={handleEditar}
               onDeletar={handleDeletar}
@@ -152,11 +165,7 @@ export function Funcionarios() {
         </div>
       </LayoutTela>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        theme="light"
-      />
+      <ToastContainer position="top-right" autoClose={3000} theme="light" />
     </>
   );
 }

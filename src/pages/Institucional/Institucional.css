@@ -42,7 +42,7 @@
     align-items: center;
     width: 24%;
 
-    &:hover {
+    hov:hover {
       cursor: pointer;
       text-decoration: underline;
     }

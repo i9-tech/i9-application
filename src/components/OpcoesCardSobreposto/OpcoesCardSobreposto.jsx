@@ -4,6 +4,8 @@ import IMAGEM_COMANDAS from "../../assets/imagem-gestao-comandas.png";
 import IMAGEM_PDV from "../../assets/frente_caixa.png";
 import IMAGEM_ESTOQUE from "../../assets/imagem-gestao-estoque.png";
 import { useState } from "react";
+import SETA_DIREITA from "../../assets/seta-direita.svg"
+import SETA_ESQUERDA from "../../assets/seta-esquerda.svg"
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -123,7 +125,7 @@ export default function OpcoesCardSobreposto() {
               className="infos"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0}}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
             >
               <div className="botoes-opcoes">
@@ -151,8 +153,72 @@ export default function OpcoesCardSobreposto() {
           </AnimatePresence>
         </span>
       </article>
-      <article className="opcoes-tablet">tamanho tablet</article>
-      <article className="opcoes-mobile">tamanho mobile</article>
+      <article className="opcoes-mobile">
+        <span className="bloco-container">
+          <select
+            className="bloco-select"
+            name="opcao-bloco"
+            id="opcao-bloco"
+            value={blocoAtual}
+            onChange={(e) => {
+              setBlocoAtual(Number(e.target.value));
+              setOpcaoSelecionada(null);
+            }}
+          >
+            <option value={0}>Gestão de Comandas</option>
+            <option value={1}>Frente de Caixa PDV</option>
+            <option value={2}>Gestão de Estoque</option>
+          </select>
+
+          <span className="bloco-conteudo">
+            <p className="bloco-introducao">{bloco.introducao}</p>
+
+            <div className="bloco-opcao">
+              {bloco.opcoes && bloco.opcoes[opcaoSelecionada] ? (
+                <>
+                  <h3 className="bloco-opcao-titulo">
+                    {bloco.opcoes[opcaoSelecionada].opcao}
+                  </h3>
+                  <p className="bloco-opcao-descricao">
+                    {bloco.opcoes[opcaoSelecionada].resposta}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h3 className="bloco-opcao-titulo">
+                    {bloco.opcoes[0].opcao}
+                  </h3>
+                  <p className="bloco-opcao-descricao">
+                    {bloco.opcoes[0].resposta}
+                  </p>
+                </>
+              )}
+            </div>
+
+            <div className="bloco-navegacao">
+              <button
+                className="navegacao-botao voltar"
+                onClick={() => setOpcaoSelecionada((prev) => prev - 1)}
+                disabled={opcaoSelecionada === 0 || opcaoSelecionada === null}
+              >
+                <img src={SETA_ESQUERDA} alt="seta para esquerda" />
+              </button>
+              <button
+                className="navegacao-botao passar"
+                onClick={() => setOpcaoSelecionada((prev) => prev + 1)}
+                disabled={
+                  opcaoSelecionada ===
+                  (bloco.opcoes ? bloco.opcoes.length - 1 : 0) ||
+                  !bloco.opcoes ||
+                  bloco.opcoes.length === 0
+                }
+              >
+                <img src={SETA_DIREITA} alt="seta para direita" />
+              </button>
+            </div>
+          </span>
+        </span>
+      </article>
     </>
   );
 }

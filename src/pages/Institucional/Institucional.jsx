@@ -21,7 +21,7 @@ export function Institucional() {
       <section className="institucional-home" id="inicio">
         <DesktopInicio navegarParaSecao={navegarParaSecao} />
       </section>
-      <section className="institucional" id="solucoes">
+      {/* <section className="institucional" id="solucoes">
         <CardSobreposto />
       </section>
       <section className="institucional-sobre" id="sobre">
@@ -33,7 +33,7 @@ export function Institucional() {
       <section className="institucional-end" id="contato">
         <DesktopContato />
         <DesktopFooter />
-      </section>
+      </section> */}
     </>
   );
 }

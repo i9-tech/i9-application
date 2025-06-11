@@ -216,6 +216,8 @@
 
           .imagem-opcao {
             /* background-color: red; */
+            background-color: #fff;
+            border: none;
             width: 50%;
             height: 100%;
             display: flex;

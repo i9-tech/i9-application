@@ -42,6 +42,11 @@
     align-items: center;
     width: 24%;
 
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
     button {
       width: 132px;
       height: 40px;
@@ -383,6 +388,11 @@
               font-weight: 500;
               font-size: 1.125rem;
               color: rgba(15, 20, 184, 0.5);
+              
+              &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+              }
             }
           }
         }
@@ -425,6 +435,7 @@
 
         &:hover {
           color: rgba(14, 35, 97, 0.8);
+          cursor: pointer;
         }
       }
     }

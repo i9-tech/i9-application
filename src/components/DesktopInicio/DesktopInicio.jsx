@@ -1,4 +1,9 @@
-const DesktopInicio = () => {
+import { useNavigate } from "react-router-dom";
+import { ROUTERS } from "../../utils/routers";
+
+const DesktopInicio = ({ navegarParaSecao }) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <article className="inicio">
@@ -17,23 +22,25 @@ const DesktopInicio = () => {
             </p>
 
             <div className="inicioBotoes">
-              <button className="btnUm">Entrar ›</button>
-              <a className="btnDois" href="#">Entre em contato conosco ›</a>
+              <button className="btnUm" onClick={() => navigate(ROUTERS.LOGIN)}>Entrar ›</button>
+              <div className="btnDois" onClick={() => navegarParaSecao("contato")}>Entre em contato conosco ›</div>
             </div>
           </div>
         </div>
 
         <div className="inicioImagem">
-          <img src="src\assets\top-viewtop-view-manager-employee-doing-teamwork-business-office-looking-charts-laptop-display (1) 1.png" alt="Gestão Empresarial" />
+          <img
+            src="src\assets\top-viewtop-view-manager-employee-doing-teamwork-business-office-looking-charts-laptop-display (1) 1.png"
+            alt="Gestão Empresarial"
+          />
         </div>
       </article>
 
       <div className="saibaMais">
-        <a href="#" className="saiba-mais">
+        <div onClick={() => navegarParaSecao("solucoes")} className="saiba-mais">
           Saiba mais!
-          <br />
-          ∨
-        </a>
+          <br />∨
+        </div>
       </div>
     </>
   );

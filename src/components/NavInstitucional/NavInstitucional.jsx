@@ -1,16 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import LOGO from "../../assets/logo-i9.png";
+import { ROUTERS } from "../../utils/routers";
 
-export default function NavInstitucional() {
+export default function NavInstitucional({navegarParaSecao}) {
   const navigate = useNavigate();
-
-  const navegarParaSecao = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <section className="nav-institucional">
         <div className="nav-logo">
@@ -23,8 +16,8 @@ export default function NavInstitucional() {
         <div onClick={() => navegarParaSecao("contato")}>Contato</div>
         </span>
         <span className="entrar">
-        <div><hov>Entre em contato conosco</hov></div>
-        <div className="botao-enter"><button onClick={() => navigate("/login")}>Entrar</button></div>
+        <div><hov onClick={() => navegarParaSecao("contato")}>Entre em contato conosco</hov></div>
+        <div className="botao-enter"><button onClick={() => navigate(ROUTERS.LOGIN)}>Entrar</button></div>
         </span>
     </section>
     )

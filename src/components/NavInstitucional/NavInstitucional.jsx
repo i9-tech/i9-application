@@ -3,6 +3,7 @@ import LOGO from "../../assets/logo-i9.png";
 import { ROUTERS } from "../../utils/routers";
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
+import { FaAngleRight } from "react-icons/fa";
 
 export default function NavInstitucional({ navegarParaSecao }) {
   const navigate = useNavigate();
@@ -29,7 +30,9 @@ export default function NavInstitucional({ navegarParaSecao }) {
             </hov>
           </div>
           <div className="botao-enter">
-            <button onClick={() => navigate(ROUTERS.LOGIN)}>Entrar</button>
+            <button onClick={() => navigate(ROUTERS.LOGIN)}>
+              <p style={{paddingBottom: '3px'}}>Entrar</p> <FaAngleRight size={22} />
+            </button>
           </div>
         </span>
       </span>
@@ -37,10 +40,17 @@ export default function NavInstitucional({ navegarParaSecao }) {
         <div className="nav-logo">
           <img src={LOGO} alt="logotipo-i9" />
         </div>
-        <div className="hamburguer-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? <FiX size={45} color="black" /> : <FiMenu size={45} color="black" />}
+        <div
+          className="hamburguer-icon"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? (
+            <FiX size={45} color="black" />
+          ) : (
+            <FiMenu size={45} color="black" />
+          )}
         </div>
-        <div className={`hamburguer-menu-content ${isMenuOpen ? 'open' : ''}`}>
+        <div className={`hamburguer-menu-content ${isMenuOpen ? "open" : ""}`}>
           <span className="opcoes-nav-mobile">
             <div onClick={() => navegarParaSecao("inicio")}>Início</div>
             <div onClick={() => navegarParaSecao("solucoes")}>
@@ -56,7 +66,7 @@ export default function NavInstitucional({ navegarParaSecao }) {
               </hov>
             </div>
             <div className="botao-enter">
-              <button>Entrar</button>
+              <p style={{paddingBottom: '2.9px'}}>Entrar</p> <FaAngleRight size={22} />
             </div>
           </span>
         </div>

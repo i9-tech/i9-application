@@ -1,3 +1,48 @@
+@keyframes bounceDownTwice {
+  0% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(10px);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(10px);
+  }
+  80% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: -200%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
+
+@keyframes brilhoDeslizando {
+  0% {
+    background-position: 0% 100%;
+  }
+  40% {
+    background-position: 0% 50%;
+  }
+  80% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+
 .nav-institucional {
   width: 100vw;
 
@@ -70,6 +115,9 @@
       button {
         width: 132px;
         height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-weight: bold;
         font-size: 18px;
         color: #fff;
@@ -174,6 +222,7 @@
 
           &:hover {
             color: var(--destaque);
+            cursor: pointer;
           }
         }
       }
@@ -190,24 +239,32 @@
 
         hov:hover {
           text-decoration: underline;
+          cursor: pointer;
         }
 
-        button {
-          width: 100%;
-          max-width: 250px;
-          height: 50px;
-          font-weight: bold;
-          font-size: 22px;
-          color: #0f14b8;
-          background-color: transparent;
-          border: none;
-          border-radius: 0.4rem;
-          flex-shrink: 0;
-          transition: all 0.3s ease;
+        .botao-enter {
+          padding-top: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
 
-          &:hover {
-            cursor: pointer;
-            text-decoration: underline;
+          button {
+            width: 100%;
+            max-width: 250px;
+            height: 50px;
+            font-weight: bold;
+            font-size: 22px;
+            color: #0f14b8;
+            background-color: transparent;
+            border: none;
+            border-radius: 0.4rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+
+            &:hover {
+              cursor: pointer;
+              text-decoration: underline;
+            }
           }
         }
       }
@@ -225,7 +282,7 @@
 
 .institucional {
   width: 100vw;
-  height: 200vh;
+  height: 210vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -277,9 +334,14 @@
     .info-funcionamento {
       max-width: 72%;
       display: flex;
+      padding: 20px 0;
       flex-direction: column;
       align-items: center;
       text-align: center;
+
+      p {
+        padding: 20px 0;
+      }
     }
   }
 
@@ -587,8 +649,44 @@
             color: #040b28;
           }
 
+          /* .titulo1 {
+            position: relative;
+            color: #040b28;
+            padding-right: 0.2rem;
+            letter-spacing: -1px;
+            background: linear-gradient(
+              120deg,
+              #040b28 0%,
+              #83a1ff 40%,
+              #040b28 60%
+            );
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+
+            animation: shine 9s linear infinite;
+          } */
+
           .titulo2 {
+            position: relative;
             color: #0f14b8;
+            padding-right: 0.2rem;
+            letter-spacing: -1px;
+            background: linear-gradient(
+              120deg,
+              #0f14b8 0%,
+              #83a1ff 40%,
+              #0f14b8 60%
+            );
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+
+            animation: shine 10s linear infinite;
           }
 
           .frase {
@@ -683,11 +781,16 @@
 
     .saibaMais {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-top: 20px;
+      padding-top: 1vh;
 
       .saiba-mais {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         font-size: 1.25rem;
         color: #0f14b8;
         text-align: center;
@@ -697,13 +800,19 @@
         &:hover {
           text-decoration: underline;
         }
+
+        .seta-animada {
+          animation: bounceDownTwice 3s ease-in-out infinite;
+          display: inline-block;
+          margin-left: 8px;
+        }
       }
     }
   }
 
   .institucional-sobre {
     width: 100vw;
-    min-height: 100vh;
+    min-height: 105vh;
     background-color: var(--botaofundo);
     text-align: center;
     display: flex;
@@ -752,6 +861,9 @@
         min-width: 0;
         min-height: 500px;
         background: linear-gradient(180deg, #fbfeff 0%, #bcc9f1 100%);
+        background-size: 100% 180%;
+        background-position: 0% 100%;
+        animation: brilhoDeslizando 6s ease-in-out infinite;
         box-shadow: -10px 0px 23.36px rgba(0, 0, 0, 0.25),
           23.3596px -11.68px 23.3596px rgba(0, 0, 0, 0.25);
         border-radius: 28.0316px;
@@ -1142,6 +1254,23 @@
 
           .titulo2 {
             color: #0f14b8;
+            position: relative;
+            color: #0f14b8;
+            padding-bottom: 0.4rem;
+            letter-spacing: -1px;
+            background: linear-gradient(
+              120deg,
+              #0f14b8 0%,
+              #83a1ff 40%,
+              #0f14b8 60%
+            );
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+
+            animation: shine 8s linear infinite;
           }
         }
 
@@ -1225,11 +1354,15 @@
 
   .saibaMais {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 20px;
 
     .saiba-mais {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       font-size: 1.2rem;
       color: #0f14b8;
       text-align: center;
@@ -1239,10 +1372,18 @@
       &:hover {
         text-decoration: underline;
       }
+
+      .seta-animada {
+        animation: bounceDownTwice 3s ease-in-out infinite;
+        display: inline-block;
+        margin-left: 8px;
+      }
     }
   }
 
   .institucional {
+    height: 205vh;
+
     .bloco-container {
       display: flex;
       flex-direction: column;
@@ -1296,7 +1437,15 @@
           .bloco-opcao-titulo {
             font-size: 18px;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 24px;
+            gap: 6px;
+
+            p {
+              margin-top: 3px;
+            }
           }
 
           .bloco-opcao-descricao {
@@ -1402,6 +1551,9 @@
         min-width: 0;
         min-height: 100%;
         background: linear-gradient(180deg, #fbfeff 0%, #bcc9f1 100%);
+        background-size: 100% 180%;
+        background-position: 0% 100%;
+        animation: brilhoDeslizando 6s ease-in-out infinite;
         box-shadow: -10px 0px 23.36px rgba(0, 0, 0, 0.25),
           23.3596px -11.68px 23.3596px rgba(0, 0, 0, 0.25);
         border-radius: 28.0316px;
@@ -1563,8 +1715,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    
-    
+
     .contato {
       background-color: #edf2f7;
       display: flex;
@@ -1754,7 +1905,7 @@
 @media (max-width: 575px) {
   .institucional-home {
     width: 100vw;
-    height: 145vh;
+    height: 140vh;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -1778,6 +1929,10 @@
         height: 100%;
         flex-direction: column;
 
+        @media (max-width: 450px) {
+          padding-top: 10%;
+        }
+
         .inicioConteudo {
           width: 100%;
           height: 60%;
@@ -1788,15 +1943,20 @@
             display: flex;
             flex-direction: column;
             justify-content: end;
-            padding-bottom: 8%;
+            /* padding-bottom: 8%; */
             height: 100%;
 
             .titulo1,
             .titulo2 {
-              font-size: 2.4rem;
               font-weight: 700;
+              font-size: 2.4rem;
               line-height: 2.4rem;
               letter-spacing: -1px;
+
+              @media (max-width: 385px) {
+                font-size: 2.3rem;
+                line-height: 2.3rem;
+              }
             }
 
             .titulo1 {
@@ -1804,7 +1964,23 @@
             }
 
             .titulo2 {
+              position: relative;
               color: #0f14b8;
+              padding-bottom: 0.3rem;
+              letter-spacing: -1px;
+              background: linear-gradient(
+                120deg,
+                #0f14b8 0%,
+                #83a1ff 40%,
+                #0f14b8 60%
+              );
+              background-size: 200% auto;
+              background-clip: text;
+              -webkit-background-clip: text;
+              color: transparent;
+              -webkit-text-fill-color: transparent;
+
+              animation: shine 8s linear infinite;
             }
 
             .frase {
@@ -1814,7 +1990,12 @@
               line-height: 1.4rem;
               letter-spacing: 0.5px;
               color: #040b28;
-              margin: 10px 0;
+              margin: 4px 0;
+
+              @media (max-width: 385px) {
+                font-size: 1.1rem;
+                line-height: 1.1rem;
+              }
             }
 
             .inicioBotoes {
@@ -1823,7 +2004,7 @@
               gap: 16px;
               justify-content: center;
               align-items: center;
-              padding-top: 10%;
+              padding-top: 6%;
               flex-wrap: wrap;
 
               .btnUm {
@@ -1865,17 +2046,20 @@
         }
         .inicioImagem {
           width: 100%;
-          height: 40%;
+          height: 35%;
           overflow: hidden;
           display: flex;
           justify-content: center;
           padding-top: 10px;
-          /* align-items: center; */
+
+          @media (max-width: 400px) {
+            height: 30%;
+          }
 
           img {
             border-radius: 17px 0px;
             width: auto;
-            height: 80%;
+            height: 100%;
             object-fit: contain;
             display: block;
           }
@@ -1884,9 +2068,16 @@
     }
     .saibaMais {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      margin-top: -30px;
+
       .saiba-mais {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         font-size: 1.2rem;
         color: #0f14b8;
         text-align: center;
@@ -1896,10 +2087,18 @@
         &:hover {
           text-decoration: underline;
         }
+
+        .seta-animada {
+          animation: bounceDownTwice 3s ease-in-out infinite;
+          display: inline-block;
+          margin-left: 8px;
+
+        }
       }
     }
   }
   .institucional {
+    height: 200vh;
     .bloco-container {
       display: flex;
       flex-direction: column;
@@ -2074,6 +2273,9 @@
         min-width: 0;
         min-height: 100%;
         background: linear-gradient(180deg, #fbfeff 0%, #bcc9f1 100%);
+        background-size: 100% 180%;
+        background-position: 0% 100%;
+        animation: brilhoDeslizando 6s ease-in-out infinite;
         box-shadow: -10px 0px 23.36px rgba(0, 0, 0, 0.25),
           23.3596px -11.68px 23.3596px rgba(0, 0, 0, 0.25);
         border-radius: 28.0316px;
@@ -2235,7 +2437,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    
+
     .contato {
       background-color: #edf2f7;
       display: flex;
@@ -2258,7 +2460,7 @@
           text-align: center;
           letter-spacing: -2px;
           color: #0e2361;
-          
+
           @media (max-width: 525px) {
             font-size: 2.5rem;
             line-height: 2.5rem;

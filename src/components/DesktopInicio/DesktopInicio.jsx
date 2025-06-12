@@ -1,8 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { ROUTERS } from "../../utils/routers";
+import { FaAngleDown } from "react-icons/fa";
+import PDV_1 from "../../assets/pdv_1.png";
+import PDV_2 from "../../assets/pdv_2.png";
+import PDV_3 from "../../assets/pdv_3.png";
+import { useEffect, useState } from "react";
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence } from "framer-motion";
 
 const DesktopInicio = ({ navegarParaSecao }) => {
   const navigate = useNavigate();
+  const imagens = [PDV_1, PDV_2, PDV_3];
+  const [indiceAtual, setIndiceAtual] = useState(0);
+
+  // useEffect(() => {
+  //   const intervalo = setInterval(() => {
+  //     setIndiceAtual((indiceAnterior) => (indiceAnterior + 1) % imagens.length);
+  //   }, 20000);
+
+  //   return () => clearInterval(intervalo);
+  // }, []);
 
   return (
     <>
@@ -40,10 +57,18 @@ const DesktopInicio = ({ navegarParaSecao }) => {
           </div>
 
           <div className="inicioImagem">
-            <img
-              src="src\assets\top-viewtop-view-manager-employee-doing-teamwork-business-office-looking-charts-laptop-display (1) 1.png"
-              alt="Gestão Empresarial"
-            />
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={imagens[indiceAtual]}
+                // src={imagens[indiceAtual]}
+                src={imagens[0]}
+                alt={`Imagem ${indiceAtual + 1}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+              />
+            </AnimatePresence>
           </div>
         </span>
         <span className="inicio-tablet">
@@ -77,10 +102,18 @@ const DesktopInicio = ({ navegarParaSecao }) => {
               </div>
             </span>
             <div className="inicioImagem">
-              <img
-                src="src\assets\top-viewtop-view-manager-employee-doing-teamwork-business-office-looking-charts-laptop-display (1) 1.png"
-                alt="Gestão Empresarial"
+              <AnimatePresence mode="wait">
+               <motion.img
+                key={imagens[indiceAtual]}
+                // src={imagens[indiceAtual]}
+                src={imagens[0]}
+                alt={`Imagem ${indiceAtual + 1}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
               />
+            </AnimatePresence>
             </div>
           </div>
         </span>
@@ -92,7 +125,7 @@ const DesktopInicio = ({ navegarParaSecao }) => {
           className="saiba-mais"
         >
           Saiba mais!
-          <br />∨
+          <FaAngleDown size={32} className="seta-animada" />
         </div>
       </div>
     </>

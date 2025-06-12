@@ -24,12 +24,12 @@ export function Institucional() {
       <section className="institucional" id="solucoes">
         <CardSobreposto />
       </section>
-      {/* <section className="institucional-sobre" id="sobre">
+      <section className="institucional-sobre" id="sobre">
         <CardsSobreNos />
-      </section> */}
-      {/* <section className="institucional-perguntas" id="sobre">
+      </section>
+      <section className="institucional-perguntas" id="sobre">
         <Perguntas />
-      </section> */}
+      </section>
       {/* <section className="institucional-end" id="contato">
         <DesktopContato />
         <DesktopFooter />

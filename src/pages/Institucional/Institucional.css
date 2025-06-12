@@ -804,7 +804,7 @@
 
   .institucional-sobre {
     width: 100vw;
-    min-height: 105vh;
+    min-height: 90vh;
     background-color: var(--botaofundo);
     text-align: center;
     display: flex;

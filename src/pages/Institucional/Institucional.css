@@ -1905,11 +1905,22 @@
 @media (max-width: 575px) {
   .institucional-home {
     width: 100vw;
-    height: 140vh;
+    height: 120vh;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     box-sizing: border-box;
+    
+    @media(max-width: 471px) {
+      height: 125vh;
+    }
+    @media(max-width: 364px) {
+      height: 129vh;
+    }
+    @media(max-width: 306px) {
+      height: 135vh;
+    }
+    
 
     .inicio {
       width: 100%;
@@ -1953,10 +1964,26 @@
               line-height: 2.4rem;
               letter-spacing: -1px;
 
-              @media (max-width: 385px) {
+              @media (max-width: 456px) {
                 font-size: 2.3rem;
                 line-height: 2.3rem;
               }
+              @media (max-width: 415px) {
+                font-size: 2.2rem;
+                line-height: 2.2rem;
+              }
+              @media (max-width: 401px) {
+                font-size: 2.1rem;
+                line-height: 2.1rem;
+              }
+              @media (max-width: 385px) {
+                font-size: 2rem;
+                line-height: 2rem;
+              }
+              /* @media (max-width: 335px) {
+                font-size: 2.3rem;
+                line-height: 2.3rem;
+              } */
             }
 
             .titulo1 {
@@ -2379,6 +2406,7 @@
 
       .lista-perguntas {
         font-size: 22px;
+        padding-bottom: 32px;
 
         .pergunta {
           height: auto;

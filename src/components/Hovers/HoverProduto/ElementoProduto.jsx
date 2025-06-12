@@ -30,8 +30,8 @@ export function ElementoProduto(props) {
       onClick={adicionarProduto}
     >
       <div className="conteudo-card">
-        <h2>{nome}</h2>
-        <p className="descricao">{descricao}</p>
+        <h2 title={nome}>{nome}</h2>
+        <p className="descricao" title={descricao}>{descricao}</p>
         <div className="preco-quantidade">
           <span className="preco">
             <span className="rs">R$</span>

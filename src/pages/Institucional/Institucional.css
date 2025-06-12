@@ -1428,7 +1428,7 @@
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
           .bloco-opcao-titulo {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -2169,13 +2169,18 @@
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
           .bloco-opcao-titulo {
-            font-size: 18px;
+            font-size: 14px;
             font-weight: bold;
             margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            gap: 6px;
           }
 
           .bloco-opcao-descricao {
-            font-size: 16px;
+            font-size: 13px;
             line-height: 1.4;
           }
         }

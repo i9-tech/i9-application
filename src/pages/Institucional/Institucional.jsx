@@ -30,10 +30,10 @@ export function Institucional() {
       <section className="institucional-perguntas" id="sobre">
         <Perguntas />
       </section>
-      {/* <section className="institucional-end" id="contato">
+      <section className="institucional-end" id="contato">
         <DesktopContato />
         <DesktopFooter />
-      </section> */}
+      </section>
     </>
   );
 }

@@ -916,11 +916,14 @@
   .institucional-end {
     width: 100vw;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
 
     .contato {
       background-color: #edf2f7;
       display: flex;
       height: 60%;
+      width: 100%;
       justify-content: center;
       align-items: center;
       text-align: center;
@@ -929,6 +932,7 @@
         display: flex;
         flex-direction: column;
         gap: 16px;
+        width: 100%;
 
         h1 {
           font-weight: 700;
@@ -1017,17 +1021,18 @@
   .footer {
     background-color: #0e2361;
     height: 40%;
+    width: 100%;
     color: #fbfeff;
     display: flex;
 
     .footer-container {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
+      padding: 0 10%;
       align-items: center;
       margin: 0 auto;
       width: 100%;
       flex-wrap: wrap;
-      gap: 674px;
 
       .footer-esquerdo {
         .logo {
@@ -1089,7 +1094,7 @@
 }
 
 /* DISPLAY TABLET */
-@media (min-width: 575px) and (max-width: 743.9px) {
+@media (min-width: 575px) and (max-width: 744px) {
   .institucional-home {
     width: 100vw;
     height: 100vh;
@@ -1549,6 +1554,196 @@
           border-radius: 0 0 1rem 1rem;
           margin-bottom: 10px;
           color: #fff;
+        }
+      }
+    }
+  }
+  .institucional-end {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+    
+    .contato {
+      background-color: #edf2f7;
+      display: flex;
+      height: 60%;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+
+      .contato-conteudo {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+
+        h1 {
+          font-weight: 700;
+          font-size: 3rem;
+          line-height: 3.5rem;
+          text-align: center;
+          letter-spacing: -2px;
+          color: #0e2361;
+
+          @media (max-width: 620px) {
+            font-size: 2.8rem;
+          }
+        }
+
+        p {
+          font-weight: 500;
+          font-size: 1.1rem;
+          line-height: 1.75rem;
+          text-align: center;
+          letter-spacing: 0.2px;
+          color: #040b28;
+
+          @media (max-width: 620px) {
+            font-size: 0.9rem;
+          }
+        }
+
+        span {
+          font-weight: 600;
+          font-size: 1.25rem;
+          line-height: 1.75rem;
+          text-align: center;
+          letter-spacing: 0.2px;
+          color: #0f14b8;
+
+          @media (max-width: 620px) {
+            font-size: 0.9rem;
+          }
+        }
+
+        .email-formulario {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+
+          input {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            gap: 10px;
+            width: 339px;
+            height: 35px;
+            background: rgba(15, 20, 184, 0.16);
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.125rem;
+
+            &::placeholder {
+              letter-spacing: -0.02em;
+              font-weight: 500;
+              font-size: 1.125rem;
+              line-height: 1.5rem;
+              color: #fbfeff;
+            }
+          }
+
+          button {
+            display: flex;
+            border: none;
+            color: #fbfeff;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3px 19px;
+            gap: 10px;
+            font-style: normal;
+            font-weight: 900;
+            font-size: 1rem;
+            line-height: 1.25rem;
+            letter-spacing: 0.6px;
+            width: 111px;
+            height: 35px;
+            background: #0f14b8;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #0e2361;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .footer {
+    background-color: #0e2361;
+    height: 40%;
+    color: #fbfeff;
+    display: flex;
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10%;
+      align-items: center;
+      margin: 0 auto;
+      width: 100%;
+      flex-wrap: wrap;
+
+      .footer-esquerdo {
+        .logo {
+          width: 50px;
+          height: 50px;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+          }
+        }
+
+        h3 {
+          font-weight: 800;
+          font-size: 1.25rem;
+          line-height: 1.75rem;
+          letter-spacing: 0.2px;
+          color: #fbfeff;
+          margin: 12px 0 8px;
+        }
+
+        p {
+          font-weight: 500;
+          font-size: 1rem;
+          line-height: 1.125rem;
+          letter-spacing: 0.2px;
+          color: #fbfeff;
+          max-width: 200px;
+        }
+      }
+
+      .footer-direito {
+        ul {
+          list-style: none;
+          padding: 0;
+
+          li {
+            margin-bottom: 10px;
+
+            a {
+              font-weight: 500;
+              font-size: 1rem;
+              line-height: 1.25rem;
+              letter-spacing: 0.2px;
+              color: #fbfeff;
+              text-decoration: none;
+
+              &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+              }
+            }
+          }
         }
       }
     }
@@ -2031,6 +2226,222 @@
           border-radius: 0 0 1rem 1rem;
           margin-bottom: 10px;
           color: #fff;
+        }
+      }
+    }
+  }
+  .institucional-end {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+    .contato {
+      background-color: #edf2f7;
+      display: flex;
+      height: 60%;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+
+      .contato-conteudo {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+
+        h1 {
+          font-weight: 700;
+          font-size: 2.8rem;
+          line-height: 3.5rem;
+          text-align: center;
+          letter-spacing: -2px;
+          color: #0e2361;
+          
+          @media (max-width: 525px) {
+            font-size: 2.5rem;
+            line-height: 2.5rem;
+          }
+          @media (max-width: 430px) {
+            font-size: 2.2rem;
+            line-height: 2.2rem;
+          }
+          @media (max-width: 370px) {
+            font-size: 2rem;
+            line-height: 2rem;
+          }
+        }
+
+        p {
+          font-weight: 500;
+          font-size: 0.9rem;
+          line-height: 1.75rem;
+          text-align: center;
+          letter-spacing: 0.2px;
+          color: #040b28;
+
+          @media (max-width: 525px) {
+            font-size: 0.8rem;
+            line-height: 1.5rem;
+          }
+          @media (max-width: 430px) {
+            font-size: 0.9rem;
+            line-height: 1.5rem;
+          }
+          @media (max-width: 370px) {
+            font-size: 0.7rem;
+            line-height: 1.5rem;
+          }
+        }
+
+        span {
+          font-weight: 600;
+          font-size: 0.9rem;
+          line-height: 1.75rem;
+          text-align: center;
+          letter-spacing: 0.2px;
+          color: #0f14b8;
+
+          @media (max-width: 525px) {
+            font-size: 0.8rem;
+            line-height: 1.5rem;
+          }
+          @media (max-width: 430px) {
+            font-size: 0.85rem;
+            line-height: 1.5rem;
+          }
+          @media (max-width: 370px) {
+            font-size: 0.7rem;
+            line-height: 1.5rem;
+          }
+        }
+
+        .email-formulario {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+
+          input {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            gap: 10px;
+            width: 80%;
+            height: 35px;
+            background: rgba(15, 20, 184, 0.16);
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.125rem;
+
+            &::placeholder {
+              letter-spacing: -0.02em;
+              font-weight: 500;
+              font-size: 1.125rem;
+              line-height: 1.5rem;
+              color: #fbfeff;
+            }
+          }
+
+          button {
+            display: flex;
+            border: none;
+            color: #fbfeff;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3px 19px;
+            gap: 10px;
+            font-style: normal;
+            font-weight: 900;
+            font-size: 1rem;
+            line-height: 1.25rem;
+            letter-spacing: 0.6px;
+            width: 111px;
+            height: 35px;
+            background: #0f14b8;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #0e2361;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .footer {
+    background-color: #0e2361;
+    height: 40%;
+    color: #fbfeff;
+    display: flex;
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10%;
+      align-items: center;
+      margin: 0 auto;
+      width: 100%;
+      flex-wrap: wrap;
+
+      .footer-esquerdo {
+        .logo {
+          width: 50px;
+          height: 50px;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+          }
+        }
+
+        h3 {
+          font-weight: 800;
+          font-size: 1rem;
+          line-height: 1.5rem;
+          letter-spacing: 0.2px;
+          color: #fbfeff;
+          margin: 12px 0 8px;
+        }
+
+        p {
+          font-weight: 500;
+          font-size: 0.8rem;
+          line-height: 1rem;
+          letter-spacing: 0.2px;
+          color: #fbfeff;
+          max-width: 200px;
+        }
+      }
+
+      .footer-direito {
+        ul {
+          list-style: none;
+          padding: 0;
+
+          li {
+            margin-bottom: 10px;
+
+            a {
+              font-weight: 500;
+              font-size: 0.8rem;
+              line-height: 1rem;
+              letter-spacing: 0.2px;
+              color: #fbfeff;
+              text-decoration: none;
+
+              &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+              }
+            }
+          }
         }
       }
     }

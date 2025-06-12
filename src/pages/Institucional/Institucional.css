@@ -561,7 +561,7 @@
   /* Seção principal da página inicial */
   .institucional-home {
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -1201,7 +1201,7 @@
 @media (min-width: 575px) and (max-width: 744px) {
   .institucional-home {
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;

@@ -45,10 +45,11 @@
 
 .nav-institucional {
   width: 100vw;
-
+  height: 10vh;
+  
   .nav-desktop {
     height: 10vh;
-    width: 100%;
+    width: 100vw;
     background-color: var(--background-blue);
     display: flex;
     justify-content: space-around;

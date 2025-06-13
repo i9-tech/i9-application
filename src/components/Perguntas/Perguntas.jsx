@@ -16,7 +16,7 @@ export default function Perguntas() {
       }, 5000);
   
       return () => clearInterval(intervalo);
-    }, []);
+    }, [imagens.length]);
 
   const perguntas = [
     {

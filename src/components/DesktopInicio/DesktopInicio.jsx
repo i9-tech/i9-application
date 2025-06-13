@@ -8,6 +8,7 @@ import { useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
+
 const DesktopInicio = ({ navegarParaSecao }) => {
   const navigate = useNavigate();
   const imagens = [PDV_1, PDV_2, PDV_3];

@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import React from "react";
 import api from "../../provider/api.js";
 import { ENDPOINTS } from "../../utils/endpoints.js";
+import { ROUTERS } from "../../utils/routers.js";
 import { getPermissoes, getPrimeiraRotaPermitida } from "../../utils/auth.js";
 
-export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida}) {
+export default function FormularioSenha() {
   const [usuario, setUsuario] = React.useState("");
   const [senha, setSenha] = React.useState("");
-  const [usuarioErro, setUsuarioErro] = React.useState(false);
   const [senhaErro, setSenhaErro] = React.useState(false);
   const [erroLogin, setErroLogin] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -15,14 +15,7 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
   const validarDados = () => {
     setLoading(true);
     if (usuario === "" && senha === "") {
-      setUsuarioErro(true);
       setSenhaErro(true);
-      setLoading(false);
-      return false;
-    }
-
-    if (usuario === "") {
-      setUsuarioErro(true);
       setLoading(false);
       return false;
     }
@@ -75,6 +68,7 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
           type="text"
           value={usuario}
           maxLength={14}
+          title="Não é possível alterar o CPF do usuário."
           onChange={(e) => {
             let valor = e.target.value;
             valor = valor.replace(/\D/g, "");
@@ -82,13 +76,10 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
             valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
             valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
             setUsuario(valor);
-            setUsuarioErro(false);
             setErroLogin(false);
           }}
+          disabled
         />
-        <span className={`span-erro ${usuarioErro ? "visivel" : ""}`}>
-          PREENCHA TODOS OS CAMPOS PARA CONTINUAR
-        </span>
       </div>
       <div className="login-input">
         <p>Senha</p>
@@ -106,10 +97,10 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
       </div>
       <div className="login-entrar">
         {loading ? (
-          <div className="loading-spinner">Verificando dados...</div>
+          <div className="loading-spinner">Alterando senha...</div>
         ) : (
           <span className={`span-erro ${erroLogin ? "visivel" : ""}`}>
-            USUÁRIO E/OU SENHA INVÁLIDO(S)!
+            ERRO AO ATUALIZAR SENHA!
           </span>
         )}
         <button
@@ -118,11 +109,8 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
             validarDados();
           }}
         >
-          Entrar
+          Redefinir Senha
         </button>
-        <p>
-          <hov onClick={() => setIsSenhaEsquecida(!isSenhaEsquecida)}>Você esqueceu a senha?</hov>
-        </p>
       </div>
     </form>
   );

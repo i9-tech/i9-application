@@ -11,4 +11,5 @@ export const ROUTERS = {
     FUNCIONARIOS: "/funcionarios",
     DASHBOARD: "/dashboard",
     UNAUTHORIZED: "/unauthorized",
+    REDEFINIR_SENHA: "/redefinir-senha",
 }

@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import CadastroSetoresCategorias from "./pages/CadastroSetoresCategorias/CadastroSetoresCategorias";
+import { RedefinirSenha } from "./pages/RedefinirSenha/RedefinirSenha";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
         <Routes>
           <Route path={ROUTERS.HOME} element={<Institucional />} />
           <Route path={ROUTERS.LOGIN} element={<Login />} />
+          <Route path={`${ROUTERS.REDEFINIR_SENHA}/:id`} element={<RedefinirSenha />} />
 
           <Route
             path={ROUTERS.ATENDENTE}

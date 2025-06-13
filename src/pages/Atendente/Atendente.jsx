@@ -414,7 +414,11 @@ export function Atendente() {
     <>
       <LayoutTela
         titulo={"Menu de Atendimento"}
-       
+        adicional={
+          <>
+            {diaAtual} - <Relogio />
+          </>
+        }
       >
         <section className="menu-atendente">
           {modalAberto && produtoSelecionado && (

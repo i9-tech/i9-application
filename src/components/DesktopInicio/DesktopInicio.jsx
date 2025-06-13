@@ -4,14 +4,14 @@ import { FaAngleDown } from "react-icons/fa";
 import PDV_1 from "../../assets/pdv_1.png";
 import PDV_2 from "../../assets/pdv_2.png";
 import PDV_3 from "../../assets/pdv_3.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
 const DesktopInicio = ({ navegarParaSecao }) => {
   const navigate = useNavigate();
   const imagens = [PDV_1, PDV_2, PDV_3];
-  const [indiceAtual, setIndiceAtual] = useState(0);
+  const [indiceAtual, _setIndiceAtual] = useState(0);
 
   // useEffect(() => {
   //   const intervalo = setInterval(() => {

@@ -9,11 +9,17 @@ import DesktopContato from "../../components/DesktopContato/DesktopContato";
 import DesktopFooter from "../../components/DesktopFooter/DesktopFooter";
 
 export function Institucional() {
+  const navegarParaSecao = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <>
-      <NavInstitucional />
+      <NavInstitucional navegarParaSecao={navegarParaSecao} />
       <section className="institucional-home" id="inicio">
-        <DesktopInicio />
+        <DesktopInicio navegarParaSecao={navegarParaSecao} />
       </section>
       <section className="institucional" id="solucoes">
         <CardSobreposto />

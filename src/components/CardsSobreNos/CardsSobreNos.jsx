@@ -1,4 +1,3 @@
-import React from "react";
 import integrado from "../../assets/integrado.png";
 import facil from "../../assets/facil.png";
 import controle from "../../assets/controle.png";
@@ -65,8 +64,7 @@ const CardsSobreNos = () => {
                   <>
                     Com o nosso sistema, você centraliza a gestão de todas as
                     áreas de seu negócio em uma plataforma simples, sem precisar
-                    lidar com planilhas ou registros manuais. Você tem total
-                    controle sobre todas as operações.
+                    lidar com planilhas ou registros manuais.
                   </>
                 }
               />

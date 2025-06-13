@@ -5,22 +5,58 @@ import { TbArrowBackUp } from "react-icons/tb";
 import { useState } from "react";
 import ModalSenha from "../../components/EsqueceuSenha/ModalSenha";
 import ModalNotificacao from "../../components/EsqueceuSenha/ModalNotificacao";
+import api from "../../provider/api";
+import { toast } from "react-toastify";
+import { ROUTERS } from "../../utils/routers";
 
 export function Login() {
   const navigate = useNavigate();
   const [isSenhaEsquecida, setIsSenhaEsquecida] = useState(false);
+  const [isEnviandoSenha, setIsEnviandoSenha] = useState(false);
   const [senhaEnviada, setSenhaEnviada] = useState(false);
+
+  const enviarDadosRecuperacao = (cpf) => {
+    const loadingToastId = toast.loading("Enviando e-mail, aguarde...");
+
+    api
+      .post("/recuperacoes/esqueceu-senha", { cpf: cpf })
+      .then((res) => {
+        console.log(res);
+        setSenhaEnviada(true);
+        setIsSenhaEsquecida(false);
+        setIsEnviandoSenha(false);
+        toast.update(loadingToastId, {
+          render: "E-mail enviado com sucesso!",
+          type: toast.success,
+          isLoading: false,
+          autoClose: 2000,
+        });
+      })
+      .catch((err) => {
+        console.log("Houve um erro ao enviar email:", err);
+        setTimeout(() => {
+          toast.update(loadingToastId, {
+            render:
+              "Erro ao enviar e-mail! Cadastro não encontrado ou desativado!",
+            type: toast.error,
+            isLoading: false,
+            autoClose: 3000,
+          });
+          setIsEnviandoSenha(false);
+        }, 3000);
+      });
+  };
+
   return (
     <>
       {isSenhaEsquecida && (
         <ModalSenha
           onClose={() => setIsSenhaEsquecida(false)}
           onSubmit={(cpf) => {
-            console.log(cpf)
-            setSenhaEnviada(true);
-            setIsSenhaEsquecida(false);
+            setIsEnviandoSenha(true);
+            enviarDadosRecuperacao(cpf);
           }}
-          disabled={senhaEnviada}
+          disabled={isEnviandoSenha}
         />
       )}
       {!isSenhaEsquecida && senhaEnviada && (
@@ -49,7 +85,14 @@ export function Login() {
         />
         <span className="login-footer">
           <p>
-            Não possui uma conta? <hov>Contate-nos</hov>
+            Não possui uma conta?{" "}
+            <hov
+              onClick={() => {
+                navigate(ROUTERS.HOME)
+              }}
+            >
+              Contate-nos
+            </hov>
           </p>
         </span>
       </section>

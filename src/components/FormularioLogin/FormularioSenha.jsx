@@ -1,76 +1,76 @@
 import { useNavigate, useParams } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../../provider/api.js";
 import { ENDPOINTS } from "../../utils/endpoints.js";
 import { toast } from "react-toastify";
+import { ROUTERS } from "../../utils/routers.js";
 
 export default function FormularioSenha() {
   const [usuario, setUsuario] = React.useState("");
-  const [senha, setSenha] = React.useState("");
+  // const [senha, setSenha] = React.useState("");
   const [senhaErro, setSenhaErro] = React.useState(false);
   const [erroLogin, setErroLogin] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const { id, idEmpresa, token } = useParams();
+  const [erroApi, setErroApi] = useState("");
+  const [novaSenha, setNovaSenha] = useState("");
+  const { token } = useParams();
 
-
-  // const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjMuNDU2Ljc4OS0wMCIsImF1dGhvcml0aWVzIjoiUk9MRV9DT1pJTkhBLFJPTEVfRVNUT1FVRSxST0xFX0FURU5ESU1FTlRPLFJPTEVfUFJPUFJJRVRBUklPIiwiYWNlc3NvU2V0b3JDb3ppbmhhIjp0cnVlLCJhY2Vzc29TZXRvckVzdG9xdWUiOnRydWUsImFjZXNzb1NldG9yQXRlbmRpbWVudG8iOnRydWUsInByb3ByaWV0YXJpbyI6dHJ1ZSwiaWF0IjoxNzQ5ODM3ODk4LCJleHAiOjE3NTM0Mzc4OTh9.0yuLV6jyL6tKV9l4IX4h-gppYyl1oukiFhuoJteaM06DAyFc3GvGOeB4flkQIO-nqgDZjSExg8odAgL6dOMWww'
   useEffect(() => {
-    if (id) {
-      api
-        .get(`${ENDPOINTS.FUNCIONARIOS}/${id}/${idEmpresa}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        .then((res) => {
-          setUsuario(res.data);
-        })
-        .catch((err) => {
-          toast.error("Erro ao buscar usuário, link inválido!")
-          console.log("Erro ao buscar usuário: ", err);
-        });
+    if (!token) {
+      toast.error("Link de recuperação inválido ou incompleto!");
+      setErroApi(
+        "Link de recuperação inválido ou incompleto. Por favor, solicite um novo."
+      );
     }
   }, []);
+  
+  useEffect(() => {
+    if (token) {
+      api
+      .get(`/recuperacoes/${token}`)
+      .then((res) => setUsuario(res.data))
+      .catch((err) => console.log("Erro ao recuperar funcionário: ", err));
+    }
+  },[]);
 
-
-  const validarDados = () => {
+  const validarDados = async () => {
     setLoading(true);
-    if (usuario === "" && senha === "") {
+    setSenhaErro(false);
+    setErroApi("");
+
+    if (novaSenha === "") {
       setSenhaErro(true);
+      toast.error("Por favor, preencha o campo de senha!");
       setLoading(false);
-      return false;
+      return;
     }
 
-    if (senha === "") {
-      setSenhaErro(true);
-      setLoading(false);
-      return false;
-    }
-
-    if (senha.length < 11) {
+    if (novaSenha.length < 11) {
       setSenhaErro(true);
       toast.error("A senha deve ter no mínimo 11 caracteres!");
       setLoading(false);
       return false;
     }
 
-    enviarDados(usuario, senha);
-    return true;
+    await enviarNovaSenha();
   };
 
-  const enviarDados = async (usuario, senha) => {
+  const enviarNovaSenha = async () => {
     setLoading(true);
-    api.patch(
-      `${ENDPOINTS.FUNCIONARIOS}/${id}/${idEmpresa}`,
-      {
-        ...usuario,
-        senha
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
-    )
+    api
+      .post("/recuperacoes/redefinir-senha", {
+        token: token,
+        novaSenha: novaSenha,
+      })
       .then((res) => {
-        setLoading(false);
-        toast.success("Senha atualizada com sucesso!");
+        toast.success(res.data);
+        setTimeout(() => {
+          toast.success("Redirecionando para login...");
+        }, 2000)
+        setTimeout(() => {
+          navigate(ROUTERS.LOGIN);
+          setLoading(false);
+        }, 5000);
       })
       .catch((err) => {
         console.error("Erro ao atualizar usuário:", err.message);
@@ -88,7 +88,7 @@ export default function FormularioSenha() {
         <p>CPF Usuário</p>
         <input
           type="text"
-          value={usuario.cpf}
+          value={usuario}
           title="Não é possível alterar o CPF do usuário."
           onChange={(e) => {
             let valor = e.target.value;
@@ -107,10 +107,11 @@ export default function FormularioSenha() {
         <input
           type="password"
           onChange={(e) => {
-            setSenha(e.target.value);
+            setNovaSenha(e.target.value);
             setSenhaErro(false);
             setErroLogin(false);
           }}
+          disabled={loading}
         />
         <span className={`span-erro ${senhaErro ? "visivel" : ""}`}>
           PREENCHA TODOS OS CAMPOS PARA CONTINUAR
@@ -130,6 +131,7 @@ export default function FormularioSenha() {
             e.preventDefault();
             validarDados();
           }}
+          disabled={loading}
         >
           Redefinir Senha
         </button>

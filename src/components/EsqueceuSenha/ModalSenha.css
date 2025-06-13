@@ -28,7 +28,7 @@
       padding: 24px 32px;
       position: relative;
       text-align: center;
-      font-family: 'Arial', sans-serif;
+      font-family: "Arial", sans-serif;
 
       h2 {
         margin: 0 0 6px 0;
@@ -69,7 +69,7 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
-      font-family: 'Arial', sans-serif;
+      font-family: "Arial", sans-serif;
 
       .input-group {
         position: relative;
@@ -83,11 +83,16 @@
         border: 1.8px solid #ddd;
         border-radius: 8px;
         transition: border-color 0.2s ease;
-        font-family: 'Arial', sans-serif;
+        font-family: "Arial", sans-serif;
 
         &:focus {
           border-color: #0822c9;
           outline: none;
+        }
+
+        &:disabled {
+          background-color: #6a6a6a77;
+          cursor: not-allowed;
         }
       }
 
@@ -114,13 +119,18 @@
           background-color: #000f7f;
           outline: none;
         }
+
+        &:disabled {
+          background-color: #6a6a6a77;
+          cursor: not-allowed;
+        }
       }
     }
 
     /* Estilos para ModalNotificacao dentro de esqeuceu-container */
     .mensagem-confirmacao {
       padding: 24px 32px;
-      font-family: 'Arial', sans-serif;
+      font-family: "Arial", sans-serif;
       color: #333;
       font-size: 1rem;
       line-height: 1.4;

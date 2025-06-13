@@ -188,7 +188,10 @@
       height: 18%;
       align-items: center;
 
-      
+      hov:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -378,6 +381,11 @@
       justify-content: center;
       height: 18%;
       align-items: center;
+
+      hov:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -572,6 +580,11 @@
       justify-content: center;
       height: 18%;
       align-items: center;
+
+      hov:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
     }
   }
 }

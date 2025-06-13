@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./ModalSenha.css";
 
 export default function ModalSenha({ onClose, onSubmit, disabled }) {
-    const [cpf, setCpf] = useState(null);
+  const [cpf, setCpf] = useState("");
   return (
     <section className="esqueceu" aria-labelledby="titulo-senha">
       <article className="esqueceu-container">
@@ -14,6 +14,7 @@ export default function ModalSenha({ onClose, onSubmit, disabled }) {
             className="modal-close"
             onClick={onClose}
             aria-label="Fechar"
+            disabled={disabled}
           >
             ×
           </button>
@@ -42,14 +43,17 @@ export default function ModalSenha({ onClose, onSubmit, disabled }) {
                 valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
                 setCpf(valor);
               }}
-              //   required
+              required
               disabled={disabled}
               autoComplete="off"
               aria-label="CPF"
             />
           </div>
-
-          <button type="submit">Enviar</button>
+          <button 
+          type="submit" 
+          disabled={disabled}>
+            Enviar
+          </button>
         </form>
       </article>
     </section>

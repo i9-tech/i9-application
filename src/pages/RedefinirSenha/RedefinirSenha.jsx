@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./RedefinirSenha.css";
 import { TbArrowBackUp } from "react-icons/tb";
-import { useState } from "react";
 import FormularioSenha from "../../components/FormularioLogin/FormularioSenha";
 
 export function RedefinirSenha() {

@@ -26,8 +26,16 @@
         display: flex;
         text-align: center;
         color: #fff;
-        font-size: 24px;
         padding: 24px;
+        font-size: 24px;
+
+        @media (max-width: 980px) {
+            font-size: 20px;
+        }
+
+        @media (max-width: 832px) {
+            font-size: 18px;
+        }
     }
 
     .overlay.visivel {

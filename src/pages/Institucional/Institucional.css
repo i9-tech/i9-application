@@ -275,7 +275,7 @@
 
 .institucional {
   width: 100vw;
-  height: 210vh;
+  min-height: 210vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1374,7 +1374,7 @@
   }
 
   .institucional {
-    height: 205vh;
+    min-height: 205vh;
 
     .bloco-container {
       display: flex;
@@ -2116,7 +2116,7 @@
     }
   }
   .institucional {
-    height: 180vh;
+    min-height: 180vh;
     .bloco-container {
       display: flex;
       flex-direction: column;

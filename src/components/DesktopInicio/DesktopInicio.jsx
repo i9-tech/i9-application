@@ -14,15 +14,6 @@ const DesktopInicio = ({ navegarParaSecao }) => {
   const imagens = [PDV_1, PDV_2, PDV_3];
   const [indiceAtual, _setIndiceAtual] = useState(0);
 
-  // useEffect(() => {
-  //   const intervalo = setInterval(() => {
-  //     setIndiceAtual((indiceAnterior) => (indiceAnterior + 1) % imagens.length);
-  //   }, 20000);
-
-  //   return () => clearInterval(intervalo);
-  // }, []);
-
-
   return (
     <>
       <article className="inicio">

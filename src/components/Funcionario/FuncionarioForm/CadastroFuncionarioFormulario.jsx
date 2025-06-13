@@ -148,7 +148,6 @@ const CadastroFuncionarioFormulario = ({
           acessoSetorEstoque: setorFuncionario.estoque,
           acessoSetorAtendimento: setorFuncionario.atendimento,
           proprietario: false,
-          senha: `${cpfSemFormatacao}@taua`,
         },
         {
           headers: {

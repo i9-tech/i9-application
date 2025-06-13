@@ -28,7 +28,7 @@ function App() {
         <Routes>
           <Route path={ROUTERS.HOME} element={<Institucional />} />
           <Route path={ROUTERS.LOGIN} element={<Login />} />
-          <Route path={`${ROUTERS.REDEFINIR_SENHA}/:id`} element={<RedefinirSenha />} />
+          <Route path={`${ROUTERS.REDEFINIR_SENHA}/:id/:idEmpresa/:token`} element={<RedefinirSenha />} />
 
           <Route
             path={ROUTERS.ATENDENTE}

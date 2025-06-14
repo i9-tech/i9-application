@@ -7,14 +7,29 @@ import CardsSobreNos from "../../components/CardsSobreNos/CardsSobreNos";
 import DesktopInicio from "../../components/DesktopInicio/DesktopInicio";
 import DesktopContato from "../../components/DesktopContato/DesktopContato";
 import DesktopFooter from "../../components/DesktopFooter/DesktopFooter";
+import { useState, useEffect } from "react";
 
 export function Institucional() {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
   const navegarParaSecao = (id) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 200);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
       <NavInstitucional navegarParaSecao={navegarParaSecao} />
@@ -34,6 +49,11 @@ export function Institucional() {
         <DesktopContato />
         <DesktopFooter />
       </section>
+      {showScrollTop && (
+        <button title="Voltar para o topo da página" className="botao-voltar-inicio" onClick={scrollToTop} aria-label="Voltar ao topo">
+          ↑
+        </button>
+      )}
     </>
   );
 }

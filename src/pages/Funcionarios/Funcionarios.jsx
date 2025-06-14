@@ -142,7 +142,15 @@ export function Funcionarios() {
         />
       )}
 
-      <LayoutTela titulo={"Cadastro de Funcionário"}>
+      <LayoutTela
+        titulo={"Cadastro de Funcionário"}
+        adicional={
+          <>
+            {funcionarios.length} Funcionário
+            {funcionarios.length !== 1 ? "s" : ""}
+          </>
+        }
+      >
         <div className="container-funcionario">
           <div className="coluna-esquerda">
             <CadastroFuncionarioFormulario

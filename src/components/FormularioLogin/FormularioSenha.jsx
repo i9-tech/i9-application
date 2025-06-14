@@ -22,7 +22,7 @@ export default function FormularioSenha() {
         "Link de recuperação inválido ou incompleto. Por favor, solicite um novo."
       );
     }
-  }, []);
+  }, [token]);
   
   useEffect(() => {
     if (token) {
@@ -31,7 +31,7 @@ export default function FormularioSenha() {
       .then((res) => setUsuario(res.data))
       .catch((err) => console.log("Erro ao recuperar funcionário: ", err));
     }
-  },[]);
+  },[token]);
 
   const validarDados = async () => {
     setLoading(true);

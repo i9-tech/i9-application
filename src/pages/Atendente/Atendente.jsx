@@ -539,7 +539,7 @@ export function Atendente() {
                     <div key={categoria.id} className="categoria">
                       <h1>{categoria.nome}</h1>
                       <div className="produtos-da-categoria">
-                        {produtosFiltrados.map((produto, index) => {
+                        {produtosFiltrados.map((produto) => {
                           const itemComanda = comanda.find(
                             (item) => item.nome === produto.nome
                           );

@@ -1,5 +1,6 @@
 # 🖥️ Aplicação i9
-![CI](https://github.com/i9-tech/i9-application/actions/workflows/i9-application-ci.yml/badge.svg?branch=develop)
+![CI](https://github.com/i9-tech/i9-application/actions/workflows/i9-application-ci.yml/badge.svg?branch=develop) 
+![CI](https://github.com/i9-tech/i9-application/actions/workflows/azure-static-web-apps-happy-bay-092f1780f.yml/badge.svg?branch=feature/integracao-azure) 
 
 ***
 
@@ -36,7 +37,8 @@ Além das ferramentas de desenvolvimento, o projeto utiliza as seguintes depend�
 
 ## 🔑 Acesso a Aplicação
 Para executar a aplicação localmente, siga os passos abaixo:
-1. Clone o repositório:
+
+1. Clone o repositório do frontend:
 ```sh
 git clone https://github.com/SeuUsuario/i9-application.git
 ```
@@ -48,58 +50,43 @@ cd i9-application
 ```sh
 npm install
 ```
-4. Execute a aplicação:
+4. Defina as variáveis de ambiente do projeto em um *.env.local* :
 ```sh
-npm run dev
+VITE_AMBIENTE=
+VITE_IMAGE_TOKEN_URL=
+VITE_API_BASE_URL_LOCAL=
+VITE_API_BASE_URL_DEV=
+VITE_API_BASE_URL_PROD=
 ```
-5. Acesse no navegador:
-`http://http://localhost:5173`
+👉 Agora, siga o modo desejado de execução: *DEV* ou *PROD*
 
 <br/>
 
-***
-
-📌 Para testar qualquer função interna da nossa aplicação, será necessário executar a aplicação do backend e, para isso, é necessário clonar o repositório **i9-server**
-
-Para acessar ou clonar o repositório, utilize o link abaixo:
-```sh
-https://github.com/i9-tech/i9-server.git
-```
-
-<br/>
-
-***
-
-## 🔧 Para rodar em  ambiente de DEV:
-1. Instale as dependências do projeto:
-`npm install`
-
-2. Rode o server:
+## 🔧 Para rodar em ambiente de DEV
+5. Execute a aplicação:
 ```sh
 npm run dev
 ```
-
-3. Endereço de exibição:
+6. Acesse no navegador:
 ```sh
 http://localhost:5173
 ```
-
 <br/>
 
-***
-
 ## 🚀 Para rodar em  ambiente de PROD:
-1. Instale as dependências do projeto:
-`npm install`
 
-2. Instale o Ttg server:
-`npm build + npm install -tg server`
-
-3. Rode o server:
-`serve -s dist`
-
-4. Endereço de exibição:
-`http://localhost:80`_*`(ou a porta que definir nas configurações de prod)`*
+5. Instale o Ttg server:
+```sh
+npm build + npm install -tg server
+```
+6. Rode o server:
+```sh
+serve -s dist
+```
+7. Endereço de exibição: *(ou a porta que definir nas configurações de prod)*
+```sh
+http://localhost:80 
+```
 
 <br/>
 
@@ -198,13 +185,13 @@ Ao interagir com a interface, o usuário poderá:
 ***
 
 ## 🔗 Integração
-A comunicação entre a interface e o servidor é feita por requisições HTTP via Axios. As rotas protegidas exigem envio do token JWT no cabeçalho da requisição, e a resposta do servidor é manipulada para exibir mensagens visuais ao usuário.
+Esta aplicação se comunica com o servidor por meio de requisições HTTP. As rotas protegidas utilizam token JWT para autenticação e autorização. As respostas do servidor são processadas para exibir mensagens ao usuário.
 
-Caso deseje testar a aplicação e dados gerados por meio de uma interface gráfica, a i9 oferece um repositório com toda a aplicação desenvolvida para o front-end do projeto. Se deseja clonar o repositório, acesse o link:
+Caso deseje testar a aplicação de forma completa, incluindo o servidor que fornece os dados, a i9 oferece um repositório com toda a aplicação back-end do projeto. Se deseja clonar o repositório, acesse o link:
 
-https://github.com/i9-tech/i9-application
+https://github.com/i9-tech/i9-server
 
-Nele, é possível ler o passo a passo de como realizar a instalação do repositório e rodar localmente.
+No repositório do servidor, você encontra o passo a passo para instalação e execução local.
 
 <br/>
 

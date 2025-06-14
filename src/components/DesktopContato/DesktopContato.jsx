@@ -20,7 +20,7 @@ const DesktopContato = () => {
 
   api
     .post('/envio-email/interesse', email)
-    .then((res) => {
+    .then(() => {
       toast.update(loadingToastId, {
         render: "Email enviado com sucesso! Verifique sua caixa de entrada.",
         type: toast.success,

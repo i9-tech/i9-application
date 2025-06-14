@@ -11,7 +11,7 @@ export default function FormularioSenha() {
   const [senhaErro, setSenhaErro] = React.useState(false);
   const [erroLogin, setErroLogin] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [erroApi, setErroApi] = useState("");
+  const [_erroApi, setErroApi] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const { token } = useParams();
 

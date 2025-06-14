@@ -12,6 +12,8 @@ import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario, getToken } from "../../utils/auth";
 import { formatarMoeda } from "../../utils/utils";
 import Relogio from "../../components/Relogio/Relogio";
+import { LiaFileDownloadSolid } from "react-icons/lia";
+import html2canvas from "html2canvas";
 
 export function Dashboard() {
   const funcionario = getFuncionario();
@@ -151,6 +153,34 @@ export function Dashboard() {
     setProdutoMaisVendido(maisVendido);
   };
 
+  const diaDash = new Date().toLocaleDateString("pt-BR").replace(/\//g, "-");
+  function baixarImagemDashboard() {
+    const elemento = document.querySelector(".dashboard");
+    if (!elemento) return;
+
+    html2canvas(elemento, {
+      backgroundColor: '#f0f0f0',
+      scrollX: 0,
+      scrollY: 0,
+    }).then((originalCanvas) => {
+      const margem = 24;
+      const canvasComMargem = document.createElement("canvas");
+      canvasComMargem.width = originalCanvas.width - 10;
+      canvasComMargem.height = originalCanvas.height + margem * 2;
+
+      const ctx = canvasComMargem.getContext("2d");
+
+      ctx.fillStyle = "#f0f0f0";
+      ctx.fillRect(0, 0, canvasComMargem.width, canvasComMargem.height);
+
+      ctx.drawImage(originalCanvas, margem, margem);
+
+      const link = document.createElement("a");
+      link.download = `dashboard(${diaDash}).png`;
+      link.href = canvasComMargem.toDataURL("image/png");
+      link.click();
+    });
+  }
   return (
     <>
       <LayoutTela
@@ -158,6 +188,20 @@ export function Dashboard() {
         adicional={
           <>
             {diaAtual} - <Relogio />
+            <button
+              onClick={baixarImagemDashboard}
+              style={{
+                marginLeft: "1rem",
+                marginTop: "-0.5rem",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                position: "absolute"
+              }}
+              title="Baixar imagem da Dashboard"
+            >
+              <LiaFileDownloadSolid size={30} />
+            </button>
           </>
         }
       >
@@ -167,13 +211,12 @@ export function Dashboard() {
               key={"abss"}
               titulo={"Lucro Bruto"}
               valor={formatarMoeda(lucroBruto)}
-              adicional={`${
-                isLucroMaior && diferencaBruto > 0
-                  ? "+"
-                  : diferencaBruto > 0
+              adicional={`${isLucroMaior && diferencaBruto > 0
+                ? "+"
+                : diferencaBruto > 0
                   ? "-"
                   : ""
-              }${formatarMoeda(diferencaBruto)} em relação ao dia anterior`}
+                }${formatarMoeda(diferencaBruto)} em relação ao dia anterior`}
               indicador={"#6f6df1"}
             />
             <Kpi
@@ -186,16 +229,14 @@ export function Dashboard() {
             <Kpi
               key={"absdass"}
               titulo={"Vendas Realizadas"}
-              valor={`${quantidadeTotalVendida || 0} venda${
-                quantidadeTotalVendida !== 1 ? "s" : ""
-              }`}
-              adicional={`${
-                isVendaMaior && diferencaVenda > 0
-                  ? "+"
-                  : diferencaVenda > 0
+              valor={`${quantidadeTotalVendida || 0} venda${quantidadeTotalVendida !== 1 ? "s" : ""
+                }`}
+              adicional={`${isVendaMaior && diferencaVenda > 0
+                ? "+"
+                : diferencaVenda > 0
                   ? "-"
                   : ""
-              }${diferencaVenda} em relação ao dia anterior`}
+                }${diferencaVenda} em relação ao dia anterior`}
               indicador={"#41c482"}
             />
             <Kpi
@@ -206,11 +247,10 @@ export function Dashboard() {
                   ? produtoMaisVendido.nome?.split(" ")[0] || "Nenhum"
                   : pratoMaisVendido.nome?.split(" ")[0] || "Nenhum"
               }
-              adicional={`${
-                isKpiProduto
-                  ? produtoMaisVendido.quantidadeVendida || 0
-                  : pratoMaisVendido.quantidadeVendida || 0
-              } unidades`}
+              adicional={`${isKpiProduto
+                ? produtoMaisVendido.quantidadeVendida || 0
+                : pratoMaisVendido.quantidadeVendida || 0
+                } unidades`}
               indicador={"#d35757"}
               cursor={"pointer"}
               onClick={() => {
@@ -233,7 +273,7 @@ export function Dashboard() {
             </Grafico>
           </section>
         </article>
-      </LayoutTela>
+      </LayoutTela >
     </>
   );
 }

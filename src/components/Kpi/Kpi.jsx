@@ -13,7 +13,7 @@ export default function Kpi(props) {
     >
       <div className="kpi-container">
         <span className="titulo-kpi">{props.titulo}</span>
-        <h2 className="valor-kpi">{props.valor}</h2>
+        <h2 title={props.nome} className="valor-kpi">{props.valor}</h2>
         <p className="adicional-kpi">{props.adicional}</p>
       </div>
     </div>

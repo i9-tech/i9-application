@@ -55,7 +55,7 @@ const TabelaPratos = ({
           {isLoadingData ? (
             <CarregamentoEstoque colunas={9} temImagem={true} />
           ) : pratosFiltrados.length > 0 ? (
-            pratosFiltrados.map((prato) => (
+            [...pratosFiltrados].reverse().map((prato) => (
               <PratoEstoque
                 key={prato.id}
                 prato={prato}

@@ -242,10 +242,20 @@ export function Dashboard() {
             <Kpi
               key={"abssdasdas"}
               titulo={` ${isKpiProduto ? "Produto" : "Prato"} Mais Vendido`}
+              title={
+                isKpiProduto
+                  ? produtoMaisVendido.nome || "Nenhum"
+                  : pratoMaisVendido.nome || "Nenhum"
+              }
               valor={
                 isKpiProduto
                   ? produtoMaisVendido.nome?.split(" ")[0] || "Nenhum"
                   : pratoMaisVendido.nome?.split(" ")[0] || "Nenhum"
+              }
+              nome={
+                isKpiProduto
+                  ? produtoMaisVendido.nome || "Nenhum"
+                  : pratoMaisVendido.nome || "Nenhum"
               }
               adicional={`${isKpiProduto
                 ? produtoMaisVendido.quantidadeVendida || 0

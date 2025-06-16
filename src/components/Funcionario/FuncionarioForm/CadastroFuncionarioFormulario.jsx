@@ -124,7 +124,7 @@ const CadastroFuncionarioFormulario = ({
       });
   };
 
-  const editarFuncionario = (nome, cpf, data, setores, cpfSemFormatacao) => {
+  const editarFuncionario = () => {
     setLoading(true);
     setPorcentagemCarregamento(0);
 

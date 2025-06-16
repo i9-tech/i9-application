@@ -3,7 +3,7 @@ import BotaoConfirmar from "../../components/Botoes/BotaoConfirmar/BotaoConfirma
 import ElementoTotal from "../../components/Hovers/HoverTotalProduto/ElementoTotal";
 import LupaPesquisa from "../../assets/lupa-pesquisa.svg";
 import ElementoProduto from "../../components/Hovers/HoverProduto/ElementoProduto";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import ModalObservacoes from "../../components/Botoes/ModalObservacoes/ModalObservacoes";
 import ProdutoComanda from "../../components/Botoes/ProdutoComanda/ProdutoComanda";
 import ModalConfirmarPedido from "../../components/Botoes/ModalConfirmarPedido/ModalConfirmarPedido";
@@ -22,6 +22,7 @@ import CardsAtendimentoCarregamento from "../../components/Atendimento/CardsAten
 import NoDataAtendimento from "../../components/Atendimento/NoDataAtendimento";
 import { enviroments } from "../../utils/enviroments";
 import { imagemPadrao } from "../../assets/imagemPadrao";
+import useThrottle from "../../components/useThrottle/UseThrottle";
 
 export function Atendente() {
   const permissao = getPermissoes();
@@ -149,21 +150,25 @@ export function Atendente() {
     );
   }, [funcionario.userId, token]);
 
-  const adicionarNaComanda = (produto) => {
+  const adicionarNaComanda = useCallback((produto) => {
     setComanda((prev) => {
-      const index = prev.findIndex((item) => item.nome === produto.nome);
+      const index = prev.findIndex(
+        (item) => item.id === produto.id && item.tipo === produto.tipo
+      );
 
       if (index !== -1) {
         const novaComanda = [...prev];
         const produtoAtual = novaComanda[index];
-        const novaQuantidade = (produtoAtual.quantidade || 1) + 1;
+        const novaQuantidade =
+          (typeof produtoAtual.quantidade === "number"
+            ? produtoAtual.quantidade
+            : 0) + 1;
 
         novaComanda[index] = {
           ...produtoAtual,
           quantidade: novaQuantidade,
           precoTotal: produtoAtual.preco * novaQuantidade,
         };
-
         return novaComanda;
       }
 
@@ -171,14 +176,14 @@ export function Atendente() {
         ...prev,
         {
           ...produto,
-          tipo: produto.tipo,
           quantidade: 1,
           precoTotal: produto.preco,
-          imagem: produto.imagem,
         },
       ];
     });
-  };
+  }, []);
+
+  const throttledAdicionarNaComanda = useThrottle(adicionarNaComanda, 100);
 
   function atualizarQuantidade(produto, quantidade) {
     const qtd = Number(quantidade) || 0;
@@ -328,51 +333,49 @@ export function Atendente() {
   }
 
   function carregarDados() {
-    const requisicaoProdutos = api
-      .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          const produtosComTipo = res.data.map((item) => ({
-            ...item,
+    const headers = { Authorization: `Bearer ${token}` };
+
+    const requisicaoProdutos = api.get(
+      `${ENDPOINTS.PRODUTOS}/${funcionario.userId}`,
+      { headers }
+    );
+    const requisicaoPratos = api.get(
+      `${ENDPOINTS.PRATOS}/${funcionario.userId}`,
+      { headers }
+    );
+
+    Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(
+      (results) => {
+        const [produtosResult, pratosResult] = results;
+
+        let produtosComTipo = [];
+        let pratosComTipo = [];
+
+        if (produtosResult.status === "fulfilled") {
+          produtosComTipo = produtosResult.value.data.map((produto) => ({
+            ...produto,
             tipo: "produto",
           }));
-          setProdutos(produtosComTipo);
+        } else {
+          setErrorProduto(true);
         }
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar produtos:", err);
-        toast.error("Erro ao buscar produtos!");
-      });
 
-    const requisicaoPratos = api
-      .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          const pratosComTipo = res.data.map((item) => ({
-            ...item,
+        if (pratosResult.status === "fulfilled") {
+          pratosComTipo = pratosResult.value.data.map((prato) => ({
+            ...prato,
             tipo: "prato",
           }));
-          setProdutos((prev) => [...prev, ...pratosComTipo]);
+        } else {
+          setErrorPrato(true);
         }
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar pratos:", err);
-        toast.error("Erro ao buscar pratos!");
-      });
 
-    Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(() => {
-      setTimeout(() => {
-        setIsProdutosCarregando(false);
-      }, 2000);
-    });
+        setProdutos([...produtosComTipo, ...pratosComTipo]);
+
+        setTimeout(() => {
+          setIsProdutosCarregando(false);
+        }, 1000);
+      }
+    );
   }
 
   useEffect(() => {
@@ -536,7 +539,7 @@ export function Atendente() {
                     <div key={categoria.id} className="categoria">
                       <h1>{categoria.nome}</h1>
                       <div className="produtos-da-categoria">
-                        {produtosFiltrados.map((produto, index) => {
+                        {produtosFiltrados.map((produto) => {
                           const itemComanda = comanda.find(
                             (item) => item.nome === produto.nome
                           );
@@ -548,14 +551,14 @@ export function Atendente() {
 
                           return (
                             <ElementoProduto
-                              key={`${produto.id}-${index}`}
+                              key={produto.id}
                               id={produto.id}
                               nome={produto.nome}
                               descricao={produto.descricao}
                               preco={
                                 produto.valorUnitario || produto.valorVenda
                               }
-                              onAdicionar={adicionarNaComanda}
+                              onAdicionar={throttledAdicionarNaComanda}
                               imagem={produto.imagem}
                               quantidade={
                                 produto.tipo === "produto"

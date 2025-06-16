@@ -2673,3 +2673,17 @@
     }
   }
 }
+
+.botao-voltar-inicio {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  padding: 12px 18px;
+  border-radius: 50%;
+  border: none;
+  background: var(--destaque);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 20;
+}

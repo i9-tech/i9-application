@@ -59,7 +59,6 @@ const CadastroSetoresCategorias = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-
       const headers = {
         Authorization: `Bearer ${token}`,
       };
@@ -266,7 +265,17 @@ const CadastroSetoresCategorias = () => {
           porcentagemCarregamento={porcentagemCarregamento}
         />
       )}
-      <LayoutTela titulo="Cadastro de Setores e Categorias">
+      <LayoutTela
+        titulo="Cadastro de Setores e Categorias"
+        adicional={
+          <>
+            {setoresFiltradasComContagem.length} Setor
+            {setoresFiltradasComContagem.length !== 1 ? "es" : ""} e{" "}
+            {categoriasFiltradasComContagem.length} Categoria
+            {categoriasFiltradasComContagem.length !== 1 ? "s" : ""}
+          </>
+        }
+      >
         <div className="pagina-container">
           <div className="cadastro-container">
             <InfoCardSCCard

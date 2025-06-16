@@ -11,7 +11,7 @@ export default function FormularioSenha() {
   const [senhaErro, setSenhaErro] = React.useState(false);
   const [erroLogin, setErroLogin] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [erroApi, setErroApi] = useState("");
+  const [_erroApi, setErroApi] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const { token } = useParams();
 
@@ -22,7 +22,7 @@ export default function FormularioSenha() {
         "Link de recuperação inválido ou incompleto. Por favor, solicite um novo."
       );
     }
-  }, []);
+  }, [token]);
   
   useEffect(() => {
     if (token) {
@@ -31,7 +31,7 @@ export default function FormularioSenha() {
       .then((res) => setUsuario(res.data))
       .catch((err) => console.log("Erro ao recuperar funcionário: ", err));
     }
-  },[]);
+  },[token]);
 
   const validarDados = async () => {
     setLoading(true);

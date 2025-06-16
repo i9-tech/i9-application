@@ -24,8 +24,7 @@ export function ModalObservacoes({
   const handleClickAdicionarObservacao = () => {
     const invalida = observacoes.find((obs) => {
       const texto = obs.texto.trim();
-      if (texto === "") return true;
-      if (!somenteLetrasComAcento.test(texto)) return true;
+      if (texto !== "" && !somenteLetrasComAcento.test(texto)) return true;
       return false;
     });
 

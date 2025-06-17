@@ -31,7 +31,25 @@
           font-weight: 800;
           color: #222;
         }
-        
+
+        span {
+          .baixar-dash {
+            margin-left: 1rem;
+            margin-top: -0.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+
+            &:hover {
+              font-weight: 500;
+              background-color: #0000001f;
+              border-radius: 5px;
+              filter: brightness(0) saturate(100%) invert(39%) sepia(90%)
+                saturate(500%) hue-rotate(190deg);
+            }
+          }
+        }
       }
     }
 

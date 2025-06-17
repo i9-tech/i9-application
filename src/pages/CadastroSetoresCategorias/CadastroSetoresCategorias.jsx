@@ -11,6 +11,7 @@ import api from "../../provider/api";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import CarregamentoFormulario from "../../components/Carregamento/CarregamentoFormulario";
+import { Tooltip } from "react-tooltip";
 
 const CadastroSetoresCategorias = () => {
   const funcionario = getFuncionario();
@@ -26,6 +27,7 @@ const CadastroSetoresCategorias = () => {
 
   const [modalAberto, setModalAberto] = useState(false);
   const [tipoCadastro, setTipoCadastro] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const [isLoadingData, setIsLoadingData] = useState(true);
 
@@ -44,11 +46,13 @@ const CadastroSetoresCategorias = () => {
 
   const handleCadastrarSetor = () => {
     setTipoCadastro("setor");
+    setOpen(false);
     setModalAberto(true);
   };
 
   const handleCadastrarCategoria = () => {
     setTipoCadastro("categoria");
+    setOpen(false);
     setModalAberto(true);
   };
 
@@ -269,10 +273,10 @@ const CadastroSetoresCategorias = () => {
         titulo="Cadastro de Setores e Categorias"
         adicional={
           <>
-            {setoresFiltradasComContagem.length} Setor
-            {setoresFiltradasComContagem.length !== 1 ? "es" : ""} e{" "}
-            {categoriasFiltradasComContagem.length} Categoria
-            {categoriasFiltradasComContagem.length !== 1 ? "s" : ""}
+            {setores.length} Setor
+            {setores.length !== 1 ? "es" : ""} e{" "}
+            {categorias.length} Categoria
+            {categorias.length !== 1 ? "s" : ""}
           </>
         }
       >
@@ -309,10 +313,22 @@ const CadastroSetoresCategorias = () => {
             </InfoCardSCCard>
           </div>
 
-          <FloatingAddButton
-            onSetor={handleCadastrarSetor}
-            onCategoria={handleCadastrarCategoria}
-          />
+          <>
+            <FloatingAddButton
+              onSetor={handleCadastrarSetor}
+              onCategoria={handleCadastrarCategoria}
+              open={open}
+              setOpen={setOpen}
+            />
+            <Tooltip
+              id="tooltip-cad-set"
+              place="left"
+              style={{
+                width: "auto",
+                zIndex: 2,
+              }}
+            />
+          </>
 
           <Modal
             isOpen={modalAberto}

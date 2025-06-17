@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import "./FloatingAddButton.css";
 import { IoMdAddCircle } from "react-icons/io";
 
@@ -13,7 +13,7 @@ const FloatingAddButton = ({ onSetor, onCategoria, open, setOpen }) => {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [setOpen]);
 
   return (
     <div className="fab-container" ref={popupRef}>

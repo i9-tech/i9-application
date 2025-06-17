@@ -31,7 +31,8 @@ export default function NavInstitucional({ navegarParaSecao }) {
           </div>
           <div className="botao-enter">
             <button onClick={() => navigate(ROUTERS.LOGIN)}>
-              <p style={{paddingBottom: '3px'}}>Entrar</p> <FaAngleRight size={22} />
+              <p style={{ paddingBottom: "3px" }}>Entrar</p>{" "}
+              <FaAngleRight size={22} />
             </button>
           </div>
         </span>
@@ -65,8 +66,12 @@ export default function NavInstitucional({ navegarParaSecao }) {
                 Entre em contato conosco
               </hov>
             </div>
-            <div className="botao-enter">
-              <p style={{paddingBottom: '2.9px'}}>Entrar</p> <FaAngleRight size={22} />
+            <div
+              className="botao-enter"
+              onClick={() => navigate(ROUTERS.LOGIN)}
+            >
+              <p style={{ paddingBottom: "2.9px" }}>Entrar</p>{" "}
+              <FaAngleRight size={22} />
             </div>
           </span>
         </div>

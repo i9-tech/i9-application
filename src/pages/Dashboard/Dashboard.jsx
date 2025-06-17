@@ -14,6 +14,7 @@ import { formatarMoeda } from "../../utils/utils";
 import Relogio from "../../components/Relogio/Relogio";
 import { LiaFileDownloadSolid } from "react-icons/lia";
 import html2canvas from "html2canvas";
+import { Tooltip } from "react-tooltip";
 
 export function Dashboard() {
   const funcionario = getFuncionario();
@@ -159,7 +160,7 @@ export function Dashboard() {
     if (!elemento) return;
 
     html2canvas(elemento, {
-      backgroundColor: '#f0f0f0',
+      backgroundColor: "#f0f0f0",
       scrollX: 0,
       scrollY: 0,
     }).then((originalCanvas) => {
@@ -190,18 +191,20 @@ export function Dashboard() {
             {diaAtual} - <Relogio />
             <button
               onClick={baixarImagemDashboard}
-              style={{
-                marginLeft: "1rem",
-                marginTop: "-0.5rem",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                position: "absolute"
-              }}
-              title="Baixar imagem da Dashboard"
+              className="baixar-dash"
+              data-tooltip-id="tooltip-dash"
+              data-tooltip-content="Baixar Imagem da Dashboard"
             >
               <LiaFileDownloadSolid size={30} />
             </button>
+            <Tooltip
+              id="tooltip-dash"
+              place="right"
+              style={{
+                width: "auto",
+                zIndex: 2,
+              }}
+            />
           </>
         }
       >
@@ -211,12 +214,13 @@ export function Dashboard() {
               key={"abss"}
               titulo={"Lucro Bruto"}
               valor={formatarMoeda(lucroBruto)}
-              adicional={`${isLucroMaior && diferencaBruto > 0
-                ? "+"
-                : diferencaBruto > 0
+              adicional={`${
+                isLucroMaior && diferencaBruto > 0
+                  ? "+"
+                  : diferencaBruto > 0
                   ? "-"
                   : ""
-                }${formatarMoeda(diferencaBruto)} em relação ao dia anterior`}
+              }${formatarMoeda(diferencaBruto)} em relação ao dia anterior`}
               indicador={"#6f6df1"}
             />
             <Kpi
@@ -229,14 +233,16 @@ export function Dashboard() {
             <Kpi
               key={"absdass"}
               titulo={"Vendas Realizadas"}
-              valor={`${quantidadeTotalVendida || 0} venda${quantidadeTotalVendida !== 1 ? "s" : ""
-                }`}
-              adicional={`${isVendaMaior && diferencaVenda > 0
-                ? "+"
-                : diferencaVenda > 0
+              valor={`${quantidadeTotalVendida || 0} venda${
+                quantidadeTotalVendida !== 1 ? "s" : ""
+              }`}
+              adicional={`${
+                isVendaMaior && diferencaVenda > 0
+                  ? "+"
+                  : diferencaVenda > 0
                   ? "-"
                   : ""
-                }${diferencaVenda} em relação ao dia anterior`}
+              }${diferencaVenda} em relação ao dia anterior`}
               indicador={"#41c482"}
             />
             <Kpi
@@ -257,10 +263,11 @@ export function Dashboard() {
                   ? produtoMaisVendido.nome || "Nenhum"
                   : pratoMaisVendido.nome || "Nenhum"
               }
-              adicional={`${isKpiProduto
-                ? produtoMaisVendido.quantidadeVendida || 0
-                : pratoMaisVendido.quantidadeVendida || 0
-                } unidades`}
+              adicional={`${
+                isKpiProduto
+                  ? produtoMaisVendido.quantidadeVendida || 0
+                  : pratoMaisVendido.quantidadeVendida || 0
+              } unidades`}
               indicador={"#d35757"}
               cursor={"pointer"}
               onClick={() => {
@@ -283,7 +290,7 @@ export function Dashboard() {
             </Grafico>
           </section>
         </article>
-      </LayoutTela >
+      </LayoutTela>
     </>
   );
 }

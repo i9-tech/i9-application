@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './FloatingAddButton.css';
+import React, { useState, useRef, useEffect } from "react";
+import "./FloatingAddButton.css";
+import { IoMdAddCircle } from "react-icons/io";
 
-const FloatingAddButton = ({ onSetor, onCategoria }) => {
-  const [open, setOpen] = useState(false);
+const FloatingAddButton = ({ onSetor, onCategoria, open, setOpen }) => {
   const popupRef = useRef();
 
   useEffect(() => {
@@ -11,13 +11,20 @@ const FloatingAddButton = ({ onSetor, onCategoria }) => {
         setOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
     <div className="fab-container" ref={popupRef}>
-      <button className="fab-btn" onClick={() => setOpen(!open)}>+</button>
+      <IoMdAddCircle
+        {...(!open && {
+          "data-tooltip-id": "tooltip-cad-set",
+          "data-tooltip-content": "Cadastrar Setor ou Categoria",
+        })}
+        className="fab-btn"
+        onClick={() => setOpen(!open)}
+      />
 
       {open && (
         <div className="fab-popup">

@@ -24,7 +24,7 @@ const DadosTabela = ({ dados = [], aoEditar, aoExcluir, isLoadingData, tipo }) =
             {isLoadingData ? (
               <CarregamentoEstoque colunas={4} temImagem={false} />
             ) : dados.length > 0 ? (
-              dados.map((item, index) => (
+              [...dados].reverse().map((item, index) => (
                 <tr key={index}>
                   <td>{item.nome}</td>
                   <td>{item.pratos}</td>

@@ -1,44 +1,48 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 import api from "../../provider/api";
 
 const DesktopContato = () => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const enviarEmail = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
+  const enviarEmail = (event) => {
+  event.preventDefault();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.(com|br)(\.[a-z]{2})?$/i;
+  if (!emailRegex.test(email)) {
+    toast.error("Por favor, insira um e-mail válido que termine com .com ou .br.");
+    return;
+  }
 
-    try {
-      await api.post('/envio-email/interesse', email);
-      Swal.fire({
-        title: "Sucesso!",
-        text: "Email enviado com sucesso! Verifique sua caixa de entrada.",
-        icon: "success",
-        iconColor: "#007bff",
-        confirmButtonText: "Ok",
-        customClass: {
-          confirmButton: 'btn-aceitar',
-        },
-        buttonsStyling: false,
+  setIsLoading(true);
+  const loadingToastId = toast.loading("Enviando e-mail, aguarde...");
+
+  api
+    .post('/envio-email/interesse', email)
+    .then(() => {
+      toast.update(loadingToastId, {
+        render: "Email enviado com sucesso! Verifique sua caixa de entrada.",
+        type: toast.success,
+        isLoading: false,
+        autoClose: 8000,
       });
-    } catch (error) {
+      setEmail('');
+    })
+    .catch((error) => {
       console.error('Erro ao enviar email:', error);
-      Swal.fire({
-        title: "Erro!",
-        text: "Erro ao enviar email. Verifique os dados e tente novamente.",
-        icon: "error",
-        confirmButtonText: "Ok",
-        customClass: {
-          confirmButton: 'btn-cancelar',
-        },
-        buttonsStyling: false,
+      toast.update(loadingToastId, {
+        render: "Erro ao enviar email. Verifique os dados e tente novamente.",
+        type: "error",
+        isLoading: false,
+        autoClose: 8000,
       });
-    } finally {
+    })
+    .finally(() => {
       setIsLoading(false);
-    }
-  };
+    });
+};
+
 
   return (
     <section className="contato">

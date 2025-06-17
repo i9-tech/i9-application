@@ -2,10 +2,9 @@ import { useNavigate } from "react-router-dom";
 import React from "react";
 import api from "../../provider/api.js";
 import { ENDPOINTS } from "../../utils/endpoints.js";
-import { ROUTERS } from "../../utils/routers.js";
 import { getPermissoes, getPrimeiraRotaPermitida } from "../../utils/auth.js";
 
-export default function FormularioLogin() {
+export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida}) {
   const [usuario, setUsuario] = React.useState("");
   const [senha, setSenha] = React.useState("");
   const [usuarioErro, setUsuarioErro] = React.useState(false);
@@ -122,7 +121,7 @@ export default function FormularioLogin() {
           Entrar
         </button>
         <p>
-          <hov>Você esqueceu a senha?</hov>
+          <hov onClick={() => setIsSenhaEsquecida(!isSenhaEsquecida)}>Você esqueceu a senha?</hov>
         </p>
       </div>
     </form>

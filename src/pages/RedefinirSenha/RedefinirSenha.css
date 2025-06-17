@@ -65,6 +65,7 @@
 
         p {
           color: #fff;
+          margin-top: 4px;
           font-size: 20px;
         }
       }
@@ -79,7 +80,7 @@
       min-width: 34%;
       padding: 2% 4% 0 4%;
       gap: 4%;
-      height: 54%;
+      height: 50%;
 
       @media (max-width: 1160px) {
         min-width: 38%;
@@ -102,7 +103,7 @@
       }
 
       .login-input {
-        height: 25%;
+        height: 27%;
         font-size: 16px;
         font-weight: 250;
         display: flex;
@@ -110,7 +111,7 @@
         justify-content: center;
 
         input {
-          height: 45%;
+          height: 50%;
           width: 100%;
           padding-left: 20px;
           border-radius: 8px;
@@ -118,6 +119,11 @@
           background-color: #e9eff4;
           font-size: 16px;
           padding-right: 8px;
+        }
+
+        input:disabled {
+          background-color: #6a6a6a3e;
+          cursor: not-allowed;
         }
 
         .span-erro {
@@ -134,7 +140,7 @@
       }
 
       .login-entrar {
-        height: 36%;
+        height: 35%;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -153,8 +159,8 @@
         }
 
         button {
-          width: 48%;
-          height: 40%;
+          width: 52%;
+          height: 50%;
           font-size: 20px;
           border-radius: 8px;
           background-color: var(--destaque);
@@ -172,12 +178,10 @@
           }
         }
 
-        
         hov:hover {
           cursor: pointer;
           text-decoration: underline;
         }
-      
       }
     }
 
@@ -187,11 +191,6 @@
       justify-content: center;
       height: 18%;
       align-items: center;
-
-      hov:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }
     }
   }
 }
@@ -227,10 +226,10 @@
           font-size: 23px;
         }
 
-        @media (max-width: 630px) {   
+        @media (max-width: 630px) {
           button {
             font-size: 14px;
-          }       
+          }
           .seta {
             font-size: 27px;
           }
@@ -321,6 +320,11 @@
           padding-right: 8px;
         }
 
+        input:disabled {
+          background-color: #6a6a6a77;
+          cursor: not-allowed;
+        }
+
         .span-erro {
           font-size: 12px;
           margin-top: 1.8%;
@@ -355,7 +359,7 @@
 
         button {
           width: 48%;
-          height: 40%;
+         height: 50%;
           font-size: 20px;
           border-radius: 8px;
           background-color: var(--destaque);
@@ -381,11 +385,6 @@
       justify-content: center;
       height: 18%;
       align-items: center;
-
-      hov:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }
     }
   }
 }
@@ -510,6 +509,11 @@
           padding-right: 8px;
         }
 
+        input:disabled {
+          background-color: #6a6a6a77;
+          cursor: not-allowed;
+        }
+
         .span-erro {
           font-size: 11px;
           text-align: center;
@@ -554,7 +558,7 @@
 
         button {
           width: 48%;
-          height: 40%;
+         height: 50%;
           font-size: 20px;
           border-radius: 8px;
           background-color: var(--destaque);
@@ -580,11 +584,6 @@
       justify-content: center;
       height: 18%;
       align-items: center;
-
-      hov:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }
     }
   }
 }

@@ -124,7 +124,7 @@ const CadastroFuncionarioFormulario = ({
       });
   };
 
-  const editarFuncionario = (nome, cpf, data, setores, cpfSemFormatacao) => {
+  const editarFuncionario = () => {
     setLoading(true);
     setPorcentagemCarregamento(0);
 
@@ -148,7 +148,6 @@ const CadastroFuncionarioFormulario = ({
           acessoSetorEstoque: setorFuncionario.estoque,
           acessoSetorAtendimento: setorFuncionario.atendimento,
           proprietario: false,
-          senha: `${cpfSemFormatacao}@taua`,
         },
         {
           headers: {

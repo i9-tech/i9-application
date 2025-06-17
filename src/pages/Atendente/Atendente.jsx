@@ -151,6 +151,7 @@ export function Atendente() {
   }, [funcionario.userId, token]);
 
   const adicionarNaComanda = useCallback((produto) => {
+    console.log(`Produto ${produto} adicionado`);
     setComanda((prev) => {
       const index = prev.findIndex(
         (item) => item.id === produto.id && item.tipo === produto.tipo

@@ -10,9 +10,11 @@ import { toast } from "react-toastify";
 export function ModalConfirmarPedido({
   onClose,
   statusModal,
-  itemCarrinhoIds,
   onConfirmarPedido,
   onLimparComandas,
+  isEnviandoPedido,
+  setIsEnviandoPedido,
+  enviarItensCarrinho,
 }) {
   const funcionario = getFuncionario();
   const token = getToken();
@@ -22,47 +24,50 @@ export function ModalConfirmarPedido({
   const [formaPagamento, setFormaPagamento] = useState("Débito");
   const [modalAbertoInfoComanda, setModalAbertoInfoComanda] = useState(false);
 
-  const abrirModalInforComanda = (e) => {
+  const abrirModalInforComanda = async (e) => {
     e.preventDefault();
+    setIsEnviandoPedido(true);
+
     const hoje = new Date()
       .toLocaleDateString("pt-BR")
       .split("/")
       .reverse()
       .join("-");
 
-    api
-      .post(
-        ENDPOINTS.VENDA,
-        {
-          mesa: mesa || "",
-          cliente: descricaoCliente || "Não informado",
-          formaPagamento: formaPagamento,
-          dataVenda: hoje,
-          itens: itemCarrinhoIds,
-          funcionarioId: funcionario.userId,
-          valorTotal: 0.0,
-          vendaConcluida: false,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((res) => {
-        setPedido(res.data);
-        setModalAbertoInfoComanda(true);
-        if (onConfirmarPedido) {
-          onConfirmarPedido();
-        }
+    const toastId = toast.loading("Enviando pedido...");
 
-        if (onLimparComandas) {
-          onLimparComandas();
-        }
-        toast.success("Venda realizada com sucesso!");
-      })
-      .catch((err) => {
-        console.log("Erro ao gerar venda: ", err);
-        toast.error("Erro ao gerar venda!");
+    try {
+      const idsValidos = await enviarItensCarrinho();
+
+      const vendaBody = {
+        mesa: mesa || "",
+        cliente: descricaoCliente || "Não informado",
+        formaPagamento: formaPagamento,
+        dataVenda: hoje,
+        itens: idsValidos,
+        funcionarioId: funcionario.userId,
+        valorTotal: 0.0,
+        vendaConcluida: false,
+      };
+
+      const res = await api.post(ENDPOINTS.VENDA, vendaBody, {
+        headers: { Authorization: `Bearer ${token}` },
       });
+
+      setPedido(res.data);
+      setModalAbertoInfoComanda(true);
+
+      if (onConfirmarPedido) onConfirmarPedido();
+      if (onLimparComandas) onLimparComandas();
+
+      toast.success("Venda realizada com sucesso!");
+    } catch (error) {
+      console.error("Erro ao finalizar venda:", error);
+      toast.error("Erro ao finalizar a venda!");
+    } finally {
+      toast.dismiss(toastId);
+      setIsEnviandoPedido(false);
+    }
   };
 
   const fecharModalInforComanda = () => {
@@ -84,7 +89,11 @@ export function ModalConfirmarPedido({
           statusModal && modalAbertoInfoComanda ? "confirmar" : ""
         }`}
       >
-        <button className="botao-fechar" onClick={onClose}>
+        <button
+          className="botao-fechar"
+          onClick={onClose}
+          disabled={isEnviandoPedido}
+        >
           x
         </button>
         <div className="modal-header">
@@ -98,6 +107,7 @@ export function ModalConfirmarPedido({
             placeholder="Nome/Descrição do Cliente"
             maxLength={40}
             value={descricaoCliente}
+            disabled={isEnviandoPedido}
             onChange={(e) => setDescricaoCliente(e.target.value)}
           />
 
@@ -106,6 +116,7 @@ export function ModalConfirmarPedido({
             type="text"
             maxLength={10}
             placeholder="Número da Mesa"
+            disabled={isEnviandoPedido}
             value={mesa}
             onChange={(e) => {
               const val = e.target.value.replace(/\D/g, "");
@@ -122,6 +133,7 @@ export function ModalConfirmarPedido({
             value={formaPagamento}
             onChange={(e) => setFormaPagamento(e.target.value)}
             required
+            disabled={isEnviandoPedido}
           >
             <option value="Débito">Débito</option>
             <option value="Crédito">Crédito</option>
@@ -132,7 +144,11 @@ export function ModalConfirmarPedido({
           </select>
 
           <div className="botoes-modal">
-            <BotaoGenericoAtendente texto={"Confirmar Pedido"} type="submit" />
+            <BotaoGenericoAtendente
+              texto={"Confirmar Pedido"}
+              type="submit"
+              disabled={isEnviandoPedido}
+            />
           </div>
         </form>
       </div>

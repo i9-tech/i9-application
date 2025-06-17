@@ -306,7 +306,7 @@ const Modal = ({
               ))}
               <div className="upload-imagem-customizada">
                 <label className="btn">
-                  Faça upload da foto do produto (JPG, PNG, JPEG)
+                  Faça upload da foto do setor (JPG, PNG, JPEG)
                   <input
                     type="file"
                     accept="image/png, image/jpeg, image/jpg"

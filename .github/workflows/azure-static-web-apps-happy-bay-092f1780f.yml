@@ -3,7 +3,7 @@ name: 💻 Serviço de App Web Estático da Azure CI/CD
 on:
   push:
     branches:
-      - feature/integracao-azure
+      - main
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:

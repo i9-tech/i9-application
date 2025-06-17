@@ -6,7 +6,7 @@ const CabecalhoFuncionarios = () => {
     <thead className="cabecalho-funcionarios">
       <tr>
         <th>Nome</th>
-        <th>Setores</th>
+        <th>Acessos</th>
         <th>Ações</th>
       </tr>
     </thead>

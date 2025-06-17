@@ -39,6 +39,11 @@
   margin: 0.25rem 0;
 }
 
+.modal-info span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .modal-subtotal {
   display: flex;
@@ -54,6 +59,8 @@
 }
 
 .modal-itens {
+  max-height: 300px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 8px;

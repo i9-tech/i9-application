@@ -1,83 +1,95 @@
-import React from "react";
+
 import "./ResumoEstoque.css";
+import "react-toastify/dist/ReactToastify.css";
+import { FiHelpCircle } from "react-icons/fi";
+
 
 export function ResumoEstoque({
   valorEstoque = 0,
-  valorVenda = 0,
-  lucroPrevisto = 0,
+  lucroLiquido = 0,
+  lucroBruto = 0,
   estoqueBaixo = 0,
   semEstoque = 0,
-  // pertoValidade = 0,
   totalEmEstoque = 0,
 }) {
+
   return (
     <>
-      <div className="resumo-bloco">
-        <div className="resumo-container">
-          <div className="resumo-item">
-            <span className="resumo-valor">
+      <div className="resumo-bloco-prod">
+        <div className="resumo-container-prod">
+          <div className="resumo-item-prod">
+            <span className="resumo-valor-prod">
               {valorEstoque.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
+              <FiHelpCircle className="icone-ajuda"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Soma do valor de compra de todos os produtos em estoque."
+              />
             </span>
-            <span className="resumo-label">Valor total do Estoque</span>
+            <span className="resumo-label-prod">
+              Valor Total do Estoque
+            </span>
           </div>
 
-          <div className="resumo-item">
-            <span className="resumo-valor">
-              {valorVenda.toLocaleString("pt-BR", {
+          <div className="resumo-item-prod">
+            <span className="resumo-valor-prod">
+              {lucroBruto.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
+              <FiHelpCircle className="icone-ajuda"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Soma do valor de venda de todos os produtos em estoque."
+                />
             </span>
-            <span className="resumo-label">Valor estimado de venda</span>
+            <span className="resumo-label-prod">
+              Lucro Bruto
+            </span>
           </div>
 
-          <div className="resumo-item">
-            <span className="resumo-valor">
-              {lucroPrevisto.toLocaleString("pt-BR", {
+          <div className="resumo-item-prod">
+            <span className="resumo-valor-prod">
+              {lucroLiquido.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
-            </span>
+              <FiHelpCircle className="icone-ajuda"
+                data-tooltip-id="tooltip"
+                data-tooltip-content="Diferença entre preço de venda e compra de todos os produtos. (Venda - Compra)." />
 
-            <span className="resumo-label">Lucro bruto esperado</span>
+            </span>
+            <span className="resumo-label-prod">
+              Lucro Líquido Esperado
+            </span>
           </div>
         </div>
 
-        <div className="resumo-kpi-bloco">
-          <div className="kpi-linha">
-            <div className="kpi-coluna">
-              <span className="resumo-valor">
-                <span className="bolinha amarela" />
+        <div className="resumo-kpi-bloco-prod">
+          <div className="kpi-linha-prod">
+            <div className="kpi-coluna-prod">
+              <span className="resumo-valor-prod">
+                <span className="bolinha-prod amarela" />
                 {estoqueBaixo}
               </span>
-              <span className="resumo-label">Estoque Baixo</span>
+              <span className="resumo-label-prod">Estoque Baixo</span>
             </div>
 
-            <div className="kpi-coluna">
-              <span className="resumo-valor">
-                <span className="bolinha vermelha" />
+            <div className="kpi-coluna-prod">
+              <span className="resumo-valor-prod">
+                <span className="bolinha-prod vermelha" />
                 {semEstoque}
               </span>
-              <span className="resumo-label">Sem Estoque</span>
+              <span className="resumo-label-prod">Sem Estoque</span>
             </div>
 
-            {/* <div className="kpi-coluna">
-              <span className="resumo-valor">
-                <span className="bolinha laranja" />
-                {pertoValidade}
-              </span>
-              <span className="resumo-label">Perto da Validade</span>
-            </div> */}
-
-            <div className="kpi-coluna">
-              <span className="resumo-valor">
-                <span className="bolinha verde" />
+            <div className="kpi-coluna-prod">
+              <span className="resumo-valor-prod">
+                <span className="bolinha-prod verde" />
                 {totalEmEstoque}
               </span>
-              <span className="resumo-label">Em Estoque</span>
+              <span className="resumo-label-prod">Em Estoque</span>
             </div>
           </div>
         </div>

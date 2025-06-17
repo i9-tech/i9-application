@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import api from "../../provider/api.js";
+import { ENDPOINTS } from "../../utils/endpoints.js";
+import { getPermissoes, getPrimeiraRotaPermitida } from "../../utils/auth.js";
 
-export default function FormularioLogin() {
+export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida}) {
   const [usuario, setUsuario] = React.useState("");
   const [senha, setSenha] = React.useState("");
   const [usuarioErro, setUsuarioErro] = React.useState(false);
@@ -36,30 +38,31 @@ export default function FormularioLogin() {
   };
 
   const enviarDados = async (usuario, senha) => {
+    api
+      .post(ENDPOINTS.LOGIN, {
+        cpf: usuario,
+        senha: senha,
+      })
+      .then((res) => {
+        const token = res.data.token;
+        const funcionario = res.data;
 
-    api.post("colaboradores/login", {
-      cpf: usuario,
-      senha: senha,
-    })
-    .then((res) => {
-      console.log("Resposta do servidor:", res.data);
-      const token = res.data.token;
-      const funcionario = res.data;
-      console.log("Token:", token);
-      localStorage.setItem("token", token);
-      localStorage.setItem("funcionario", JSON.stringify(funcionario));
-      console.log("Funcionário:", funcionario);
-      setTimeout(() => {
+        localStorage.setItem("token", token);
+        localStorage.setItem("funcionario", JSON.stringify(funcionario));
+
+        const permissoes = getPermissoes();
+        const rotaInicial = getPrimeiraRotaPermitida(permissoes);
+
+        setTimeout(() => {
+          navigate(rotaInicial);
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error("Erro ao validar usuário:", err);
+        setErroLogin(true);
         setLoading(false);
-        navigate("/atendente");
-      }, 1000);
-    })
-    .catch((err) => {
-      console.error("Erro ao validar usuário:", err);
-      setErroLogin(true);
-      setLoading(false);
-    }
-  );
+      });
   };
 
   const navigate = useNavigate();
@@ -118,7 +121,7 @@ export default function FormularioLogin() {
           Entrar
         </button>
         <p>
-          <hov>Você esqueceu a senha?</hov>
+          <hov onClick={() => setIsSenhaEsquecida(!isSenhaEsquecida)}>Você esqueceu a senha?</hov>
         </p>
       </div>
     </form>

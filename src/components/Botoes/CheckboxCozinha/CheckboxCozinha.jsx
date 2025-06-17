@@ -1,16 +1,22 @@
-import './CheckboxCozinha.css'
-import iconeCheck from '../../../assets/check.svg'
+import './CheckboxCozinha.css';
+import iconeCheck from '../../../assets/check.svg';
 
-export function CheckboxCozinha({ id, texto, onChange }) {
+export function CheckboxCozinha({ id, texto, onClick, disabled }) {
   return (
-    <>
-      <label htmlFor={id} className="checkbox-cozinha-label">
-      <input type="checkbox" id={id} onChange={onChange} />
-        <img src={iconeCheck} alt="Ícone de completo" />
-        {texto}
-      </label>
-    </>
-  )
+    <button
+      id={id}
+      type="button"
+      className="checkbox-cozinha-label"
+      onClick={onClick}
+      disabled={disabled}
+    >
+      <img
+        src={iconeCheck}
+        alt="Ícone de completo"
+      />
+      {texto}
+    </button>
+  );
 }
 
 export default CheckboxCozinha;

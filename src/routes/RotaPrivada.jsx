@@ -5,8 +5,8 @@ import { getPermissoes } from "../utils/auth";
 export default function RotaPrivada({ children, permissao }) {
   const permissoes = getPermissoes();
 
-  console.log("Permissões disponíveis:", permissoes);
-  console.log("Permissão requisitada:", permissao);
+  // console.log("Permissões disponíveis:", permissoes);
+  // console.log("Permissão requisitada:", permissao);
 
   if (permissoes.length === 0) {
     return <Navigate to="/login" />;

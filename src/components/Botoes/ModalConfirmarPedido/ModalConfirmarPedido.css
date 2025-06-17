@@ -16,7 +16,6 @@
     padding: 20px;
     width: 500px;
     height: max-content;
-    max-height: 50%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
     z-index: 999;
@@ -58,7 +57,6 @@
   #observacoes-container {
     text-align: start;
     width: 100%;
-    margin-bottom: 20px;
   }
 
   #observacoes-container div {
@@ -72,14 +70,17 @@
     font-weight: bold;
   }
 
-  input, select{
+  input,
+  select {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    margin-bottom: 8px; /* espaçamento entre os campos */
   }
 
   .botoes-modal {
     text-align: center;
+    margin: 10px;
   }
 }

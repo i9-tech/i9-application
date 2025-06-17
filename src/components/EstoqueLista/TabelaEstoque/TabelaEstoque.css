@@ -1,25 +1,27 @@
-.tabela-container {
+.tabela-container-prod {
   max-height: 72%;
+  border-radius: 8px;
   overflow-y: auto;
   border: 1px solid #ccc;
 }
 
-.tabela-estoque {
+.tabela-estoque-prod {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
 }
 
-.cabecalho-estoque th {
+.cabecalho-estoque-prod th {
   position: sticky;
   top: 0;
-  background: #fff;
+  color: white;
+  background-color: #0000cc;
   z-index: 1;
   padding: 8px;
   text-align: center;
 }
 
-.linha-produto td {
+.linha-produto-prod td {
   text-align: center;
   vertical-align: middle;
   padding: 6px;

@@ -1,13 +1,19 @@
-import React from 'react'
+import React from "react";
 
-export default function ComandaInfo({cliente, mesa, pagamento}) {
-    return (
-        <>
-            <div className="pedidoCliente">
-                <p>Cliente <span>{cliente}</span></p>
-                <p>Mesa <span>{mesa}</span></p>
-                <p>Pagamento <span>{pagamento}</span></p>
-            </div>
-        </>
-    )
+export default function ComandaInfo({ cliente, mesa, pagamento }) {
+  return (
+    <>
+      <div className="pedidoCliente">
+        <p className="info-pedidoCliente">
+          <p>Cliente</p> <span title={cliente}>{cliente}</span>
+        </p>
+        <p className="info-pedidoCliente">
+          <p>Mesa</p> <span title={mesa || "Não Informado"}>{mesa || "Não Informado"}</span>
+        </p>
+        <p className="info-pedidoCliente">
+          <p>Pagamento</p> <span title={pagamento}>{pagamento}</span>
+        </p>
+      </div>
+    </>
+  );
 }

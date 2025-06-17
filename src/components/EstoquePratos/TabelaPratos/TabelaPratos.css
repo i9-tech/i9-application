@@ -1,0 +1,28 @@
+.tabela-container {
+    max-height: 72%;
+    border-radius: 8px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+  }
+  
+  .tabela-estoque {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  
+  .cabecalho-estoque th {
+    position: sticky;
+    top: 0;
+  color: white;
+  background-color: #0000cc;
+    z-index: 1;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .linha-produto td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 6px;
+  }

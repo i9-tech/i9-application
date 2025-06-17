@@ -3,13 +3,33 @@ import ElementoImagem from "../Hovers/HoverImagem/ElementoImagem";
 import IMAGEM_COMANDAS from "../../assets/imagem-gestao-comandas.png";
 import IMAGEM_PDV from "../../assets/frente_caixa.png";
 import IMAGEM_ESTOQUE from "../../assets/imagem-gestao-estoque.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SETA_DIREITA from "../../assets/seta-direita.svg";
+import SETA_ESQUERDA from "../../assets/seta-esquerda.svg";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { MdManageHistory, MdOutlineDinnerDining } from "react-icons/md";
 
 export default function OpcoesCardSobreposto() {
   const [blocoAtual, setBlocoAtual] = useState(0);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState(null);
+  const [clicou, setClicou] = useState(false);
+  const icons = [
+    <IoDocumentTextOutline size={30}/>,
+    <MdOutlineDinnerDining size={30}/>,
+    <MdManageHistory size={30}/>,
+  ];
+
+  useEffect(() => {
+    if (clicou === false) {
+      const intervalo = setInterval(() => {
+        setBlocoAtual((prev) => (prev + 1) % 3);
+      }, 3500);
+
+      return () => clearInterval(intervalo);
+    }
+  }, [clicou]);
 
   const perguntas = [
     {
@@ -92,6 +112,7 @@ export default function OpcoesCardSobreposto() {
             className={`botao-option ${blocoAtual === 0 ? "selecionado" : ""}`}
             onClick={() => {
               setBlocoAtual(0);
+              setClicou(true);
               setOpcaoSelecionada(null);
             }}
           >
@@ -101,6 +122,7 @@ export default function OpcoesCardSobreposto() {
             className={`botao-option ${blocoAtual === 1 ? "selecionado" : ""}`}
             onClick={() => {
               setBlocoAtual(1);
+              setClicou(true);
               setOpcaoSelecionada(null);
             }}
           >
@@ -110,6 +132,7 @@ export default function OpcoesCardSobreposto() {
             className={`botao-option ${blocoAtual === 2 ? "selecionado" : ""}`}
             onClick={() => {
               setBlocoAtual(2);
+              setClicou(true);
               setOpcaoSelecionada(null);
             }}
           >
@@ -123,8 +146,8 @@ export default function OpcoesCardSobreposto() {
               className="infos"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0}}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
             >
               <div className="botoes-opcoes">
                 <p>{bloco.introducao}</p>
@@ -132,11 +155,12 @@ export default function OpcoesCardSobreposto() {
                   <BotaoOpcao
                     key={index}
                     texto={op.opcao}
-                    onClick={() =>
+                    onClick={() => {
                       setOpcaoSelecionada(
                         opcaoSelecionada === index ? null : index
-                      )
-                    }
+                      );
+                      setClicou(true);
+                    }}
                     selecionado={opcaoSelecionada === index}
                   />
                 ))}
@@ -151,8 +175,83 @@ export default function OpcoesCardSobreposto() {
           </AnimatePresence>
         </span>
       </article>
-      <article className="opcoes-tablet">tamanho tablet</article>
-      <article className="opcoes-mobile">tamanho mobile</article>
+      <article className="opcoes-mobile">
+        <span className="bloco-container">
+          <select
+            className="bloco-select"
+            name="opcao-bloco"
+            id="opcao-bloco"
+            value={blocoAtual}
+            onChange={(e) => {
+              setBlocoAtual(Number(e.target.value));
+              setClicou(true);
+              setOpcaoSelecionada(null);
+            }}
+          >
+            <option value={0}>Gestão de Comandas</option>
+            <option value={1}>Frente de Caixa PDV</option>
+            <option value={2}>Gestão de Estoque</option>
+          </select>
+
+          <span className="bloco-conteudo">
+            <p className="bloco-introducao">{bloco.introducao}</p>
+
+            <div className="bloco-opcao">
+              {bloco.opcoes && bloco.opcoes[opcaoSelecionada] ? (
+                <>
+                  <h3 className="bloco-opcao-titulo">
+                    {icons[blocoAtual]}
+                    {bloco.opcoes[opcaoSelecionada].opcao}
+                  </h3>
+                  <p className="bloco-opcao-descricao">
+                    {bloco.opcoes[opcaoSelecionada].resposta}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h3 className="bloco-opcao-titulo">
+                    {icons[blocoAtual]}
+                    <p>
+                    {bloco.opcoes[0].opcao}
+                    </p>
+                  </h3>
+                  <p className="bloco-opcao-descricao">
+                    {bloco.opcoes[0].resposta}
+                  </p>
+                </>
+              )}
+            </div>
+
+            <div className="bloco-navegacao">
+              <button
+                className="navegacao-botao voltar"
+                onClick={() => {
+                  setOpcaoSelecionada((prev) => prev - 1);
+                  setClicou(true);
+                }}
+                disabled={opcaoSelecionada === 0 || opcaoSelecionada === null}
+              >
+                <img src={SETA_ESQUERDA} alt="seta para esquerda" />
+              </button>
+              <button
+                className="navegacao-botao passar"
+                onClick={() => {
+                  setOpcaoSelecionada((prev) => prev + 1);
+                  setClicou(true);
+                }}
+                disabled={
+                  opcaoSelecionada ===
+                    (bloco.opcoes ? bloco.opcoes.length - 1 : 0) ||
+                  !bloco.opcoes ||
+                  bloco.opcoes.length === 0
+                }
+              >
+                <img src={SETA_DIREITA} alt="seta para direita" />
+              </button>
+            </div>
+          </span>
+        </span>
+      </article>
     </>
   );
 }

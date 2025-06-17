@@ -53,8 +53,7 @@ export function Atendente() {
 
   const [modalAberto, setModalAberto] = useState(false);
   const [confirmarPedido, setConfirmarPedido] = useState(false);
-
-  const [itemCarrinhoIds, setItemCarrinhoIds] = useState([]);
+  const [isEnviandoPedido, setIsEnviandoPedido] = useState(false);
 
   const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
@@ -151,7 +150,6 @@ export function Atendente() {
   }, [funcionario.userId, token]);
 
   const adicionarNaComanda = useCallback((produto) => {
-    console.log(`Produto ${produto} adicionado`);
     setComanda((prev) => {
       const index = prev.findIndex(
         (item) => item.id === produto.id && item.tipo === produto.tipo
@@ -228,6 +226,7 @@ export function Atendente() {
   }
 
   const abrirModalConfirmarPedido = () => {
+    setEnviarPedido(true);
     setConfirmarPedido(true);
   };
 
@@ -283,50 +282,55 @@ export function Atendente() {
   }, [funcionario.userId, comanda]);
   const [enviarPedido, setEnviarPedido] = useState(false);
 
-  useEffect(() => {
-    if (!enviarPedido || comandaExpandida.length === 0) return;
+  const enviarItensCarrinho = async () => {
+     if (!enviarPedido || comandaExpandida.length === 0) return;
 
-    const promises = comandaExpandida.map(async (item) => {
-      const url =
-        item.tipo === "produto"
-          ? `${ENDPOINTS.CARRINHO_PRODUTO}/${funcionario.userId}`
-          : `${ENDPOINTS.CARRINHO_PRATO}/${funcionario.userId}`;
+    try {
+      const promises = comandaExpandida.map(async (item) => {
+        const url =
+          item.tipo === "produto"
+            ? `${ENDPOINTS.CARRINHO_PRODUTO}/${funcionario.userId}`
+            : `${ENDPOINTS.CARRINHO_PRATO}/${funcionario.userId}`;
 
-      const body =
-        item.tipo === "produto"
-          ? {
-              venda: "venda5",
-              produto: { id: item.id },
-              funcionario: { id: funcionario.userId },
-            }
-          : {
-              venda: "venda5",
-              prato: { id: item.id },
-              ...(item.observacao ? { observacao: item.observacao } : {}),
-              funcionario: { id: funcionario.userId },
-            };
+        const body =
+          item.tipo === "produto"
+            ? {
+                venda: "venda5",
+                produto: { id: item.id },
+                funcionario: { id: funcionario.userId },
+              }
+            : {
+                venda: "venda5",
+                prato: { id: item.id },
+                ...(item.observacao ? { observacao: item.observacao } : {}),
+                funcionario: { id: funcionario.userId },
+              };
 
-      return api
-        .post(url, body, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          return res.data.id;
-        })
-        .catch((err) => {
-          console.error("Erro ao enviar item ao carrinho:", err);
-          toast.error("Erro ao enviar item ao carrinho!");
-          return null;
-        });
-    });
+        return api
+          .post(url, body, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((res) => res.data.id)
+          .catch((err) => {
+            console.error("Erro ao enviar item ao carrinho:", err);
+            toast.error("Erro ao enviar item ao carrinho!");
+            return null;
+          });
+      });
 
-    Promise.all(promises).then((ids) => {
+      const ids = await Promise.all(promises);
       const idsValidos = ids.filter((id) => id !== null);
-      setItemCarrinhoIds(idsValidos);
-      setConfirmarPedido(true);
-      setEnviarPedido(false);
-    });
-  }, [enviarPedido, comandaExpandida, funcionario.userId, token]);
+
+      if (idsValidos.length === 0) {
+        throw new Error("Nenhum item do carrinho foi adicionado com sucesso.");
+      }
+
+      return idsValidos;
+    } catch (error) {
+      console.error("Erro ao enviar itens ao carrinho:", error);
+      throw error; 
+    }
+  };
 
   function limparComandas() {
     setComanda([]);
@@ -437,8 +441,10 @@ export function Atendente() {
             <ModalConfirmarPedido
               onClose={fecharModalConfirmarPedido}
               statusModal={setConfirmarPedido}
-              itemCarrinhoIds={itemCarrinhoIds}
               onLimparComandas={limparComandas}
+              setIsEnviandoPedido={setIsEnviandoPedido}
+              isEnviandoPedido={isEnviandoPedido}
+              enviarItensCarrinho={enviarItensCarrinho}
             />
           )}
 
@@ -643,7 +649,7 @@ export function Atendente() {
               totalPedido={totalPedido}
               onClick={() => {
                 abrirModalConfirmarPedido();
-                setEnviarPedido(true);
+                enviarItensCarrinho();
               }}
               disabled={comandaExpandida.length === 0}
             />

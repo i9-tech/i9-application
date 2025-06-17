@@ -25,23 +25,14 @@ export function Login() {
         setSenhaEnviada(true);
         setIsSenhaEsquecida(false);
         setIsEnviandoSenha(false);
-        toast.update(loadingToastId, {
-          render: "E-mail enviado com sucesso!",
-          type: toast.success,
-          isLoading: false,
-          autoClose: 2000,
-        });
+        toast.dismiss(loadingToastId);
+        toast.success("E-mail enviado com sucesso!");
       })
       .catch((err) => {
         console.log("Houve um erro ao enviar email:", err);
         setTimeout(() => {
-          toast.update(loadingToastId, {
-            render:
-              "Erro ao enviar e-mail! Cadastro não encontrado ou desativado!",
-            type: toast.error,
-            isLoading: false,
-            autoClose: 3000,
-          });
+        toast.dismiss(loadingToastId);
+        toast.error("Erro ao enviar e-mail! Cadastro não encontrado ou desativado!");
           setIsEnviandoSenha(false);
         }, 3000);
       });

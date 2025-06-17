@@ -21,22 +21,14 @@ const DesktopContato = () => {
   api
     .post('/envio-email/interesse', email)
     .then(() => {
-      toast.update(loadingToastId, {
-        render: "Email enviado com sucesso! Verifique sua caixa de entrada.",
-        type: toast.success,
-        isLoading: false,
-        autoClose: 8000,
-      });
+      toast.dismiss(loadingToastId);
+      toast.success("Email enviado com sucesso! Verifique sua caixa de entrada.");
       setEmail('');
     })
     .catch((error) => {
       console.error('Erro ao enviar email:', error);
-      toast.update(loadingToastId, {
-        render: "Erro ao enviar email. Verifique os dados e tente novamente.",
-        type: "error",
-        isLoading: false,
-        autoClose: 8000,
-      });
+      toast.dismiss(loadingToastId);
+      toast.error("Erro ao enviar email. Verifique os dados e tente novamente.");
     })
     .finally(() => {
       setIsLoading(false);

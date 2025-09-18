@@ -12,6 +12,35 @@ const CadastroFuncionarioFormulario = ({
   setFuncionarioSelecionado,
   atualizarListaFuncionarios,
 }) => {
+  const atualizarLoginAutomatico = (tipo, valorCpf) => {
+    switch (tipo) {
+      case "CPF":
+        setLogin(valorCpf); // pega o CPF formatado
+        break;
+      case "EMAIL":
+        setLogin(""); // usuário deve preencher o e-mail
+        break;
+      case "TELEFONE":
+        setLogin(""); // usuário deve preencher o telefone
+        break;
+      case "MATRICULA":
+        setLogin(""); // usuário deve preencher a matrícula
+        break;
+      default:
+        setLogin("");
+        break;
+    }
+  };
+  const handleCpfChange = (valor) => {
+    const cpfFormatado = formatarCpf(valor);
+    setCpfFuncionario(cpfFormatado);
+
+    if (tipoLogin === "CPF") {
+      setLogin(cpfFormatado);
+    }
+  };
+
+
   const funcionario = getFuncionario();
   const [loading, setLoading] = useState(false);
   const [porcentagemCarregamento, setPorcentagemCarregamento] = useState(0);
@@ -19,6 +48,8 @@ const CadastroFuncionarioFormulario = ({
 
   const [nomeFuncionario, setNomeFuncionario] = useState("");
   const [cpfFuncionario, setCpfFuncionario] = useState("");
+  const [tipoLogin, setTipoLogin] = useState("");
+  const [login, setLogin] = useState("");
   const [dataAdmissao, setDataAdmissao] = useState("");
   const [setorFuncionario, setSetorFuncionario] = useState({
     cozinha: false,
@@ -30,6 +61,8 @@ const CadastroFuncionarioFormulario = ({
   const limparFormulario = () => {
     setNomeFuncionario("");
     setCpfFuncionario("");
+    setTipoLogin("");
+    setLogin("");
     setDataAdmissao("");
     setSetorFuncionario({
       cozinha: false,
@@ -43,6 +76,8 @@ const CadastroFuncionarioFormulario = ({
     if (funcionarioSelecionado) {
       setNomeFuncionario(funcionarioSelecionado.nome);
       setCpfFuncionario(funcionarioSelecionado.cpf);
+      setTipoLogin(funcionarioSelecionado.identificadorPrincipal);
+      setLogin(funcionarioSelecionado.login);
       setDataAdmissao(funcionarioSelecionado.dataAdmissao);
       setSetorFuncionario({
         cozinha: funcionarioSelecionado.acessoSetorCozinha,
@@ -65,15 +100,30 @@ const CadastroFuncionarioFormulario = ({
       return false;
     }
 
+    if (tipoLogin === "EMAIL") {
+      if (!login.includes("@") || !login.includes(".")) {
+        toast.error("Informe um e-mail válido!");
+        return false;
+      }
+    }
+
+    if (tipoLogin === "TELEFONE") {
+      const regexTelefone = /^\d{2}\d{8,9}$/; // DDD + número, 10 ou 11 dígitos
+      if (!regexTelefone.test(login)) {
+        toast.error("Informe um telefone válido! Ex: 11999999999");
+        return false;
+      }
+    }
+
     if (funcionarioSelecionado) {
-      editarFuncionario(nome, cpf, data, setores, cpfSemFormatacao);
+      editarFuncionario(nome, cpf, tipoLogin, login, data, setores, cpfSemFormatacao);
     } else {
-      cadastrarFuncionario(nome, cpf, data, setores, cpfSemFormatacao);
+      cadastrarFuncionario(nome, cpf, tipoLogin, login, data, setores, cpfSemFormatacao);
     }
     return true;
   };
 
-  const cadastrarFuncionario = (nome, cpf, data, setores, cpfSemFormatacao) => {
+  const cadastrarFuncionario = (nome, cpf, tipoLogin, login, data, setores, cpfSemFormatacao) => {
     setLoading(true);
     setPorcentagemCarregamento(0);
 
@@ -93,6 +143,8 @@ const CadastroFuncionarioFormulario = ({
           nome: nome,
           cpf: cpf,
           cargo: "Funcionário",
+          identificadorPrincipal: tipoLogin,
+          login: login,
           dataAdmissao: data,
           acessoSetorCozinha: setores.cozinha,
           acessoSetorEstoque: setores.estoque,
@@ -115,9 +167,9 @@ const CadastroFuncionarioFormulario = ({
       })
       .catch((error) => {
         clearInterval(interval);
-        toast.error("Erro ao cadastrar funcionário! CPF Já cadastrado!");
+        toast.error(`Erro ao cadastrar funcionário! ${error.response?.data?.message || ""}`);
         console.error("Erro ao cadastrar funcionário!", error);
-         console.log('Mensagem exata do backend:', error.response.data);
+        console.log('Mensagem exata do backend:', error.response.data);
       })
       .finally(() => {
         setLoading(false);
@@ -142,6 +194,8 @@ const CadastroFuncionarioFormulario = ({
         {
           nome: nomeFuncionario,
           cpf: cpfFuncionario,
+          identificadorPrincipal: tipoLogin,
+          login: login,
           cargo: "Funcionario",
           dataAdmissao: dataAdmissao,
           acessoSetorCozinha: setorFuncionario.cozinha,
@@ -223,7 +277,9 @@ const CadastroFuncionarioFormulario = ({
           />
         </div>
 
-        <div className="grupo-inputs">
+      
+        <div className="grupo-inputs" style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
           <label htmlFor="cpf">
             CPF do Funcionário{" "}
             <span aria-hidden="true" style={{ color: "red" }}>
@@ -236,13 +292,73 @@ const CadastroFuncionarioFormulario = ({
             type="text"
             placeholder="000.000.000-00"
             value={cpfFuncionario}
-            onChange={(e) => setCpfFuncionario(formatarCpf(e.target.value))}
+            onChange={(e) => handleCpfChange(e.target.value)}
             required
             pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
             disabled={!!funcionarioSelecionado}
             maxLength={14}
             minLength={14}
           />
+
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
+          <label htmlFor="email">
+            Email do Funcionário{" "}
+          </label>
+
+          <input
+            id="email"
+            type="text"
+            placeholder="usuario@email.com"
+          />
+
+        </div>
+        </div>
+
+        <div className="grupo-inputs" style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
+            <label htmlFor="formaLogin">
+              Forma de Login{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
+            <select
+              id="tipoLogin"
+              value={tipoLogin}
+              onChange={(e) => {
+                const tipo = e.target.value;
+                setTipoLogin(tipo);
+                atualizarLoginAutomatico(tipo, cpfFuncionario); // CPF já disponível
+              }}
+              disabled={!!funcionarioSelecionado}
+            >
+              <option value="">Selecione a forma de login</option>
+              <option value="CPF">CPF</option>
+              <option value="EMAIL">E-mail</option>
+              <option value="TELEFONE">Telefone</option>
+              <option value="MATRICULA">Matrícula</option>
+            </select>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
+            <label htmlFor="login">
+              Login{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>{" "}
+            </label>
+            <input
+              id="login"
+              value={login}
+              type="text"
+              required
+              maxLength={20}
+              minLength={5}
+              disabled={tipoLogin === "CPF" || !!funcionarioSelecionado}
+              placeholder="Informe o login do funcionário"
+              onChange={(e) => setLogin(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="grupo-inputs">

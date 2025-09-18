@@ -21,7 +21,7 @@
     width: 100%;
 
     .grupo-inputs {
-      margin-bottom: 30px;
+      margin-bottom: 15px;
 
       label {
         font-weight: 600;
@@ -29,6 +29,25 @@
         display: block;
         font-size: 15px;
       }
+
+    select,
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: #f9f9f9;
+    }
+
+    select:disabled,
+    input:disabled {
+      background-color: #f2f2f2;
+      color: #999;
+      cursor: not-allowed;
+      border: 1px solid #ccc;
+    }
 
       input[type="text"],
       input[type="date"] {
@@ -50,7 +69,7 @@
   }
 
   .grupo-checkbox {
-    margin: 40px 0 30px;
+    margin: 10px 0 5px;
 
     span {
       display: block;

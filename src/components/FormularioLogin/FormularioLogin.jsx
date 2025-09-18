@@ -70,18 +70,12 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
   return (
     <form className="login-forms">
       <div className="login-input">
-        <p>Usuario</p>
+        <p style={{ fontWeight: "500" }}>Usuário</p>        
         <input
           type="text"
           value={usuario}
-          maxLength={14}
           onChange={(e) => {
-            let valor = e.target.value;
-            valor = valor.replace(/\D/g, "");
-            valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-            valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-            valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-            setUsuario(valor);
+            setUsuario(e.target.value);
             setUsuarioErro(false);
             setErroLogin(false);
           }}
@@ -91,7 +85,7 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
         </span>
       </div>
       <div className="login-input">
-        <p>Senha</p>
+         <p style={{ fontWeight: "500" }}>Senha</p>
         <input
           type="password"
           onChange={(e) => {

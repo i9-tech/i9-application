@@ -40,7 +40,7 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
   const enviarDados = async (usuario, senha) => {
     api
       .post(ENDPOINTS.LOGIN, {
-        cpf: usuario,
+        login: usuario,
         senha: senha,
       })
       .then((res) => {

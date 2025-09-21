@@ -28,6 +28,25 @@ const CadastroFuncionarioFormulario = ({
     }
   };
 
+  const handleSetorChange = (setor, marcado) => {
+    const atualizado = { ...setorFuncionario, [setor]: marcado };
+
+    if (!atualizado.cozinha || !atualizado.estoque || !atualizado.atendimento) {
+      atualizado.acessoTotal = false;
+    }
+
+    setSetorFuncionario(atualizado);
+  };
+
+  const handleAcessoTotalChange = (marcado) => {
+    setSetorFuncionario({
+      cozinha: marcado,
+      estoque: marcado,
+      atendimento: marcado,
+      acessoTotal: marcado,
+    });
+  };
+
   const handleCpfChange = (valor) => {
     const cpfFormatado = formatarCpf(valor);
     setCpfFuncionario(cpfFormatado);
@@ -37,6 +56,12 @@ const CadastroFuncionarioFormulario = ({
     }
   };
 
+  const handleEmailChange = (valor) => {
+    setEmailFuncionario(valor); 
+    if (tipoLogin === "EMAIL") {
+      setLogin(valor);
+    }
+  };
 
   const funcionario = getFuncionario();
   const [loading, setLoading] = useState(false);
@@ -60,6 +85,7 @@ const CadastroFuncionarioFormulario = ({
   const limparFormulario = () => {
     setNomeFuncionario("");
     setCpfFuncionario("");
+    setEmailFuncionario("")
     setTipoLogin("");
     setLogin("");
     setDataAdmissao("");
@@ -76,6 +102,7 @@ const CadastroFuncionarioFormulario = ({
     if (funcionarioSelecionado) {
       setNomeFuncionario(funcionarioSelecionado.nome);
       setCpfFuncionario(funcionarioSelecionado.cpf);
+      setEmailFuncionario(funcionarioSelecionado.email || "");
       setTipoLogin(funcionarioSelecionado.identificadorPrincipal);
       setLogin(funcionarioSelecionado.login);
       setDataAdmissao(funcionarioSelecionado.dataAdmissao);
@@ -117,14 +144,14 @@ const CadastroFuncionarioFormulario = ({
     }
 
     if (funcionarioSelecionado) {
-      editarFuncionario(nome, cpf, tipoLogin, login, data, setores, cpfSemFormatacao);
+      editarFuncionario(nome, cpf, emailFuncionario, tipoLogin, login, data, setores, cpfSemFormatacao);
     } else {
-      cadastrarFuncionario(nome, cpf, tipoLogin, login, data, setores, cpfSemFormatacao);
+      cadastrarFuncionario(nome, cpf, emailFuncionario, tipoLogin, login, data, setores, cpfSemFormatacao);
     }
     return true;
   };
 
-  const cadastrarFuncionario = (nome, cpf, tipoLogin, login, data, setores, cpfSemFormatacao) => {
+  const cadastrarFuncionario = (nome, cpf, emailFuncionario, tipoLogin, login, data, setores, cpfSemFormatacao) => {
     setLoading(true);
     setPorcentagemCarregamento(0);
 
@@ -137,6 +164,7 @@ const CadastroFuncionarioFormulario = ({
 
     const token = localStorage.getItem("token");
 
+
     api
       .post(
         `${ENDPOINTS.FUNCIONARIOS}/${funcionario.empresaId}`,
@@ -145,13 +173,14 @@ const CadastroFuncionarioFormulario = ({
           cpf: cpf,
           cargo: "Funcionário",
           identificadorPrincipal: tipoLogin,
-          login: login,
+          login: login,                
           dataAdmissao: data,
           acessoSetorCozinha: setores.cozinha,
           acessoSetorEstoque: setores.estoque,
           acessoSetorAtendimento: setores.atendimento,
           proprietario: setorFuncionario.acessoTotal,
           senha: `${cpfSemFormatacao}@taua`,
+          email: emailFuncionario,
         },
         {
           headers: {
@@ -174,6 +203,8 @@ const CadastroFuncionarioFormulario = ({
       })
       .finally(() => {
         setLoading(false);
+        console.log("Enviando email:", emailFuncionario);
+
       });
   };
 
@@ -187,6 +218,7 @@ const CadastroFuncionarioFormulario = ({
       if (progresso > 100) progresso = 100;
       setPorcentagemCarregamento(progresso);
     }, 400);
+
 
 
     const token = localStorage.getItem("token");
@@ -204,6 +236,7 @@ const CadastroFuncionarioFormulario = ({
           acessoSetorEstoque: setorFuncionario.estoque,
           acessoSetorAtendimento: setorFuncionario.atendimento,
           proprietario: setorFuncionario.acessoTotal,
+          email: emailFuncionario,
         },
         {
           headers: {
@@ -313,10 +346,7 @@ const CadastroFuncionarioFormulario = ({
               type="text"
               placeholder="usuario@email.com"
               value={emailFuncionario}
-              onChange={(e) => {
-                setEmailFuncionario(e.target.value);
-                if (tipoLogin === "EMAIL") setLogin(e.target.value); // já atualiza o login automaticamente
-              }}
+              onChange={(e) => handleEmailChange(e.target.value)}
             />
 
           </div>
@@ -390,59 +420,40 @@ const CadastroFuncionarioFormulario = ({
         <div className="grupo-checkbox">
           <span>Setor do Funcionário *</span>
           <div className="checkboxes-funcionario">
+
             <label>
               <input
                 type="checkbox"
                 checked={setorFuncionario.cozinha}
-                onChange={(e) =>
-                  setSetorFuncionario({
-                    ...setorFuncionario,
-                    cozinha: e.target.checked,
-                  })
-                }
-              />{" "}
-              Cozinha
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={setorFuncionario.estoque}
-                onChange={(e) =>
-                  setSetorFuncionario({
-                    ...setorFuncionario,
-                    estoque: e.target.checked,
-                  })
-                }
-              />{" "}
-              Estoque
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={setorFuncionario.atendimento}
-                onChange={(e) =>
-                  setSetorFuncionario({
-                    ...setorFuncionario,
-                    atendimento: e.target.checked,
-                  })
-                }
-              />{" "}
-              Atendimento
+                onChange={(e) => handleSetorChange("cozinha", e.target.checked)}
+              /> Cozinha
             </label>
 
             <label>
               <input
                 type="checkbox"
-                checked={setorFuncionario.acessoTotal}
-                onChange={(e) =>
-                  setSetorFuncionario({
-                    ...setorFuncionario,
-                    acessoTotal: e.target.checked,
-                  })
-                }
-              />{" "}
-              Acesso Total
+                checked={setorFuncionario.estoque}
+                onChange={(e) => handleSetorChange("estoque", e.target.checked)}
+              /> Estoque
             </label>
+
+            <label>
+              <input
+                type="checkbox"
+                checked={setorFuncionario.atendimento}
+                onChange={(e) => handleSetorChange("atendimento", e.target.checked)}
+              /> Atendimento
+            </label>
+
+            <label className="acesso-total-label">
+              <input
+                type="checkbox"
+                checked={setorFuncionario.acessoTotal}
+                onChange={(e) => handleAcessoTotalChange(e.target.checked)}
+              /> Acesso Total
+            </label>
+
+
           </div>
         </div>
 

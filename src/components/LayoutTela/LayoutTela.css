@@ -8,35 +8,62 @@
 
   .div-layout {
     min-height: 100vh;
-    width: 93vw;
+    width: 100%;
     gap: 3vh;
     display: flex;
     flex-direction: column;
+    padding: 0 60px 0 120px;
 
     .header-layout {
       width: 100%;
       height: 9vh;
       display: flex;
       align-items: end;
+      justify-content: space-between;
       padding-bottom: 8px;
-      /* border-bottom: 2px solid #000; */
+      /* border-bottom: 2px soli,d #000; */
 
       .content-header-layout {
         display: flex;
         align-items: last baseline;
         gap: 8px;
+        width: auto;
 
         h1 {
           font-size: 28px;
           font-weight: 800;
           color: #222;
         }
-        
+
+        span.adicional-header {
+          width: auto !important;
+          .baixar-dash {
+            margin-left: 1rem;
+            margin-top: -0.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+
+            &:hover {
+              font-weight: 500;
+              background-color: #0000001f;
+              border-radius: 5px;
+              filter: brightness(0) saturate(100%) invert(39%) sepia(90%)
+                saturate(500%) hue-rotate(190deg);
+            }
+          }
+        }
       }
     }
+
+    
 
     .main-layout {
       height: 88vh;
     }
   }
 }
+
+
+

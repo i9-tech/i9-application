@@ -14,6 +14,7 @@ import { formatarMoeda } from "../../utils/utils";
 import Relogio from "../../components/Relogio/Relogio";
 import { LiaFileDownloadSolid } from "react-icons/lia";
 import html2canvas from "html2canvas";
+import { DateRangePicker } from "../../components/Calendario/DateRangePicker";
 
 export function Dashboard() {
   const funcionario = getFuncionario();
@@ -203,6 +204,17 @@ export function Dashboard() {
               <LiaFileDownloadSolid size={30} />
             </button>
           </>
+        }
+        adicionalUm={
+            <div className="filtro-data">
+        <DateRangePicker
+          maxMonths={3}
+          numberOfMonths={1}
+          onChange={(range) => {
+            console.log("Intervalo selecionado:", range)
+          }}
+        />
+      </div>
         }
       >
         <article className="dashboard">

@@ -1,0 +1,73 @@
+.drp-container {
+  position: relative;
+  display: inline-block;
+}
+
+.drp-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  color: #374151; /* cinza escuro */
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  width: 300px;
+  height: 42px;
+}
+
+
+.drp-button:hover {
+  border-color: #2563eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.drp-button span {
+  flex: 1;              
+  text-align: center;    
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.drp-icon {
+  font-size: 20px;
+  color: #374151;
+}
+
+.drp-popover {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  margin-top: 0.5rem;
+  z-index: 50;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 0.75rem;
+}
+.drp-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.drp-apply {
+  background-color: #2563eb;
+  color: white;
+  font-size: 14px;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.drp-apply:hover {
+  background-color: #1d4ed8;
+}

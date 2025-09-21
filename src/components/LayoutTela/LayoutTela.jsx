@@ -11,9 +11,12 @@ export default function LayoutTela(props) {
           <header className="header-layout">
             <span className="content-header-layout">
             <h1>{props.titulo ? props.titulo : "NOME DA SEÇÃO"}</h1>
-            <span>
+            <span className="adicional-header">
             {props.adicional ? props.adicional : ""}
             </span>
+            </span>
+            <span className="adicional-header-right">
+              {props.adicionalUm ? props.adicionalUm : ""}
             </span>
           </header>
           <main className="main-layout">

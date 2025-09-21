@@ -185,7 +185,7 @@ export function Dashboard() {
   return (
     <>
       <LayoutTela
-        titulo="Dashboard"
+        titulo="Dashboard "
         adicional={
           <>
             {diaAtual} - <Relogio />

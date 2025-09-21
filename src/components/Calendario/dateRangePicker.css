@@ -53,7 +53,7 @@
 }
 .drp-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 0.5rem;
 }
 
@@ -70,4 +70,19 @@
 
 .drp-apply:hover {
   background-color: #1d4ed8;
+}
+
+.drp-clear {
+  background-color: #0000002a;
+  color: rgb(0, 0, 0);
+  font-size: 14px;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.drp-clear:hover {
+  background-color: #0000004a;
 }

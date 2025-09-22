@@ -6,6 +6,7 @@ export default function ComandaFooter({
   index,
   onCompletar,
   disabled,
+  feito
 }) {
   const checkboxId = `checkbox-footer-${index}`;
 
@@ -30,6 +31,7 @@ export default function ComandaFooter({
         onClick={handleClick}
         disabled={disabled}
         ativo={!disabled}
+        feito={feito}
       />
     </div>
   );

@@ -60,9 +60,11 @@ export function Dashboard() {
 
   useEffect(() => {
     const hoje = new Date();
+
     if (!intervaloSelecionado || !intervaloSelecionado.from || !intervaloSelecionado.to) {
       setDataInicioAnterior(hoje);
       setDataFimAnterior(hoje);
+      return;
     }
 
     const inicio = new Date(intervaloSelecionado.from);
@@ -70,13 +72,12 @@ export function Dashboard() {
 
     const diasDoPeriodo = Math.floor((fim - inicio) / (1000 * 60 * 60 * 24)) + 1;
 
-    const fimAnterior = new Date(inicio.getTime() - 24 * 60 * 60 * 1000)
+    const fimAnterior = new Date(inicio.getTime() - 24 * 60 * 60 * 1000);
     const inicioAnterior = new Date(fimAnterior.getTime() - (diasDoPeriodo - 1) * 24 * 60 * 60 * 1000);
 
     setDataInicioAnterior(inicioAnterior);
     setDataFimAnterior(fimAnterior);
   }, [intervaloSelecionado]);
-
 
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -88,8 +89,8 @@ export function Dashboard() {
     if (!funcionario?.empresaId) return;
 
     const params = {};
-    if (intervaloSelecionado.from) params.dataInicio = formatarData(intervaloSelecionado.from);
-    if (intervaloSelecionado.to) params.dataFim = formatarData(intervaloSelecionado.to);
+    if (intervaloSelecionado?.from) params.dataInicio = formatarData(intervaloSelecionado.from);
+    if (intervaloSelecionado?.to) params.dataFim = formatarData(intervaloSelecionado.to);
 
     api.get(`${ENDPOINTS.VENDA_KPIS}/${funcionario.empresaId}`, {
       headers: { Authorization: `Bearer ${token}` },

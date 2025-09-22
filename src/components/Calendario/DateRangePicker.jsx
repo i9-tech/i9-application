@@ -34,16 +34,21 @@ export function DateRangePicker({
   }
 
   const applySelection = () => {
-    if (range?.from) {
-      // Se to não foi selecionado, define igual ao from
-      const finalRange = { from: range.from, to: range.to ?? range.from }
-      setRange(finalRange)
-      onChange?.(finalRange)
-      setIsOpen(false)
-    } else {
-      alert('Selecione uma data inicial')
+    if (!range?.from) {
+      const hoje = new Date();
+      const finalRange = { from: hoje, to: hoje };
+      setRange(finalRange);
+      onChange?.(finalRange);
+      setIsOpen(false);
+      return;
     }
-  }
+
+    const finalRange = { from: range.from, to: range.to ?? range.from };
+    setRange(finalRange);
+    onChange?.(finalRange);
+    setIsOpen(false);
+  };
+
 
   const from = range?.from
   const minDate = from ? subMonths(from, maxMonths) : undefined
@@ -96,11 +101,9 @@ export function DateRangePicker({
           <div className="drp-actions">
             <button className="drp-clear"
               onClick={() => {
-                const hoje = new Date();
-                const hojeRange = { from: hoje, to: hoje };
-                setRange(hojeRange);
-                onChange?.(hojeRange);
-                setIsOpen(false)
+                setRange(undefined);
+                onChange?.(undefined);
+                setIsOpen(false);
               }}>
               Limpar
             </button>

@@ -29,7 +29,7 @@ export function Dashboard() {
   const [isDadosDisponiveis, setIsDadosDisponiveis] = useState(false);
   const [lucroBruto, setLucroBruto] = useState(0);
   const [diferencaBruto, setDiferencaBruto] = useState(0);
-  const [isLucroMaior, setIsLucroMaior] = useState(false);
+  const [setIsLucroMaior] = useState(false);
   const [lucroLiquido, setLucroLiquido] = useState(0);
   const [liquidoMercadoria, setLiquidoMercadoria] = useState(0);
   const [quantidadeTotalVendida, setQuantidadeTotalVendida] = useState(0);

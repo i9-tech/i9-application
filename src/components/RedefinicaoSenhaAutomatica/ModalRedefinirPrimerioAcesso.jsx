@@ -39,7 +39,7 @@ export default function ModalRedefinirPrimeiroAcesso({ onClose }) {
       .patch(`${ENDPOINTS.PRIMEIRO_ACESSO}/${idFuncionario}/${idEmpresa}`, body, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((response) => {
+      .then(() => {
         toast.success("Senha redefinida com sucesso!");
         onClose(); 
       })

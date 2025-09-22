@@ -130,7 +130,7 @@ export default function FormularioLogin({ isSenhaEsquecida, setIsSenhaEsquecida 
       {mostrarModalSenha && (
         <ModalRedefinirPrimeiroAcesso
           onClose={() => setMostrarModalSenha(false)}
-          onSubmit={(novaSenha) => {
+          onSubmit={() => {
             setMostrarModalSenha(false);
             const permissoes = getPermissoes();
             const rotaInicial = getPrimeiraRotaPermitida(permissoes);

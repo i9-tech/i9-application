@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../EsqueceuSenha/ModalSenha.css";
 
-export default function ModalRedefinirSenha({ onClose, onSubmit, disabled }) {
+export default function ModalRedefinirSenha({ onSubmit, disabled }) {
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
 

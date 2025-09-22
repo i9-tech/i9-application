@@ -6,6 +6,7 @@ import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import { ENDPOINTS } from "../../utils/endpoints";
 import api from "../../provider/api";
 import { getFuncionario, getToken } from "../../utils/auth";
+import { DateRangePicker } from "../../components/Calendario/DateRangePicker";
 
 export function Cozinha() {
   const funcionario = getFuncionario();
@@ -38,7 +39,7 @@ export function Cozinha() {
       <LayoutTela
         titulo="Preparo de Pedidos"
         adicional={
-          <p>
+          <span>
             {pedidos.filter((p) => !p.vendaConcluida).length > 0
               ? `${pedidos.filter((p) => !p.vendaConcluida).length} ${
                   pedidos.filter((p) => !p.vendaConcluida).length === 1
@@ -46,7 +47,18 @@ export function Cozinha() {
                     : "pedidos"
                 }`
               : "Não há pedidos no momento"}
-          </p>
+          </span>
+        }
+        adicionalUm={
+          <div className="filtro-data">
+            <DateRangePicker
+              maxMonths={3}
+              numberOfMonths={1}
+              onChange={(range) => {
+                console.log("Intervalo selecionado (Cozinha):", range);
+              }}
+            />
+          </div>
         }
       >
         <article className="tela-comandas">

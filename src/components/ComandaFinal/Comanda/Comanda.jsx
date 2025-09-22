@@ -8,7 +8,7 @@ import { getToken } from "../../../utils/auth";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function Comanda({ pedido, index, atualizarComandas }) {
+export default function Comanda({ pedido, index, atualizarComandas, modo }) {
   const token = getToken();
   const [pedidosConcluidos, setPedidosConcluidos] = useState({});
   const todasCheckboxMarcadas = Object.values(pedidosConcluidos).every(
@@ -29,15 +29,17 @@ export default function Comanda({ pedido, index, atualizarComandas }) {
       novosPedidos[item.id] = novoValor;
     });
     setPedidosConcluidos(novosPedidos);
-};
+  };
 
   useEffect(() => {
     const inicial = {};
     pedido.itensCarrinho.forEach((item) => {
-      inicial[item.id] = false;
+      inicial[item.id] = pedido.vendaConcluida ? true : false;
     });
     setPedidosConcluidos(inicial);
-  }, [pedido.itensCarrinho]);
+    setIsCheckboxMarcadas(pedido.vendaConcluida);
+  }, [pedido.itensCarrinho, pedido.vendaConcluida]);
+
 
   const handleCompletar = () => {
     api
@@ -55,7 +57,8 @@ export default function Comanda({ pedido, index, atualizarComandas }) {
       });
   };
 
-  if (pedido.vendaConcluida == true) return null;
+  if (modo === "preparo" && pedido.vendaConcluida) return null;
+
 
   return (
     <div className="comanda-container">
@@ -105,6 +108,7 @@ export default function Comanda({ pedido, index, atualizarComandas }) {
             index={index}
             onCompletar={handleCompletar}
             disabled={!todasCheckboxMarcadas}
+            feito={pedido.vendaConcluida}
           />
         </div>
       </div>

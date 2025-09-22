@@ -5,11 +5,13 @@
     border-radius: 8px;
     width: 100%;
     justify-content: baseline;
+    font-size: 14px;
   }
   
   .filtros-dropdown {
     position: relative;
     display: inline-block;
+    font-size: 14px;
   }
   
   .menu-filtros {
@@ -22,6 +24,7 @@
     padding: 5px;
     z-index: 999;
     min-width: 180px;
+    font-size: 14px;
   }
   
   .menu-filtros button {
@@ -32,10 +35,12 @@
     padding: 5px 10px;
     width: 100%;
     cursor: pointer;
+    font-size: 14px;
   }
   
   .menu-filtros button:hover {
     background-color: #eee;
+    font-size: 14px;
   }
   
   .top-actions input.search {
@@ -43,6 +48,7 @@
     flex: 1;
     border-radius: 6px;
     border: 1px solid #ccc;
+    font-size: 14px;
   }
   
   .top-actions select {
@@ -50,6 +56,7 @@
     border-radius: 6px;
     width: 200px;
     border: 1px solid #ccc;
+    font-size: 14px;
   }
   
   .add-btn {
@@ -59,6 +66,7 @@
     padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 14px;
   }
   
   .filtro {
@@ -67,6 +75,7 @@
     color: #0f2fe0;
     padding: 8px 12px;
     border-radius: 6px;
+    font-size: 14px;
   }
   
   .filtro-ativo {
@@ -76,9 +85,11 @@
     cursor: pointer;
     border-radius: 20px;
     color: white;
+    font-size: 14px;
   }
   
   .filtro-ativo:hover {
     color: #0f2fe0;
+    font-size: 14px;
   }
   

@@ -13,14 +13,14 @@
 }
 
 .info-sc-card__title {
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 700;
   color: #111827;
   margin: 0 0 4px 0;
 }
 
 .info-sc-card__description {
-  font-size: 0.95rem;
+  font-size: 16px;
   color: #6b7280;
   margin: 0;
 }
@@ -40,7 +40,7 @@
   padding: 10px 38px 10px 12px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 14px;
   color: #374151;
   background-color: #ffffff;
 }

@@ -5,11 +5,13 @@
   border-radius: 8px;
   width: 100%;
   justify-content: baseline;
+  font-size: 14px;
 }
 
 .filtros-dropdown-prod {
   position: relative;
   display: inline-block;
+  font-size: 14px;
 }
 
 .menu-filtros-prod {
@@ -32,6 +34,7 @@
   padding: 5px 10px;
   width: 100%;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .menu-filtros-prod button:hover {
@@ -43,6 +46,7 @@
   flex: 1;
   border-radius: 6px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 .top-actions-prod select {
@@ -50,6 +54,7 @@
   border-radius: 6px;
   width: 200px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 .add-btn-prod {
@@ -59,6 +64,7 @@
   padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .filtro-prod {
@@ -67,6 +73,7 @@
   color: #0f2fe0;
   padding: 8px 12px;
   border-radius: 6px;
+  font-size: 14px;
 }
 
 .filtro-ativo-prod {
@@ -76,8 +83,10 @@
   cursor: pointer;
   border-radius: 20px;
   color: white;
+  font-size: 14px;
 }
 
 .filtro-ativo-prod:hover {
   color: #0f2fe0;
+  font-size: 14px;
 }

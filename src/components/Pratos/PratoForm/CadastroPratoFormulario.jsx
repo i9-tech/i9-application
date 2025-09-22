@@ -240,7 +240,7 @@ const CadastroPratoFormulario = ({
   return (
     <div className="formulario-prato">
       <p className="descricao-prato">
-        Preencha os dados do prato que deseja adicionar ao cardápio 🍽️
+        Preencha o formulário abaixo para adicionar um novo prato ao seu estoque!      
       </p>
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>

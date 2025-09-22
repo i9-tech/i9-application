@@ -323,8 +323,7 @@ const CadastroProdutoFormulario = ({
   return (
     <div className="formulario-produto">
       <p className="descricao-produto">
-        Preencha o formulário abaixo para adicionar novos produtos e informações
-        ao seu estoque!
+        Preencha o formulário abaixo para adicionar um novo produto ao seu estoque!
       </p>
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>

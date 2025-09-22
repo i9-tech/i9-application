@@ -6,6 +6,7 @@ export const ENDPOINTS = {
     EMPRESAS: '/empresas',
     FUNCIONARIOS: '/colaboradores',
     LOGIN: '/colaboradores/login',
+    PRIMEIRO_ACESSO: 'colaboradores/primeiro-acesso',
     CARRINHO: '/itens-carrinho',
     CARRINHO_PRATO: '/itens-carrinho/prato',
     CARRINHO_PRODUTO: '/itens-carrinho/produto',

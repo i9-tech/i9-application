@@ -3,14 +3,17 @@ import React from "react";
 import api from "../../provider/api.js";
 import { ENDPOINTS } from "../../utils/endpoints.js";
 import { getPermissoes, getPrimeiraRotaPermitida } from "../../utils/auth.js";
+import ModalRedefinirPrimeiroAcesso from "../RedefinicaoSenhaAutomatica/ModalRedefinirPrimerioAcesso.jsx";
 
-export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida}) {
+export default function FormularioLogin({ isSenhaEsquecida, setIsSenhaEsquecida }) {
   const [usuario, setUsuario] = React.useState("");
   const [senha, setSenha] = React.useState("");
   const [usuarioErro, setUsuarioErro] = React.useState(false);
   const [senhaErro, setSenhaErro] = React.useState(false);
   const [erroLogin, setErroLogin] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [mostrarModalSenha, setMostrarModalSenha] = React.useState(false);
+
 
   const validarDados = () => {
     setLoading(true);
@@ -50,13 +53,17 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
         localStorage.setItem("token", token);
         localStorage.setItem("funcionario", JSON.stringify(funcionario));
 
-        const permissoes = getPermissoes();
-        const rotaInicial = getPrimeiraRotaPermitida(permissoes);
-
-        setTimeout(() => {
+        if (funcionario.primeiroAcesso) {
+          // Primeiro acesso → abre modal
+          setMostrarModalSenha(true);
+        } else {
+          // Usuário normal → navega direto
+          const permissoes = getPermissoes();
+          const rotaInicial = getPrimeiraRotaPermitida(permissoes);
           navigate(rotaInicial);
-          setLoading(false);
-        }, 1000);
+        }
+
+        setLoading(false);
       })
       .catch((err) => {
         console.error("Erro ao validar usuário:", err);
@@ -68,9 +75,10 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
   const navigate = useNavigate();
 
   return (
+    <>
     <form className="login-forms">
       <div className="login-input">
-        <p style={{ fontWeight: "500" }}>Usuário</p>        
+        <p style={{ fontWeight: "500" }}>Usuário</p>
         <input
           type="text"
           value={usuario}
@@ -85,7 +93,7 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
         </span>
       </div>
       <div className="login-input">
-         <p style={{ fontWeight: "500" }}>Senha</p>
+        <p style={{ fontWeight: "500" }}>Senha</p>
         <input
           type="password"
           onChange={(e) => {
@@ -119,5 +127,19 @@ export default function FormularioLogin({isSenhaEsquecida, setIsSenhaEsquecida})
         </p>
       </div>
     </form>
+      {mostrarModalSenha && (
+        <ModalRedefinirPrimeiroAcesso
+          onClose={() => setMostrarModalSenha(false)}
+          onSubmit={(novaSenha) => {
+            setMostrarModalSenha(false);
+            const permissoes = getPermissoes();
+            const rotaInicial = getPrimeiraRotaPermitida(permissoes);
+            navigate(rotaInicial);
+          }}
+        />
+
+        
+      )}
+    </>
   );
 }

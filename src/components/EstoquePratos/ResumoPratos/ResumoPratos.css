@@ -1,55 +1,56 @@
 .resumo-bloco {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 12px;
   flex-wrap: wrap;
+  gap: 20px; /* espaçamento entre os blocos */
+  width: 100%;
+  align-items: center;
+}
+
+.resumo-container {
+  flex: 1 1 300px; /* ocupa espaço, mas respeita largura mínima */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 20px 0;
+}
+
+.resumo-item {
+  flex: 1 1 200px; /* cada item cresce ou encolhe */
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 12px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.resumo-kpi-bloco {
+  flex: 1 1 300px; /* ele também divide espaço com o container */
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 12px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.kpi-linha {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .resumo-total{
   display: flex;
   gap: 10px;
 }
-.resumo-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: space-between;
-}
-
-.resumo-item {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 12px 18px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 325px;
-  text-align: center;
-}
-
-.resumo-kpi-bloco {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 12px 18px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  margin: 20px 0;
-}
-
-.kpi-linha {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-}
 
 .kpi-coluna {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 120px;
+  width: auto;
 }
 
 .resumo-valor {
@@ -98,8 +99,8 @@
 }
 
 
-@media (min-width: 800px) and (max-width: 1000px) {
+/* @media (min-width: 800px) and (max-width: 1000px) {
     .resumo-item {
       min-width: 2000px;
     }
-  }
+  } */

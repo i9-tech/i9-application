@@ -173,7 +173,7 @@ const CadastroFuncionarioFormulario = ({
           cpf: cpf,
           cargo: "Funcionário",
           identificadorPrincipal: tipoLogin,
-          login: login,                
+          login: login,
           dataAdmissao: data,
           acessoSetorCozinha: setores.cozinha,
           acessoSetorEstoque: setores.estoque,
@@ -181,6 +181,7 @@ const CadastroFuncionarioFormulario = ({
           proprietario: setorFuncionario.acessoTotal,
           senha: `${cpfSemFormatacao}@taua`,
           email: emailFuncionario,
+          primeiroAcesso: true
         },
         {
           headers: {

@@ -83,7 +83,7 @@ export function Cozinha() {
             className={`botao-historico ${modo === "preparo" ? "ativo" : ""}`}
             onClick={modo === "preparo" ? abrirHistorico : voltarPreparo}
           >
-            {modo === "preparo" ? "Histórico de Comandas" : "Voltar para Preparo"}
+            {modo === "preparo" ? "Ir Para Histórico de Comandas" : "Voltar Para Preparo"}
           </button>
 
           <DateRangePicker

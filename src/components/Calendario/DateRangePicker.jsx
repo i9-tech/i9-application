@@ -82,13 +82,14 @@ export function DateRangePicker({
             locale={ptBR}
             startMonth={minDate}
             endMonth={maxDate}
-            disabled={
-              from
-                ? (date) =>
-                  (minDate && isBefore(date, minDate)) ||
-                  (maxDate && isAfter(date, maxDate))
-                : undefined
-            }
+            disabled={(date) => {
+              const hoje = new Date()
+              return (
+                (from && minDate && isBefore(date, minDate)) || // já tinha
+                (from && maxDate && isAfter(date, maxDate)) || // já tinha
+                isAfter(date, hoje) // novo: bloqueia datas futuras
+              )
+            }}
             footer={
               <div style={{ marginTop: '0.5rem' }}>
                 {range?.from && range?.to

@@ -8,6 +8,7 @@
 
   h1 {
     width: 91%;
+    font-size: 20px;
   }
 
  .setores {
@@ -57,6 +58,8 @@
     cursor: pointer;
     padding: 8px;
     margin-left: 8px;
+    width: 40px;
+    height: 40px;
   }
 
   .lupa-pesquisa img {
@@ -127,6 +130,7 @@
   .header-comanda {
     padding: 34px;
     text-align: center;
+    font-size: 22px;
   }
 
   .botao-confirmar {

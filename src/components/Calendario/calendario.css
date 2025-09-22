@@ -1,0 +1,35 @@
+/* Estilo base do calendário */
+.rdp {
+  font-family: 'Inter', sans-serif;
+
+  /* Cores principais */
+  --rdp-accent-color: #1d4ed8; /* Azul forte */
+  --rdp-accent-background-color: #1d4ed8; /* Fundo do dia selecionado */
+
+  /* Range */
+  --rdp-range_start-background: #1d4ed8;  /* Fundo início */
+  --rdp-range_start-color: #fff;          /* Texto início */
+  --rdp-range_end-background: #1d4ed8;    /* Fundo fim */
+  --rdp-range_end-color: #fff;            /* Texto fim */
+  --rdp-range_middle-background-color: #e0e7ff; /* Fundo do meio do range */
+  --rdp-range_middle-color: #1d4ed8;      /* Texto do meio */
+
+  /* Hoje */
+  --rdp-today-color: #16a34a; /* Verde para destaque de "hoje" */
+
+  /* Tamanho dos dias */
+  --rdp-day-height: 44px;
+  --rdp-day-width: 44px;
+
+  /* Formato dos botões de dias */
+  --rdp-day_button-border-radius: 50%; /* 50% = bolinha | 0 = quadrado */
+  --rdp-day_button-border: none;       /* remove borda padrão */
+
+  /* Navegação */
+  --rdp-nav_button-width: 28px;
+  --rdp-nav_button-height: 28px;
+  --rdp-nav_button-disabled-opacity: 0.3;
+
+  /* Espaçamento entre meses (caso use >1) */
+  --rdp-months-gap: 1rem;
+}

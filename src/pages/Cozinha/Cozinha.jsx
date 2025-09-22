@@ -26,15 +26,6 @@ export function Cozinha() {
     const year = d.getFullYear();
     return `${year}-${month}-${day}`;
   };
-  
-  const formatarDataPT = (date) => {
-    if (!date) return "";
-    const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
 
   const buscarComandas = () => {
     if (!funcionario?.empresaId) return;
@@ -54,7 +45,6 @@ export function Cozinha() {
       .catch((err) => console.log("Erro ao buscar comandas: ", err));
   };
 
-  // Requisita comandas sempre que mudar intervalo ou modo
   useEffect(() => {
     buscarComandas();
   }, [
@@ -79,18 +69,17 @@ export function Cozinha() {
         <span>
           {modo === "preparo"
             ? pedidos.filter((p) => !p.vendaConcluida).length > 0
-              ? `${pedidos.filter((p) => !p.vendaConcluida).length} ${
-                  pedidos.filter((p) => !p.vendaConcluida).length === 1
-                    ? "Pedido encontrado"
-                    : "Pedidos encontrados"
-                }`
+              ? `${pedidos.filter((p) => !p.vendaConcluida).length} ${pedidos.filter((p) => !p.vendaConcluida).length === 1
+                ? "Pedido encontrado"
+                : "Pedidos encontrados"
+              }`
               : "Não há pedidos no momento"
             : `${pedidos.length} Comandas encontradas`}
         </span>
       }
       adicionalUm={
         <div className="filtro-data">
-           <button
+          <button
             className={`botao-historico ${modo === "preparo" ? "ativo" : ""}`}
             onClick={modo === "preparo" ? abrirHistorico : voltarPreparo}
           >
@@ -101,7 +90,7 @@ export function Cozinha() {
             maxMonths={3}
             numberOfMonths={1}
             selected={intervaloSelecionado}
-            onChange={(range) => setIntervaloSelecionado(range)}
+            onChange={(range) => setIntervaloSelecionado(range ?? { from: null, to: null })}
           />
         </div>
       }

@@ -96,8 +96,11 @@ export function DateRangePicker({
           <div className="drp-actions">
             <button className="drp-clear"
               onClick={() => {
-                setRange(undefined)
-                onChange?.(undefined)
+                const hoje = new Date();
+                const hojeRange = { from: hoje, to: hoje };
+                setRange(hojeRange);
+                onChange?.(hojeRange);
+                setIsOpen(false)
               }}>
               Limpar
             </button>

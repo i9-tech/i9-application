@@ -29,7 +29,7 @@ export function Dashboard() {
   const [isDadosDisponiveis, setIsDadosDisponiveis] = useState(false);
   const [lucroBruto, setLucroBruto] = useState(0);
   const [diferencaBruto, setDiferencaBruto] = useState(0);
-  const [setIsLucroMaior] = useState(false);
+  const [isLucroMaior, setIsLucroMaior] = useState(false);
   const [lucroLiquido, setLucroLiquido] = useState(0);
   const [liquidoMercadoria, setLiquidoMercadoria] = useState(0);
   const [quantidadeTotalVendida, setQuantidadeTotalVendida] = useState(0);
@@ -174,8 +174,6 @@ export function Dashboard() {
     const lucroLiquidoDiario = Number(kpi.lucroLiquidoDiario ?? 0);
     const totalMercadoriaDiario = Number(kpi.totalMercadoriaDiario ?? 0);
     const vendasDiaria = Number(kpi.vendasDiaria ?? 0);
-    console.log(kpi.vendasDiaria);
-    console.log(kpi.vendasDiariaOntem);
     const vendasDiariaOntem = Number(kpi.vendasDiariaOntem ?? 0);
 
     const diferencaBruto = lucroDiario - lucroDiarioOntem;

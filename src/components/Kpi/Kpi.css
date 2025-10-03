@@ -1,5 +1,5 @@
 .kpi {
-  background-color: white;
+  background-color: var(--cor-para-o-texto-branco);
   display: flex;
   width: 22%;
   height: 100%;

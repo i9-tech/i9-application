@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 import { enviroments } from "../../../utils/enviroments";
+import Select from "react-select";
 
 const CadastroProdutoFormulario = ({
   setPorcentagemCarregamento,
@@ -320,10 +321,21 @@ const CadastroProdutoFormulario = ({
       .join(" ");
   };
 
+  const setoresOptions = setores.map((set) => ({
+    value: set.id,
+    label: set.nome,
+  }));
+
+  const categoriasOptions = categorias.map((cat) => ({
+    value: cat.id,
+    label: cat.nome,
+  }));
+
   return (
     <div className="formulario-produto">
       <p className="descricao-produto">
-        Preencha o formulário abaixo para adicionar um novo produto ao seu estoque!
+        Preencha o formulário abaixo para adicionar um novo produto ao seu
+        estoque!
       </p>
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>
@@ -398,20 +410,54 @@ const CadastroProdutoFormulario = ({
                 *
               </span>
             </label>
-            <select
-              value={produto.setor}
-              onChange={(e) =>
-                setProduto({ ...produto, setor: parseInt(e.target.value) })
-              }
-              required
-            >
-              <option value="">Selecione um Setor </option>
-              {setores.map((set) => (
-                <option key={set.id} value={set.id}>
-                  {set.nome}
-                </option>
-              ))}
-            </select>
+            <Select
+              value={setoresOptions.find((opt) => opt.value === produto.setor)}
+              onChange={(opt) => setProduto({ ...produto, setor: opt.value })}
+              options={setoresOptions}
+              placeholder="Selecione um Setor"
+              isSearchable={false}
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  borderColor: state.isFocused
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "transparent",
+                  boxShadow: "none",
+                  "&:hover": { borderColor: "transparent" },
+                }),
+                placeholder: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                option: (baseStyles, state) => ({
+                  ...baseStyles,
+                  backgroundColor: state.isSelected
+                    ? "var(--titulos-botoes-destaques)"
+                    : state.isFocused
+                    ? "var(--detalhes-2)"
+                    : "var(--cor-para-o-texto-branco)",
+                  color: state.isSelected
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "var(--cor-para-texto-preto)",
+                  padding: 14,
+                  cursor: "pointer",
+                }),
+                singleValue: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  maxHeight: 200,
+                  overflowY: "auto",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  borderRadius: 5,
+                  marginTop: 0,
+                }),
+              }}
+            />
           </div>
 
           <div className="grupo-inputs">
@@ -421,20 +467,58 @@ const CadastroProdutoFormulario = ({
                 *
               </span>
             </label>
-            <select
-              value={produto.categoria}
-              onChange={(e) =>
-                setProduto({ ...produto, categoria: parseInt(e.target.value) })
+            <Select
+              value={categoriasOptions.find(
+                (opt) => opt.value === produto.categoria
+              )}
+              onChange={(opt) =>
+                setProduto({ ...produto, categoria: opt.value })
               }
-              required
-            >
-              <option value="">Selecione uma Categoria</option>
-              {categorias.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.nome}
-                </option>
-              ))}
-            </select>
+              options={categoriasOptions}
+              placeholder="Selecione uma Categoria"
+              isSearchable={false}
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  borderColor: state.isFocused
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "transparent",
+                  boxShadow: "none",
+                  "&:hover": { borderColor: "transparent" },
+                }),
+                placeholder: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                option: (baseStyles, state) => ({
+                  ...baseStyles,
+                  backgroundColor: state.isSelected
+                    ? "var(--titulos-botoes-destaques)"
+                    : state.isFocused
+                    ? "var(--detalhes-2)"
+                    : "var(--cor-para-o-texto-branco)",
+                  color: state.isSelected
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "var(--cor-para-texto-preto)",
+                  padding: 14,
+                  cursor: "pointer",
+                }),
+                singleValue: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  maxHeight: 200,
+                  overflowY: "auto",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  borderRadius: 5,
+                  marginTop: 0,
+                }),
+              }}
+            />
           </div>
         </div>
 

@@ -2,7 +2,7 @@
   padding: 10px 16px;
   font-size: 14px;
   border-bottom: 1px solid #ddd;
-  color: #222;
+  color: var(--cor-para-texto-preto);
   white-space: nowrap;
   justify-content: space-between;
   vertical-align: middle;
@@ -32,7 +32,7 @@
 .acoes button {
   background: none;
   border: none;
-  color: #0077cc;
+  color: var(--titulos-botoes-destaques);
   cursor: pointer;
   font-size: 14px;
 }

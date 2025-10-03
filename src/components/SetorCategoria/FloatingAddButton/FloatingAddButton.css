@@ -12,7 +12,7 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: #0019ff;
+  background-color: var(--titulos-botoes-destaques);
   color: white;
   font-size: 28px;
   font-weight: bold;
@@ -28,7 +28,7 @@
 }
 
 .fab-btn:hover {
-  background-color: #0a1895;
+  background-color: var(--detalhes-2);
 }
 
 .fab-popup {

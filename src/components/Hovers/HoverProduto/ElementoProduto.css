@@ -65,7 +65,7 @@
         display: flex;
 
         .rs {
-          color: #ff6868;
+          color: #fd3333;
         }
       }
 
@@ -93,8 +93,8 @@
     position: absolute;
     top: 0px;
     right: 0px;
-    background-color: var(--azul-escuro);
-    color: white;
+    background-color: var(--titulos-botoes-destaques);
+    color: var(--cor-para-o-texto-branco);
     font-size: x-large;
     border: none;
     border-radius: 0rem 0.8rem;
@@ -105,12 +105,12 @@
 }
 
 .elemento-produto:hover {
-  background-color: var(--azul-escuro);
-  color: var(--card-branco);
+  background-color: var(--titulos-botoes-destaques);
+  color: var(--cor-para-o-texto-branco);
 
   .botao-adicionar {
-    background-color: var(--card-branco);
-    color: var(--azul-escuro);
+    background-color: var(--cor-para-o-texto-branco);
+    color: var(--titulos-botoes-destaques);
   }
 
   .preco-quantidade .quantidade-itens-atendentimento {

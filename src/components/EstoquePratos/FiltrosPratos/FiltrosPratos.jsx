@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { getFuncionario } from "../../../utils/auth";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 
 function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado, categoriaSelecionada, setCategoriaSelecionada }) {
@@ -77,6 +78,22 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
     });
   }, [filtroStatus, categoriaSelecionada, setorSelecionado, setFiltros]);
 
+    const optionsSetores = [
+    { value: "", label: "Todos Setores" },
+    ...setores.map((set) => ({
+      value: set.id,
+      label: set.nome,
+    })),
+  ];
+
+  const optionsCategorias = [
+    { value: "", label: "Todas Categorias" },
+    ...categorias.map((cat) => ({
+      value: cat.id,
+      label: cat.nome,
+    })),
+  ];
+
   return (
     <div className="top-actions">
       <input type="text" placeholder="Procurar Prato" className="search" value={termoBusca}
@@ -102,30 +119,109 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
         </button>
       )}
 
-      <select
-        className="select-categoria"
-        value={setorSelecionado}
-        onChange={(e) => setSetorSelecionado(e.target.value)}
-      >
-        <option value="">Todos Setores</option>
-        {setores.map((set) => (
-          <option key={set.id} value={set.id}>
-            {set.nome}
-          </option>
-        ))}
-      </select>
+      <Select
+          value={optionsSetores.find((opt) => opt.value === setorSelecionado)}
+          onChange={(opt) => setSetorSelecionado(opt.value)}
+          options={optionsSetores}
+          placeholder="Todos Setores"
+          isSearchable={false}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              minWidth: 200,
+              maxWidth: 250,
+              borderColor: state.isFocused
+                ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
+                : "transparent",
+              boxShadow: "none",
+              "&:hover": { borderColor: "transparent" }, // cor do hover
+            }),
+            placeholder: (baseStyles) => ({
+              ...baseStyles,
+              color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
+            }),
+            option: (baseStyles, state) => ({
+              ...baseStyles,
+              backgroundColor: state.isSelected
+                ? "var(--titulos-botoes-destaques)" // cor do item selecionado
+                : state.isFocused
+                ? "var(--detalhes-2)" // cor do hover
+                : "var(--cor-para-o-texto-branco)", // cor padrão
+              color: state.isSelected
+                ? "var(--cor-para-o-texto-branco)"
+                : "var(--cor-para-texto-preto)", // cor do texto
+              padding: 14,
+              cursor: "pointer",
+            }),
+            singleValue: (baseStyles) => ({
+              ...baseStyles,
+              color: "var(--cor-para-texto-preto)", // cor do texto selecionado
+            }),
+            menuList: (base) => ({
+              ...base,
+              maxHeight: 200,
+              overflowY: "auto",
+            }),
+            menu: (base) => ({
+              ...base,
+              borderRadius: 5,
+              marginTop: 0,
+            }),
+          }}
+        />
 
-      <select
-        className="select-categoria"
-        value={categoriaSelecionada}
-        onChange={(e) => setCategoriaSelecionada(e.target.value)}
-      >        <option value="">Todas as Categorias</option>
-        {categorias.map((cat) => (
-          <option key={cat.id} value={cat.id}>
-            {cat.nome}
-          </option>
-        ))}
-      </select>
+        <Select
+          value={optionsCategorias.find(
+            (opt) => opt.value === categoriaSelecionada
+          )}
+          onChange={(opt) => setCategoriaSelecionada(opt.value)}
+          options={optionsCategorias}
+          placeholder="Todas Categorias"
+          isSearchable={false}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              minWidth: 200,
+              maxWidth: 250,
+              borderColor: state.isFocused
+                ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
+                : "transparent",
+              boxShadow: "none",
+              "&:hover": { borderColor: "transparent" }, // cor do hover
+            }),
+            option: (baseStyles, state) => ({
+              ...baseStyles,
+              backgroundColor: state.isSelected
+                ? "var(--titulos-botoes-destaques)" // cor do item selecionado
+                : state.isFocused
+                ? "var(--detalhes-2)" // cor do hover
+                : "var(--cor-para-o-texto-branco)", // cor padrão
+              color: state.isSelected
+                ? "var(--cor-para-o-texto-branco)"
+                : "var(--cor-para-texto-preto)", // cor do texto
+              padding: 14,
+              cursor: "pointer",
+            }),
+            placeholder: (baseStyles) => ({
+              ...baseStyles,
+              color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
+            }),
+            singleValue: (baseStyles) => ({
+              ...baseStyles,
+              color: "var(--cor-para-texto-preto)", // cor do texto selecionado
+            }),
+            menuList: (base) => ({
+              ...base,
+              maxHeight: 200,
+              overflowY: "auto",
+            }),
+            menu: (base) => ({
+              ...base,
+              borderRadius: 5,
+              marginTop: 0,
+            }),
+          }}
+        />
 
 
 

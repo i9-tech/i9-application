@@ -6,8 +6,8 @@
 
 .formulario-prato .descricao-prato {
   font-size: 16px;
-  color: #444;
-  margin-bottom: 10px;
+  color: var(--cor-para-texto-preto);
+  margin-bottom: 25px;
   text-align: left;
 }
 
@@ -25,7 +25,7 @@
 .formulario-prato .grupo-inputs label {
   font-size: 14px;
   font-weight: 600;
-  color: #222;
+  color: var(--cor-para-texto-preto);
   margin-bottom: 6px;
 }
 
@@ -33,9 +33,9 @@
 .formulario-prato .grupo-inputs textarea,
 .formulario-prato .grupo-inputs select {
   padding: 12px;
-  border: 1px solid #ccc;
+  border:none;
   border-radius: 6px;
-  background-color: #fff;
+  background-color: white;
   font-size: 15px;
   box-sizing: border-box;
   width: 100%;
@@ -62,16 +62,16 @@
 .formulario-prato .linha-dupla label {
   font-size: 14px;
   font-weight: 600;
-  color: #222;
+  color: var(--cor-para-texto-preto);
   margin-bottom: 6px;
   margin-left: 2px;
 }
 
 .formulario-prato .linha-dupla input {
   padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
+  border: none;
+  border-radius: 5px;
+  background-color: white;
   font-size: 15px;
   width: 100%;
   box-sizing: border-box;
@@ -79,9 +79,9 @@
 
 .formulario-prato select {
   padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
+  border: none;
+  border-radius: 5px;
+  background-color: white;
   font-size: 15px;
   box-sizing: border-box;
   width: 100%;
@@ -104,23 +104,25 @@
 }
 
 .formulario-prato .botoes-prato button:first-child {
-  background-color: #fff;
-  border: 1px solid #333;
-  color: #333;
+  background-color: none;
+  border: 1px solid var(--titulos-botoes-destaques);
+  color: var(--titulos-botoes-destaques);
 }
 
 .formulario-prato .botoes-prato button:first-child:hover {
-  background-color: #f0f0f0;
+  background-color: var(--detalhes-2);
+        border: 1px solid var(--detalhes-2);
+        color: var(--cor-para-o-texto-branco);  
 }
 
 .formulario-prato .botoes-prato button:last-child {
-  background-color: #0000cc;
+  background-color: );
   border: none;
-  color: white;
+  color: var(--cor-para-o-texto-branco);
 }
 
 .formulario-prato .botoes-prato button:last-child:hover {
-  background-color: #000099;
+  background-color: var(--detalhes-2);
 }
 
 .checkbox-pratos {
@@ -138,7 +140,7 @@
   display: flex;
   align-items: center;
   font-weight: 500;
-  color: #333;
+  color: var(--cor-para-texto-preto);
 }
 
 .estilo-checkbox {
@@ -155,13 +157,13 @@
   top: 0;
   height: 18px;
   width: 18px;
-  background-color: #fff;
-  border: 2px solid #0000cc;
+  background-color: var(--cor-para-o-texto-branco);
+  border: 2px solid var(--titulos-botoes-destaques);
   border-radius: 4px;
 }
 
 .caixinhas-checkbox .estilo-checkbox:checked ~ .checado {
-  background-color: #0000cc;
+  background-color: var(--titulos-botoes-destaques);
 }
 
 .checado:after {

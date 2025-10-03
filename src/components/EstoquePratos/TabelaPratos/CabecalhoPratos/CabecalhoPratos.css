@@ -10,8 +10,8 @@
     font-weight: 600;
     font-size: 14px;
     text-align: center;
-    color: #333;
-    border-bottom: 2px solid #ccc;
+    color: var(--cor-para-texto-preto);
+    border-bottom: none;
     /* white-space: nowrap; */
     vertical-align: middle;
   }

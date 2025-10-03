@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
+
   --texto-preto: #040B28;
   --hovers: #0E2361;
   --destaque: #0F14B8;
@@ -18,6 +19,77 @@
   --azul-claro: #5179EF;
   --azul-claro-second: #A5b4fC;
   --color-font: #ffffff;
+
+  --cor-para-o-fundo-site: #E9EFF4;
+  --cor-para-o-fundo-sistema: #f4f4f4;
+  --cor-para-o-texto-branco: #FBFEFF;
+  --carregamento: #d5d5d5;
+  --detalhes-1: #BCC9F1;
+  --detalhes-2: #83A1FF;
+  --cor-para-texto-preto: #040B28;
+  --titulos-botoes-destaques: #0F14B8;
+  --botoes-hover-destaques: #0E2361;
+  --detalhes-inputs-texto: #3E43C6;
+  --mensagem-correta: #277750;
+  --mensagem-errada: #A92626;
+
+  /* Dark */
+  /* --cor-para-o-fundo-dark: #181c1f ou #1a1d23;
+  --cor-para-o-texto-branco-dark: #e2e2e2 ou #E7E9EE;
+  --detalhes-1-dark: #394150 ou #232B3A;
+  --detalhes-2-dark: #4961b5 ou #41598D;
+  --cor-para-texto-preto-dark: #e5e9f2 ou #E1E3EA;
+  --titulos-botoes-destaques-dark: #7983fc ou #3764e4;
+  --botoes-hover-destaques-dark: #42549e ou #2550a8;
+  --detalhes-inputs-texto-dark: #7a8fff ou #647cf7;
+  --mensagem-correta-dark: #36b87d ou #37C079;
+  --mensagem-errada-dark: #e05a5a ou #CC3939; */
+
+  /* Desktop */
+  --tamanho-titulo-desktop: 64px;
+  --tamanho-subtitulo-desktop: 24px;
+  --tamanho-subtitulo-2-desktop: 22px;
+  --tamanho-subtitulo-3-desktop: 20px;
+  --espacamento-letras-titulo-vertical-desktop: 64px;
+  --espacamento-letras-titulo-horizontal-desktop: -2px;
+  --espacamento-letras-subtitulo-vertical-desktop: 30px;
+  --espacamento-letras-subtitulo-horizontal-desktop: 0.2px;
+  --espacamento-entre-secoes-desktop: 64px;
+  --espacamento-entre-elementos-desktop: 40px;
+  --espacamento-entre-secoes-maior-desktop: 104px;
+  --botao-width-desktop: 120px;
+  --botao-height-desktop: 40px;
+  --botao-radius-desktop: 5px;
+
+  /* Tablet */
+  --tamanho-titulo-tablet: 48px;
+  --tamanho-subtitulo-tablet: 22px; 
+  --tamanho-subtitulo-2-tablet: 20px;
+  --tamanho-subtitulo-3-tablet: 18px; 
+  --espaco-vertical-titulo-tablet: 48px;
+  --espaco-horizontal-titulo-tablet: -2px;
+  --espaco-vertical-subtitulo-tablet: 28px;
+  --espaco-horizontal-subtitulo-tablet: 0.2px;
+  --espaco-entre-secoes-tablet: 56px;
+  --espaco-entre-elementos-tablet: 32px;
+  --botao-width-tablet: 120px;
+  --botao-height-tablet: 40px;
+  --botao-radius-tablet: 5px;
+
+  /* Mobile */
+  --tamanho-titulo-mobile: 44px;
+  --tamanho-subtitulo-mobile: 20px; 
+  --tamanho-subtitulo-2-mobile: 18px; 
+  --tamanho-subtitulo-3-mobile: 16px; 
+  --espaco-vertical-titulo-mobile: 44px;
+  --espaco-horizontal-titulo-mobile: -2px;
+  --espaco-vertical-subtitulo-mobile: 26px;
+  --espaco-horizontal-subtitulo-mobile: 0.2px;
+  --espaco-entre-secoes-mobile: 56px;
+  --espaco-entre-elementos-mobile: 32px;
+  --botao-width-mobile: 120px;
+  --botao-height-mobile: 40px;
+  --botao-radius-mobile: 5px;
 }
 
 * {
@@ -25,12 +97,12 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Inter", sans-serif;
-  accent-color: var(--destaque);
+  accent-color: white;
 }
 
 body {
   display: flex;
-  background-color: var(--background-blue);
+  background-color: var(--cor-para-o-fundo-site);
   min-height: 100vh;
   width: 100%;
   display: flex;
@@ -40,11 +112,11 @@ body {
 }
 
 hov {
-  color: var(--destaque);
+  color: var(--titulos-botoes-destaques);
 }
 
 .Toastify__progress-bar--success {
-  background-color: var(--azul-escuro) !important;
+  background-color: var(--titulos-botoes-destaques) !important;
 }
 
 .Toastify__progress-bar--error {
@@ -52,8 +124,8 @@ hov {
 }
 
 .Toastify__toast--success .Toastify__toast-icon svg {
-  fill: var(--azul-escuro) !important;
-  color: var(--azul-escuro) !important;
+  fill: var(--titulos-botoes-destaques) !important;
+  color: var(--titulos-botoes-destaques) !important;
 }
 
 
@@ -75,8 +147,11 @@ hov {
 
 .btn-cancelar {
   background: none;
-  border: 1px solid #000;
-  color: #000;
+  border: 1px solid var(--cor-para-texto-preto);
+  color: var(--cor-para-texto-preto);
+  width: var(--botao-width-desktop);
+  height: var(--botao-height-desktop);
+  border-radius: var(--botao-radius-desktop);
 }
 
 .btn-cancelar:hover {
@@ -84,11 +159,15 @@ hov {
 }
 
 .btn-aceitar {
-  background-color: #0050ff;
-  color: white;
+  background-color: var(--titulos-botoes-destaques);
+  color: var(--cor-para-o-texto-branco);
   border: none;
+  width: var(--botao-width-desktop);
+  height: var(--botao-height-desktop);
+  border-radius: var(--botao-radius-desktop);
 }
 
 .btn-aceitar:hover {
-  background-color: #003bb3;
+  background-color: var(--titulos-botoes-destaques);
+  color: var(--cor-para-o-texto-branco);
 }

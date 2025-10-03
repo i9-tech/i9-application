@@ -8,10 +8,10 @@ input[type="checkbox"] {
     justify-content: center;
     padding: 16px;
     gap: 8px;
-    border: 1px solid var(--destaque);
+    border: 1px solid var(--titulos-botoes-destaques);
     border-radius: 8px;
-    background-color: var(--color-font);;
-    color: var(--destaque);
+    background-color: var(--cor-para-o-texto-branco);;
+    color: var(--titulos-botoes-destaques);
     height: max-content;
     font-size: 16px;
     font-weight: 400;
@@ -24,8 +24,8 @@ input[type="checkbox"] {
 }
 
  input[type="checkbox"]:checked + .checkbox-cozinha-label2 {
-    background-color: var(--destaque);
-    color: var(--color-font);
+    background-color: var(--titulos-botoes-destaques);
+    color: var(--cor-para-o-texto-branco);
 
 }
 

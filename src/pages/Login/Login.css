@@ -38,7 +38,7 @@
           align-items: center;
           justify-content: space-around;
           font-size: 16px;
-          color: var(--destaque);
+          color: var(--titulos-botoes-destaques);
           background-color: #ffffffcc;
           transition: all 0.3s;
 
@@ -157,7 +157,7 @@
           height: 40%;
           font-size: 20px;
           border-radius: 8px;
-          background-color: var(--destaque);
+          background-color: var(--titulos-botoes-destaques);
           opacity: 1;
           color: #fff;
           font-weight: bold;
@@ -167,7 +167,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: var(--destaque);
+            background-color: var(--titulos-botoes-destaques);
             opacity: 0.8;
           }
         }
@@ -245,7 +245,7 @@
           align-items: center;
           justify-content: space-around;
           font-size: 16px;
-          color: var(--destaque);
+          color: var(--titulos-botoes-destaques);
           background-color: #ffffffcc;
           transition: all 0.3s;
 
@@ -358,7 +358,7 @@
           height: 40%;
           font-size: 20px;
           border-radius: 8px;
-          background-color: var(--destaque);
+          background-color: var(--titulos-botoes-destaques);
           opacity: 1;
           color: #fff;
           font-weight: bold;
@@ -368,7 +368,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: var(--destaque);
+            background-color: var(--titulos-botoes-destaques);
             opacity: 0.8;
           }
         }
@@ -431,7 +431,7 @@
           align-items: center;
           justify-content: space-around;
           font-size: 16px;
-          color: var(--destaque);
+          color: var(--titulos-botoes-destaques);
           background-color: #ffffffcc;
           transition: all 0.3s;
 
@@ -557,7 +557,7 @@
           height: 40%;
           font-size: 20px;
           border-radius: 8px;
-          background-color: var(--destaque);
+          background-color: var(--titulos-botoes-destaques);
           opacity: 1;
           color: #fff;
           font-weight: bold;
@@ -567,7 +567,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: var(--destaque);
+            background-color: var(--titulos-botoes-destaques);
             opacity: 0.8;
           }
         }

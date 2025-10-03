@@ -1,8 +1,8 @@
 .linha-produto-prod td {
   padding: 10px 16px;
   font-size: 14px;
-  border-bottom: 1px solid #ddd;
-  color: #222;
+  border-bottom: 1px solid #99999941;
+  color: var(--cor-para-o-texto-preto);
   white-space: nowrap;
   justify-content: space-between;
   vertical-align: middle;
@@ -14,8 +14,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #999;
-  border-radius: 8px;
+  border: 1px solid #99999941;
+  border-radius: 5px;
   padding: 4px;
   height: 60px;
   width: 80px;
@@ -33,7 +33,7 @@
 .acoes-prod button {
   background: none;
   border: none;
-  color: #0077cc;
+  color: var(--titulos-botoes-destaques);
   cursor: pointer;
   font-size: 14px;
 }

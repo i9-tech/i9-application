@@ -8,7 +8,7 @@ import { ROUTERS } from "../../../utils/routers";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { getFuncionario, getToken } from "../../../utils/auth";
 import { enviroments } from "../../../utils/enviroments";
-
+import Select from "react-select";
 
 const CadastroPratoFormulario = ({
   setPorcentagemCarregamento,
@@ -213,8 +213,8 @@ const CadastroPratoFormulario = ({
         console.error("Erro ao salvar prato:", error.response?.data || error);
         toast.error("Erro ao salvar prato!");
         setTimeout(() => {
-            setIsSendingData(false);
-          }, 2500);
+          setIsSendingData(false);
+        }, 2500);
       });
   };
 
@@ -237,10 +237,21 @@ const CadastroPratoFormulario = ({
       .join(" ");
   };
 
+  const setoresOptions = setores.map((set) => ({
+    value: set.id,
+    label: set.nome,
+  }));
+
+  const categoriasOptions = categorias.map((cat) => ({
+    value: cat.id,
+    label: cat.nome,
+  }));
+
   return (
     <div className="formulario-prato">
       <p className="descricao-prato">
-        Preencha o formulário abaixo para adicionar um novo prato ao seu estoque!      
+        Preencha o formulário abaixo para adicionar um novo prato ao seu
+        estoque!
       </p>
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>
@@ -292,20 +303,56 @@ const CadastroPratoFormulario = ({
               *
             </span>{" "}
           </label>
-          <select
-            value={prato.categoria}
-            onChange={(e) =>
-              setPrato({ ...prato, categoria: parseInt(e.target.value) })
-            }
-            required
-          >
-            <option value="">Selecione uma Categoria</option>
-            {categorias.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.nome}
-              </option>
-            ))}
-          </select>
+          <Select
+            value={categoriasOptions.find(
+              (opt) => opt.value === prato.categoria
+            )}
+            onChange={(opt) => setPrato({ ...prato, categoria: opt.value })}
+            options={categoriasOptions}
+            placeholder="Selecione uma Categoria"
+            isSearchable={false}
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                borderColor: state.isFocused
+                  ? "var(--cor-para-o-texto-branco)"
+                  : "transparent",
+                boxShadow: "none",
+                "&:hover": { borderColor: "transparent" },
+              }),
+              placeholder: (baseStyles) => ({
+                ...baseStyles,
+                color: "var(--cor-para-texto-preto)",
+              }),
+              option: (baseStyles, state) => ({
+                ...baseStyles,
+                backgroundColor: state.isSelected
+                  ? "var(--titulos-botoes-destaques)"
+                  : state.isFocused
+                  ? "var(--detalhes-2)"
+                  : "var(--cor-para-o-texto-branco)",
+                color: state.isSelected
+                  ? "var(--cor-para-o-texto-branco)"
+                  : "var(--cor-para-texto-preto)",
+                padding: 14,
+                cursor: "pointer",
+              }),
+              singleValue: (baseStyles) => ({
+                ...baseStyles,
+                color: "var(--cor-para-texto-preto)",
+              }),
+              menuList: (base) => ({
+                ...base,
+                maxHeight: 200,
+                overflowY: "auto",
+              }),
+              menu: (base) => ({
+                ...base,
+                borderRadius: 5,
+                marginTop: 0,
+              }),
+            }}
+          />
         </div>
 
         <div className="grupo-inputs">
@@ -315,20 +362,54 @@ const CadastroPratoFormulario = ({
               *
             </span>
           </label>
-          <select
-            value={prato.setor}
-            onChange={(e) =>
-              setPrato({ ...prato, setor: parseInt(e.target.value) })
-            }
-            required
-          >
-            <option value="">Selecione um Setor</option>
-            {setores.map((set) => (
-              <option key={set.id} value={set.id}>
-                {set.nome}
-              </option>
-            ))}
-          </select>
+          <Select
+            value={setoresOptions.find((opt) => opt.value === prato.setor)}
+            onChange={(opt) => setPrato({ ...prato, setor: opt.value })}
+            options={setoresOptions}
+            placeholder="Selecione um Setor"
+            isSearchable={false}
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                borderColor: state.isFocused
+                  ? "var(--cor-para-o-texto-branco)"
+                  : "transparent",
+                boxShadow: "none",
+                "&:hover": { borderColor: "transparent" },
+              }),
+              placeholder: (baseStyles) => ({
+                ...baseStyles,
+                color: "var(--cor-para-texto-preto)",
+              }),
+              option: (baseStyles, state) => ({
+                ...baseStyles,
+                backgroundColor: state.isSelected
+                  ? "var(--titulos-botoes-destaques)"
+                  : state.isFocused
+                  ? "var(--detalhes-2)"
+                  : "var(--cor-para-o-texto-branco)",
+                color: state.isSelected
+                  ? "var(--cor-para-o-texto-branco)"
+                  : "var(--cor-para-texto-preto)",
+                padding: 14,
+                cursor: "pointer",
+              }),
+              singleValue: (baseStyles) => ({
+                ...baseStyles,
+                color: "var(--cor-para-texto-preto)",
+              }),
+              menuList: (base) => ({
+                ...base,
+                maxHeight: 200,
+                overflowY: "auto",
+              }),
+              menu: (base) => ({
+                ...base,
+                borderRadius: 5,
+                marginTop: 0,
+              }),
+            }}
+          />
         </div>
 
         <div className="grupo-inputs">

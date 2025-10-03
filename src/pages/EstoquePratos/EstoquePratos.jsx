@@ -54,7 +54,7 @@ export function EstoquePratos() {
 
   return (
     <LayoutTela
-      titulo="Estoque de Pratos"
+      titulo="Cardápio de Pratos"
       adicional={`${pratos.length} itens cadastrados`}
     >
       <div className="estoque">

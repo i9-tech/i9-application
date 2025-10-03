@@ -1,7 +1,7 @@
 .navbar {
   width: 4rem;
   height: 100vh;
-  background: #ffffff;
+  background: var(--cor-para-o-texto-branco);
   font-size: 1rem;
   font-weight: 400;
   position: fixed;
@@ -31,7 +31,7 @@
 
     a {
       text-decoration: none;
-      color: var(--destaque);
+      color: var(--titulos-botoes-destaques);
 
       li {
         display: flex;
@@ -64,7 +64,7 @@
     height: 4rem;
     font-weight: 400;
     padding: 8px;
-    background-color: var(--destaque);
+    background-color: var(--titulos-botoes-destaques);
     color: white;
     display: flex;
     align-items: center;
@@ -134,6 +134,7 @@
   }
 }
 
+
 .navbar.aberta {
   width: 15rem;
 
@@ -144,4 +145,13 @@
   .seta-nav {
     transform: scaleX(-1);
   }
+}
+
+.navbar ul a li:hover,
+.navbar ul a li.clicked {
+  font-weight: 500;
+  background-color: #0000001f;
+  border-radius: 5px;
+  filter: brightness(0) saturate(100%) invert(39%) sepia(90%)
+          saturate(500%) hue-rotate(190deg);
 }

@@ -15,7 +15,7 @@
     position: sticky;
     top: 0;
   color: white;
-  background-color: #0000cc;
+  background-color: var(--titulos-botoes-destaques);
     z-index: 1;
     padding: 8px;
     text-align: center;

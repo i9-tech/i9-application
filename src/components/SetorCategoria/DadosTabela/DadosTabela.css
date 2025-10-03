@@ -22,7 +22,7 @@
 .tabela-dados thead th {
   position: sticky;
   top: 0;
-  background-color: #0000cc;
+  background-color: var(--titulos-botoes-destaques);
   color: white;
   font-weight: 600;
   font-size: 14px;
@@ -34,7 +34,7 @@
 .tabela-dados td {
   padding: 12px;
   border-bottom: 1px solid #f1f1f1;
-  color: #1f2937;
+  color: var(--cor-para-texto-preto);
   text-align: center;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .tabela-dados__botao.editar:hover {
-  color: #3b82f6;
+  color: var(--detalhes-2);
 }
 
 .tabela-dados__botao.excluir:hover {

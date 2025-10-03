@@ -12,7 +12,7 @@
 }
 
 .modal-container {
-  background-color: white;
+  background-color: var(--cor-para-o-texto-branco);
   width: 400px;
   border-radius: 10px;
   padding: 1.5rem;

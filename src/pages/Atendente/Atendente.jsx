@@ -112,7 +112,7 @@ export function Atendente() {
       { headers }
     );
     const requisicaoPratos = api.get(
-      `${ENDPOINTS.PRATOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
 
@@ -341,7 +341,7 @@ export function Atendente() {
       { headers }
     );
     const requisicaoPratos = api.get(
-      `${ENDPOINTS.PRATOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
 

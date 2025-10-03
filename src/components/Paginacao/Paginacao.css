@@ -1,0 +1,41 @@
+.paginacao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;     
+  padding: 4px 0;
+}
+
+.btn-nav,
+.btn-page {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;     
+}
+
+.btn-page.ativo {
+  background: var(--destaque);
+  color: white;
+  font-weight: bold;
+}
+
+.btn-page.ativo:hover {
+  background: var(--botao-fundo-clicado);
+}
+
+.btn-page:hover,
+.btn-nav:hover {
+  background: #f0f0f0;
+}
+
+.btn-nav:disabled,
+.btn-page:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

@@ -104,7 +104,7 @@ const CadastroSetoresCategorias = () => {
           }),
 
         api
-          .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers })
+          .get(`${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`, { headers })
           .then((res) => {
             setPratos(res.data);
             if (Array.isArray(res.data) && res.data.length === 0)

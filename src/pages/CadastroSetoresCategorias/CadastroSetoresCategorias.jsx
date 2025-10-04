@@ -93,7 +93,7 @@ const CadastroSetoresCategorias = () => {
           }),
 
         api
-          .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, { headers })
+          .get(`${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`, { headers })
           .then((res) => {
             setProdutos(res.data);
             if (Array.isArray(res.data) && res.data.length === 0)

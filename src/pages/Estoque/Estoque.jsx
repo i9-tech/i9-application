@@ -6,70 +6,90 @@ import TabelaEstoque from "../../components/EstoqueLista/TabelaEstoque/TabelaEst
 import { calcularResumoEstoque } from "./DadosProdutos/utilsEstoque";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import api from "../../provider/api";
-import { enviroments } from "../../utils/enviroments";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario } from "../../utils/auth";
+import { Paginacao } from "../../components/Paginacao/Paginacao";
 
 export function Estoque() {
-  const [filtroStatus, setFiltroStatus] = useState(null);
-  const [produtos, setProdutos] = useState([]);
-  const [resumo, setResumo] = useState([{}]);
   const token = localStorage.getItem("token");
   const funcionario = getFuncionario();
   const [termoBusca, setTermoBusca] = useState("");
   const [setorSelecionado, setSetorSelecionado] = useState("");
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
+
+  const [filtros, setFiltros] = useState({ status: null, categoria: "", setor: "" })
+
+  const [quantidadeTotalProdutos, setQuantidadeTotalProdutos] = useState(0);
+  const [produtos, setProdutos] = useState([]);
+  const [resumo, setResumo] = useState([{}]);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
+  const [pagina, setPagina] = useState(0);
+  const [quantidadePorPagina] = useState(5);
+  const [totalPaginas, setTotalPaginas] = useState(0);
+  const [ordem] = useState("asc");
+
   const buscarProdutos = useCallback(() => {
-    if (enviroments.ambiente === "jsonserver") {
-      api
-        .get(ENDPOINTS.PRODUTOS)
-        .then((res) => {
-          setProdutos(res.data);
-          setResumo(calcularResumoEstoque(res.data));
-          setIsLoadingData(false);
-        })
-        .catch((err) => {
-          console.error("Erro ao ao buscar produtos:", err);
-        });
-    } else {
-      api
-        .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          setProdutos(res.data);
-          setResumo(calcularResumoEstoque(res.data));
-          if (res.data.length === 0) {
-            setTimeout(() => {
-              setIsLoadingData(false);
-            }, 2500);
-          } else {
-            setIsLoadingData(false);
-          }
-        })
-        .catch((err) => {
-          console.error("Erro ao ao buscar produtos:", err);
-          setIsLoadingData(false);
-        });
-    }
+    setIsLoadingData(true);
+    const termoSemAcento = (termoBusca || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+
+    api
+      .get(`${ENDPOINTS.PRODUTOS_PAGINADO}/${funcionario.userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: {
+          pagina,
+          quantidadePorPagina,
+          ordem,
+          termoBusca: termoSemAcento,
+          statusEstoque: filtros.status,
+          setorId: setorSelecionado ? Number(setorSelecionado) : undefined,
+          categoriaId: categoriaSelecionada ? Number(categoriaSelecionada) : undefined
+        },
+      })
+      .then((res) => {
+        const page = res.data;
+        setProdutos(page.content);
+        setResumo(calcularResumoEstoque(page.content));
+        setTotalPaginas(page.totalPages);
+        setIsLoadingData(false);
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar pratos:", err);
+        setIsLoadingData(false);
+      });
+  }, [funcionario.userId, token, pagina, quantidadePorPagina, ordem, termoBusca, filtros.status, setorSelecionado, categoriaSelecionada]);
+
+  const buscarQuantidadeProdutos = useCallback(() => {
+    api
+      .get(`${ENDPOINTS.PRODUTOS_QUANTIDADE_DIFERENTE}/${funcionario.userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setQuantidadeTotalProdutos(res.data))
+      .catch((err) => console.error("Erro ao buscar quantidade de pratos:", err));
   }, [funcionario.userId, token]);
 
   useEffect(() => {
+    buscarQuantidadeProdutos();
+  }, [buscarQuantidadeProdutos]);
+
+  useEffect(() => {
+    setPagina(0);
+  }, [termoBusca, filtros.status, setorSelecionado, categoriaSelecionada]);
+
+  useEffect(() => {
     buscarProdutos();
-  }, [buscarProdutos]);
+  }, [pagina, buscarProdutos]);
 
   return (
     <>
       <LayoutTela
         titulo="Estoque de Produtos"
-        adicional={`${produtos.length} itens cadastrados`}
+        adicional={`${quantidadeTotalProdutos} itens cadastrados`}
       >
         <div className="estoque">
           <FiltrosEstoque
-            filtroStatus={filtroStatus}
-            setFiltroStatus={setFiltroStatus}
+            filtros={filtros}
+            setFiltros={setFiltros}
             termoBusca={termoBusca}
             setTermoBusca={setTermoBusca}
             setorSelecionado={setorSelecionado}
@@ -81,11 +101,16 @@ export function Estoque() {
           <TabelaEstoque
             isLoadingData={isLoadingData}
             produtos={produtos}
-            filtroStatus={filtroStatus}
+            filtros={filtros}
             termoBusca={termoBusca}
             setorSelecionado={setorSelecionado}
             categoriaSelecionada={categoriaSelecionada}
             buscarProdutos={buscarProdutos}
+          />
+          <Paginacao
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            onChange={(novaPagina) => setPagina(novaPagina)}
           />
         </div>
       </LayoutTela>

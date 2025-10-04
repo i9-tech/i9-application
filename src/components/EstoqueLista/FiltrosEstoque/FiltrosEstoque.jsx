@@ -8,26 +8,33 @@ import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 
+function FiltrosEstoque({ setFiltros, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado, categoriaSelecionada, setCategoriaSelecionada }) {
+  const [menuAberto, setMenuAberto] = useState(false);
+  const [filtroStatus, setFiltroStatus] = useState(null);
+  const [setores, setSetores] = useState([]);
+  const [categorias, setCategorias] = useState([]);
 
-function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado, setCategoriaSelecionada, categoriaSeleciona }) {
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const [menuAberto, setMenuAberto] = useState(false);
-  const limparFiltro = () => setFiltroStatus(null);
 
   const aplicarFiltro = (tipo) => {
     setFiltroStatus(tipo);
     setMenuAberto(false);
   };
 
-  const [setores, setSetores] = useState([]);
-  const [categorias, setCategorias] = useState([]);
+  const limparFiltroStatus = () => {
+    setFiltroStatus(null);
+    setFiltros({
+      status: null,
+      categoria: categoriaSelecionada,
+      setor: setorSelecionado,
+    });
+  };
+
   useEffect(() => {
     api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         if (Array.isArray(res.data)) {
@@ -40,9 +47,7 @@ function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBus
       });
 
     api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         if (Array.isArray(res.data)) {
@@ -53,79 +58,84 @@ function FiltrosEstoque({ filtroStatus, setFiltroStatus, termoBusca, setTermoBus
         console.error("Erro ao buscar categorias:", err);
         toast.error("Erro ao buscar categorias!");
       });
-
   }, [funcionario.userId, token]);
 
+  useEffect(() => {
+    setFiltros({
+      status: filtroStatus,
+      categoria: categoriaSelecionada,
+      setor: setorSelecionado,
+    });
+  }, [filtroStatus, categoriaSelecionada, setorSelecionado, setFiltros]);
+
   return (
-    <>
-      <div className="top-actions-prod">
-        <input
-          type="text"
-          placeholder="Procurar Produto"
-          className="search"
-          value={termoBusca}
-          onChange={(e) => setTermoBusca(e.target.value)}
-        />
+    <div className="top-actions">
+      <input
+        type="text"
+        placeholder="Procurar Produto"
+        className="search"
+        value={termoBusca}
+        onChange={(e) => setTermoBusca(e.target.value)}
+      />
 
-        <div className="filtros-dropdown-prod">
-          <button className="filtro-prod" onClick={() => setMenuAberto(!menuAberto)}>
-            🔍 Filtros
-          </button>
-
-          {menuAberto && (
-            <div className="menu-filtros-prod">
-              <button onClick={() => aplicarFiltro("baixo")}>
-                ⚠️ Estoque Baixo
-              </button>
-              <button onClick={() => aplicarFiltro("sem")}>
-                ❌ Sem Estoque
-              </button>
-            </div>
-          )}
-        </div>
-
-        {filtroStatus && (
-          <button className="filtro-ativo-prod" onClick={limparFiltro}>
-            {filtroStatus === "baixo" && "⚠️ Estoque Baixo ✕"}
-            {filtroStatus === "sem" && "❌ Sem Estoque ✕"}
-          </button>
-        )}
-
-        <select
-          value={setorSelecionado}
-          onChange={(e) => setSetorSelecionado(e.target.value)}
-        >
-          <option value="">Todos Setores</option>
-          {setores.map((set) => (
-            <option key={set.id} value={set.id}>
-              {set.nome}
-            </option>
-          ))}
-        </select>
-
-        <select 
-          value={categoriaSeleciona}
-          onChange={(e) => setCategoriaSelecionada(e.target.value)}
-          >
-          <option value="">Todas Categorias</option>
-          {categorias.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-              {cat.nome}
-            </option>
-          ))}
-        </select>
-
-        <button
-          className="add-btn-prod"
-          onClick={() => {
-            navigate(ROUTERS.FORMULARIO_PRODUTOS);
-          }}
-          style={{ color: "#fff", fontWeight: "bold" }}
-        >
-          + Adicionar Produto
+      <div className="filtros-dropdown">
+        <button className="filtro" onClick={() => setMenuAberto(!menuAberto)}>
+          🔍 Filtros
         </button>
+
+        {menuAberto && (
+          <div className="menu-filtros">
+            <button onClick={() => aplicarFiltro("sem")}>❌ Sem Estoque</button>
+            <button onClick={() => aplicarFiltro("baixo")}>⚠️ Estoque Baixo</button>
+            <button onClick={() => aplicarFiltro("em_estoque")}>📦 Em Estoque</button>
+          </div>
+        )}
       </div>
-    </>
+
+      {filtroStatus && (
+        <button className="filtro-ativo" onClick={limparFiltroStatus}>
+          {filtroStatus === "sem" && "❌ Sem Estoque ✕"}
+          {filtroStatus === "baixo" && "⚠️ Estoque Baixo ✕"}
+          {filtroStatus === "em_estoque" && "📦 Em Estoque ✕"}
+        </button>
+      )}
+
+      <select
+        className="select-categoria"
+        value={setorSelecionado}
+        onChange={(e) => setSetorSelecionado(e.target.value)}
+      >
+        <option value="">Todos Setores</option>
+        {setores.map((set) => (
+          <option key={set.id} value={set.id}>
+            {set.nome}
+          </option>
+        ))}
+      </select>
+
+      <select
+        className="select-categoria"
+        value={categoriaSelecionada}
+        onChange={(e) => setCategoriaSelecionada(e.target.value)}
+      >
+        <option value="">Todas as Categorias</option>
+        {categorias.map((cat) => (
+          <option key={cat.id} value={cat.id}>
+            {cat.nome}
+          </option>
+        ))}
+      </select>
+      <button
+        className="add-btn-prod"
+        onClick={() => {
+          navigate(ROUTERS.FORMULARIO_PRODUTOS);
+        }}
+        style={{ color: "#fff", fontWeight: "bold" }}
+      >
+        + Adicionar Produto
+      </button>
+    </div>
+    
   );
 }
 

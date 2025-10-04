@@ -26,8 +26,6 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
     });
   };
 
-
-
   const aplicarFiltro = (tipo) => {
     setFiltroStatus(tipo);
     setMenuAberto(false);

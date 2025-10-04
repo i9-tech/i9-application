@@ -108,7 +108,7 @@ export function Atendente() {
     const headers = { Authorization: `Bearer ${token}` };
 
     const requisicaoProdutos = api.get(
-      `${ENDPOINTS.PRODUTOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
     const requisicaoPratos = api.get(
@@ -337,7 +337,7 @@ export function Atendente() {
     const headers = { Authorization: `Bearer ${token}` };
 
     const requisicaoProdutos = api.get(
-      `${ENDPOINTS.PRODUTOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
     const requisicaoPratos = api.get(

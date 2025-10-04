@@ -1,17 +1,73 @@
 
 import "./ResumoEstoque.css";
 import "react-toastify/dist/ReactToastify.css";
+import { useState, useEffect } from "react";
+import api from "../../../provider/api";
+import { ENDPOINTS } from "../../../utils/endpoints";
+import { getFuncionario } from "../../../utils/auth";
+import { toast } from "react-toastify";
 import { FiHelpCircle } from "react-icons/fi";
+import "react-tooltip/dist/react-tooltip.css";
+
+export function ResumoEstoque() {
+  const funcionario = getFuncionario();
+  const token = localStorage.getItem("token");
+
+  const [quantidadeProdutosEmEstoque, setQuantidadeTotalProdutosEmEstoque] = useState(0);
+  const [valorEstoque, setValorEstoque] = useState(0);
+  const [lucroBruto, setLucroBruto] = useState(0);
+  const [lucroLiquido, setLucroLiquido] = useState(0);
+  const [estoqueBaixo, setEstoqueBaixo] = useState(0);
+  const [semEstoque, setSemEstoque] = useState(0);
+
+  useEffect(() => {
+    if (!funcionario) return;
+    api.get(`${ENDPOINTS.PRODUTOS_QUANTIDADE_ESTOQUE}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` }, })
+      .then((res) => setQuantidadeTotalProdutosEmEstoque(res.data))
+      .catch((err) => {
+        console.error("Erro ao buscar quantidade de produtos em estoque:", err);
+        toast.error("Erro ao buscar quantidade de produtos em estoque!");
+
+      });
+
+    api.get(`${ENDPOINTS.PRODUTOS_COMPRA}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` }, })
+      .then((res) => setValorEstoque(res.data))
+      .catch((err) => {
+        console.error("Erro ao buscar valor de compra de produtos em estoque:", err);
+        toast.error("Erro ao buscar valor de compra de produtos!");
+      });
+
+         api.get(`${ENDPOINTS.PRODUTOS_LUCRO_BRUTO}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` }, })
+      .then((res) => setLucroBruto(res.data))
+      .catch((err) => {
+        console.error("Erro ao buscar lucro bruto de produtos em estoque:", err);
+        toast.error("Erro ao buscar lucro bruto de produtos em estoque!");
+      });
+
+         api.get(`${ENDPOINTS.PRODUTOS_LUCRO_LIQUIDO}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` }, })
+      .then((res) => setLucroLiquido(res.data))
+      .catch((err) => {
+        console.error("Erro ao buscar lucro liquido de produtos em estoque:", err);
+        toast.error("Erro ao buscar lucro liquido de produtos em estoque!");
+      });
+      
+
+    api.get(`${ENDPOINTS.PRODUTOS_ESTOQUE_BAIXO}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` }, })
+      .then((res) => setEstoqueBaixo(res.data))
+      .catch((err) => {
+        console.error("Erro ao buscar quantidade estoque baixos produtos em estoque:", err);
+        toast.error("Erro ao buscar quantidade estoque baixos produtos em estoque!");
+      });
+
+    api.get(`${ENDPOINTS.PRODUTOS_SEM_ESTOQUE}/${funcionario.userId}`, { headers: { Authorization: `Bearer ${token}` }, })
+      .then((res) => setSemEstoque(res.data))
+      .catch((err) => {
+        console.error("Erro ao buscar quantidade de produtos sem estoque:", err);
+        toast.error("Erro ao buscar quantidade de produtos sem estoque!");
+      });
 
 
-export function ResumoEstoque({
-  valorEstoque = 0,
-  lucroLiquido = 0,
-  lucroBruto = 0,
-  estoqueBaixo = 0,
-  semEstoque = 0,
-  totalEmEstoque = 0,
-}) {
+  }, [funcionario, token]);
 
   return (
     <>
@@ -42,7 +98,7 @@ export function ResumoEstoque({
               <FiHelpCircle className="icone-ajuda"
                 data-tooltip-id="tooltip"
                 data-tooltip-content="Soma do valor de venda de todos os produtos em estoque."
-                />
+              />
             </span>
             <span className="resumo-label-prod">
               Lucro Bruto
@@ -87,7 +143,7 @@ export function ResumoEstoque({
             <div className="kpi-coluna-prod">
               <span className="resumo-valor-prod">
                 <span className="bolinha-prod verde" />
-                {totalEmEstoque}
+                {quantidadeProdutosEmEstoque}
               </span>
               <span className="resumo-label-prod">Em Estoque</span>
             </div>

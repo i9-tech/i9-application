@@ -8,7 +8,6 @@ import NoDataEstoque from "../../Estoque/NoDataEstoque";
 const TabelaEstoque = ({
   isLoadingData,
   produtos,
-  filtroStatus,
   termoBusca,
   buscarProdutos,
   setorSelecionado,

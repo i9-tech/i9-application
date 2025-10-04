@@ -51,7 +51,7 @@ const TabelaEstoque = ({
           {isLoadingData ? (
             <CarregamentoEstoque colunas={9} temImagem={true} />
           ) : produtosFiltrados.length > 0 ? (
-            [...produtosFiltrados].reverse().map((produto) => (
+            [...produtosFiltrados].map((produto) => (
               <ProdutoEstoque
                 key={produto.id}
                 produto={produto}

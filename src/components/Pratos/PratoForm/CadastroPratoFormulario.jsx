@@ -26,12 +26,14 @@ const CadastroPratoFormulario = ({
   const [urlImagemTemporaria, setUrlImagemTemporaria] = useState("");
   const [categorias, setCategorias] = useState([]);
   const [setores, setSetores] = useState([]);
+  const [areas, setAreasPreparo] = useState([]);
 
   const [prato, setPrato] = useState({
     nome: "",
     venda: 0,
     setor: "",
     categoria: "",
+    area: "",
     disponivel: true,
   });
 
@@ -47,6 +49,7 @@ const CadastroPratoFormulario = ({
             : "",
         setor: pratoSelecionado.setor?.id || "",
         categoria: pratoSelecionado.categoria?.id || "",
+        area: pratoSelecionado.areaPreparo?.id || "", 
         disponivel: pratoSelecionado.disponivel ?? true,
       });
     }
@@ -84,6 +87,23 @@ const CadastroPratoFormulario = ({
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
       });
+
+    api
+      .get(`${ENDPOINTS.AREA_PREPARO}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setAreasPreparo(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar areas de preparo:", err);
+        toast.error("Erro ao buscar areas de preparo!");
+      });
+
   }, [funcionario.userId, token]);
 
   const validarCampos = () => {
@@ -100,6 +120,7 @@ const CadastroPratoFormulario = ({
       venda: "",
       setor: "",
       categoria: "",
+      area: "",
       disponivel: true,
     });
     setDescricao("");
@@ -183,6 +204,7 @@ const CadastroPratoFormulario = ({
       funcionario: { id: funcionario.userId },
       setor: { id: prato.setor },
       categoria: { id: prato.categoria },
+      areaPreparo: { id: prato.area },
     };
     setPorcentagemCarregamento(80);
     const metodo = pratoSelecionado
@@ -341,16 +363,16 @@ const CadastroPratoFormulario = ({
             </span>
           </label>
           <select
-            value={prato.setor}
+            value={prato.area}
             onChange={(e) =>
-              setPrato({ ...prato, setor: parseInt(e.target.value) })
+              setPrato({ ...prato, area: parseInt(e.target.value) })
             }
             required
           >
             <option value="">Selecione a área de preparo</option>
-            {setores.map((set) => (
-              <option key={set.id} value={set.id}>
-                {set.nome}
+            {areas.map((area) => (
+              <option key={area.id} value={area.id}>
+                {area.nome}
               </option>
             ))}
           </select>

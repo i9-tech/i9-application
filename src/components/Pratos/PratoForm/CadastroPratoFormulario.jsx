@@ -42,7 +42,7 @@ const CadastroPratoFormulario = ({
         nome: pratoSelecionado.nome || "",
         venda:
           pratoSelecionado.valorVenda !== undefined &&
-          pratoSelecionado.valorVenda !== ""
+            pratoSelecionado.valorVenda !== ""
             ? parseFloat(pratoSelecionado.valorVenda).toFixed(2)
             : "",
         setor: pratoSelecionado.setor?.id || "",
@@ -187,15 +187,15 @@ const CadastroPratoFormulario = ({
     setPorcentagemCarregamento(80);
     const metodo = pratoSelecionado
       ? api.patch(
-          `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
-          dados,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-      : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
+        `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
+        dados,
+        {
           headers: { Authorization: `Bearer ${token}` },
-        });
+        }
+      )
+      : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
     metodo
       .then(async () => {
@@ -213,8 +213,8 @@ const CadastroPratoFormulario = ({
         console.error("Erro ao salvar prato:", error.response?.data || error);
         toast.error("Erro ao salvar prato!");
         setTimeout(() => {
-            setIsSendingData(false);
-          }, 2500);
+          setIsSendingData(false);
+        }, 2500);
       });
   };
 
@@ -240,7 +240,7 @@ const CadastroPratoFormulario = ({
   return (
     <div className="formulario-prato">
       <p className="descricao-prato">
-        Preencha o formulário abaixo para adicionar um novo prato ao seu estoque!      
+        Preencha o formulário abaixo para adicionar um novo prato ao seu estoque!
       </p>
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>
@@ -285,32 +285,57 @@ const CadastroPratoFormulario = ({
           />
         </div>
 
-        <div className="grupo-inputs">
-          <label>
-            Categoria{" "}
-            <span aria-hidden="true" style={{ color: "red" }}>
-              *
-            </span>{" "}
-          </label>
-          <select
-            value={prato.categoria}
-            onChange={(e) =>
-              setPrato({ ...prato, categoria: parseInt(e.target.value) })
-            }
-            required
-          >
-            <option value="">Selecione uma Categoria</option>
-            {categorias.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.nome}
-              </option>
-            ))}
-          </select>
+        <div className="linha-dupla">
+          <div className="grupo-inputs">
+            <label>
+              Categoria{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>{" "}
+            </label>
+            <select
+              value={prato.categoria}
+              onChange={(e) =>
+                setPrato({ ...prato, categoria: parseInt(e.target.value) })
+              }
+              required
+            >
+              <option value="">Selecione uma Categoria</option>
+              {categorias.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.nome}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="grupo-inputs">
+            <label>
+              Setor{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
+            <select
+              value={prato.setor}
+              onChange={(e) =>
+                setPrato({ ...prato, setor: parseInt(e.target.value) })
+              }
+              required
+            >
+              <option value="">Selecione um Setor</option>
+              {setores.map((set) => (
+                <option key={set.id} value={set.id}>
+                  {set.nome}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="grupo-inputs">
           <label>
-            Setor{" "}
+            Área de Preparo na Cozinha{" "}
             <span aria-hidden="true" style={{ color: "red" }}>
               *
             </span>
@@ -322,7 +347,7 @@ const CadastroPratoFormulario = ({
             }
             required
           >
-            <option value="">Selecione um Setor</option>
+            <option value="">Selecione a área de preparo</option>
             {setores.map((set) => (
               <option key={set.id} value={set.id}>
                 {set.nome}
@@ -330,6 +355,7 @@ const CadastroPratoFormulario = ({
             ))}
           </select>
         </div>
+
 
         <div className="grupo-inputs">
           <label>

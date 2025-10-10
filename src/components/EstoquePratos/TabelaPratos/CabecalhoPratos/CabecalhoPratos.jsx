@@ -10,8 +10,8 @@ const CabecalhoPratos = () => {
         <th>Nome</th>
         <th>Preço</th>
         <th>Disponibilidade</th>
-        <th>Categoria</th>
         <th>Setor</th>
+        <th>Categoria</th>
         <th>Descrição</th>
         <th>Status</th>
       </tr>

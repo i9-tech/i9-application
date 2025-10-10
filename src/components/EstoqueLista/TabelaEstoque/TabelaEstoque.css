@@ -22,7 +22,13 @@
 }
 
 .linha-produto-prod td {
-  text-align: center;
+  padding: 9px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+  color: #222;
+  white-space: nowrap;
+  justify-content: space-between;
   vertical-align: middle;
-  padding: 6px;
+  text-align: center;
+  background-color: #ffffff;
 }

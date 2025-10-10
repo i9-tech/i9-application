@@ -108,11 +108,11 @@ export function Atendente() {
     const headers = { Authorization: `Bearer ${token}` };
 
     const requisicaoProdutos = api.get(
-      `${ENDPOINTS.PRODUTOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
     const requisicaoPratos = api.get(
-      `${ENDPOINTS.PRATOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
 
@@ -337,11 +337,11 @@ export function Atendente() {
     const headers = { Authorization: `Bearer ${token}` };
 
     const requisicaoProdutos = api.get(
-      `${ENDPOINTS.PRODUTOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
     const requisicaoPratos = api.get(
-      `${ENDPOINTS.PRATOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
 

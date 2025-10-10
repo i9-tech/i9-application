@@ -23,7 +23,7 @@ export function EstoquePratos() {
   const [resumo, setResumo] = useState([{}]);
 
   const [pagina, setPagina] = useState(0);
-  const [quantidadePorPagina] = useState(5);
+  const [quantidadePorPagina, setQuantidadePorPagina] = useState(5);
   const [totalPaginas, setTotalPaginas] = useState(0);
   const [ordem] = useState("asc");
 
@@ -58,7 +58,7 @@ export function EstoquePratos() {
       });
   }, [funcionario.userId, token, pagina, quantidadePorPagina, ordem, termoBusca, setorSelecionado, categoriaSelecionada, filtros.status]);
 
-  
+
   const buscarQuantidadePratos = useCallback(() => {
     api
       .get(`${ENDPOINTS.PRATOS_QUANTIDADE}/${funcionario.userId}`, {
@@ -95,7 +95,7 @@ export function EstoquePratos() {
         />
         <ResumoPratos {...resumo} />
         <TabelaPratos
-         isLoadingData={isLoadingData}
+          isLoadingData={isLoadingData}
           pratos={pratos}
           filtros={filtros}
           buscarPratos={buscarPratos}
@@ -109,7 +109,9 @@ export function EstoquePratos() {
         <Paginacao
           pagina={pagina}
           totalPaginas={totalPaginas}
-          onChange={(novaPagina) => setPagina(novaPagina)}
+          quantidadePorPagina={quantidadePorPagina}
+          onChangePagina={(novaPagina) => setPagina(novaPagina)}
+          onChangeQuantidadePorPagina={(novaQtd) => setQuantidadePorPagina(novaQtd)}
         />
       </div>
     </LayoutTela>

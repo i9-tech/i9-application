@@ -6,6 +6,9 @@
   width: 100%;
   justify-content: baseline;
   font-size: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .filtros-dropdown-prod {
@@ -18,12 +21,13 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background: var(--cor-para-o-texto-branco);
+  border: none;
+  border-radius: 5px;
   padding: 5px;
   z-index: 999;
   min-width: 180px;
+  border: 1px solid #ccc;
 }
 
 .menu-filtros-prod button {
@@ -38,55 +42,73 @@
 }
 
 .menu-filtros-prod button:hover {
-  background-color: #eee;
+  background-color: var(--detalhes-2);
+  color: var(--cor-para-o-texto-branco);
 }
 
 .top-actions-prod input.search {
   padding: 8px;
   flex: 1;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  border-radius: 5px;
+  border: none;
   font-size: 14px;
+}
+
+.top-actions-prod input.search:focus {
+  outline: none;
+  border: none;
 }
 
 .top-actions-prod select {
   padding: 8px;
-  border-radius: 6px;
+  border-radius: 5px;
   width: 200px;
-  border: 1px solid #ccc;
+  border: none;
   font-size: 14px;
 }
 
 .add-btn-prod {
-  background: #0f2fe0;
-  color: white;
+  background: var(--titulos-botoes-destaques);
+  color: var(--cor-para-o-texto-branco);
   border: none;
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
 }
 
+.add-btn-prod:hover {
+  background-color: var(--detalhes-2);
+}
+
 .filtro-prod {
-  background: white;
-  border: 1px solid #0f2fe0;
-  color: #0f2fe0;
-  padding: 8px 12px;
-  border-radius: 6px;
+  background: var(--cor-para-o-texto-branco);
+  border: 1px solid var(--titulos-botoes-destaques);
+  color: var(--titulos-botoes-destaques);
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+
+.filtro-prod:hover {
+  background-color: var(--titulos-botoes-destaques);
+  color: var(--cor-para-o-texto-branco);
   font-size: 14px;
 }
 
 .filtro-ativo-prod {
-  background-color: var(--hovers);
-  border: 1px solid #aaa;
+  background-color: var(--titulos-botoes-destaques);
+  border: none;
   padding: 8px 12px;
   cursor: pointer;
   border-radius: 20px;
-  color: white;
+  color: var(--cor-para-o-texto-branco);
   font-size: 14px;
 }
 
 .filtro-ativo-prod:hover {
-  color: #0f2fe0;
+  color: var(--cor-para-o-texto-branco);
+  background-color: var(--detalhes-2);
   font-size: 14px;
 }

@@ -1,5 +1,5 @@
 .pedidos {
-    background: #F4F4F4;
+    background: var(--cor-para-o-fundo-site);
     min-width: 461px;
     height: auto;
     border-radius: 15px;

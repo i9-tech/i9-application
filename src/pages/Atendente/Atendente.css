@@ -37,8 +37,8 @@
     display: flex;
     align-items: center;
     border-radius: 8px;
-    border: 1.5px solid var(--azul-claro);
-    background-color: white;
+    border: 1.5px solid var(--titulos-botoes-destaques);
+    background-color: var(--cor-para-o-texto-branco);
     padding: 2px;
   }
 
@@ -48,24 +48,31 @@
     padding: 10px;
     flex: 1;
     font-size: 16px;
-    color: #000000;
+    color: var(--cor-para-texto-preto);
   }
 
   .lupa-pesquisa {
-    background-color: #5179ef;
+    background-color: var(--titulos-botoes-destaques);
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    align-items: center;
+    display: flex;
     padding: 8px;
     margin-left: 8px;
     width: 40px;
     height: 40px;
   }
 
+  .lupa-pesquisa:hover {
+    background-color: var(--detalhes-2);
+  } 
+
   .lupa-pesquisa img {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
   }
+
 
   .todos-produtos {
     margin: 0rem 0rem 4rem 4rem;

@@ -1,6 +1,6 @@
 .botao-opcao {
     background-color: #BCC9F1;
-    color: var(--botao-letra);
+    color: var(--detalhes-inputs-texto);
     width: 100%;
     padding: 8px;
     font-weight: 500;
@@ -21,13 +21,13 @@
 
 
 .botao-opcao:hover {
-    background-color: var(--botao-fundo-clicado);
+    background-color: var(--detalhes-2);
     color: var(--card-branco);
     transition: all 0.3s; 
 } 
 
 .botao-opcao.selecionado {
-    background-color: var(--botao-fundo-clicado);
+    background-color: var(--detalhes-2);
     color: var(--card-branco);
     transition: all 0.3s; 
 } 

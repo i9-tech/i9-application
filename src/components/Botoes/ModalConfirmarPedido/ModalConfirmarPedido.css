@@ -11,7 +11,7 @@
   z-index: 99;
 
   .modal {
-    background-color: white;
+    background-color: var(--cor-para-o-texto-branco);
     border-radius: 8px;
     padding: 20px;
     width: 500px;
@@ -37,14 +37,14 @@
     font-size: 20px;
     cursor: pointer;
     padding: 4px 11px ;
-    border: 1px solid var(--azul-claro);
+    border: 1px solid var(--titulos-botoes-destaques);
     border-radius: 100%;
-    color: var(--azul-claro);
+    color: var(--titulos-botoes-destaques);
   }
 
   .botao-fechar:hover{
-    color: white;
-    background-color: var(--azul-escuro);
+    color: var(--cor-para-o-texto-branco);
+    background-color: var(--titulos-botoes-destaques);
 
 
   }

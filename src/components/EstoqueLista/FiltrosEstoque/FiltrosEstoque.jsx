@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import api from "../../../provider/api";
-import "./FiltrosEstoque.css"
+import "./FiltrosEstoque.css";
 import { getFuncionario } from "../../../utils/auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
+import Select from "react-select";
 
 function FiltrosEstoque({ setFiltros, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado, categoriaSelecionada, setCategoriaSelecionada }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const [filtroStatus, setFiltroStatus] = useState(null);
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
-
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();

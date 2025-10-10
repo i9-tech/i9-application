@@ -1,15 +1,18 @@
 .linha-funcionario td {
-  background-color: #e6ecf8;
+  background-color: white;
   padding: 10px;
+  color: var(--cor-para-texto-preto);
   text-align: center;
   vertical-align: middle;
-  border-bottom: 2px solid white;
+  border-bottom: none;
   cursor: pointer;
+  border-bottom: 1px solid #ddd;
 }
 
 .linha-funcionario div {
   margin: 2px 0;
 }
+
 
 .acoes {
   justify-content: center;

@@ -49,7 +49,7 @@
 
       &:hover {
         cursor: pointer;
-        background-color: var(--destaque);
+        background-color: var(--titulos-botoes-destaques);
       }
     }
   }

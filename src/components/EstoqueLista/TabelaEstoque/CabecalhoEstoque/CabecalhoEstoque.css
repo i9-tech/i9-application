@@ -1,5 +1,5 @@
 .cabecalho-estoque-prod {
-  background-color: #f9f9f9;
+  background-color: var(--cor-para-o-texto-branco);
   position: sticky;
   top: 0;
   z-index: 1;
@@ -10,8 +10,8 @@
   font-weight: 600;
   font-size: 14px;
   text-align: left;
-  color: #333;
-  border-bottom: 2px solid #ccc;
+  color: var(--cor-para-texto-preto);
+  border-bottom: none;
   /* white-space: nowrap; */
   vertical-align: middle;
   text-align: center;

@@ -6,6 +6,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import CarregamentoFormulario from "../../Carregamento/CarregamentoFormulario";
+import Select from "react-select";
+
+const tipoLoginOptions = [
+  { value: "", label: "Selecione a forma de login" },
+  { value: "CPF", label: "CPF" },
+  { value: "EMAIL", label: "E-mail" },
+  { value: "TELEFONE", label: "Telefone" },
+  { value: "MATRICULA", label: "Matrícula" }
+];
 
 const CadastroFuncionarioFormulario = ({
   funcionarioSelecionado,
@@ -361,22 +370,58 @@ const CadastroFuncionarioFormulario = ({
                 *
               </span>
             </label>
-            <select
-              id="tipoLogin"
-              value={tipoLogin}
-              onChange={(e) => {
-                const tipo = e.target.value;
-                setTipoLogin(tipo);
-                atualizarLoginAutomatico(tipo);
-              }}
-              disabled={!!funcionarioSelecionado}
-            >
-              <option value="">Selecione a forma de login</option>
-              <option value="CPF">CPF</option>
-              <option value="EMAIL">E-mail</option>
-              <option value="TELEFONE">Telefone</option>
-              <option value="MATRICULA">Matrícula</option>
-            </select>
+            <Select
+  inputId="tipoLogin"
+  value={tipoLoginOptions.find(opt => opt.value === tipoLogin)}
+  onChange={opt => {
+    setTipoLogin(opt.value);
+    atualizarLoginAutomatico(opt.value);
+  }}
+  options={tipoLoginOptions}
+  placeholder="Selecione a forma de login"
+  isSearchable={false}
+  isDisabled={!!funcionarioSelecionado}
+  styles={{
+    control: (baseStyles, state) => ({
+      ...baseStyles,
+      borderColor: state.isFocused
+        ? "var(--cor-para-o-texto-branco)"
+        : "transparent",
+       boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+      "&:hover": { borderColor: "transparent" },
+    }),
+    placeholder: (baseStyles) => ({
+      ...baseStyles,
+      color: "var(--cor-para-texto-preto)",
+    }),
+    option: (baseStyles, state) => ({
+      ...baseStyles,
+      backgroundColor: state.isSelected
+        ? "var(--titulos-botoes-destaques)"
+        : state.isFocused
+        ? "var(--detalhes-2)"
+        : "var(--cor-para-o-texto-branco)",
+      color: state.isSelected
+        ? "var(--cor-para-o-texto-branco)"
+        : "var(--cor-para-texto-preto)",
+      padding: 14,
+      cursor: "pointer",
+    }),
+    singleValue: (baseStyles) => ({
+      ...baseStyles,
+      color: "var(--cor-para-texto-preto)",
+    }),
+    menuList: (base) => ({
+      ...base,
+      overflowY: "auto",
+    }),
+    menu: (base) => ({
+      ...base,
+      borderRadius: 5,
+      marginTop: 0,
+    }),
+  }}
+/>
           </div>
           <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
             <label htmlFor="login">

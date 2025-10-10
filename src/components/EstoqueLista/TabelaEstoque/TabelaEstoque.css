@@ -14,8 +14,8 @@
 .cabecalho-estoque-prod th {
   position: sticky;
   top: 0;
-  color: white;
-  background-color: #0000cc;
+  color: var(--cor-para-o-texto-branco);
+  background-color: var(--titulos-botoes-destaques);
   z-index: 1;
   padding: 8px;
   text-align: center;

@@ -163,7 +163,7 @@
   text-decoration: underline;
 
   &:hover {
-    color: var(--destaque);
+    color: var(--titulos-botoes-destaques);
   }
 }
 

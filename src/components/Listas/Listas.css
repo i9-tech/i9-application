@@ -1,7 +1,7 @@
 :root {
-    --texto-preto: #040B28;
-    --hovers: #0E2361;
-    --destaque: #0F14B8;
+    --cor-para-texto-preto: #040B28;
+    --botoes-hover-destaques: #0E2361;
+    --titulos-botoes-destaques: #0F14B8;
     --background: #FAFAFA;
     --background-white: #FBFEFF;
 }
@@ -54,7 +54,7 @@ section.secao4 {
 
                     &:hover {
                         cursor: pointer;
-                        background-color: var(--hovers);
+                        background-color: var(--botoes-hover-destaques);
                     }
                 }
 

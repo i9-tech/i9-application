@@ -15,7 +15,7 @@
 .label-foto {
   font-size: 14px;
   font-weight: 600;
-  color: #222;
+  color: var(--cor-para-texto-preto);
   text-align: left;
   align-self: flex-start;
 }
@@ -25,9 +25,10 @@
   height: 450px;
   max-height: 250px;
   object-fit: contain;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: none;
+  border-radius: 5px;
   background-color: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .input-escondido {
@@ -47,7 +48,7 @@
   text-decoration: underline;
 
   &:hover {
-    color: var(--destaque)
+    color: var(--titulos-botoes-destaques)
   }
 }
 
@@ -58,16 +59,18 @@
   label {
     font-size: 14px;
     font-weight: 600;
-    color: #222;
+    color: var(--cor-para-texto-preto);
     margin-bottom: 6px;
   }
 
   textarea {
     padding: 12px;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 6px;
     font-size: 15px;
-    background-color: #f9f9f9;
+    background-color: white;
     resize: vertical;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+
   }
 }

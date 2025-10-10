@@ -15,7 +15,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #000DDB;
+        background-color: var(--titulos-botoes-destaques);
         opacity: 0;
         transition: all 0.2s;
         border-radius: 20px;

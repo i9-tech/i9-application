@@ -1,5 +1,5 @@
 .card-total {
-    background-color: white;
+    background-color: var(--cor-para-o-texto-branco);
     width: 120px;
     height: 120px;
     display: flex;
@@ -18,9 +18,14 @@
     font-size: 16px;
 }
 
+.card-total span {
+    font-weight: bold;
+}
+
 .card-total small {
     border: none;
     outline: none;
+    font-weight: normal;
     display: flex;
     justify-content: center;
 }
@@ -31,7 +36,7 @@
 }
 
 .card-total:hover {
-    background-color: var(--azul-escuro);
-    color: var(--card-branco);
+    background-color: var(--titulos-botoes-destaques);
+    color: var(--cor-para-o-texto-branco);
 }
 

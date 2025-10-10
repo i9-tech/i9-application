@@ -1,7 +1,11 @@
 .cabecalho-funcionarios {
-    border: 1px solid black;
+    border: none;
     border-radius: 10px;
     font-weight: bold;
+    color: var(--cor-para-o-texto-branco);
+    background-color: var(--titulos-botoes-destaques);
+    
+
 }
 
 .cabecalho-funcionarios th {

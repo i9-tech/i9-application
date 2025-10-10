@@ -1,10 +1,33 @@
 .paginacao {
   display: flex;
-  justify-content: center;
+  justify-content: center; 
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;     
+  position: relative;
+  flex-wrap: wrap;
   padding: 4px 0;
+  gap: 8px;
+}
+
+.select-por-pagina {
+  position: absolute;
+  right: 0;             
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.select-por-pagina label {
+  font-size: 14px;
+  color: #333;
+}
+
+.select-por-pagina select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background: #fff;
+  cursor: pointer;
 }
 
 .btn-nav,
@@ -16,7 +39,7 @@
   font-size: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
-  flex-shrink: 0;     
+  flex-shrink: 0;
 }
 
 .btn-page.ativo {

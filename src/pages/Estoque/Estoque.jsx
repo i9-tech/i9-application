@@ -25,7 +25,7 @@ export function Estoque() {
   const [isLoadingData, setIsLoadingData] = useState(true);
 
   const [pagina, setPagina] = useState(0);
-  const [quantidadePorPagina] = useState(5);
+  const [quantidadePorPagina, setQuantidadePorPagina] = useState(5);
   const [totalPaginas, setTotalPaginas] = useState(0);
   const [ordem] = useState("asc");
 
@@ -110,8 +110,10 @@ export function Estoque() {
           <Paginacao
             pagina={pagina}
             totalPaginas={totalPaginas}
-            onChange={(novaPagina) => setPagina(novaPagina)}
-          />
+            quantidadePorPagina={quantidadePorPagina}
+            onChangePagina={(novaPagina) => setPagina(novaPagina)}
+            onChangeQuantidadePorPagina={(novaQtd) => setQuantidadePorPagina(novaQtd)}
+        />
         </div>
       </LayoutTela>
     </>

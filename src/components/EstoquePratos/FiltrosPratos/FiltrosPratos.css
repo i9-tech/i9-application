@@ -14,7 +14,7 @@
 .filtros-dropdown {
   position: relative;
   display: inline-block;
-  font-size: 14px;
+  font-size: 14px;    
 }
 
 .menu-filtros {
@@ -22,12 +22,12 @@
   top: 100%;
   left: 0;
   background: var(--cor-para-o-texto-branco);
-  border: none;
   border-radius: 5px;
   padding: 5px;
   z-index: 999;
   min-width: 180px;
   font-size: 14px;
+  border: 1px solid #ccc;
 }
 
 .menu-filtros button {

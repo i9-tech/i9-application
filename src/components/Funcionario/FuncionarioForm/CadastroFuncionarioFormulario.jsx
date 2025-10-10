@@ -387,7 +387,7 @@ const CadastroFuncionarioFormulario = ({
       borderColor: state.isFocused
         ? "var(--cor-para-o-texto-branco)"
         : "transparent",
-      boxShadow: "none",
+       boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
       "&:hover": { borderColor: "transparent" },
     }),
     placeholder: (baseStyles) => ({

@@ -37,6 +37,7 @@
         font-size: 15px;
         box-sizing: border-box;
         width: 100%;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
       }
   
       textarea {
@@ -83,6 +84,8 @@
         font-size: 15px;
         width: 100%;
         box-sizing: border-box;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+
       }
   
       input[type="date"] {

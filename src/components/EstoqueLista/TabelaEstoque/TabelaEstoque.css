@@ -2,7 +2,7 @@
   max-height: 72%;
   border-radius: 8px;
   overflow-y: auto;
-  border: none;
+  border: 1px solid #ccc;
 }
 
 .tabela-estoque-prod {

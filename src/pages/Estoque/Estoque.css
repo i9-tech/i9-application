@@ -5,5 +5,5 @@
   flex-direction: column;
   height: 100%;
   box-sizing: border-box;
-  background-color: var(--cor-para-o-fundo-site);
+  background-color: var(--cor-para-o-fundo-sistema) !important;
 }

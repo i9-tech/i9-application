@@ -42,7 +42,7 @@ const CadastroPratoFormulario = ({
         nome: pratoSelecionado.nome || "",
         venda:
           pratoSelecionado.valorVenda !== undefined &&
-          pratoSelecionado.valorVenda !== ""
+            pratoSelecionado.valorVenda !== ""
             ? parseFloat(pratoSelecionado.valorVenda).toFixed(2)
             : "",
         setor: pratoSelecionado.setor?.id || "",
@@ -187,15 +187,15 @@ const CadastroPratoFormulario = ({
     setPorcentagemCarregamento(80);
     const metodo = pratoSelecionado
       ? api.patch(
-          `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
-          dados,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-      : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
+        `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
+        dados,
+        {
           headers: { Authorization: `Bearer ${token}` },
-        });
+        }
+      )
+      : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
     metodo
       .then(async () => {
@@ -317,7 +317,7 @@ const CadastroPratoFormulario = ({
                 borderColor: state.isFocused
                   ? "var(--cor-para-o-texto-branco)"
                   : "transparent",
-                boxShadow: "none",
+                boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
                 "&:hover": { borderColor: "transparent" },
               }),
               placeholder: (baseStyles) => ({
@@ -329,8 +329,8 @@ const CadastroPratoFormulario = ({
                 backgroundColor: state.isSelected
                   ? "var(--titulos-botoes-destaques)"
                   : state.isFocused
-                  ? "var(--detalhes-2)"
-                  : "var(--cor-para-o-texto-branco)",
+                    ? "var(--cinza-hover-select)"
+                    : "var(--cor-para-o-texto-branco)",
                 color: state.isSelected
                   ? "var(--cor-para-o-texto-branco)"
                   : "var(--cor-para-texto-preto)",
@@ -374,8 +374,8 @@ const CadastroPratoFormulario = ({
                 borderColor: state.isFocused
                   ? "var(--cor-para-o-texto-branco)"
                   : "transparent",
-                boxShadow: "none",
-                "&:hover": { borderColor: "transparent" },
+                boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+                "&:hover": { borderColor: "transparent"},
               }),
               placeholder: (baseStyles) => ({
                 ...baseStyles,
@@ -386,8 +386,8 @@ const CadastroPratoFormulario = ({
                 backgroundColor: state.isSelected
                   ? "var(--titulos-botoes-destaques)"
                   : state.isFocused
-                  ? "var(--detalhes-2)"
-                  : "var(--cor-para-o-texto-branco)",
+                    ? "var(--cinza-hover-select)"
+                    : "var(--cor-para-o-texto-branco)",
                 color: state.isSelected
                   ? "var(--cor-para-o-texto-branco)"
                   : "var(--cor-para-texto-preto)",
@@ -448,11 +448,11 @@ const CadastroPratoFormulario = ({
         </div>
 
         <div className="botoes-prato">
-          <button type="button" onClick={limparFormulario}>
-            Cancelar
-          </button>
           <button type="submit">
             {pratoSelecionado ? "Editar" : "Cadastrar"}
+          </button>
+          <button type="button" onClick={limparFormulario}>
+            Cancelar
           </button>
         </div>
       </form>

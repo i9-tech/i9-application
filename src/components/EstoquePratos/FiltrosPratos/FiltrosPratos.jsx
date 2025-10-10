@@ -145,7 +145,7 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
               backgroundColor: state.isSelected
                 ? "var(--titulos-botoes-destaques)" // cor do item selecionado
                 : state.isFocused
-                ? "var(--detalhes-2)" // cor do hover
+                ? "var(--cinza-hover-select)" // cor do hover
                 : "var(--cor-para-o-texto-branco)", // cor padrão
               color: state.isSelected
                 ? "var(--cor-para-o-texto-branco)"
@@ -194,7 +194,7 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
               backgroundColor: state.isSelected
                 ? "var(--titulos-botoes-destaques)" // cor do item selecionado
                 : state.isFocused
-                ? "var(--detalhes-2)" // cor do hover
+                ? "var(--cinza-hover-select)" // cor do hover
                 : "var(--cor-para-o-texto-branco)", // cor padrão
               color: state.isSelected
                 ? "var(--cor-para-o-texto-branco)"

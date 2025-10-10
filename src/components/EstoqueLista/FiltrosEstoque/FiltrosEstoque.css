@@ -27,6 +27,7 @@
   padding: 5px;
   z-index: 999;
   min-width: 180px;
+  border: 1px solid #ccc;
 }
 
 .menu-filtros-prod button {

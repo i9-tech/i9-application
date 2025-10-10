@@ -167,8 +167,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: var(--titulos-botoes-destaques);
-            opacity: 0.8;
+            background-color: var(--botoes-hover-destaques);
           }
         }
 

@@ -38,6 +38,7 @@ function TabelaFuncionarios({
         <span className="info-sc-card__icon">🔍</span>
       </div>
 
+<div className="tabela-completa">
       <table>
         <CabecalhoFuncionarios />
       </table>
@@ -62,6 +63,7 @@ function TabelaFuncionarios({
             )}
           </tbody>
         </table>
+      </div>
       </div>
 
       <ResumoFuncionario funcionario={funcionarioSelecionado} />

@@ -33,6 +33,8 @@
       height: auto;
       background: var(--cor-para-o-texto-branco);
       border-radius: 2%;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+
 
       .cabecalho-comanda {
         /* background-color: springgreen; */

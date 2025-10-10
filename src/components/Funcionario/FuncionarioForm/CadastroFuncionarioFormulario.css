@@ -39,6 +39,7 @@
         border-radius: 6px;
         font-size: 16px;
         background-color: white;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
       }
 
       select:disabled,
@@ -139,13 +140,11 @@
 
     .btn-cancelar-funcionario {
       background: none;
-      border: 1px solid var(--titulos-botoes-destaques);
-      color: var(--titulos-botoes-destaques);
+      border: 1px solid var(--cor-para-texto-preto);
+      color: var(--cor-para-texto-preto);
 
       &:hover {
-        background-color: var(--detalhes-2);
-        border: 1px solid var(--detalhes-2);
-        color: var(--cor-para-o-texto-branco);
+        background-color: var(--cinza-hover-select);
       }
     }
 

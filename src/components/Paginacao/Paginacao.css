@@ -49,7 +49,7 @@
 }
 
 .btn-page.ativo:hover {
-  background: var(--botao-fundo-clicado);
+  background: var(--botoes-hover-destaques);
 }
 
 .btn-page:hover,

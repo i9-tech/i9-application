@@ -39,6 +39,7 @@
   font-size: 15px;
   box-sizing: border-box;
   width: 100%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .formulario-prato .grupo-inputs textarea {
@@ -103,25 +104,23 @@
   transition: all 0.3s ease;
 }
 
-.formulario-prato .botoes-prato button:first-child {
-  background-color: none;
-  border: 1px solid var(--titulos-botoes-destaques);
-  color: var(--titulos-botoes-destaques);
-}
-
-.formulario-prato .botoes-prato button:first-child:hover {
-  background-color: var(--detalhes-2);
-        border: 1px solid var(--detalhes-2);
-        color: var(--cor-para-o-texto-branco);  
-}
-
 .formulario-prato .botoes-prato button:last-child {
-  background-color: );
+  background-color: none;
+  border: 1px solid var(--cor-para-texto-preto);
+  color: var(--cor-para-texto-preto);
+}
+
+.formulario-prato .botoes-prato button:last-child:hover {
+  background-color: var(--cinza-hover-select);
+}
+
+.formulario-prato .botoes-prato button:first-child {
+  background-color: var(--titulos-botoes-destaques);
   border: none;
   color: var(--cor-para-o-texto-branco);
 }
 
-.formulario-prato .botoes-prato button:last-child:hover {
+.formulario-prato .botoes-prato button:first-child:hover {
   background-color: var(--detalhes-2);
 }
 

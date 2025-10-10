@@ -48,12 +48,12 @@ const CadastroProdutoFormulario = ({
         quantidade: produtoSelecionado.quantidade || "",
         valorCompra:
           produtoSelecionado.valorCompra !== undefined &&
-          produtoSelecionado.valorCompra !== ""
+            produtoSelecionado.valorCompra !== ""
             ? Number(produtoSelecionado.valorCompra).toFixed(2)
             : "",
         valorUnitario:
           produtoSelecionado.valorUnitario !== undefined &&
-          produtoSelecionado.valorUnitario !== ""
+            produtoSelecionado.valorUnitario !== ""
             ? Number(produtoSelecionado.valorUnitario).toFixed(2)
             : "",
         quantidadeMin: produtoSelecionado.quantidadeMin || "",
@@ -229,15 +229,15 @@ const CadastroProdutoFormulario = ({
       setPorcentagemCarregamento(80);
       const metodo = produtoSelecionado
         ? api.patch(
-            `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`,
-            dados,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          )
-        : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {
+          `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`,
+          dados,
+          {
             headers: { Authorization: `Bearer ${token}` },
-          });
+          }
+        )
+        : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
       metodo
         .then(async () => {
           setPorcentagemCarregamento(90);
@@ -422,7 +422,7 @@ const CadastroProdutoFormulario = ({
                   borderColor: state.isFocused
                     ? "var(--cor-para-o-texto-branco)"
                     : "transparent",
-                  boxShadow: "none",
+                boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
                   "&:hover": { borderColor: "transparent" },
                 }),
                 placeholder: (baseStyles) => ({
@@ -434,8 +434,8 @@ const CadastroProdutoFormulario = ({
                   backgroundColor: state.isSelected
                     ? "var(--titulos-botoes-destaques)"
                     : state.isFocused
-                    ? "var(--detalhes-2)"
-                    : "var(--cor-para-o-texto-branco)",
+                      ? "var(--cinza-hover-select)"
+                      : "var(--cor-para-o-texto-branco)",
                   color: state.isSelected
                     ? "var(--cor-para-o-texto-branco)"
                     : "var(--cor-para-texto-preto)",
@@ -483,7 +483,7 @@ const CadastroProdutoFormulario = ({
                   borderColor: state.isFocused
                     ? "var(--cor-para-o-texto-branco)"
                     : "transparent",
-                  boxShadow: "none",
+                boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
                   "&:hover": { borderColor: "transparent" },
                 }),
                 placeholder: (baseStyles) => ({
@@ -495,8 +495,8 @@ const CadastroProdutoFormulario = ({
                   backgroundColor: state.isSelected
                     ? "var(--titulos-botoes-destaques)"
                     : state.isFocused
-                    ? "var(--detalhes-2)"
-                    : "var(--cor-para-o-texto-branco)",
+                      ? "var(--cinza-hover-select)"
+                      : "var(--cor-para-o-texto-branco)",
                   color: state.isSelected
                     ? "var(--cor-para-o-texto-branco)"
                     : "var(--cor-para-texto-preto)",
@@ -605,6 +605,9 @@ const CadastroProdutoFormulario = ({
         </div>
 
         <div className="botoes-produto">
+          <button type="submit" className="btn-cadastrar-produto">
+            {produtoSelecionado ? "Editar" : "Cadastrar"}
+          </button>
           <button
             type="button"
             className="btn-cancelar-produto"
@@ -612,9 +615,7 @@ const CadastroProdutoFormulario = ({
           >
             Cancelar
           </button>
-          <button type="submit" className="btn-cadastrar-produto">
-            {produtoSelecionado ? "Editar" : "Cadastrar"}
-          </button>
+
         </div>
       </form>
 

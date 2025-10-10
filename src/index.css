@@ -15,20 +15,22 @@
   --texto: #1E1E1E;
   --bg-dark: #1A1A1A;
   --card-branco: #FAFAFA;
-  --azul-escuro: #000DDB;
+  --azul-escuro: #0b1386;
   --azul-claro: #5179EF;
   --azul-claro-second: #A5b4fC;
   --color-font: #ffffff;
 
   --cor-para-o-fundo-site: #E9EFF4;
-  --cor-para-o-fundo-sistema: #f4f4f4;
+  --cor-para-o-fundo-sistema: #F5F5F5;
   --cor-para-o-texto-branco: #FBFEFF;
   --carregamento: #d5d5d5;
   --detalhes-1: #BCC9F1;
-  --detalhes-2: #83A1FF;
+  --detalhes-2: #0f15b8d8;
+  --cinza-hover-select: #f0f0f0;
   --cor-para-texto-preto: #040B28;
   --titulos-botoes-destaques: #0F14B8;
-  --botoes-hover-destaques: #0E2361;
+  --botoes-hover-destaques: #0f15b8c2;
+  --footer: #0E2361;
   --detalhes-inputs-texto: #3E43C6;
   --mensagem-correta: #277750;
   --mensagem-errada: #A92626;

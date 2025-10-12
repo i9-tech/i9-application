@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./CadastroSetoresCategorias.css";
 import InfoCardSCCard from "../../components/SetorCategoria/InfoCardSC/InfoCardSC";
 import DadosTabela from "../../components/SetorCategoria/DadosTabela/DadosTabela";
-import FloatingAddButton from "../../components/SetorCategoria/FloatingAddButton/FloatingAddButton";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import Modal from "../../components/SetorCategoria/ModalSC/Modal";
 import { ENDPOINTS } from "../../utils/endpoints";
@@ -275,6 +274,16 @@ const CadastroSetoresCategorias = () => {
             {categoriasFiltradasComContagem.length !== 1 ? "s" : ""}
           </>
         }
+        // adicionalUm={
+        //   <div className="main-actions">
+        //     <button className="add-btn" onClick={handleCadastrarSetor} style={{ color: "#fff", fontWeight: "bold" }}>
+        //       + Cadastrar Setor
+        //     </button>
+        //     <button className="add-btn" onClick={handleCadastrarCategoria} style={{ color: "#fff", fontWeight: "bold" }}>
+        //       + Cadastrar Categoria
+        //     </button>
+        //   </div>
+        // }
       >
         <div className="pagina-container">
           <div className="cadastro-container">
@@ -283,6 +292,11 @@ const CadastroSetoresCategorias = () => {
               description="Visualize, edite e organize os setores cadastrados."
               placeholder="Procurar Setor"
               onSearch={handleBuscaSetor}
+              action={
+                <button className="add-btn" onClick={handleCadastrarSetor} style={{ color: "#fff", fontWeight: "bold" }}>
+                 + Novo Setor
+                </button>
+              }
             >
               <DadosTabela
                 isLoadingData={isLoadingData}
@@ -298,6 +312,11 @@ const CadastroSetoresCategorias = () => {
               description="Visualize, edite e organize as categorias cadastradas."
               placeholder="Procurar Categoria"
               onSearch={handleBuscaCategoria}
+              action={
+                <button className="add-btn" onClick={handleCadastrarCategoria} style={{ color: "#fff", fontWeight: "bold" }}>
+                 + Nova Categoria
+                </button>
+              }
             >
               <DadosTabela
                 isLoadingData={isLoadingData}
@@ -308,11 +327,6 @@ const CadastroSetoresCategorias = () => {
               />
             </InfoCardSCCard>
           </div>
-
-          <FloatingAddButton
-            onSetor={handleCadastrarSetor}
-            onCategoria={handleCadastrarCategoria}
-          />
 
           <Modal
             isOpen={modalAberto}

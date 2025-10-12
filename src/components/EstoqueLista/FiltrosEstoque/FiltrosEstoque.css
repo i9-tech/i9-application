@@ -24,10 +24,9 @@
   background: var(--cor-para-o-texto-branco);
   border: none;
   border-radius: 5px;
-  padding: 5px;
+  padding: 8px 16px;
   z-index: 999;
-  min-width: 180px;
-  border: 1px solid #ccc;
+  min-width: 150px;
 }
 
 .menu-filtros-prod button {
@@ -35,7 +34,7 @@
   background: none;
   border: none;
   text-align: left;
-  padding: 5px 10px;
+  padding: 8px 16px;
   width: 100%;
   cursor: pointer;
   font-size: 14px;
@@ -47,11 +46,11 @@
 }
 
 .top-actions-prod input.search {
-  padding: 8px;
+  padding: 10px;
   flex: 1;
   border-radius: 5px;
   border: none;
-  font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .top-actions-prod input.search:focus {
@@ -59,12 +58,18 @@
   border: none;
 }
 
+  .top-actions-prod input.search::placeholder {
+    font-size: 14px;
+    color: #9ca3af;
+  }
+
 .top-actions-prod select {
-  padding: 8px;
+  padding: 8px 16px;
   border-radius: 5px;
   width: 200px;
   border: none;
   font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .add-btn-prod {
@@ -75,6 +80,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .add-btn-prod:hover {
@@ -83,11 +89,12 @@
 
 .filtro-prod {
   background: var(--cor-para-o-texto-branco);
-  border: 1px solid var(--titulos-botoes-destaques);
   color: var(--titulos-botoes-destaques);
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 5px;
   font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -100,7 +107,7 @@
 .filtro-ativo-prod {
   background-color: var(--titulos-botoes-destaques);
   border: none;
-  padding: 8px 12px;
+  padding: 8px 16px;
   cursor: pointer;
   border-radius: 20px;
   color: var(--cor-para-o-texto-branco);

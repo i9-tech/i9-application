@@ -7,8 +7,8 @@
     background-color: #ffffff;
     border-radius: 8px;
     padding-right: 20px;
-    border: 1.5px solid var(--cor-secundaria);
-    border-left: 20px solid var(--cor-secundaria);
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.15);
+    border-left: 20px solid var(--titulos-botoes-destaques);
     cursor: pointer;
     overflow: hidden;
     box-sizing: border-box;
@@ -55,7 +55,7 @@
 }
 
 .btn-diminuir, .btn-aumentar {
-    background-color: var(--cor-secundaria);
+    background-color: var(--titulos-botoes-destaques);
     color: white;
     border: none;
     padding: 10px;

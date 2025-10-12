@@ -236,29 +236,22 @@
 }
 
 .botao-historico {
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--titulos-botoes-destaques);
-  border-radius: 8px;
-  background-color: var(--cor-para-o-texto-branco);
-  color: var(--titulos-botoes-destaques);
-  font-size: 16px;
-  font-weight: 400;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid var(--titulos-botoes-destaques);
-  height: 42px;
-}
-
-.botao-historico.ativo {
-  background-color: var(--titulos-botoes-destaques);
+  background: var(--titulos-botoes-destaques);
   color: var(--cor-para-o-texto-branco);
+  border: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .botao-historico:hover {
+  background-color: var(--detalhes-2);
+}
+
+
+.botao-historico.ativo {
   background-color: var(--titulos-botoes-destaques);
   color: var(--cor-para-o-texto-branco);
 }

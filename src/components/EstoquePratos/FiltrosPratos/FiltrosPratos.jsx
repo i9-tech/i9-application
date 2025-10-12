@@ -6,9 +6,17 @@ import { ENDPOINTS } from "../../../utils/endpoints";
 import { getFuncionario } from "../../../utils/auth";
 import { toast } from "react-toastify";
 import Select from "react-select";
+import ModalArea from "../../CadastroArea/ModalArea";
 
-
-function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado, categoriaSelecionada, setCategoriaSelecionada }) {
+function FiltrosPratos({
+  setFiltros,
+  termoBusca,
+  setTermoBusca,
+  setorSelecionado,
+  setSetorSelecionado,
+  categoriaSelecionada,
+  setCategoriaSelecionada,
+}) {
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
   const [filtroStatus, setFiltroStatus] = useState(null);
@@ -17,7 +25,6 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
 
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
-
 
   const atualizarFiltros = () => {
     setFiltros({
@@ -32,18 +39,18 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
     setMenuAberto(false);
   };
 
-
   const limparFiltroStatus = () => {
     setFiltroStatus(null);
     atualizarFiltros();
-  }
+  };
 
   useEffect(() => {
-    api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api
+      .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           setSetores(res.data);
@@ -54,11 +61,12 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
         toast.error("Erro ao buscar setores!");
       });
 
-    api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    api
+      .get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           setCategorias(res.data);
@@ -78,7 +86,7 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
     });
   }, [filtroStatus, categoriaSelecionada, setorSelecionado, setFiltros]);
 
-    const optionsSetores = [
+  const optionsSetores = [
     { value: "", label: "Todos Setores" },
     ...setores.map((set) => ({
       value: set.id,
@@ -94,10 +102,40 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
     })),
   ];
 
+  const optionsAreas = [
+    { value: "", label: "Todas Áreas" },
+    ...setores.map((set) => ({
+      value: set.id,
+      label: set.nome,
+    })),
+  ];
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [dadosArea, setDadosArea] = useState([]);
+    const [loading, setLoading] = useState(false);
+  
+    const handleSalvar = (novaArea) => {
+      // só coloquei para conseguir abrir
+      setDadosArea([...dadosArea, { ...novaArea, pratos: 3, produtos: 5 }]);
+    };
+  
+    const handleEditar = (item) => {
+      alert(`Editar: ${item.nome}`);
+    };
+  
+    const handleExcluir = (item) => {
+      alert(`Excluir: ${item.nome}`);
+    };
+
   return (
     <div className="top-actions">
-      <input type="text" placeholder="Procurar Prato" className="search" value={termoBusca}
-        onChange={(e) => setTermoBusca(e.target.value)} />
+      <input
+        type="text"
+        placeholder="Procurar Prato"
+        className="search"
+        value={termoBusca}
+        onChange={(e) => setTermoBusca(e.target.value)}
+      />
 
       <div className="filtros-dropdown">
         <button className="filtro" onClick={() => setMenuAberto(!menuAberto)}>
@@ -106,8 +144,12 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
 
         {menuAberto && (
           <div className="menu-filtros">
-            <button onClick={() => aplicarFiltro("disponível")}>✅ Disponíveis</button>
-            <button onClick={() => aplicarFiltro("indisponível")}>🚫 Indisponíveis</button>
+            <button onClick={() => aplicarFiltro("disponível")}>
+              ✅ Disponíveis
+            </button>
+            <button onClick={() => aplicarFiltro("indisponível")}>
+              🚫 Indisponíveis
+            </button>
           </div>
         )}
       </div>
@@ -120,110 +162,159 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
       )}
 
       <Select
-          value={optionsSetores.find((opt) => opt.value === setorSelecionado)}
-          onChange={(opt) => setSetorSelecionado(opt.value)}
-          options={optionsSetores}
-          placeholder="Todos Setores"
-          isSearchable={false}
-          styles={{
-            control: (baseStyles, state) => ({
-              ...baseStyles,
-              minWidth: 200,
-              maxWidth: 250,
-              borderColor: state.isFocused
-                ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
-                : "transparent",
-              boxShadow: "none",
-              "&:hover": { borderColor: "transparent" }, // cor do hover
-            }),
-            placeholder: (baseStyles) => ({
-              ...baseStyles,
-              color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
-            }),
-            option: (baseStyles, state) => ({
-              ...baseStyles,
-              backgroundColor: state.isSelected
-                ? "var(--titulos-botoes-destaques)" // cor do item selecionado
-                : state.isFocused
-                ? "var(--cinza-hover-select)" // cor do hover
-                : "var(--cor-para-o-texto-branco)", // cor padrão
-              color: state.isSelected
-                ? "var(--cor-para-o-texto-branco)"
-                : "var(--cor-para-texto-preto)", // cor do texto
-              padding: 14,
-              cursor: "pointer",
-            }),
-            singleValue: (baseStyles) => ({
-              ...baseStyles,
-              color: "var(--cor-para-texto-preto)", // cor do texto selecionado
-            }),
-            menuList: (base) => ({
-              ...base,
-              maxHeight: 200,
-              overflowY: "auto",
-            }),
-            menu: (base) => ({
-              ...base,
-              borderRadius: 5,
-              marginTop: 0,
-            }),
-          }}
-        />
+        value={optionsSetores.find((opt) => opt.value === setorSelecionado)}
+        onChange={(opt) => setSetorSelecionado(opt.value)}
+        options={optionsSetores}
+        placeholder="Todos Setores"
+        isSearchable={false}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            minWidth: 200,
+            maxWidth: 250,
+            borderColor: state.isFocused
+              ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
+              : "transparent",
+            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+            "&:hover": { borderColor: "transparent" }, // cor do hover
+          }),
+          placeholder: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
+          }),
+          option: (baseStyles, state) => ({
+            ...baseStyles,
+            backgroundColor: state.isSelected
+              ? "var(--titulos-botoes-destaques)" // cor do item selecionado
+              : state.isFocused
+              ? "var(--cinza-hover-select)" // cor do hover
+              : "var(--cor-para-o-texto-branco)", // cor padrão
+            color: state.isSelected
+              ? "var(--cor-para-o-texto-branco)"
+              : "var(--cor-para-texto-preto)", // cor do texto
+            padding: "8px 16px",
+            cursor: "pointer",
+          }),
+          singleValue: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)", // cor do texto selecionado
+          }),
+          menuList: (base) => ({
+            ...base,
+            maxHeight: 200,
+            overflowY: "auto",
+          }),
+          menu: (base) => ({
+            ...base,
+            borderRadius: 5,
+            marginTop: 0,
+          }),
+        }}
+      />
 
-        <Select
-          value={optionsCategorias.find(
-            (opt) => opt.value === categoriaSelecionada
-          )}
-          onChange={(opt) => setCategoriaSelecionada(opt.value)}
-          options={optionsCategorias}
-          placeholder="Todas Categorias"
-          isSearchable={false}
-          styles={{
-            control: (baseStyles, state) => ({
-              ...baseStyles,
-              minWidth: 200,
-              maxWidth: 250,
-              borderColor: state.isFocused
-                ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
-                : "transparent",
-              boxShadow: "none",
-              "&:hover": { borderColor: "transparent" }, // cor do hover
-            }),
-            option: (baseStyles, state) => ({
-              ...baseStyles,
-              backgroundColor: state.isSelected
-                ? "var(--titulos-botoes-destaques)" // cor do item selecionado
-                : state.isFocused
-                ? "var(--cinza-hover-select)" // cor do hover
-                : "var(--cor-para-o-texto-branco)", // cor padrão
-              color: state.isSelected
-                ? "var(--cor-para-o-texto-branco)"
-                : "var(--cor-para-texto-preto)", // cor do texto
-              padding: 14,
-              cursor: "pointer",
-            }),
-            placeholder: (baseStyles) => ({
-              ...baseStyles,
-              color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
-            }),
-            singleValue: (baseStyles) => ({
-              ...baseStyles,
-              color: "var(--cor-para-texto-preto)", // cor do texto selecionado
-            }),
-            menuList: (base) => ({
-              ...base,
-              maxHeight: 200,
-              overflowY: "auto",
-            }),
-            menu: (base) => ({
-              ...base,
-              borderRadius: 5,
-              marginTop: 0,
-            }),
-          }}
-        />
+      <Select
+        value={optionsCategorias.find(
+          (opt) => opt.value === categoriaSelecionada
+        )}
+        onChange={(opt) => setCategoriaSelecionada(opt.value)}
+        options={optionsCategorias}
+        placeholder="Todas Categorias"
+        isSearchable={false}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            minWidth: 200,
+            maxWidth: 250,
+            borderColor: state.isFocused
+              ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
+              : "transparent",
+            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+            "&:hover": { borderColor: "transparent" }, // cor do hover
+          }),
+          option: (baseStyles, state) => ({
+            ...baseStyles,
+            backgroundColor: state.isSelected
+              ? "var(--titulos-botoes-destaques)" // cor do item selecionado
+              : state.isFocused
+              ? "var(--cinza-hover-select)" // cor do hover
+              : "var(--cor-para-o-texto-branco)", // cor padrão
+            color: state.isSelected
+              ? "var(--cor-para-o-texto-branco)"
+              : "var(--cor-para-texto-preto)", // cor do texto
+            padding: "8px 16px",
+            cursor: "pointer",
+          }),
+          placeholder: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
+          }),
+          singleValue: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)", // cor do texto selecionado
+          }),
+          menuList: (base) => ({
+            ...base,
+            maxHeight: 200,
+            overflowY: "auto",
+          }),
+          menu: (base) => ({
+            ...base,
+            borderRadius: 5,
+            marginTop: 0,
+          }),
+        }}
+      />
 
-
+      <Select
+        value={optionsAreas.find((opt) => opt.value === setorSelecionado)}
+        onChange={(opt) => setAreaSelecionada(opt.value)}
+        options={optionsAreas}
+        placeholder="Todas Áreas"
+        isSearchable={false}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            minWidth: 200,
+            maxWidth: 250,
+            borderColor: state.isFocused
+              ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
+              : "transparent",
+            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+            "&:hover": { borderColor: "transparent" }, // cor do hover
+          }),
+          placeholder: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
+          }),
+          option: (baseStyles, state) => ({
+            ...baseStyles,
+            backgroundColor: state.isSelected
+              ? "var(--titulos-botoes-destaques)" // cor do item selecionado
+              : state.isFocused
+              ? "var(--cinza-hover-select)" // cor do hover
+              : "var(--cor-para-o-texto-branco)", // cor padrão
+            color: state.isSelected
+              ? "var(--cor-para-o-texto-branco)"
+              : "var(--cor-para-texto-preto)", // cor do texto
+            padding: "8px 16px",
+            cursor: "pointer",
+          }),
+          singleValue: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)", // cor do texto selecionado
+          }),
+          menuList: (base) => ({
+            ...base,
+            maxHeight: 200,
+            overflowY: "auto",
+          }),
+          menu: (base) => ({
+            ...base,
+            borderRadius: 5,
+            marginTop: 0,
+          }),
+        }}
+      />
 
       <button
         className="add-btn"
@@ -232,6 +323,24 @@ function FiltrosPratos({ setFiltros, termoBusca, setTermoBusca, setorSelecionado
       >
         + Adicionar Prato
       </button>
+
+      <button
+        className="add-btn"
+        onClick={() => setModalOpen(true)}
+        style={{ color: "#fff", fontWeight: "bold" }}
+      >
+        + Adicionar Área
+      </button>
+
+      <ModalArea
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        dados={dadosArea}
+        onSalvar={handleSalvar}
+        aoEditar={handleEditar}
+        aoExcluir={handleExcluir}
+        isLoadingData={loading}
+      />
     </div>
   );
 }

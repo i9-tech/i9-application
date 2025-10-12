@@ -21,7 +21,7 @@
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
 }
 
 .modal-form h2 {
@@ -34,7 +34,7 @@
 .modal-subtitulo {
   font-size: 1rem;
   color: #6b7280;
-  margin-top: -8px;
+  margin-top: -18px;
 }
 
 .modal-form label {
@@ -46,11 +46,13 @@
 .modal-form input[type="text"],
 .modal-form input[type="file"] {
   width: 100%;
+  margin-top: -15px;
   padding: 12px 16px;
   font-size: 1rem;
-  border: 1px solid #e5e7eb;
   border-radius: 8px;
-  background-color: #f9fafb;
+  background-color: #ffffff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
 }
 
 .modal-form input::placeholder {
@@ -61,29 +63,58 @@
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 12px;
 }
 
 .btn {
   flex: 1;
-  padding: 12px;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
 }
 
+.btn:hover{
+  color: var(--titulos-botoes-destaques);
+  text-decoration: underline;
+}
+
 .btn.cancelar {
-  background-color: white;
-  color: black;
-  border: 1.5px solid black;
+  width: 48%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: none;
+  border: 1px solid var(--cor-para-texto-preto);
+  color: var(--cor-para-texto-preto);
+}
+
+.btn.cancelar:hover {
+  background-color: #f0f0f0;
+  border: 1px solid var(--cor-para-texto-preto);
+  color: var(--cor-para-texto-preto);
+  text-decoration: none;
 }
 
 .btn.cadastrar {
-  background-color: #0000cc;
-  color: white;
+  width: 48%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: var(--titulos-botoes-destaques);
   border: none;
+  color: var(--cor-para-o-texto-branco);
+}
+
+.btn.cadastrar:hover {
+  background-color: var(--detalhes-2);
+  text-decoration: none;
 }
 
 .galeria-imagens {
@@ -156,7 +187,6 @@
   margin-top: 6px;
   cursor: pointer;
 }
-
 
 .upload-imagem-customizada label {
   cursor: pointer;

@@ -1,0 +1,52 @@
+.modal-content {
+  width: 100%;
+  max-width: 540px;
+  padding: 40px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  font-family: 'Inter', sans-serif;
+  margin: 16px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.tabela-scroll-area {
+  max-height: 20vh;   /* Ocupar até 40% da tela visível */
+  min-height: 100px;  /* Garante altura mínima */
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+@media (max-width: 700px) {
+  .modal-content {
+    padding: 24px;
+    max-width: 98vw;
+    margin: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    max-width: 99vw;
+  }
+  .modal-form input[type="text"] {
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modal-botoes {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}

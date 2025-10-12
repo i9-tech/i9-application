@@ -7,23 +7,21 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
   background: #fff;
   border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
   font-family: 'Inter', sans-serif;
-  color: #374151; /* cinza escuro */
+  color: #374151;
   cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s;
-
-  width: 300px;
-  height: 42px;
 }
 
 
 .drp-button:hover {
-  border-color: #2563eb;
+  border-color: var(--titulos-botoes-destaques);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 

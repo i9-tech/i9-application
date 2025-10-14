@@ -24,14 +24,14 @@
       - certbot
 
     certbot:
-    image: certbot/certbot
-    container_name: certbot-manager
-    volumes:
-      # Volume para armazenar os certificados escrito pelo Certbot
-      - /etc/letsencrypt:/etc/letsencrypt
-      # Volume para o desafio ACME escrito pelo Certbot
-      - /var/www/certbot:/var/www/certbot
-    # Esse comando tentará renovar o certificado a cada 12 horas.
-    # Ele não faz nada na primeira execução, apenas aguarda.
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+      image: certbot/certbot
+      container_name: certbot-manager
+      volumes:
+        # Volume para armazenar os certificados escrito pelo Certbot
+        - /etc/letsencrypt:/etc/letsencrypt
+        # Volume para o desafio ACME escrito pelo Certbot
+        - /var/www/certbot:/var/www/certbot
+      # Esse comando tentará renovar o certificado a cada 12 horas.  
+      # Ele não faz nada na primeira execução, apenas aguarda.
+      entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     

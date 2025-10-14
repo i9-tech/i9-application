@@ -1,19 +1,16 @@
 version: '3.8'
 
 services:
-  app:
+  nginx: 
     container_name: i9-website-application
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      # Mapeia a porta 80 da EC2 (host) para a porta 80 do container
       - "80:80"
-      # Se usar HTTPS, mapearia a 443 também
-      # - "443:443"
-    # volumes:
-      # Mapeia o seu arquivo de configuração do host para o local de configuração
-      # padrão do Nginx dentro do container.
+      - "443:443" # Descomentar quando for configurar o HTTPS
+    volumes:
+      # A linha mais importante: conecta seu arquivo de configuração ao container
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-      # Opcional: Se você usar SSL/LetsEncrypt, mapearia os certificados também
-      # - /etc/letsencrypt:/etc/letsencrypt
+      - /etc/letsencrypt:/etc/letsencrypt:ro # Para HTTPS
+      - /var/www/certbot:/var/www/certbot   # Para renovação do HTTPS

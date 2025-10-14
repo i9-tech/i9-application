@@ -11,6 +11,6 @@ services:
       - "443:443" # Descomentar quando for configurar o HTTPS
     volumes:
       # A linha mais importante: conecta seu arquivo de configuração ao container
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/app.conf:/etc/nginx/conf.d/default.conf
       - /etc/letsencrypt:/etc/letsencrypt:ro # Para HTTPS
       - /var/www/certbot:/var/www/certbot   # Para renovação do HTTPS

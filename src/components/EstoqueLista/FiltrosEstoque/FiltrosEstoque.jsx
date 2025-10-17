@@ -8,31 +8,37 @@ import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 import Select from "react-select";
-import LupaPesquisa from "../../../assets/lupa-pesquisa.svg";
 
 function FiltrosEstoque({
-  filtroStatus,
-  setFiltroStatus,
+  filtros,
+  setFiltros,
   termoBusca,
   setTermoBusca,
   setorSelecionado,
   setSetorSelecionado,
+  categoriaSelecionada,
   setCategoriaSelecionada,
-  categoriaSeleciona,
 }) {
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
-  const limparFiltro = () => setFiltroStatus(null);
 
+  // Limpar filtro de status
+  const limparFiltro = () => {
+    setFiltros({ ...filtros, status: null });
+    setMenuAberto(false);
+  };
+
+  // Aplicar filtro de status
   const aplicarFiltro = (tipo) => {
-    setFiltroStatus(tipo);
+    setFiltros({ ...filtros, status: tipo });
     setMenuAberto(false);
   };
 
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
+
   useEffect(() => {
     api
       .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
@@ -84,162 +90,153 @@ function FiltrosEstoque({
   ];
 
   return (
-    <>
-      <div className="top-actions-prod">
-        <input
-          type="text"
-          placeholder="Procurar Produto"
-          className="search"
-          value={termoBusca}
-          onChange={(e) => setTermoBusca(e.target.value)}
-        />
-        
+    <div className="top-actions-prod">
+      <input
+        type="text"
+        placeholder="Procurar Produto"
+        className="search"
+        value={termoBusca}
+        onChange={(e) => setTermoBusca(e.target.value)}
+      />
 
-        <div className="filtros-dropdown-prod">
+      <div className="filtros-dropdown-prod">
+        {!filtros.status && (
           <button
             className="filtro-prod"
             onClick={() => setMenuAberto(!menuAberto)}
           >
             🔍 Filtros
           </button>
-
-          {menuAberto && (
-            <div className="menu-filtros-prod">
-              <button onClick={() => aplicarFiltro("baixo")}>
-                ⚠️ Estoque Baixo
-              </button>
-              <button onClick={() => aplicarFiltro("sem")}>
-                ❌ Sem Estoque
-              </button>
-            </div>
-          )}
-        </div>
-
-        {filtroStatus && (
-          <button className="filtro-ativo-prod" onClick={limparFiltro}>
-            {filtroStatus === "baixo" && "⚠️ Estoque Baixo ✕"}
-            {filtroStatus === "sem" && "❌ Sem Estoque ✕"}
-          </button>
         )}
 
-        <Select
-          value={optionsSetores.find((opt) => opt.value === setorSelecionado)}
-          onChange={(opt) => setSetorSelecionado(opt.value)}
-          options={optionsSetores}
-          placeholder="Todos Setores"
-          isSearchable={false}
-          styles={{
-            control: (baseStyles, state) => ({
-              ...baseStyles,
-              minWidth: 200,
-              maxWidth: 250,
-              borderColor: state.isFocused
-                ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
-                : "transparent",
-              boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-              "&:hover": { borderColor: "transparent" }, // cor do hover
-            }),
-            placeholder: (baseStyles) => ({
-              ...baseStyles,
-              color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
-            }),
-            option: (baseStyles, state) => ({
-              ...baseStyles,
-              backgroundColor: state.isSelected
-                ? "var(--titulos-botoes-destaques)" // cor do item selecionado
-                : state.isFocused
-                ? "var(--cinza-hover-select)" // cor do hover
-                : "var(--cor-para-o-texto-branco)", // cor padrão
-              color: state.isSelected
-                ? "var(--cor-para-o-texto-branco)"
-                : "var(--cor-para-texto-preto)", // cor do texto
-              padding: "8px 16px",
-              cursor: "pointer",
-            }),
-            singleValue: (baseStyles) => ({
-              ...baseStyles,
-              color: "var(--cor-para-texto-preto)", // cor do texto selecionado
-            }),
-            menuList: (base) => ({
-              ...base,
-              maxHeight: 200,
-              overflowY: "auto",
-            }),
-            menu: (base) => ({
-              ...base,
-              borderRadius: 5,
-              marginTop: 0,
-            }),
-          }}
-        />
-
-        <Select
-          value={optionsCategorias.find(
-            (opt) => opt.value === categoriaSeleciona
-          )}
-          onChange={(opt) => setCategoriaSelecionada(opt.value)}
-          options={optionsCategorias}
-          placeholder="Todas Categorias"
-          isSearchable={false}
-          styles={{
-            control: (baseStyles, state) => ({
-              ...baseStyles,
-              minWidth: 200,
-              maxWidth: 250,
-              borderColor: state.isFocused
-                ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
-                : "transparent",
-              boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-              "&:hover": { borderColor: "transparent" }, // cor do hover
-            }),
-            placeholder: (baseStyles) => ({
-              ...baseStyles,
-              color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
-            }),
-            option: (baseStyles, state) => ({
-              ...baseStyles,
-              backgroundColor: state.isSelected
-                ? "var(--titulos-botoes-destaques)" // cor do item selecionado
-                : state.isFocused
-                ? "var(--cinza-hover-select)" // cor do hover
-                : "var(--cor-para-o-texto-branco)", // cor padrão
-              color: state.isSelected
-                ? "var(--cor-para-o-texto-branco)"
-                : "var(--cor-para-texto-preto)", // cor do texto
-              padding: "8px 16px",
-              cursor: "pointer",
-            }),
-            singleValue: (baseStyles) => ({
-              ...baseStyles,
-              color: "var(--cor-para-texto-preto)", // cor do texto selecionado
-            }),
-            menuList: (base) => ({
-              ...base,
-              maxHeight: 200,
-              overflowY: "auto",
-            }),
-            menu: (base) => ({
-              ...base,
-              borderRadius: 5,
-              marginTop: 0,
-            }),
-          }}
-        />
-
-        <button
-          className="add-btn-prod"
-          onClick={() => {
-            navigate(ROUTERS.FORMULARIO_PRODUTOS);
-          }}
-          style={{
-            color: "var(--cor-para-o-texto-branco)",
-            fontWeight: "bold",
-          }}
-        >
-          + Adicionar Produto
-        </button>
+        {menuAberto && !filtros.status && (
+          <div className="menu-filtros-prod">
+            <button onClick={() => aplicarFiltro("baixo")}>⚠️ Estoque Baixo</button>
+            <button onClick={() => aplicarFiltro("sem")}>❌ Sem Estoque</button>
+          </div>
+        )}
       </div>
-    </>
+
+      {filtros.status && (
+        <button className="filtro-ativo-prod" onClick={limparFiltro}>
+          {filtros.status === "baixo" && "⚠️ Estoque Baixo ✕"}
+          {filtros.status === "sem" && "❌ Sem Estoque ✕"}
+        </button>
+      )}
+
+      <Select
+        value={optionsSetores.find((opt) => opt.value === setorSelecionado)}
+        onChange={(opt) => setSetorSelecionado(opt.value)}
+        options={optionsSetores}
+        placeholder="Todos Setores"
+        isSearchable={false}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            minWidth: 200,
+            maxWidth: 250,
+            borderColor: state.isFocused
+              ? "var(--cor-para-o-texto-branco)"
+              : "transparent",
+            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+            "&:hover": { borderColor: "transparent" },
+          }),
+          placeholder: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)",
+          }),
+          option: (baseStyles, state) => ({
+            ...baseStyles,
+            backgroundColor: state.isSelected
+              ? "var(--titulos-botoes-destaques)"
+              : state.isFocused
+              ? "var(--cinza-hover-select)"
+              : "var(--cor-para-o-texto-branco)",
+            color: state.isSelected
+              ? "var(--cor-para-o-texto-branco)"
+              : "var(--cor-para-texto-preto)",
+            padding: "8px 16px",
+            cursor: "pointer",
+          }),
+          singleValue: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)",
+          }),
+          menuList: (base) => ({
+            ...base,
+            maxHeight: 200,
+            overflowY: "auto",
+          }),
+          menu: (base) => ({
+            ...base,
+            borderRadius: 5,
+            marginTop: 0,
+          }),
+        }}
+      />
+
+      <Select
+        value={optionsCategorias.find((opt) => opt.value === categoriaSelecionada)}
+        onChange={(opt) => setCategoriaSelecionada(opt.value)}
+        options={optionsCategorias}
+        placeholder="Todas Categorias"
+        isSearchable={false}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            minWidth: 200,
+            maxWidth: 250,
+            borderColor: state.isFocused
+              ? "var(--cor-para-o-texto-branco)"
+              : "transparent",
+            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+            "&:hover": { borderColor: "transparent" },
+          }),
+          placeholder: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)",
+          }),
+          option: (baseStyles, state) => ({
+            ...baseStyles,
+            backgroundColor: state.isSelected
+              ? "var(--titulos-botoes-destaques)"
+              : state.isFocused
+              ? "var(--cinza-hover-select)"
+              : "var(--cor-para-o-texto-branco)",
+            color: state.isSelected
+              ? "var(--cor-para-o-texto-branco)"
+              : "var(--cor-para-texto-preto)",
+            padding: "8px 16px",
+            cursor: "pointer",
+          }),
+          singleValue: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)",
+          }),
+          menuList: (base) => ({
+            ...base,
+            maxHeight: 200,
+            overflowY: "auto",
+          }),
+          menu: (base) => ({
+            ...base,
+            borderRadius: 5,
+            marginTop: 0,
+          }),
+        }}
+      />
+
+      <button
+        className="add-btn-prod"
+        onClick={() => navigate(ROUTERS.FORMULARIO_PRODUTOS)}
+        style={{
+          color: "var(--cor-para-o-texto-branco)",
+          fontWeight: "bold",
+        }}
+      >
+        + Adicionar Produto
+      </button>
+    </div>
   );
 }
 

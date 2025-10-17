@@ -1,10 +1,11 @@
 .top-actions {
   display: flex;
+  flex-wrap: wrap; 
   align-items: center;
   gap: 10px;
   border-radius: 8px;
   width: 100%;
-  justify-content: baseline;
+  justify-content: flex-start; 
   font-size: 14px;
   position: sticky;
   top: 0;
@@ -23,7 +24,8 @@
   left: 0;
   background: var(--cor-para-o-texto-branco);
   border-radius: 5px;
-  padding: 8px 16px;
+  padding: 5px 0px 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   z-index: 999;
   min-width: 150px;
   font-size: 14px;

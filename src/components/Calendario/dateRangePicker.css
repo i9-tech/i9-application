@@ -19,7 +19,6 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-
 .drp-button:hover {
   border-color: var(--titulos-botoes-destaques);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -40,7 +39,6 @@
 .drp-popover {
   position: absolute;
   top: 110%;
-  left: 0;
   margin-top: 0.5rem;
   z-index: 50;
   background: #fff;
@@ -48,7 +46,10 @@
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   padding: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
 .drp-actions {
   display: flex;
   justify-content: space-between;

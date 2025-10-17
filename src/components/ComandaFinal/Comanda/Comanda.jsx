@@ -5,16 +5,24 @@ import ComandaInfo from "../ComandaInfo/ComandaInfo";
 import api from "../../../provider/api";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { getToken } from "../../../utils/auth";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function Comanda({ pedido, index, atualizarComandas, modo }) {
+export default function Comanda({
+  pedido,
+  index,
+  atualizarComandas,
+  modo,
+  areaSelecionada,
+  pedidosConcluidos,
+  setPedidosConcluidos,
+}) {
   const token = getToken();
-  const [pedidosConcluidos, setPedidosConcluidos] = useState({});
-  const todasCheckboxMarcadas = Object.values(pedidosConcluidos).every(
-    (valor) => valor === true
+
+  const todasCheckboxMarcadas = pedido.itensCarrinho.every(
+    (item) => pedidosConcluidos[item.id] === true
   );
-  const [isCheckboxMarcadas, setIsCheckboxMarcadas] = useState(false);
+
+  const desabilitarBotao = !todasCheckboxMarcadas || Boolean(areaSelecionada);
 
   const marcarOuDesmarcarCheckbox = (id) => {
     setPedidosConcluidos((estadoAnterior) => ({
@@ -28,18 +36,11 @@ export default function Comanda({ pedido, index, atualizarComandas, modo }) {
     pedido.itensCarrinho.forEach((item) => {
       novosPedidos[item.id] = novoValor;
     });
-    setPedidosConcluidos(novosPedidos);
+    setPedidosConcluidos((estadoAnterior) => ({
+      ...estadoAnterior,
+      ...novosPedidos,
+    }));
   };
-
-  useEffect(() => {
-    const inicial = {};
-    pedido.itensCarrinho.forEach((item) => {
-      inicial[item.id] = pedido.vendaConcluida ? true : false;
-    });
-    setPedidosConcluidos(inicial);
-    setIsCheckboxMarcadas(pedido.vendaConcluida);
-  }, [pedido.itensCarrinho, pedido.vendaConcluida]);
-
 
   const handleCompletar = () => {
     api
@@ -47,18 +48,16 @@ export default function Comanda({ pedido, index, atualizarComandas, modo }) {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        toast.success(`Pedido ${pedido.id} concluido com sucesso!`);
+        toast.success(`Pedido ${pedido.id} concluído com sucesso!`);
         atualizarComandas(pedido.id);
-        console.log("Pedido finalizado: ", res.data);
       })
       .catch((err) => {
-        toast.error("Erro ao conclur pedido!");
+        toast.error("Erro ao concluir pedido!");
         console.log("Erro ao finalizar pedido: ", err);
       });
   };
 
   if (modo === "preparo" && pedido.vendaConcluida) return null;
-
 
   return (
     <div className="comanda-container">
@@ -68,8 +67,8 @@ export default function Comanda({ pedido, index, atualizarComandas, modo }) {
             numeroPedido={pedido.id}
             dataHora={pedido.dataVenda}
             concluirTodos={concluirTodos}
-            isCheckboxMarcadas={isCheckboxMarcadas}
-            setIsCheckboxMarcadas={setIsCheckboxMarcadas}
+            isCheckboxMarcadas={todasCheckboxMarcadas}
+            setIsCheckboxMarcadas={concluirTodos}
           />
         </div>
 
@@ -107,7 +106,7 @@ export default function Comanda({ pedido, index, atualizarComandas, modo }) {
             qtdItens={pedido.itensCarrinho.length}
             index={index}
             onCompletar={handleCompletar}
-            disabled={!todasCheckboxMarcadas}
+            disabled={desabilitarBotao}
             feito={pedido.vendaConcluida}
           />
         </div>

@@ -11,7 +11,7 @@
     font-size: 20px;
   }
 
- .setores {
+  .setores {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
@@ -31,31 +31,33 @@
   .barra-pesquisa {
     display: flex;
     align-items: center;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   }
 
   .barra-pesquisa {
     display: flex;
     align-items: center;
-    border-radius: 8px;
-    border: 1.5px solid var(--titulos-botoes-destaques);
+    border-radius: 10px;
     background-color: var(--cor-para-o-texto-branco);
-    padding: 2px;
   }
 
   .input-pesquisa-produtos {
     border: none;
     outline: none;
     padding: 10px;
+    border-radius: 10px;
     flex: 1;
-    font-size: 16px;
-    color: var(--cor-para-texto-preto);
+  }
+
+  .input-pesquisa-produtos::placeholder {
+    font-size: 14px;
+    color: #9ca3af;
   }
 
   .lupa-pesquisa {
     background-color: var(--titulos-botoes-destaques);
     border: none;
     border-radius: 10px;
-    cursor: pointer;
     align-items: center;
     display: flex;
     padding: 8px;
@@ -66,13 +68,12 @@
 
   .lupa-pesquisa:hover {
     background-color: var(--detalhes-2);
-  } 
+  }
 
   .lupa-pesquisa img {
     width: 40px;
     height: 40px;
   }
-
 
   .todos-produtos {
     margin: 0rem 0rem 4rem 4rem;

@@ -21,6 +21,8 @@ export function EstoquePratos() {
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [pratos, setPratos] = useState([]);
   const [resumo, setResumo] = useState([{}]);
+  const [areaSelecionada, setAreaSelecionada] = useState("");
+
 
   const [pagina, setPagina] = useState(0);
   const [quantidadePorPagina, setQuantidadePorPagina] = useState(5);
@@ -41,8 +43,8 @@ export function EstoquePratos() {
           termoBusca: termoSemAcento,
           disponivel: filtros.status === "disponível" ? true : filtros.status === "indisponível" ? false : undefined,
           setorId: setorSelecionado ? Number(setorSelecionado) : undefined,
-          categoriaId: categoriaSelecionada ? Number(categoriaSelecionada) : undefined
-
+          categoriaId: categoriaSelecionada ? Number(categoriaSelecionada) : undefined,
+          areaId: areaSelecionada ? Number(areaSelecionada) : undefined
         },
       })
       .then((res) => {
@@ -56,7 +58,7 @@ export function EstoquePratos() {
         console.error("Erro ao buscar pratos:", err);
         setIsLoadingData(false);
       });
-  }, [funcionario.userId, token, pagina, quantidadePorPagina, ordem, termoBusca, setorSelecionado, categoriaSelecionada, filtros.status]);
+  }, [funcionario.userId, token, pagina, quantidadePorPagina, ordem, termoBusca, setorSelecionado, categoriaSelecionada, areaSelecionada, filtros.status]);
 
 
   const buscarQuantidadePratos = useCallback(() => {
@@ -92,6 +94,8 @@ export function EstoquePratos() {
           setSetorSelecionado={setSetorSelecionado}
           categoriaSelecionada={categoriaSelecionada}
           setCategoriaSelecionada={setCategoriaSelecionada}
+          areaSelecionada={areaSelecionada}         
+          setAreaSelecionada={setAreaSelecionada} 
         />
         <ResumoPratos {...resumo} />
         <TabelaPratos

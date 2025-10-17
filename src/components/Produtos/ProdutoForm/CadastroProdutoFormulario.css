@@ -59,7 +59,7 @@
     .linha-dupla {
       display: flex;
       justify-content: space-between;
-      gap: 30px;
+      gap: 10px;
       margin-bottom: 10px;
   
       > div {

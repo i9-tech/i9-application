@@ -50,8 +50,7 @@
 .formulario-prato .linha-dupla {
   display: flex;
   justify-content: space-between;
-  gap: 30px;
-  margin-bottom: 24px;
+  gap: 10px;
 }
 
 .formulario-prato .linha-dupla > div {

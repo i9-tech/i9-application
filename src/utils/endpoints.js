@@ -3,6 +3,7 @@ export const ENDPOINTS = {
     AZURE_IMAGEM: '/azure/enviar-imagem',
     CATEGORIAS: '/categorias',
     SETORES: '/setores',
+    AREA_PREPARO: '/areas-preparo',
     EMPRESAS: '/empresas',
     FUNCIONARIOS: '/colaboradores',
     LOGIN: '/colaboradores/login',

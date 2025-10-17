@@ -1,0 +1,103 @@
+.modal-fundo {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  font-family: "Inter", sans-serif;
+}
+
+.modal-conteudo {
+  background-color: #ffffff;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  padding: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+}
+
+.modal-conteudo h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.btn-fechar {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.campo-busca {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.campo-busca input[type="text"] {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.campo-busca button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--titulos-botoes-destaques, #4caf50);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.campo-busca button:hover {
+  background-color: var(--detalhes-2, #45a049);
+}
+
+.galeria-imagens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.galeria-imagens img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: 0.3s;
+  background-color: #f0f0f0;
+}
+
+.galeria-imagens img:hover {
+  transform: scale(1.05);
+  border-color: var(--titulos-botoes-destaques, #4caf50);
+}
+
+.galeria-imagens img:active {
+  transform: scale(0.98);
+}
+
+.carregando-texto {
+  font-size: 0.95rem;
+  color: #666;
+  text-align: center;
+}

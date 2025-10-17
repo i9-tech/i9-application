@@ -26,7 +26,7 @@ function FiltrosPratos({
   const [categorias, setCategorias] = useState([]);
   const [areas, setAreas] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");

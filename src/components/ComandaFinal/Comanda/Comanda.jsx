@@ -47,7 +47,7 @@ export default function Comanda({
       .post(`${ENDPOINTS.VENDA_FINALIZAR_PRATO}?idVenda=${pedido.id}`, null, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => {
+      .then(() => {
         toast.success(`Pedido ${pedido.id} concluído com sucesso!`);
         atualizarComandas(pedido.id);
       })

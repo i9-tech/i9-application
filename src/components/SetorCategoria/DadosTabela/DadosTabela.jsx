@@ -29,7 +29,7 @@ const DadosTabela = ({ dados = [], aoEditar, aoExcluir, isLoadingData, tipo }) =
                   <td className="tabela-dados__acoes">
                     <button
                       type="button" 
-                      onClick={(e) => {
+                      onClick={() => {
                         aoEditar(item);
                       }}
                       className="tabela-dados__botao editar"
@@ -39,7 +39,7 @@ const DadosTabela = ({ dados = [], aoEditar, aoExcluir, isLoadingData, tipo }) =
                     <span> | </span>
                     <button
                       type="button" 
-                      onClick={(e) => {
+                      onClick={() => {
                         aoExcluir(item);
                       }}
                       className="tabela-dados__botao excluir"

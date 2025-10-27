@@ -5,6 +5,7 @@ import CabecalhoFuncionarios from "../FuncionarioTab/FuncionarioCabecalho/Cabeca
 import ResumoFuncionario from "../FuncionarioTab/FuncionarioInfo/ResumoFuncionario";
 import CarregamentoEstoque from "../../Estoque/CarregamentoEstoque";
 import NoDataEstoque from "../../Estoque/NoDataEstoque";
+import LupaPesquisa from "../../../assets/lupa-pesquisa.svg"
 
 function TabelaFuncionarios({
   isLoadingData,
@@ -35,7 +36,9 @@ function TabelaFuncionarios({
           value={filtroNome}
           onChange={(e) => setFiltroNome(e.target.value)}
         />
-        <span className="info-sc-card__icon">🔍</span>
+        <button className="lupa-pesquisa">
+                  <img src={LupaPesquisa} alt="Pesquisar" />
+                </button>
       </div>
 
 <div className="tabela-completa">

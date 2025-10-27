@@ -9,33 +9,43 @@ import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 import Select from "react-select";
 
-function FiltrosEstoque({ setFiltros, termoBusca, setTermoBusca, setorSelecionado, setSetorSelecionado, categoriaSelecionada, setCategoriaSelecionada }) {
-  const [menuAberto, setMenuAberto] = useState(false);
-  const [filtroStatus, setFiltroStatus] = useState(null);
-  const [setores, setSetores] = useState([]);
-  const [categorias, setCategorias] = useState([]);
+function FiltrosEstoque({
+  filtros,
+  setFiltros,
+  termoBusca,
+  setTermoBusca,
+  setorSelecionado,
+  setSetorSelecionado,
+  categoriaSelecionada,
+  setCategoriaSelecionada,
+}) {
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const [menuAberto, setMenuAberto] = useState(false);
 
-  const aplicarFiltro = (tipo) => {
-    setFiltroStatus(tipo);
+  // Limpar filtro de status
+  const limparFiltro = () => {
+    setFiltros({ ...filtros, status: null });
     setMenuAberto(false);
   };
 
-  const limparFiltroStatus = () => {
-    setFiltroStatus(null);
-    setFiltros({
-      status: null,
-      categoria: categoriaSelecionada,
-      setor: setorSelecionado,
-    });
+  // Aplicar filtro de status
+  const aplicarFiltro = (tipo) => {
+    setFiltros({ ...filtros, status: tipo });
+    setMenuAberto(false);
   };
 
+  const [setores, setSetores] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+
   useEffect(() => {
-    api.get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    api
+      .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           setSetores(res.data);
@@ -46,9 +56,12 @@ function FiltrosEstoque({ setFiltros, termoBusca, setTermoBusca, setorSelecionad
         toast.error("Erro ao buscar setores!");
       });
 
-    api.get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    api
+      .get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data)) {
           setCategorias(res.data);
@@ -60,16 +73,24 @@ function FiltrosEstoque({ setFiltros, termoBusca, setTermoBusca, setorSelecionad
       });
   }, [funcionario.userId, token]);
 
-  useEffect(() => {
-    setFiltros({
-      status: filtroStatus,
-      categoria: categoriaSelecionada,
-      setor: setorSelecionado,
-    });
-  }, [filtroStatus, categoriaSelecionada, setorSelecionado, setFiltros]);
+  const optionsSetores = [
+    { value: "", label: "Todos Setores" },
+    ...setores.map((set) => ({
+      value: set.id,
+      label: set.nome,
+    })),
+  ];
+
+  const optionsCategorias = [
+    { value: "", label: "Todas Categorias" },
+    ...categorias.map((cat) => ({
+      value: cat.id,
+      label: cat.nome,
+    })),
+  ];
 
   return (
-    <div className="top-actions">
+    <div className="top-actions-prod">
       <input
         type="text"
         placeholder="Procurar Produto"
@@ -78,64 +99,144 @@ function FiltrosEstoque({ setFiltros, termoBusca, setTermoBusca, setorSelecionad
         onChange={(e) => setTermoBusca(e.target.value)}
       />
 
-      <div className="filtros-dropdown">
-        <button className="filtro" onClick={() => setMenuAberto(!menuAberto)}>
-          🔍 Filtros
-        </button>
+      <div className="filtros-dropdown-prod">
+        {!filtros.status && (
+          <button
+            className="filtro-prod"
+            onClick={() => setMenuAberto(!menuAberto)}
+          >
+            🔍 Filtros
+          </button>
+        )}
 
-        {menuAberto && (
-          <div className="menu-filtros">
-            <button onClick={() => aplicarFiltro("sem")}>❌ Sem Estoque</button>
+        {menuAberto && !filtros.status && (
+          <div className="menu-filtros-prod">
             <button onClick={() => aplicarFiltro("baixo")}>⚠️ Estoque Baixo</button>
-            <button onClick={() => aplicarFiltro("em_estoque")}>📦 Em Estoque</button>
+            <button onClick={() => aplicarFiltro("sem")}>❌ Sem Estoque</button>
           </div>
         )}
       </div>
 
-      {filtroStatus && (
-        <button className="filtro-ativo" onClick={limparFiltroStatus}>
-          {filtroStatus === "sem" && "❌ Sem Estoque ✕"}
-          {filtroStatus === "baixo" && "⚠️ Estoque Baixo ✕"}
-          {filtroStatus === "em_estoque" && "📦 Em Estoque ✕"}
+      {filtros.status && (
+        <button className="filtro-ativo-prod" onClick={limparFiltro}>
+          {filtros.status === "baixo" && "⚠️ Estoque Baixo ✕"}
+          {filtros.status === "sem" && "❌ Sem Estoque ✕"}
         </button>
       )}
 
-      <select
-        className="select-categoria"
-        value={setorSelecionado}
-        onChange={(e) => setSetorSelecionado(e.target.value)}
-      >
-        <option value="">Todos Setores</option>
-        {setores.map((set) => (
-          <option key={set.id} value={set.id}>
-            {set.nome}
-          </option>
-        ))}
-      </select>
+      <Select
+        value={optionsSetores.find((opt) => opt.value === setorSelecionado)}
+        onChange={(opt) => setSetorSelecionado(opt.value)}
+        options={optionsSetores}
+        placeholder="Todos Setores"
+        isSearchable={false}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            minWidth: 200,
+            maxWidth: 250,
+            borderColor: state.isFocused
+              ? "var(--cor-para-o-texto-branco)"
+              : "transparent",
+            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+            "&:hover": { borderColor: "transparent" },
+          }),
+          placeholder: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)",
+          }),
+          option: (baseStyles, state) => ({
+            ...baseStyles,
+            backgroundColor: state.isSelected
+              ? "var(--titulos-botoes-destaques)"
+              : state.isFocused
+              ? "var(--cinza-hover-select)"
+              : "var(--cor-para-o-texto-branco)",
+            color: state.isSelected
+              ? "var(--cor-para-o-texto-branco)"
+              : "var(--cor-para-texto-preto)",
+            padding: "8px 16px",
+            cursor: "pointer",
+          }),
+          singleValue: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)",
+          }),
+          menuList: (base) => ({
+            ...base,
+            maxHeight: 200,
+            overflowY: "auto",
+          }),
+          menu: (base) => ({
+            ...base,
+            borderRadius: 5,
+            marginTop: 0,
+          }),
+        }}
+      />
 
-      <select
-        className="select-categoria"
-        value={categoriaSelecionada}
-        onChange={(e) => setCategoriaSelecionada(e.target.value)}
-      >
-        <option value="">Todas as Categorias</option>
-        {categorias.map((cat) => (
-          <option key={cat.id} value={cat.id}>
-            {cat.nome}
-          </option>
-        ))}
-      </select>
+      <Select
+        value={optionsCategorias.find((opt) => opt.value === categoriaSelecionada)}
+        onChange={(opt) => setCategoriaSelecionada(opt.value)}
+        options={optionsCategorias}
+        placeholder="Todas Categorias"
+        isSearchable={false}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            minWidth: 200,
+            maxWidth: 250,
+            borderColor: state.isFocused
+              ? "var(--cor-para-o-texto-branco)"
+              : "transparent",
+            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+            "&:hover": { borderColor: "transparent" },
+          }),
+          placeholder: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)",
+          }),
+          option: (baseStyles, state) => ({
+            ...baseStyles,
+            backgroundColor: state.isSelected
+              ? "var(--titulos-botoes-destaques)"
+              : state.isFocused
+              ? "var(--cinza-hover-select)"
+              : "var(--cor-para-o-texto-branco)",
+            color: state.isSelected
+              ? "var(--cor-para-o-texto-branco)"
+              : "var(--cor-para-texto-preto)",
+            padding: "8px 16px",
+            cursor: "pointer",
+          }),
+          singleValue: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)",
+          }),
+          menuList: (base) => ({
+            ...base,
+            maxHeight: 200,
+            overflowY: "auto",
+          }),
+          menu: (base) => ({
+            ...base,
+            borderRadius: 5,
+            marginTop: 0,
+          }),
+        }}
+      />
+
       <button
         className="add-btn-prod"
-        onClick={() => {
-          navigate(ROUTERS.FORMULARIO_PRODUTOS);
+        onClick={() => navigate(ROUTERS.FORMULARIO_PRODUTOS)}
+        style={{
+          color: "var(--cor-para-o-texto-branco)",
+          fontWeight: "bold",
         }}
-        style={{ color: "#fff", fontWeight: "bold" }}
       >
         + Adicionar Produto
       </button>
     </div>
-    
   );
 }
 

@@ -1,7 +1,7 @@
 .linha-prato td {
   padding: 9px 16px;
   font-size: 14px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #99999941;
   color: var(--cor-para-texto-preto);
   white-space: nowrap;
   justify-content: space-between;
@@ -14,7 +14,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #999;
+  border: 1px solid #99999941;
   border-radius: 8px;
   padding: 4px;
   height: 60px;
@@ -41,59 +41,6 @@
   text-decoration: underline;
 }
 
-/* Cód. */
-.linha-prato td:nth-child(1) {
-  width: 100px;
-  
-}
-
-/* Imagem */
-.linha-prato td:nth-child(2) {
-  width: 100px;
-  
-}
-
-/* Nome */
-.linha-prato td:nth-child(3) {
-  width: 130px;
-  
-}
-
-.linha-prato td:nth-child(4) {
-  width: 220px;
-  text-align: center;
-  vertical-align: middle;
-  padding: 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-}
-
-/* preco */
-.linha-prato td:nth-child(5) {
-  width: 100px;
-}
-
-/* Status */
-.linha-prato td:nth-child(6) {
-  width: 130px;
-}
-
-/* Registro */
-.linha-prato td:nth-child(7) {
-  width: 140px;
-}
-
-/* Descrição */
-.linha-prato td:nth-child(8) {
-  width: 110px;
-}
-
-/* Ações */
-.linha-prato td:nth-child(9) {
-  width: 100px;
-}
 
 .disponivel {
   color: green;

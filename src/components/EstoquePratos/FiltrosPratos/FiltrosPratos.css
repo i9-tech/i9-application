@@ -1,10 +1,11 @@
 .top-actions {
   display: flex;
+  flex-wrap: wrap; 
   align-items: center;
   gap: 10px;
   border-radius: 8px;
   width: 100%;
-  justify-content: baseline;
+  justify-content: flex-start; 
   font-size: 14px;
   position: sticky;
   top: 0;
@@ -23,11 +24,12 @@
   left: 0;
   background: var(--cor-para-o-texto-branco);
   border-radius: 5px;
-  padding: 5px;
+  padding: 5px 0px 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   z-index: 999;
-  min-width: 180px;
+  min-width: 150px;
   font-size: 14px;
-  border: 1px solid #ccc;
+  border: none;
 }
 
 .menu-filtros button {
@@ -35,7 +37,7 @@
   background: none;
   border: none;
   text-align: left;
-  padding: 5px 10px;
+  padding: 8px 16px;
   width: 100%;
   cursor: pointer;
   font-size: 14px;
@@ -47,19 +49,21 @@
 }
 
 .top-actions input.search {
-  padding: 8px;
+  padding: 10px;
   flex: 1;
   border-radius: 5px;
   border: none;
   font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .top-actions select {
-  padding: 8px;
-  border-radius: 6px;
+  padding: 8px 16px;
+  border-radius: 5px;
   width: 200px;
-  border: 1px solid #ccc;
+  border: none;
   font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .top-actions input.search:focus {
@@ -67,13 +71,10 @@
   border: none;
 }
 
-.top-actions select {
-  padding: 8px;
-  border-radius: 5px;
-  width: 200px;
-  border: none;
-  font-size: 14px;
-}
+  .top-actions input.search::placeholder {
+    font-size: 14px;
+    color: #9ca3af;
+  }
 
 .add-btn {
   background: var(--titulos-botoes-destaques);
@@ -83,6 +84,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .add-btn:hover {
@@ -91,11 +93,12 @@
 
 .filtro {
   background: var(--cor-para-o-texto-branco);
-  border: 1px solid var(--titulos-botoes-destaques);
   color: var(--titulos-botoes-destaques);
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 5px;
   font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .filtro:hover {
@@ -107,7 +110,7 @@
 .filtro-ativo {
   background-color: var(--titulos-botoes-destaques);
   border: none;
-  padding: 8px 12px;
+  padding: 8px 16px;
   cursor: pointer;
   border-radius: 20px;
   color: var(--cor-para-o-texto-branco);

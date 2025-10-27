@@ -15,6 +15,28 @@
   gap: 40px;
 }
 
+.main-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.add-btn {
+  background: var(--titulos-botoes-destaques);
+  color: var(--cor-para-o-texto-branco);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-btn:hover {
+  background-color: var(--detalhes-2);
+}
+
+
 .info-s-card {
   background-color: white;
   border-radius: 16px;

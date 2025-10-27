@@ -48,12 +48,12 @@ const CadastroProdutoFormulario = ({
         quantidade: produtoSelecionado.quantidade || "",
         valorCompra:
           produtoSelecionado.valorCompra !== undefined &&
-            produtoSelecionado.valorCompra !== ""
+          produtoSelecionado.valorCompra !== ""
             ? Number(produtoSelecionado.valorCompra).toFixed(2)
             : "",
         valorUnitario:
           produtoSelecionado.valorUnitario !== undefined &&
-            produtoSelecionado.valorUnitario !== ""
+          produtoSelecionado.valorUnitario !== ""
             ? Number(produtoSelecionado.valorUnitario).toFixed(2)
             : "",
         quantidadeMin: produtoSelecionado.quantidadeMin || "",
@@ -140,56 +140,56 @@ const CadastroProdutoFormulario = ({
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const buscarURLImagem = async () => {
-    setPorcentagemCarregamento(10);
-    await sleep(200);
+  // const buscarURLImagem = async () => {
+  //   setPorcentagemCarregamento(10);
+  //   await sleep(200);
 
-    if (enviroments.ambiente === "jsonserver") {
-      const urlJsonServer = URL.createObjectURL(imagem);
-      setPorcentagemCarregamento(30);
-      await sleep(200);
-      setUrlImagemTemporaria(urlJsonServer);
-      salvarProduto(urlJsonServer);
-    } else {
-      const formData = new FormData();
-      formData.append("file", imagem);
-      setPorcentagemCarregamento(20);
-      await sleep(200);
+  //   if (enviroments.ambiente === "jsonserver") {
+  //     const urlJsonServer = URL.createObjectURL(imagem);
+  //     setPorcentagemCarregamento(30);
+  //     await sleep(200);
+  //     setUrlImagemTemporaria(urlJsonServer);
+  //     salvarProduto(urlJsonServer);
+  //   } else {
+  //     const formData = new FormData();
+  //     formData.append("file", imagem);
+  //     setPorcentagemCarregamento(20);
+  //     await sleep(200);
 
-      api
-        .post(ENDPOINTS.AZURE_IMAGEM, formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(async (res) => {
-          setPorcentagemCarregamento(40);
-          await sleep(200);
-          salvarProduto(res.data.imageUrl);
-        })
-        .catch(async (err) => {
-          console.log("erro ao adicionar imagem ao blob storage: ", err);
+  //     api
+  //       .post(ENDPOINTS.AZURE_IMAGEM, formData, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       })
+  //       .then(async (res) => {
+  //         setPorcentagemCarregamento(40);
+  //         await sleep(200);
+  //         salvarProduto(res.data.imageUrl);
+  //       })
+  //       .catch(async (err) => {
+  //         console.log("erro ao adicionar imagem ao blob storage: ", err);
 
-          if (imagem) {
-            setPorcentagemCarregamento(40);
-            await sleep(200);
-            salvarProduto(imagem);
-          } else {
-            setPorcentagemCarregamento(40);
-            await sleep(200);
-            salvarProduto("");
-          }
+  //         if (imagem) {
+  //           setPorcentagemCarregamento(40);
+  //           await sleep(200);
+  //           salvarProduto(imagem);
+  //         } else {
+  //           setPorcentagemCarregamento(40);
+  //           await sleep(200);
+  //           salvarProduto("");
+  //         }
 
-          console.log("erro ao adicionar imagem ao blob storage: ", err);
-          setTimeout(() => {
-            setIsSendingData(false);
-          }, 2500);
-        });
-    }
-  };
+  //         console.log("erro ao adicionar imagem ao blob storage: ", err);
+  //         setTimeout(() => {
+  //           setIsSendingData(false);
+  //         }, 2500);
+  //       });
+  //   }
+  // };
 
-  const salvarProduto = async (urlImagem) => {
+  const salvarProduto = async (arquivoImagem) => {
     setPorcentagemCarregamento(60);
     await sleep(200);
     const dados = {
@@ -202,62 +202,59 @@ const CadastroProdutoFormulario = ({
       quantidadeMax: parseInt(produto.quantidadeMax),
       descricao: descricao,
       dataRegistro: produto.dataRegistro ? produto.dataRegistro : hoje,
-      imagem: urlImagem,
       categoria: { id: produto.categoria },
       setor: { id: produto.setor },
       funcionario: { id: funcionario.userId },
     };
 
-    if (enviroments.ambiente === "jsonserver") {
-      const metodo = produtoSelecionado
-        ? api.patch(`${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}`, dados, {})
-        : api.post(ENDPOINTS.PRODUTOS, dados, {});
-      metodo
-        .then(() => {
-          toast.success(
-            produtoSelecionado
-              ? "Produto editado com sucesso!"
-              : "Produto cadastrado com sucesso!"
-          );
-          limparFormulario();
-        })
-        .catch((error) => {
-          console.error("Erro ao salvar produto:", error);
-          toast.error("Erro ao salvar produto!");
-        });
-    } else {
-      setPorcentagemCarregamento(80);
-      const metodo = produtoSelecionado
-        ? api.patch(
-          `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`,
-          dados,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-        : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-      metodo
-        .then(async () => {
-          setPorcentagemCarregamento(90);
-          await sleep(200);
-          setPorcentagemCarregamento(100);
-          toast.success(
-            produtoSelecionado
-              ? "Produto editado com sucesso!"
-              : "Produto cadastrado com sucesso!"
-          );
-          limparFormulario();
-        })
-        .catch((error) => {
-          console.error("Erro ao salvar produto:", error);
-          toast.error("Erro ao salvar produto!");
-          setTimeout(() => {
-            setIsSendingData(false);
-          }, 2000);
-        });
+    const formData = new FormData();
+
+    const requestBlob = new Blob([JSON.stringify(dados)], {
+      type: "application/json",
+    });
+    formData.append(produtoSelecionado ? "produtoParaEditar" : "produtoParaCadastrar", requestBlob, "request.json");
+
+    if (arquivoImagem) {
+      formData.append("imagem", arquivoImagem);
     }
+
+    setPorcentagemCarregamento(80);
+
+    const url = produtoSelecionado ? `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}` : `${ENDPOINTS.PRODUTOS}/${funcionario.userId}`;
+
+    const metodo = produtoSelecionado
+      ? api.patch(url, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+      : api.post(url, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+    metodo
+      .then(async () => {
+        setPorcentagemCarregamento(90);
+        await sleep(200);
+        setPorcentagemCarregamento(100);
+        toast.success(
+          produtoSelecionado
+            ? "Produto editado com sucesso!"
+            : "Produto cadastrado com sucesso!"
+        );
+        limparFormulario();
+      })
+      .catch((error) => {
+        console.error("Erro ao salvar produto:", error.response?.data || error);
+        toast.error("Erro ao salvar produto!");
+        setTimeout(() => {
+          setIsSendingData(false);
+        }, 2500);
+      });
   };
 
   useEffect(() => {
@@ -298,7 +295,7 @@ const CadastroProdutoFormulario = ({
     e.preventDefault();
     if (validarCampos()) {
       setIsSendingData(true);
-      buscarURLImagem();
+      salvarProduto(imagem);
     }
   };
 
@@ -422,7 +419,7 @@ const CadastroProdutoFormulario = ({
                   borderColor: state.isFocused
                     ? "var(--cor-para-o-texto-branco)"
                     : "transparent",
-                boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+                  boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
                   "&:hover": { borderColor: "transparent" },
                 }),
                 placeholder: (baseStyles) => ({
@@ -434,8 +431,8 @@ const CadastroProdutoFormulario = ({
                   backgroundColor: state.isSelected
                     ? "var(--titulos-botoes-destaques)"
                     : state.isFocused
-                      ? "var(--cinza-hover-select)"
-                      : "var(--cor-para-o-texto-branco)",
+                    ? "var(--cinza-hover-select)"
+                    : "var(--cor-para-o-texto-branco)",
                   color: state.isSelected
                     ? "var(--cor-para-o-texto-branco)"
                     : "var(--cor-para-texto-preto)",
@@ -483,7 +480,7 @@ const CadastroProdutoFormulario = ({
                   borderColor: state.isFocused
                     ? "var(--cor-para-o-texto-branco)"
                     : "transparent",
-                boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+                  boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
                   "&:hover": { borderColor: "transparent" },
                 }),
                 placeholder: (baseStyles) => ({
@@ -495,8 +492,8 @@ const CadastroProdutoFormulario = ({
                   backgroundColor: state.isSelected
                     ? "var(--titulos-botoes-destaques)"
                     : state.isFocused
-                      ? "var(--cinza-hover-select)"
-                      : "var(--cor-para-o-texto-branco)",
+                    ? "var(--cinza-hover-select)"
+                    : "var(--cor-para-o-texto-branco)",
                   color: state.isSelected
                     ? "var(--cor-para-o-texto-branco)"
                     : "var(--cor-para-texto-preto)",
@@ -615,7 +612,6 @@ const CadastroProdutoFormulario = ({
           >
             Cancelar
           </button>
-
         </div>
       </form>
 

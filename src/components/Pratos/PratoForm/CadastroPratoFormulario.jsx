@@ -138,86 +138,101 @@ const CadastroPratoFormulario = ({
     e.preventDefault();
     if (validarCampos()) {
       setIsSendingData(true);
-      buscarURLImagem();
+      salvarPrato(imagem);
     }
   };
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const buscarURLImagem = async () => {
-    setPorcentagemCarregamento(10);
-    await sleep(200);
-    if (enviroments.ambiente === "jsonserver") {
-      const urlJsonServer = URL.createObjectURL(imagem);
-      setPorcentagemCarregamento(30);
-      await sleep(200);
-      setUrlImagemTemporaria(urlJsonServer);
-      salvarPrato(urlJsonServer);
-    } else {
-      const formData = new FormData();
-      formData.append("file", imagem);
-      setPorcentagemCarregamento(20);
-      await sleep(200);
+  // const buscarURLImagem = async () => {
+  //   setPorcentagemCarregamento(10);
+  //   await sleep(200);
+  //   if (enviroments.ambiente === "jsonserver") {
+  //     const urlJsonServer = URL.createObjectURL(imagem);
+  //     setPorcentagemCarregamento(30);
+  //     await sleep(200);
+  //     setUrlImagemTemporaria(urlJsonServer);
+  //     salvarPrato(urlJsonServer);
+  //   } else {
+  //     const formData = new FormData();
+  //     formData.append("file", imagem);
+  //     setPorcentagemCarregamento(20);
+  //     await sleep(200);
 
-      api
-        .post(ENDPOINTS.AZURE_IMAGEM, formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(async (res) => {
-          setPorcentagemCarregamento(40);
-          await sleep(200);
-          salvarPrato(res.data.imageUrl);
-        })
-        .catch(async (err) => {
-          if (imagem) {
-            setPorcentagemCarregamento(40);
-            await sleep(200);
-            salvarPrato(imagem);
-            return;
-          }
-          if (imagem == "") {
-            salvarPrato("");
-            setPorcentagemCarregamento(40);
-            await sleep(200);
-            return;
-          }
-          console.log("erro ao adicionar imagem ao blob storage: ", err);
-          setTimeout(() => {
-            setIsSendingData(false);
-          }, 2500);
-        });
-    }
-  };
+  //     api
+  //       .post(ENDPOINTS.AZURE_IMAGEM, formData, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       })
+  //       .then(async (res) => {
+  //         setPorcentagemCarregamento(40);
+  //         await sleep(200);
+  //         salvarPrato(res.data.imageUrl);
+  //       })
+  //       .catch(async (err) => {
+  //         if (imagem) {
+  //           setPorcentagemCarregamento(40);
+  //           await sleep(200);
+  //           salvarPrato(imagem);
+  //           return;
+  //         }
+  //         if (imagem == "") {
+  //           salvarPrato("");
+  //           setPorcentagemCarregamento(40);
+  //           await sleep(200);
+  //           return;
+  //         }
+  //         console.log("erro ao adicionar imagem ao blob storage: ", err);
+  //         setTimeout(() => {
+  //           setIsSendingData(false);
+  //         }, 2500);
+  //       });
+  //   }
+  // };
 
-  const salvarPrato = async (urlImagem) => {
+ const salvarPrato = async (arquivoImagem) => {
     setPorcentagemCarregamento(60);
     await sleep(200);
-    const dados = {
-      nome: prato.nome,
-      valorVenda: parseFloat(prato.venda),
-      descricao: descricao,
-      imagem: urlImagem,
-      disponivel: prato.disponivel,
-      funcionario: { id: funcionario.userId },
-      setor: { id: prato.setor },
-      categoria: { id: prato.categoria },
-      areaPreparo: { id: prato.area },
+
+    const dadosPrato = {
+        nome: prato.nome,
+        valorVenda: parseFloat(prato.venda),
+        descricao: descricao,
+        disponivel: prato.disponivel,
+        funcionario: { id: funcionario.userId }, 
+        setor: { id: prato.setor },
+        categoria: { id: prato.categoria },
+        areaPreparo: { id: prato.area },
     };
+
+    const formData = new FormData();
+
+    const requestBlob = new Blob([JSON.stringify(dadosPrato)], { type: 'application/json' });
+    formData.append('request', requestBlob, 'request.json'); 
+
+    if (arquivoImagem) {
+        formData.append('imagem', arquivoImagem); 
+    }
+    
     setPorcentagemCarregamento(80);
+
+    const url = pratoSelecionado ? `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}` : `${ENDPOINTS.PRATOS}/${funcionario.userId}`;
+    
     const metodo = pratoSelecionado
-      ? api.patch(
-        `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
-        dados,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+          ? api.patch(url, formData, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+              },
+            })
+          : api.post(url, formData, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+              },
+            });
 
     metodo
       .then(async () => {

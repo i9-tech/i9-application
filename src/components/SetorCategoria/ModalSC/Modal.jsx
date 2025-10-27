@@ -34,7 +34,7 @@ const Modal = ({
         setUrlImagem(itemParaEditar.imagem);
         setImagemSelecionada(itemParaEditar.imagem);
       } else {
-        setUrlImagem("");
+        setUrlImagem(imagemPadrao);
         setImagemSelecionada("");
       }
       setImagem(null);
@@ -62,113 +62,100 @@ const Modal = ({
 
     const headers = {
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data'
     };
 
-    let imagemUrlFinal = "";
-
     try {
-      if (imagem) {
+      if (tipo === "setor") {
         setPorcentagemCarregamento(20);
         await sleep(200);
 
+        const dadosSetor = { nome };
         const formData = new FormData();
-        formData.append("file", imagem);
+        let urlImagemFinal = "";
+        let imagemParaEnvio = null;
 
-        const res = await api.post(ENDPOINTS.AZURE_IMAGEM, formData, {
-          headers: {
-            ...headers,
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-        setPorcentagemCarregamento(40);
-        await sleep(200);
-
-        imagemUrlFinal = res.data.imageUrl;
-      } else if (imagemSelecionada?.url) {
-        setPorcentagemCarregamento(30);
-        await sleep(200);
-
-        imagemUrlFinal = imagemSelecionada.url;
-      } else {
-        setPorcentagemCarregamento(30);
-        await sleep(200);
-
-        if (urlImagem == imagemPadrao) {
-          imagemUrlFinal = "";
+        if (imagem) {
+          imagemParaEnvio = imagem;
+        } else if (imagemSelecionada?.url) {
+          urlImagemFinal = imagemSelecionada.url;
+        } else if (urlImagem && urlImagem !== imagemPadrao) {
+          urlImagemFinal = itemParaEditar?.imagem || urlImagem;
         } else {
-          imagemUrlFinal = urlImagem;
+          urlImagemFinal = "";
         }
-      }
 
-      const dados = {
-        nome,
-        imagem: imagemUrlFinal,
-      };
+        dadosSetor.imagem = urlImagemFinal;
 
-      setPorcentagemCarregamento(60);
-      await sleep(200);
+        const requestBlob = new Blob([JSON.stringify(dadosSetor)], {
+          type: "application/json",
+        });
+        formData.append(itemParaEditar ? "setorParaAtualizar" : "setorParaCadastro", requestBlob, "request.json");
 
-      if (tipo === "categoria") {
+        if (imagemParaEnvio) {
+          formData.append("imagem", imagemParaEnvio);
+        }
+
+        setPorcentagemCarregamento(60);
+        await sleep(200);
+
+        let response;
+        if (itemParaEditar) {
+          response = await api.patch(
+            `${ENDPOINTS.SETORES}/${itemParaEditar.id}/${funcionario.userId}`,
+            formData,
+            { headers }
+          );
+          toast.success("Setor atualizado com sucesso!");
+        } else {
+          response = await api.post(
+            `${ENDPOINTS.SETORES}/${funcionario.userId}`,
+            formData,
+            { headers }
+          );
+          toast.success("Setor cadastrado com sucesso!");
+          setNome("");
+        }
+
+        setPorcentagemCarregamento(90);
+        await sleep(200);
+        onSalvar(response.data);
+        onClose();
+      } else if (tipo === "categoria") {
+        const dadosCategoria = { nome };
+
+        setPorcentagemCarregamento(60);
+        await sleep(200);
+
         if (itemParaEditar) {
           const response = await api.put(
             `${ENDPOINTS.CATEGORIAS}/${itemParaEditar.id}/${funcionario.userId}`,
-            { nome },
+            dadosCategoria,
             { headers }
           );
-          setPorcentagemCarregamento(90);
-          await sleep(200);
-
           toast.success("Categoria atualizada com sucesso!");
           onSalvar(response.data);
           onClose();
         } else {
           const response = await api.post(
             `${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`,
-            { nome },
+            dadosCategoria,
             { headers }
           );
-          setPorcentagemCarregamento(90);
-          await sleep(200);
-
           toast.success("Categoria cadastrada com sucesso!");
           onSalvar(response.data);
           setNome("");
           onClose();
         }
-      } else {
-        if (itemParaEditar) {
-          const response = await api.patch(
-            `${ENDPOINTS.SETORES}/${itemParaEditar.id}/${funcionario.userId}`,
-            dados,
-            { headers }
-          );
-          setPorcentagemCarregamento(90);
-          await sleep(200);
 
-          toast.success("Setor atualizado com sucesso!");
-          onSalvar(response.data);
-          onClose();
-        } else {
-          const response = await api.post(
-            `${ENDPOINTS.SETORES}/${funcionario.userId}`,
-            dados,
-            { headers }
-          );
-          setPorcentagemCarregamento(90);
-          await sleep(200);
-
-          toast.success("Setor cadastrado com sucesso!");
-          onSalvar(response.data);
-          setNome("");
-          onClose();
-        }
+        setPorcentagemCarregamento(90);
+        await sleep(200);
       }
 
       setPorcentagemCarregamento(100);
       await sleep(200);
     } catch (error) {
-      console.error(`Erro ao salvar ${tipo}:`, error);
+      console.error(`Erro ao salvar ${tipo}:`, error.response?.data || error);
       toast.error(
         `Erro ao ${itemParaEditar ? "atualizar" : "cadastrar"} ${tipo}!`
       );
@@ -227,26 +214,24 @@ const Modal = ({
                 <>
                   <label>Imagem:</label>
                   <div className="imagem-preview-wrapper-setor">
-                    {imagemSelecionada ? (
-                        <img
-                          src={itemParaEditar ? (imagemSelecionada + tokenUrl) : imagemSelecionada.fixa}
-                          alt="Imagem selecionada"
-                          className="imagem-preview-setor"
-                        />
-                    ) : urlImagem ? (
-                      <img
-                        src={urlImagem}
-                        alt="Imagem carregada"
-                        className="imagem-preview-setor"
-                      />
-                    ) : imagem ? (
+                    {imagem ? (
                       <img
                         src={URL.createObjectURL(imagem)}
-                        alt="Imagem carregada"
+                        alt="Imagem carregada localmente"
+                        className="imagem-preview-setor"
+                      />
+                    ) : urlImagem && urlImagem !== imagemPadrao ? (
+                      <img
+                        src={urlImagem}
+                        alt="Imagem do setor"
                         className="imagem-preview-setor"
                       />
                     ) : (
-                      <p>Nenhuma imagem selecionada</p>
+                      <img
+                        src={imagemPadrao}
+                        alt="Nenhuma imagem selecionada"
+                        className="imagem-preview-setor"
+                      />
                     )}
                   </div>
 
@@ -294,7 +279,7 @@ const Modal = ({
                   src={src.fixa}
                   alt={`Imagem ${index + 1}`}
                   className={`imagem-opcao ${
-                    imagemSelecionada === src.fixa ? "selecionada" : ""
+                    imagemSelecionada.fixa === src.fixa ? "selecionada" : ""
                   }`}
                   onClick={() => {
                     setImagemSelecionada(src);

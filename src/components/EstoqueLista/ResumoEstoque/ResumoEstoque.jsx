@@ -101,7 +101,7 @@ export function ResumoEstoque() {
               />
             </span>
             <span className="resumo-label-prod">
-              Lucro Bruto
+              Receita Estimada
             </span>
           </div>
 
@@ -117,7 +117,7 @@ export function ResumoEstoque() {
 
             </span>
             <span className="resumo-label-prod">
-              Lucro Líquido Esperado
+              Lucro Bruto
             </span>
           </div>
         </div>

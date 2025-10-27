@@ -9,14 +9,16 @@
   margin: 16px;
   max-height: 90vh;
   overflow-y: auto;
-}
 
-.tabela-scroll-area {
+  .tabela-scroll-area {
   max-height: 20vh;   /* Ocupar até 40% da tela visível */
   min-height: 100px;  /* Garante altura mínima */
   overflow-y: auto;
   overflow-x: auto;
 }
+}
+
+
 
 @media (max-width: 700px) {
   .modal-content {

@@ -285,7 +285,7 @@ export function Dashboard() {
           <section className="kpis">
             <Kpi
               key={"abss"}
-              titulo={"Lucro Bruto"}
+              titulo={"Faturamento Estimado"}
               valor={formatarMoeda(lucroBruto)}
               adicional={
                 <>
@@ -303,7 +303,7 @@ export function Dashboard() {
             />
             <Kpi
               key={"abssss"}
-              titulo={"Lucro Liquido"}
+              titulo={"Lucro Bruto"}
               valor={formatarMoeda(lucroLiquido)}
               adicional={`${formatarMoeda(liquidoMercadoria)} em mercadorias`}
               indicador={"#f0b731"}

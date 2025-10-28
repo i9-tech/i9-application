@@ -66,7 +66,7 @@ const CadastroFuncionarioFormulario = ({
   };
 
   const handleEmailChange = (valor) => {
-    setEmailFuncionario(valor); 
+    setEmailFuncionario(valor);
     if (tipoLogin === "EMAIL") {
       setLogin(valor);
     }
@@ -371,57 +371,58 @@ const CadastroFuncionarioFormulario = ({
               </span>
             </label>
             <Select
-  inputId="tipoLogin"
-  value={tipoLoginOptions.find(opt => opt.value === tipoLogin)}
-  onChange={opt => {
-    setTipoLogin(opt.value);
-    atualizarLoginAutomatico(opt.value);
-  }}
-  options={tipoLoginOptions}
-  placeholder="Selecione a forma de login"
-  isSearchable={false}
-  isDisabled={!!funcionarioSelecionado}
-  styles={{
-    control: (baseStyles, state) => ({
-      ...baseStyles,
-      borderColor: state.isFocused
-        ? "var(--cor-para-o-texto-branco)"
-        : "transparent",
-       boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-      "&:hover": { borderColor: "transparent" },
-    }),
-    placeholder: (baseStyles) => ({
-      ...baseStyles,
-      color: "var(--cor-para-texto-preto)",
-    }),
-    option: (baseStyles, state) => ({
-      ...baseStyles,
-      backgroundColor: state.isSelected
-        ? "var(--titulos-botoes-destaques)"
-        : state.isFocused
-        ? "var(--detalhes-2)"
-        : "var(--cor-para-o-texto-branco)",
-      color: state.isSelected
-        ? "var(--cor-para-o-texto-branco)"
-        : "var(--cor-para-texto-preto)",
-      padding: 14,
-      cursor: "pointer",
-    }),
-    singleValue: (baseStyles) => ({
-      ...baseStyles,
-      color: "var(--cor-para-texto-preto)",
-    }),
-    menuList: (base) => ({
-      ...base,
-      overflowY: "auto",
-    }),
-    menu: (base) => ({
-      ...base,
-      borderRadius: 5,
-      marginTop: 0,
-    }),
-  }}
-/>
+              inputId="tipoLogin"
+              value={tipoLoginOptions.find(opt => opt.value === tipoLogin)}
+              onChange={opt => {
+                setTipoLogin(opt.value);
+                atualizarLoginAutomatico(opt.value);
+              }}
+              options={tipoLoginOptions}
+              placeholder="Selecione a forma de login"
+              isSearchable={false}
+              isDisabled={!!funcionarioSelecionado}
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  borderColor: state.isFocused
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "transparent",
+                  boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+                  "&:hover": { borderColor: "transparent" },
+                }),
+                placeholder: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                option: (baseStyles, state) => ({
+                  ...baseStyles,
+                  backgroundColor: state.isSelected
+                    ? "var(--titulos-botoes-destaques)"
+                    : state.isFocused
+                      ? "var(--cinza-hover-select)" 
+                      : "var(--cor-para-o-texto-branco)",
+                  color: state.isSelected
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "var(--cor-para-texto-preto)",
+                  padding: "8px 16px", 
+                  cursor: "pointer",
+                }),
+                singleValue: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  maxHeight: 200, // <--- ESTILO IGUALADO
+                  overflowY: "auto",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  borderRadius: 5,
+                  marginTop: 0,
+                }),
+              }}
+            />
           </div>
           <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
             <label htmlFor="login">

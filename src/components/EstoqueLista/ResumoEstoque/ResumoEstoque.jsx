@@ -117,7 +117,7 @@ export function ResumoEstoque() {
 
             </span>
             <span className="resumo-label-prod">
-              Lucro Bruto
+              Lucro Estimado
             </span>
           </div>
         </div>

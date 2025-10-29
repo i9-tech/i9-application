@@ -24,7 +24,7 @@ const CadastroProdutoFormulario = ({
   const funcionario = getFuncionario();
   const hoje = new Date().toISOString().split("T")[0];
   const token = localStorage.getItem("token");
-  const [urlImagemTemporaria, setUrlImagemTemporaria] = useState("");
+  const [urlImagemTemporaria, _setUrlImagemTemporaria] = useState("");
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
 

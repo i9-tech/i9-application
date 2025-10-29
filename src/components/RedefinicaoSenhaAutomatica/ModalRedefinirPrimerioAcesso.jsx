@@ -3,19 +3,16 @@ import api from "../../provider/api";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { toast } from "react-toastify";
 import "./ModalRedefinirPrimeiroAcesso.css";
-import { getFuncionario } from "../../utils/auth"; 
+import { getFuncionario } from "../../utils/auth";
 
 export default function ModalRedefinirPrimeiroAcesso({ onClose }) {
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [loading, setLoading] = useState(false);
 
-
-  const funcionario = getFuncionario(); 
+  const funcionario = getFuncionario();
   const idFuncionario = funcionario?.userId;
   const idEmpresa = funcionario?.empresaId;
-
-    console.log(idFuncionario);
 
   const handleRedefinirSenha = (e) => {
     e.preventDefault();
@@ -24,14 +21,20 @@ export default function ModalRedefinirPrimeiroAcesso({ onClose }) {
       toast.error("As senhas não coincidem!");
       return;
     }
+    const temLetra = /[a-zA-Z]/.test(novaSenha);
+    const temCaractereEspecial = /[^a-zA-Z0-9]/.test(novaSenha);
+
+    if (!temLetra || !temCaractereEspecial) {
+      toast.error("A senha deve conter ao menos 11 caracteres, incluindo uma letra e um caractere especial.");
+      return;
+    }
 
     setLoading(true);
 
-      const body = {
-        senha: novaSenha,
-        primeiroAcesso: false,
-      };
-
+    const body = {
+      senha: novaSenha,
+      primeiroAcesso: false,
+    };
 
     const token = localStorage.getItem("token");
 
@@ -41,12 +44,14 @@ export default function ModalRedefinirPrimeiroAcesso({ onClose }) {
       })
       .then(() => {
         toast.success("Senha redefinida com sucesso!");
-        onClose(); 
+        onClose();
       })
       .catch((error) => {
         console.error("Erro ao redefinir senha:", error);
         toast.error(
-          `Erro ao redefinir senha: ${error.response?.data?.mensagem || "Erro desconhecido"}`
+          `Erro ao redefinir senha: ${
+            error.response?.data?.mensagem || "Erro desconhecido"
+          }`
         );
       })
       .finally(() => setLoading(false));
@@ -67,8 +72,11 @@ export default function ModalRedefinirPrimeiroAcesso({ onClose }) {
               type="password"
               id="novaSenha"
               value={novaSenha}
-             placeholder="Digite sua nova senha" 
+              placeholder="Digite sua nova senha"
+              minLength={11}
               onChange={(e) => setNovaSenha(e.target.value)}
+              // Dica de validação para o usuário
+              title="Mínimo 11 caracteres, com letras e símbolos."
               required
             />
           </div>
@@ -79,9 +87,11 @@ export default function ModalRedefinirPrimeiroAcesso({ onClose }) {
               type="password"
               id="confirmarSenha"
               value={confirmarSenha}
-               placeholder="Confirme sua nova senha" 
+              placeholder="Confirme sua nova senha"
               onChange={(e) => setConfirmarSenha(e.target.value)}
               required
+              minLength={11}
+              title="Mínimo 11 caracteres, com letras e símbolos."
             />
           </div>
 

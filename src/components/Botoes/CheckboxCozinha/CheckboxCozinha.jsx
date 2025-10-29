@@ -9,6 +9,7 @@ export function CheckboxCozinha({ id, texto, onClick, disabled, feito }) {
       className={`checkbox-cozinha-label ${feito ? 'feito' : ''}`}
       onClick={onClick}
       disabled={disabled}
+      title={feito ? 'Não é possivel desfazer uma comanda já concluída!' : ''}
     >
       <img
         src={iconeCheck}

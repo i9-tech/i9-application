@@ -140,11 +140,11 @@ Isso garante que o código nessas branches esteja sempre saudável e pronto para
 ## 🔑 Autenticação
 
 Para acessar qualquer função interna da nossa aplicação, será necessário informar um `token de segurança` a partir de um **login**. Existe um usuário padrão criado pelo back-end para testes:
-
-**CPF:** `000.000.000-00`
-**Email:** `00000000000@teste`
+<br/>
+**CPF:** `000.000.000-00`<br/>
+**Email:** `00000000000@teste`<br/>
 *(A senha inicial geralmente é definida pelo back-end, como `00000000000@taua`)*
-
+<br/>
 **Primeiro Acesso:** Ao fazer login pela primeira vez com um novo usuário, o sistema exigirá a redefinição imediata da senha, garantindo a segurança da conta.
 
 -----
@@ -152,5 +152,5 @@ Para acessar qualquer função interna da nossa aplicação, será necessário i
 ## 📜 Licença
 
 Este projeto está licenciado sob a Licença MIT. Isso significa que você pode usá-lo, modificá-lo e distribuí-lo livremente, desde que mantenha os avisos de copyright e a licença original.
-
+<br/>
 i9 Tech 2025 © Todos os direitos reservados.i9 Tech 2025 &copy; Todos os direitos reservados.

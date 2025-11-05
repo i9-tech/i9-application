@@ -19,7 +19,7 @@ const Modal = ({
 }) => {
   const funcionario = getFuncionario();
   const token = getToken();
-  const tokenUrl = enviroments.tokenURL;
+  const _tokenUrl = enviroments.tokenURL;
 
   const [nome, setNome] = useState("");
   const [imagem, setImagem] = useState(null);

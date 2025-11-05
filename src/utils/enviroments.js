@@ -9,6 +9,8 @@ export const enviroments = {
         return import.meta.env.VITE_API_BASE_URL_DEV;
       case "prod":
         return import.meta.env.VITE_API_BASE_URL_PROD;
+      case "aws":
+        return import.meta.env.VITE_API_BASE_URL_AWS;
       default:
         console.warn("Ambiente desconhecido. Usando backend local.");
         return import.meta.env.VITE_API_BASE_URL_LOCAL;

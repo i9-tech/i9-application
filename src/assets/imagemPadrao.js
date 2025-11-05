@@ -1,6 +1,6 @@
 import { enviroments } from "../utils/enviroments";
 
-const tokenImagem = enviroments.tokenURL;
+const _tokenImagem = enviroments.tokenURL;
 
 export const imagemPadrao = `https://dev-i9-images-130672598402.s3.us-east-1.amazonaws.com/icon-img-padrao.png`;
 

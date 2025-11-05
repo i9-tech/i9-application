@@ -93,7 +93,7 @@ export function ResumoPratos() {
               data-tooltip-content="Soma do valor de venda de todos os pratos em estoque."
             />
           </span>
-          <span className="resumo-label">Lucro Total (Ativos e Inativos)</span>
+          <span className="resumo-label">Receita Total (Ativos e Inativos)</span>
         </div>
         <div className="resumo-item">
           <span className="resumo-valor">
@@ -103,7 +103,7 @@ export function ResumoPratos() {
               data-tooltip-content="Soma do valor de venda de todos os pratos ativos em estoque."
             />
           </span>
-          <span className="resumo-label">Lucro (Ativos)</span>
+          <span className="resumo-label">Receita (Ativos)</span>
         </div>
       </div>
 

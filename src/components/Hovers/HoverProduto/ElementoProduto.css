@@ -89,6 +89,12 @@
     }
   }
 
+  &:hover {
+    img {
+      filter: brightness(0) invert(1);
+    }
+  }
+
   .botao-adicionar {
     position: absolute;
     top: 0px;

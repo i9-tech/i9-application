@@ -6,6 +6,8 @@ import NavInstitucional from "../../components/NavInstitucional/NavInstitucional
 import CardsSobreNos from "../../components/CardsSobreNos/CardsSobreNos";
 import DesktopInicio from "../../components/DesktopInicio/DesktopInicio";
 import DesktopContato from "../../components/DesktopContato/DesktopContato";
+import Planos from "../../components/Planos/Planos";
+
 import DesktopFooter from "../../components/DesktopFooter/DesktopFooter";
 import { useState, useEffect } from "react";
 
@@ -45,6 +47,11 @@ export function Institucional() {
       <section className="institucional-perguntas" id="sobre">
         <Perguntas />
       </section>
+
+       <section className="institucional-planos" id="planos">
+        <Planos />
+      </section>
+      
       <section className="institucional-end" id="contato">
         <DesktopContato />
         <DesktopFooter />

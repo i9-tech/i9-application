@@ -1,4 +1,6 @@
 import "./Planos.css";
+import IMAGEM_USER from "./user-circle-svgrepo-com.svg";
+
 
 const Planos = () => {
   return (
@@ -32,41 +34,60 @@ const Planos = () => {
       </div>
 
       <div className="cards">
+
         <div className="card-planos">
-          <h2>Mercúrio</h2>
+          <h2>Essencial</h2>
           <p>
             Para quem quer fazer a gestão completa do negócio em uma única
             plataforma
           </p>
-          <h3>R$110<span>/mês</span></h3>
+          <h3>R$99,00<span>/mês</span></h3>
           <button className="btn-secondary">Comece grátis</button>
           <ul>
-            <li>👤 10 usuários</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+              <img src={IMAGEM_USER} alt="Usuário" className="icone" />
+              <span>10 Usuários</span>
+            </li>
+            <li>👤 2 Super Usuários</li>
+            <li>🚫 Envio de relatório WhatsApp</li>
+            <li>🚫 Dashboard Analítica</li>
           </ul>
         </div>
 
         <div className="card-planos destaque-card">
-          <h2>Titânio</h2>
+          <h2>Profissional</h2>
           <p>
             Para quem busca otimizar os processos da empresa com automações e
             dashboards
           </p>
-          <h3>R$185<span>/mês</span></h3>
+          <h3>R$249,00<span>/mês</span></h3>
           <button className="btn-secondary">Comece grátis</button>
           <ul>
-            <li>👤 15 usuários</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+              <img src={IMAGEM_USER} alt="Usuário" className="icone" /> 35 Usuários</li>
+            <li>👤 4 Super Usuários</li>
+            <li>🚫 Envio de relatório WhatsApp</li>
+            <li>✅ Dashboard Analítica</li>
+
+
+
           </ul>
         </div>
 
         <div className="card-planos">
-          <h2>Platina</h2>
+          <h2>Premium</h2>
           <p>
             Para quem quer crescer o negócio com recursos para alta performance
           </p>
-          <h3>R$450<span>/mês</span></h3>
-          <button className="btn-secondary">Fale com vendas</button>
+          <h3>R$499,00<span>/mês</span></h3>
+          <button className="btn-secondary">Comece grátis</button>
           <ul>
-            <li>👤 50 usuários</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+              <img src={IMAGEM_USER} alt="Usuário" className="icone" /> Ilimitados usuários</li>
+            <li> 10 Super Usuários</li>
+            <li>✅ Envio de relatório WhatsApp</li>
+            <li>✅ Dashboard Analítica</li>
+
           </ul>
         </div>
 

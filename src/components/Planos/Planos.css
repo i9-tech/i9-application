@@ -150,9 +150,12 @@
 }
 
 .destaque-card {
-    background-color: var(--botoes-hover-destaques);
-    ;
+    background-color: var(--botoes-hover-destaques);;
     color: white;
+}
+
+.destaque-card:hover{
+    border: 2px solid white;
 }
 
 .destaque-card h3 {
@@ -161,4 +164,8 @@
 
 .destaque-card .btn {
     background-color: var(--botoes-hover-destaques);
+}
+
+.icone{
+    width: 20px;
 }

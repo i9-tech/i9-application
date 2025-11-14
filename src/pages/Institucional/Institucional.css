@@ -950,7 +950,7 @@
       height: 80%;
       align-items: center;
       gap: 20px;
-      padding: 0 5%;
+      padding: 0 5% 5%;
 
       @media (max-width: 805px) {
         flex-direction: column;
@@ -1642,7 +1642,7 @@
       align-items: center;
       flex-direction: column;
       gap: 20px;
-      padding: 0 5%;
+      padding: 0 5% 5%;
 
       .imagem-dados,
       .lista-perguntas {
@@ -2395,7 +2395,7 @@
       align-items: center;
       flex-direction: column;
       gap: 20px;
-      padding: 0 5%;
+      padding: 0 5% 5%;
 
       .imagem-dados,
       .lista-perguntas {

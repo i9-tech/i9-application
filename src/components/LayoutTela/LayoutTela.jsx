@@ -19,19 +19,22 @@ export default function LayoutTela(props) {
       <section className="secao-layout">
         <div className="div-layout">
           <header className="header-layout">
+            <div className="content-header-wrapper">
             <span className="content-header-layout">
               <h1 style={{ fontSize: isMobile ? "20px" : "28px" }}>
                 {props.titulo ?? "NOME DA SEÇÃO"}
               </h1>
-              <span className="adicional-header">
-                {props.adicional ?? ""}
-              </span>
+              <span className="adicional-header">{props.adicional ?? ""}</span>
             </span>
-            {!isMobile && (
-              <span className="adicional-header-right">
-                {props.adicionalUm ?? ""}
+            {props.adicionalDois && (
+              <span className="date-picker-top-right">
+                {props.adicionalDois}
               </span>
             )}
+</div>
+            <span className="adicional-header-right">
+              {props.adicionalUm ?? ""}
+            </span>
           </header>
 
           <main className="main-layout">

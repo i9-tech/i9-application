@@ -85,3 +85,18 @@
 .drp-clear:hover {
   background-color: #0000004a;
 }
+ @media (max-width: 786px) {
+    .drp-button {
+    padding: 8px 10px; 
+    margin-bottom: -5px;   
+    line-height: 1.2;
+  }
+
+  .drp-button span {
+    display: none;
+  }
+
+  .drp-icon {
+    font-size: 20px;
+  }
+  }

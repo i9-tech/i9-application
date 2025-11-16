@@ -13,6 +13,7 @@
     display: flex;
     flex-direction: column;
     padding: 0 60px 0 120px;
+    
 
    .content-header-wrapper {
   display: flex;
@@ -96,8 +97,7 @@ align-items: flex-end;
 
     .div-layout {
       width: 100%;
-      margin-top: 50px;
-      padding: 0 1rem 1rem 1rem;
+      padding: 5.5rem 0.5rem 0 0.5rem;
     }
 
     .header-layout h1 {
@@ -128,6 +128,9 @@ align-items: flex-end;
  flex-direction: column;
 }
 
+.menu-comanda{
+  width: 0vw !important;
+}
 
     .adicional-header {
       width: 100%;

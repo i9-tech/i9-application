@@ -17,7 +17,7 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  background: var(--cor-para-o-fundo-site);
+  background: none;
   color: var(--cor-para-texto-preto);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

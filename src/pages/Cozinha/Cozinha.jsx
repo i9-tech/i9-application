@@ -123,7 +123,7 @@ export function Cozinha() {
             ...baseStyles,
             minHeight: window.innerWidth <= 768 ? 35 : 45,
       fontSize: window.innerWidth <= 768 ? "13px" : "14px",
-            minWidth: 200,
+            minWidth: 100,
             maxWidth: 250,
             borderColor: state.isFocused
               ? "var(--cor-para-o-texto-branco)"

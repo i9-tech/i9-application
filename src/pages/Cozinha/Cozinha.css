@@ -283,6 +283,7 @@
     width: 100%;
   }
 
+  
   html {
     overflow-y: hidden;
   }
@@ -391,9 +392,12 @@
   }
 
   .botao-historico {
-    width: 95%;
-    height: 5.3vh;
-    font-size: 12px;
+    width: 100%;
+    height: auto;
+    font-size: 10px;
+    line-height: 1.1;
+    justify-content: center;
+    align-items: center;
   }
 }
 

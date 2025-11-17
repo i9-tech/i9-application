@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./Planos.css";
 import IMAGEM_USER from "../../assets/usuario.svg";
 import IMAGEM_SUPERUSER from "../../assets/icon-adminn.svg";
@@ -5,6 +6,22 @@ import IMAGEM_NAO from "../../assets/block.svg";
 import IMAGEM_CHECK from "../../assets/check.svg";
 
 const Planos = () => {
+  const [periodo, setPeriodo] = useState("mensal");
+
+  const precos = {
+    mensal: {
+      essencial: "99,00",
+      profissional: "249,00",
+      premium: "499,00",
+    },
+    anual: {
+      essencial: "69,30",
+      profissional: "174,30",
+      premium: "349,30",
+    }
+
+  };
+
   return (
     <div className="planos-container">
       <h1 className="titulo-planos">
@@ -29,9 +46,17 @@ const Planos = () => {
       </div>
 
       <div className="periodo">
-        <button className="ativo">Mensal</button>
-        <button>
-          Anual <span className="economia">(economize até R$1.300)</span>
+        <button
+          className={periodo === "mensal" ? "ativo" : ""}
+          onClick={() => setPeriodo("mensal")}
+        >
+          Mensal
+        </button>
+        <button
+          className={periodo === "anual" ? "ativo" : ""}
+          onClick={() => setPeriodo("anual")}
+        >
+          Anual  <span className={`economia ${periodo === "anual" ? "economia-ativa" : ""}`}>(economize até R$1.300)</span>
         </button>
       </div>
 
@@ -43,7 +68,18 @@ const Planos = () => {
             Para quem quer fazer a gestão completa do negócio em uma única
             plataforma
           </p>
-          <h3>R$99,00<span>/mês</span></h3>
+          <h3>
+            R${precos[periodo].essencial}<span>/mês</span>
+          </h3>
+
+          {periodo === "anual" && (
+            <span className="total-anual">
+              R${(parseFloat(precos.anual.essencial.replace(",", ".")) * 12)
+                .toFixed(2)
+                .replace(".", ",")}/ano
+            </span>
+          )}
+
           <button className="btn-secondary">Comece grátis</button>
           <ul>
             <li className="feature">
@@ -71,7 +107,17 @@ const Planos = () => {
             Para quem busca otimizar os processos da empresa com automações e
             dashboards
           </p>
-          <h3>R$249,00<span>/mês</span></h3>
+          <h3>R${precos[periodo].profissional}<span>/mês</span>
+          </h3>
+
+          {periodo === "anual" && (
+            <span className="total-anual">
+              R${(parseFloat(precos.anual.profissional.replace(",", ".")) * 12)
+                .toFixed(2)
+                .replace(".", ",")}/ano
+            </span>
+          )}
+
           <button className="btn-secondary">Comece grátis</button>
           <ul>
             <li className="feature">
@@ -98,7 +144,16 @@ const Planos = () => {
           <p>
             Para quem quer crescer o negócio com recursos para alta performance
           </p>
-          <h3>R$499,00<span>/mês</span></h3>
+          <h3>R${precos[periodo].premium}<span>/mês</span></h3>
+
+          {periodo === "anual" && (
+            <span className="total-anual">
+              R${(parseFloat(precos.anual.premium.replace(",", ".")) * 12)
+                .toFixed(2)
+                .replace(".", ",")}/ano
+            </span>
+          )}
+
           <button className="btn-secondary">Comece grátis</button>
           <ul>
             <li className="feature">

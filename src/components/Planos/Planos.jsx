@@ -1,6 +1,8 @@
 import "./Planos.css";
-import IMAGEM_USER from "./user-circle-svgrepo-com.svg";
-
+import IMAGEM_USER from "../../assets/usuario.svg";
+import IMAGEM_SUPERUSER from "../../assets/icon-adminn.svg";
+import IMAGEM_NAO from "../../assets/block.svg";
+import IMAGEM_CHECK from "../../assets/check.svg";
 
 const Planos = () => {
   return (
@@ -44,13 +46,22 @@ const Planos = () => {
           <h3>R$99,00<span>/mês</span></h3>
           <button className="btn-secondary">Comece grátis</button>
           <ul>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+            <li className="feature">
               <img src={IMAGEM_USER} alt="Usuário" className="icone" />
               <span>10 Usuários</span>
             </li>
-            <li>👤 2 Super Usuários</li>
-            <li>🚫 Envio de relatório WhatsApp</li>
-            <li>🚫 Dashboard Analítica</li>
+            <li className="feature">
+              <img src={IMAGEM_SUPERUSER} alt="Super Usuário" className="icone" />
+              <span>2 Super Usuários</span>
+            </li>
+            <li className="feature">
+              <img src={IMAGEM_NAO} alt="Não Disponível" className="icone" />
+              <span>Envio de relatório WhatsApp</span>
+            </li>
+            <li className="feature">
+              <img src={IMAGEM_NAO} alt="Não Disponível" className="icone" />
+              <span>Dashboard Analítica</span>
+            </li>
           </ul>
         </div>
 
@@ -63,14 +74,22 @@ const Planos = () => {
           <h3>R$249,00<span>/mês</span></h3>
           <button className="btn-secondary">Comece grátis</button>
           <ul>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
-              <img src={IMAGEM_USER} alt="Usuário" className="icone" /> 35 Usuários</li>
-            <li>👤 4 Super Usuários</li>
-            <li>🚫 Envio de relatório WhatsApp</li>
-            <li>✅ Dashboard Analítica</li>
-
-
-
+            <li className="feature">
+              <img src={IMAGEM_USER} alt="Usuário" className="icone" />
+              <span>35 Usuários</span>
+            </li>
+            <li className="feature">
+              <img src={IMAGEM_SUPERUSER} alt="Super Usuário" className="icone" />
+              <span>4 Super Usuários</span>
+            </li>
+            <li className="feature">
+              <img src={IMAGEM_NAO} alt="Não Disponível" className="icone" />
+              <span>Envio de relatório WhatsApp</span>
+            </li>
+            <li className="feature">
+              <img src={IMAGEM_CHECK} alt="Disponível" className="icone" />
+              <span>Dashboard Analítica</span>
+            </li>
           </ul>
         </div>
 
@@ -82,12 +101,22 @@ const Planos = () => {
           <h3>R$499,00<span>/mês</span></h3>
           <button className="btn-secondary">Comece grátis</button>
           <ul>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
-              <img src={IMAGEM_USER} alt="Usuário" className="icone" /> Ilimitados usuários</li>
-            <li> 10 Super Usuários</li>
-            <li>✅ Envio de relatório WhatsApp</li>
-            <li>✅ Dashboard Analítica</li>
-
+            <li className="feature">
+              <img src={IMAGEM_USER} alt="Usuário" className="icone" />
+              <span>Ilimitados usuários</span>
+            </li>
+            <li className="feature">
+              <img src={IMAGEM_SUPERUSER} alt="Super Usuário" className="icone" />
+              <span>10 Super Usuários</span>
+            </li>
+            <li className="feature">
+              <img src={IMAGEM_CHECK} alt="Disponível" className="icone" />
+              <span>Envio de relatório WhatsApp</span>
+            </li>
+            <li className="feature">
+              <img src={IMAGEM_CHECK} alt="Disponível" className="icone" />
+              <span>Dashboard Analítica</span>
+            </li>
           </ul>
         </div>
 

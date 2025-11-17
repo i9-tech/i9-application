@@ -1,6 +1,5 @@
 .planos-container {
     text-align: center;
-    font-family: "Inter", sans-serif;
     padding: 40px;
     color: #1e1e1e;
 }
@@ -26,14 +25,13 @@
     padding: 20px;
     margin: 30px auto;
     max-width: 900px;
+}
 
-    p {
+.recursos p {
     font-size: 1.25rem;
-    }
-    li{
-          font-size: 1.25rem;
-  
-    }
+}
+.recursos li {
+    font-size: 1.25rem;
 }
 
 .recursos ul {
@@ -55,7 +53,7 @@
     background: none;
     border: 1px solid #ccc;
     padding: 8px 16px;
-   border-radius: 0.4rem;
+    border-radius: 0.4rem;
     margin: 0 5px;
     cursor: pointer;
     transition: 0.3s;
@@ -145,16 +143,29 @@
     color: var(--texto-branco);
 }
 
-.card-planos ul li {
+.card-planos ul li,
+.card-planos ul .feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
     margin: 5px 0;
 }
 
+.icone {
+    width: 20px;
+}
+
+.destaque-card .icone {
+    filter: brightness(0) invert(1);
+}
+
 .destaque-card {
-    background-color: var(--botoes-hover-destaques);;
+    background-color: var(--botoes-hover-destaques);
     color: white;
 }
 
-.destaque-card:hover{
+.destaque-card:hover {
     border: 2px solid white;
 }
 
@@ -166,6 +177,12 @@
     background-color: var(--botoes-hover-destaques);
 }
 
-.icone{
-    width: 20px;
+@media (max-width: 900px) {
+    .card-planos {
+        width: 100%;
+        max-width: 420px;
+    }
+    .titulo-planos {
+        font-size: 32px;
+    }
 }

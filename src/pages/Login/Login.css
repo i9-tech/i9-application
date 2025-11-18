@@ -109,6 +109,13 @@
         flex-direction: column;
         justify-content: center;
 
+        .desabilitado {
+          input {
+            background-color: grey;
+            cursor: not-allowed;
+          }
+        }
+
         input {
           height: 45%;
           width: 100%;
@@ -126,8 +133,9 @@
           font-weight: bold;
           color: red;
           display: none;
-        }
 
+        }
+        
         .visivel {
           display: flex;
         }
@@ -150,6 +158,18 @@
 
         .visivel {
           display: flex;
+        }
+
+        .botao-desabilitado {
+          background-color: grey;
+          cursor: not-allowed;
+          display: none;
+          
+          &:hover {
+            cursor: not-allowed;
+            opacity: 1;
+            background-color: grey;
+          }
         }
 
         button {
@@ -309,6 +329,13 @@
         flex-direction: column;
         justify-content: center;
 
+        .desabilitado {
+          input {
+            background-color: grey;
+            cursor: not-allowed;
+          }
+        }
+
         input {
           height: 45%;
           width: 100%;
@@ -350,6 +377,18 @@
 
         .visivel {
           display: flex;
+        }
+
+        .botao-desabilitado {
+          background-color: grey;
+          cursor: not-allowed;
+          display: none;
+          
+          &:hover {
+            cursor: not-allowed;
+            opacity: 1;
+            background-color: grey;
+          }
         }
 
         button {
@@ -498,6 +537,13 @@
         flex-direction: column;
         justify-content: center;
 
+        .desabilitado {
+          input {
+            background-color: grey;
+            cursor: not-allowed;
+          }
+        }
+
         input {
           height: 45%;
           width: 100%;
@@ -549,6 +595,18 @@
 
         .visivel {
           display: flex;
+        }
+
+        .botao-desabilitado {
+          background-color: grey;
+          cursor: not-allowed;
+          display: none;
+          
+          &:hover {
+            cursor: not-allowed;
+            opacity: 1;
+            background-color: grey;
+          }
         }
 
         button {

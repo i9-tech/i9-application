@@ -9,7 +9,9 @@ export function useBloqueioTemporario(storageKey) {
 
     if (timestampDesbloqueio) {
       const agora = Date.now();
-      const diferencaEmSegundos = Math.ceil((parseInt(timestampDesbloqueio) - agora) / 1000);
+      const diferencaEmSegundos = Math.ceil(
+        (parseInt(timestampDesbloqueio) - agora) / 1000
+      );
 
       if (diferencaEmSegundos > 0) {
         setBloqueado(true);
@@ -41,8 +43,8 @@ export function useBloqueioTemporario(storageKey) {
 
   const iniciarBloqueio = (segundos) => {
     const agora = Date.now();
-    const timestampExpiracao = agora + (segundos * 1000);
-    
+    const timestampExpiracao = agora + segundos * 1000;
+
     localStorage.setItem(storageKey, timestampExpiracao.toString());
     setTempoRestante(segundos);
     setBloqueado(true);
@@ -58,6 +60,6 @@ export function useBloqueioTemporario(storageKey) {
     bloqueado,
     tempoRestante,
     iniciarBloqueio,
-    formatarTempo
+    formatarTempo,
   };
 }

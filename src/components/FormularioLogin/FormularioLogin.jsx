@@ -70,7 +70,7 @@ export default function FormularioLogin({
           const mensagemBackend = err.response.data.message;
           // BLOQUEIO DE 30 MINUTOS
           const matchMinutos = mensagemBackend.match(/(\d+)/);
-          const minutos = matchMinutos ? parseInt(matchMinutos[0]) : 30;
+          const _minutos = matchMinutos ? parseInt(matchMinutos[0]) : 30;
           // const segundosTotais = minutos * 60;
 
           // BLOQUEIO DE 30 SEGUNDOS

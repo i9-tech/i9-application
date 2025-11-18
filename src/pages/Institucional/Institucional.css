@@ -1036,7 +1036,7 @@
     .contato {
       background-color: var(--cor-para-o-fundo-site);
       display: flex;
-      height: 60%;
+      height: 80%;
       width: 100%;
       justify-content: center;
       align-items: center;
@@ -1721,7 +1721,7 @@
     .contato {
       background-color: var(--cor-para-o-fundo-site);
       display: flex;
-      height: 60%;
+      height: 80%;
       width: 100%;
       justify-content: center;
       align-items: center;
@@ -2475,7 +2475,7 @@
     .contato {
       background-color: var(--cor-para-o-fundo-site);
       display: flex;
-      height: 60%;
+      height: 80%;
       width: 100%;
       justify-content: center;
       align-items: center;

@@ -56,6 +56,7 @@ export function Institucional() {
         <DesktopContato />
         <DesktopFooter />
       </section>
+      
       {showScrollTop && (
         <button title="Voltar para o topo da página" className="botao-voltar-inicio" onClick={scrollToTop} aria-label="Voltar ao topo">
           ↑

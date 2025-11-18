@@ -36,7 +36,7 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
-    padding: 4px 11px ;
+    padding: 5px 15px ;
     border: 1px solid var(--titulos-botoes-destaques);
     border-radius: 100%;
     color: var(--titulos-botoes-destaques);
@@ -45,8 +45,6 @@
   .botao-fechar:hover{
     color: var(--cor-para-o-texto-branco);
     background-color: var(--titulos-botoes-destaques);
-
-
   }
   .modal-header {
     text-align: center;

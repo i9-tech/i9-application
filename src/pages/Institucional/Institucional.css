@@ -1830,7 +1830,7 @@
   }
 
   .footer {
-    background-color: var(--botoes-hover-destaques);
+    background-color: var(--footer);
     height: 40%;
     color: var(--cor-para-o-texto-branco);
     display: flex;
@@ -2611,7 +2611,7 @@
   }
 
   .footer {
-    background-color: var(--botoes-hover-destaques);
+    background-color: var(--footer);
     height: 40%;
     color: var(--cor-para-o-texto-branco);
     display: flex;

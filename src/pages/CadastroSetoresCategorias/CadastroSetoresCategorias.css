@@ -47,6 +47,57 @@
   box-Shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
+@media (max-width: 768px) {
+
+  .info-sc-card__description {
+    font-size: 14px !important;
+    min-width: 150px;
+  }
+
+  .info-sc-card__title{
+    font-size: 22px !important;
+  }
+  .pagina-container {
+    padding: 16px;
+    margin-right: 0;
+  }
+
+  .cadastro-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .info-s-card {
+    width: 100% !important;
+    height: auto;
+    padding: 20px;
+  }
+
+  .main-actions {
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+  }
+
+  .tabela-dados {
+    overflow-x: auto;
+  }
+
+  .info-sc-card__header-action button{
+    font-size: 12px !important;
+    padding: 8px 12px !important;
+    white-space: nowrap;
+
+  }
+
+  .info-sc-card__header {
+    gap: 0 !important;}
+
+  .tabela-dados table {
+    min-width: 500px;
+  }
+}
 
 
 

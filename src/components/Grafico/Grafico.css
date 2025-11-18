@@ -194,4 +194,16 @@
       text-align: center;
     }
   }
+
+  @media (max-width: 768px) {
+      .grafico-titulo {
+      font-size: 16px !important;
+    }
+
+
+    .grafico-container {
+      padding-bottom: 5px !important;
+  }
+
+}
 }

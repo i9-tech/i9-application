@@ -183,3 +183,35 @@
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
+
+@media (max-width: 768px) {
+.formulario-prato .descricao-prato {
+      font-size: 16px;
+}
+
+  .formulario-prato {
+    padding: 0 2px;
+    box-sizing: border-box;
+  }
+
+  .formulario-prato .linha-dupla {
+    flex-direction: column !important;
+    gap: 1px;
+  }
+
+  .formulario-prato .linha-dupla > div {
+    width: 100% !important;
+  }
+
+  .formulario-prato .botoes-prato {
+    flex-direction: column !important;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .formulario-prato .botoes-prato button {
+    width: 100% !important;
+    font-size: 15px;
+    padding: 10px !important;
+  }
+}

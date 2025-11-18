@@ -12,3 +12,9 @@
   color: var(--cor-para-o-texto-branco);
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .resumo-funcionario{
+    font-size: 14px;
+  }
+}

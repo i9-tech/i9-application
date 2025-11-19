@@ -67,8 +67,12 @@
 }
 
 .botao-confirmar-pedido {
-    margin-left: 9px;
-    gap: 11rem;  
+         margin-left: 9px;
+         padding: 14px 20px;
+        /* gap: 11rem; */
+        width: 100%;
+        min-width: 343px;
+    } 
 }
 
 

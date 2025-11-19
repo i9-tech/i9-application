@@ -35,9 +35,9 @@
 
 @media (max-width: 768px) {
   .checkbox-cozinha-label {
-    padding: 10px 12px; /* menor altura/largura */
-    font-size: 13px; /* reduz texto */
-    gap: 6px; /* diminui espaço interno */
+    padding: 10px 12px; 
+    font-size: 13px; 
+    gap: 6px; 
     border-radius: 6px;
   }
 

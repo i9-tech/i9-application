@@ -393,11 +393,13 @@
 
   .botao-historico {
     width: 100%;
-    height: auto;
-    font-size: 10px;
-    line-height: 1.1;
-    justify-content: center;
-    align-items: center;
+        height: auto;
+        font-size: 13px;
+        line-height: 1.1;
+        justify-content: center;
+        align-items: center;
+        min-width: 170px;
+        padding: 12px 0;
   }
 }
 

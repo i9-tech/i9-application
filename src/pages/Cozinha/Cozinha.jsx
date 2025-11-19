@@ -174,8 +174,8 @@ export function Cozinha() {
         className={`botao-historico ${modo === "preparo" ? "ativo" : ""}`}
         onClick={modo === "preparo" ? abrirHistorico : voltarPreparo}
       >
-        {modo === "preparo"
-          ? "Ir Para Histórico de Comandas"
+        {modo === "preparo "
+          ? "Histórico de Comandas"
           : "Voltar Para Preparo"}
       </button>
     </div>

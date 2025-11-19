@@ -10,6 +10,10 @@
   flex: 1.2;
 }
 
+.descricao-produto-foto-mobile{
+  display: none;
+}
+
 .coluna-direita {
   flex: 1;
   display: flex;
@@ -19,9 +23,9 @@
 
 @media (max-width: 768px) {
   .container-prato {
-    flex-direction: column;
+    flex-direction: column-reverse;
     width: 100%;
-    gap: 24px;
+    gap: 0;
     padding: 0 10px 20px 10px;
     box-sizing: border-box;
   }
@@ -62,6 +66,23 @@
     max-width: 100%;
     height: auto;
     object-fit: contain;
+  }
+
+    .descricao-produto-foto-mobile label {
+    font-size: 14px;
+    
+  font-weight: 600;
+  color: var(--cor-para-texto-preto);
+  }
+
+  .descricao-produto-foto-mobile textarea {
+    font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+border-radius: 6px;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    width: 100%;
   }
 
   .formulario-botoes {

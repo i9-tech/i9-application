@@ -2,7 +2,6 @@
   background-color: var(--cor-para-o-texto-branco);
   position: sticky;
   top: 0;
-  z-index: 1;
 }
 
 .cabecalho-estoque-prod th {

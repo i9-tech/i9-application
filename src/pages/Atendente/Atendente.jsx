@@ -1,5 +1,6 @@
 import "./Atendente.css";
 import BotaoConfirmar from "../../components/Botoes/BotaoConfirmar/BotaoConfirmar";
+import BotaoConfirmarMobile from "../../components/Botoes/BotaoConfirmarMobile/BotaoConfirmarMobile";
 import ElementoTotal from "../../components/Hovers/HoverTotalProduto/ElementoTotal";
 import LupaPesquisa from "../../assets/lupa-pesquisa.svg";
 import ElementoProduto from "../../components/Hovers/HoverProduto/ElementoProduto";
@@ -700,7 +701,7 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
             </div>
 
             <div className="painel-footer">
-              <BotaoConfirmar
+              <BotaoConfirmarMobile
                 quantidade={totalItens}
                 totalPedido={totalPedido}
                 onClick={() => {

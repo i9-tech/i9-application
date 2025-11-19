@@ -359,6 +359,19 @@ const customSelectStyles = {
           />
         </div>
 
+        <div className="descricao-prato-foto-mobile">
+        <label htmlFor="descricao-mobile">Descrição</label>
+        <textarea
+          id="descricao"
+          value={descricao}
+          maxLength={255}
+          onChange={(e) => setDescricao(e.target.value)}
+          rows="4"
+          placeholder="Crystal Água Mineral Sem Gás 500ml Garrafa"
+
+        />
+      </div>
+
         <div className="grupo-inputs">
           <label>
             Venda (R$){" "}

@@ -44,7 +44,11 @@ const PratoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
   };
 
   return (
-    <div className="foto-produto">
+    <div className="foto-prato">
+      <p className="descricao-prato-mobile">
+        Preencha o formulário abaixo para adicionar um novo produto ao seu
+        estoque!
+      </p>
       <div className="bloco-imagem">
         <label className="label-foto">Foto do Prato</label>
         <img
@@ -66,7 +70,7 @@ const PratoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
         </p>
       </div>
 
-      <div className="descricao-produto-foto">
+      <div className="descricao-prato-foto">
         <label htmlFor="descricao">Descrição</label>
         <textarea
           id="descricao"

@@ -109,6 +109,8 @@ export function EstoquePratos() {
           setSetorSelecionado={setSetorSelecionado}
           categoriaSelecionada={categoriaSelecionada}
           setCategoriaSelecionada={setCategoriaSelecionada}
+          areaSelecionada={areaSelecionada}         
+          setAreaSelecionada={setAreaSelecionada} 
         />
         <Paginacao
           pagina={pagina}

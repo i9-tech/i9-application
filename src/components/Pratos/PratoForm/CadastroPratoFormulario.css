@@ -87,6 +87,17 @@
   width: 100%;
 }
 
+.formulario-prato textarea{
+        padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 15px;
+    box-sizing: border-box;
+    width: 100%;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
 .formulario-prato .botoes-prato {
   display: flex;
   justify-content: space-between;
@@ -184,34 +195,40 @@
   transform: rotate(45deg);
 }
 
-@media (max-width: 768px) {
-.formulario-prato .descricao-prato {
-      font-size: 16px;
+
+ .descricao-prato-foto-mobile {
+  display: none;
 }
 
+
+@media (max-width: 768px) {
   .formulario-prato {
-    padding: 0 2px;
-    box-sizing: border-box;
+    padding: 0;
   }
 
   .formulario-prato .linha-dupla {
-    flex-direction: column !important;
-    gap: 1px;
+    flex-direction: column;
+    gap: 0;
   }
 
-  .formulario-prato .linha-dupla > div {
-    width: 100% !important;
+  .formulario-prato label{
+    font-weight: 600;
+    color: var(--cor-para-texto-preto);
   }
 
   .formulario-prato .botoes-prato {
-    flex-direction: column !important;
+    flex-direction: row;
     gap: 12px;
     margin-top: 10px;
   }
 
-  .formulario-prato .botoes-prato button {
-    width: 100% !important;
-    font-size: 15px;
-    padding: 10px !important;
+  .descricao-prato-foto-mobile {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .descricao-prato {
+    display: none !important;
   }
 }
+

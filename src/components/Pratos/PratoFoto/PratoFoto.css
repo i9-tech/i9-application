@@ -1,4 +1,4 @@
-.foto-produto {
+.foto-prato {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -54,7 +54,11 @@
   }
 }
 
-.descricao-produto-foto {
+.descricao-prato-mobile{
+  display: none;
+}
+
+.descricao-prato-foto {
   display: flex;
   flex-direction: column;
 
@@ -77,14 +81,24 @@
 
 
 @media (max-width: 768px) {
-  .foto-produto {
-    margin: 0 !important; /* ✅ remove o margin-right */
-    padding: 0;       /* ✅ adiciona respiro lateral */
-    gap: 16px;
+  .foto-prato {
+    margin: 0 !important;
+    padding: 0;       
   }
 
   .bloco-imagem {
     align-items: center;
+  }
+
+    .descricao-prato-foto {
+    display: none !important;
+  }
+
+  .descricao-prato-mobile {
+    display: block !important;
+    font-size: 14px;
+    color: var(--cor-para-texto-preto);
+    text-align: left;
   }
 
   .label-foto {

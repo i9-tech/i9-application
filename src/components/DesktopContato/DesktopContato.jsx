@@ -48,45 +48,47 @@ const DesktopContato = () => {
   }, []);
 
   const enviarEmail = (event) => {
-    event.preventDefault();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.(com|br)(\.[a-z]{2})?$/i;
-    if (!emailRegex.test(email)) {
-      toast.error('Por favor, insira um e-mail válido que termine com .com ou .br.');
-      return;
-    }
+  event.preventDefault();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.(com|br)(\.[a-z]{2})?$/i;
+  if (!emailRegex.test(email)) {
+    toast.error('Por favor, insira um e-mail válido que termine com .com ou .br.');
+    return;
+  }
 
-    setIsLoading(true);
-    const loadingToastId = toast.loading('Enviando e-mail, aguarde...');
+  setIsLoading(true);
+  const loadingToastId = toast.loading('Enviando e-mail, aguarde...');
 
-    const payload = {
-      email
-    };
-
-    api
-      .post('/envio-email/interesse', payload)
-      .then(() => {
-        toast.update(loadingToastId, {
-          render: 'Email enviado com sucesso! Verifique sua caixa de entrada.',
-          type: toast.SUCCESS,
-          isLoading: false,
-          autoClose: 8000,
-        });
-        setEmail('');
-        setMostrarCard(false);
-        setMensagemInteresse('');
-        setPlanoSelecionado(null);
-      })
-      .catch((error) => {
-        console.error('Erro ao enviar email:', error);
-        toast.update(loadingToastId, {
-          render: 'Erro ao enviar email. Verifique os dados e tente novamente.',
-          type: 'error',
-          isLoading: false,
-          autoClose: 8000,
-        });
-      })
-      .finally(() => setIsLoading(false));
+  const payload = {
+    email,
+    plano: planoSelecionado,
+    periodo: periodoSelecionado,
   };
+
+  api
+    .post('/envio-email/interesse', payload) 
+    .then(() => {
+      toast.update(loadingToastId, {
+        render: 'Email enviado com sucesso! Verifique sua caixa de entrada.',
+        type: 'success',
+        isLoading: false,
+        autoClose: 8000,
+      });
+      setEmail('');
+      setMostrarCard(false);
+      setMensagemInteresse('');
+      setPlanoSelecionado(null);
+    })
+    .catch((error) => {
+      console.error('Erro ao enviar email:', error);
+      toast.update(loadingToastId, {
+        render: 'Erro ao enviar email. Verifique os dados e tente novamente.',
+        type: 'error',
+        isLoading: false,
+        autoClose: 8000,
+      });
+    })
+    .finally(() => setIsLoading(false));
+};
 
   const obterPreco = (plano, periodo) => {
     if (!plano) return null;

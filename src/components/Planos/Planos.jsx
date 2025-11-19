@@ -62,7 +62,7 @@ const Planos = () => {
           Mensal
         </button>
         <button className={periodo === 'anual' ? 'ativo' : ''} onClick={() => setPeriodo('anual')}>
-          Anual <span className={`economia ${periodo === 'anual' ? 'economia-ativa' : ''}`}>(economize até R$1.300)</span>
+          Anual <span className={`economia ${periodo === 'anual' ? 'economia-ativa' : ''}`}>(economize até R$1.796,40)</span>
         </button>
       </div>
 

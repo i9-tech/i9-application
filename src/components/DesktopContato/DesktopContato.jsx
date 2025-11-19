@@ -59,7 +59,7 @@ const DesktopContato = () => {
     const loadingToastId = toast.loading('Enviando e-mail, aguarde...');
 
     const payload = {
-      email,
+      email
     };
 
     api

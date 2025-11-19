@@ -69,9 +69,9 @@ export default function OpcoesCardSobreposto() {
             "O sistema PDV alerta sobre estoque baixo, permitindo reposições rápidas e evitando interrupções nas vendas.",
         },
         {
-          opcao: "Gestão de validade dos produtos",
+          opcao: "Gestão de falta de produtos",
           resposta:
-            "O sistema PDV alerta sobre vencimentos, evitando desperdícios e garantindo a qualidade dos produtos.",
+            "O sistema PDV permite identificar itens em falta facilmente e agiliza no processo de venda.",
         },
       ],
       imagem: IMAGEM_PDV,

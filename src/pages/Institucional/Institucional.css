@@ -950,7 +950,7 @@
       height: 80%;
       align-items: center;
       gap: 20px;
-      padding: 0 5%;
+      padding: 0 5% 5%;
 
       @media (max-width: 805px) {
         flex-direction: column;
@@ -1036,7 +1036,7 @@
     .contato {
       background-color: var(--cor-para-o-fundo-site);
       display: flex;
-      height: 60%;
+      height: 80%;
       width: 100%;
       justify-content: center;
       align-items: center;
@@ -1642,7 +1642,7 @@
       align-items: center;
       flex-direction: column;
       gap: 20px;
-      padding: 0 5%;
+      padding: 0 5% 5%;
 
       .imagem-dados,
       .lista-perguntas {
@@ -1721,7 +1721,7 @@
     .contato {
       background-color: var(--cor-para-o-fundo-site);
       display: flex;
-      height: 60%;
+      height: 80%;
       width: 100%;
       justify-content: center;
       align-items: center;
@@ -1830,7 +1830,7 @@
   }
 
   .footer {
-    background-color: var(--botoes-hover-destaques);
+    background-color: var(--footer);
     height: 40%;
     color: var(--cor-para-o-texto-branco);
     display: flex;
@@ -2395,7 +2395,7 @@
       align-items: center;
       flex-direction: column;
       gap: 20px;
-      padding: 0 5%;
+      padding: 0 5% 5%;
 
       .imagem-dados,
       .lista-perguntas {
@@ -2475,7 +2475,7 @@
     .contato {
       background-color: var(--cor-para-o-fundo-site);
       display: flex;
-      height: 60%;
+      height: 80%;
       width: 100%;
       justify-content: center;
       align-items: center;
@@ -2611,7 +2611,7 @@
   }
 
   .footer {
-    background-color: var(--botoes-hover-destaques);
+    background-color: var(--footer);
     height: 40%;
     color: var(--cor-para-o-texto-branco);
     display: flex;

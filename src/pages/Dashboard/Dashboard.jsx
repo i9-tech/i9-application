@@ -253,6 +253,7 @@ export function Dashboard() {
           <>
             {diaAtual} - <Relogio />
             <button
+              className="baixar-dash"
               onClick={baixarImagemDashboard}
               style={{
                 marginLeft: "1rem",
@@ -269,7 +270,7 @@ export function Dashboard() {
           </>
         }
         adicionalUm={
-          <div className="filtro-data">
+          <div className="filtro-data-dashboard">
             <DateRangePicker
               maxMonths={3}
               numberOfMonths={1}

@@ -1,5 +1,6 @@
 import "./Atendente.css";
 import BotaoConfirmar from "../../components/Botoes/BotaoConfirmar/BotaoConfirmar";
+import BotaoConfirmarMobile from "../../components/Botoes/BotaoConfirmarMobile/BotaoConfirmarMobile";
 import ElementoTotal from "../../components/Hovers/HoverTotalProduto/ElementoTotal";
 import LupaPesquisa from "../../assets/lupa-pesquisa.svg";
 import ElementoProduto from "../../components/Hovers/HoverProduto/ElementoProduto";
@@ -58,6 +59,10 @@ export function Atendente() {
 
   const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
+
+  // Estado e função para o carrinho mobile
+const [carrinhoAberto, setCarrinhoAberto] = useState(false);
+const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
 
   const [errorPrato, setErrorPrato] = useState(false);
   const [errorProduto, setErrorProduto] = useState(false);
@@ -443,7 +448,7 @@ export function Atendente() {
           )}
 
           <div className="todos-produtos">
-            <h1>Escolha o Setor</h1>
+            <h1 className="titulo-setor-categoria">Escolha o Setor</h1>
             <div className="setores">
               {isSetoresCarregando && !errorSetor ? (
                 <SetoresCarregamento quantidadeCards={7} />
@@ -480,7 +485,7 @@ export function Atendente() {
             </div>
 
             <div className="header-container">
-              <h1> Setor: {setorSelecionado} </h1>
+              <h1 className="titulo-setor"> Setor: {setorSelecionado} </h1>
               <div className="barra-pesquisa">
                 <input
                   type="text"
@@ -538,7 +543,7 @@ export function Atendente() {
 
                   return (
                     <div key={categoria.id} className="categoria">
-                      <h1>{categoria.nome}</h1>
+                      <h1 className="titulo-setor-categoria">{categoria.nome}</h1>
                       <div className="produtos-da-categoria">
                         {produtosFiltrados.map((produto) => {
                           const itemComanda = comanda.find(
@@ -602,7 +607,8 @@ export function Atendente() {
           </div>
         </section>
 
-        <aside className="menu-comanda">
+        {/* === COMANDA (DESKTOP E MOBILE) === */}
+        <aside className={`menu-comanda ${carrinhoAberto ? "aberto" : ""}`}>
           <header className="header-comanda">
             <h1>Comandas</h1>
           </header>
@@ -610,15 +616,14 @@ export function Atendente() {
           <div className="produtos-adicionados-comanda">
             {comanda.map((item, index) => {
               const produtoEstoque = produtos.find((p) => p.nome === item.nome);
-
               const itemComanda = comanda.find(
-                (item) => item.nome === produtoEstoque.nome
+                (item) => item.nome === produtoEstoque?.nome
               );
               const quantidadeNaComanda = itemComanda
                 ? itemComanda.quantidade
                 : 0;
               const quantidadeRestante =
-                produtoEstoque.quantidade - quantidadeNaComanda;
+                produtoEstoque?.quantidade - quantidadeNaComanda;
 
               return (
                 <ProdutoComanda
@@ -637,17 +642,85 @@ export function Atendente() {
             })}
           </div>
 
-          <section className="botao-confirmar">
+          {/* === BOTÃO FIXO === */}
+          <section
+            className="botao-confirmar"
+            onClick={() => {
+              if (window.innerWidth <= 768) {
+                alternarCarrinhoMobile();
+              } else {
+                abrirModalConfirmarPedido();
+                setEnviarPedido(true);
+              }
+            }}
+          >
             <BotaoConfirmar
               quantidade={totalItens}
               totalPedido={totalPedido}
               onClick={() => {
-                abrirModalConfirmarPedido();
-                setEnviarPedido(true);
+                if (window.innerWidth > 768) {
+                  abrirModalConfirmarPedido();
+                  setEnviarPedido(true);
+                }
               }}
               disabled={comandaExpandida.length === 0}
             />
           </section>
+
+          {/* === PAINEL MOBILE (DESLIZANTE) === */}
+          <div
+            className={`painel-carrinho-mobile ${
+              carrinhoAberto ? "visivel" : ""
+            }`}
+          >
+            <div className="painel-header">
+              <h2>Meu Pedido</h2>
+              <button className="fechar" onClick={alternarCarrinhoMobile}>
+                ✕
+              </button>
+            </div>
+
+            <div className="painel-itens">
+              {comanda.length > 0 ? (
+                comanda.map((item, index) => (
+                  <ProdutoComanda
+                    key={index}
+                    produto={item.nome}
+                    preco={item.preco}
+                    imagem={item.imagem}
+                    quantidade={item.quantidade}
+                    atualizarQuantidade={atualizarQuantidade}
+                    onClick={abrirModal}
+                    removerProduto={removerProdutoDaComanda}
+                    tipo={item.tipo}
+                  />
+                ))
+              ) : (
+                <p className="vazio">Nenhum item adicionado</p>
+              )}
+            </div>
+
+            <div className="painel-footer">
+              <BotaoConfirmarMobile
+                quantidade={totalItens}
+                totalPedido={totalPedido}
+                onClick={() => {
+                  abrirModalConfirmarPedido();
+                  setEnviarPedido(true);
+                  alternarCarrinhoMobile();
+                }}
+                disabled={comandaExpandida.length === 0}
+              />
+            </div>
+          </div>
+
+          {/* === OVERLAY (FUNDO ESCURO) === */}
+          {carrinhoAberto && (
+            <div
+              className="overlay-carrinho"
+              onClick={alternarCarrinhoMobile}
+            ></div>
+          )}
         </aside>
       </LayoutTela>
     </>

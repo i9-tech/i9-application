@@ -32,3 +32,17 @@
 .checkbox-cozinha-label.feito img.icone-feito {
   content: url("../../../assets/check-branco.svg");
 }
+
+@media (max-width: 768px) {
+  .checkbox-cozinha-label {
+    padding: 10px 12px; 
+    font-size: 13px; 
+    gap: 6px; 
+    border-radius: 6px;
+  }
+
+  .checkbox-cozinha-label img {
+    width: 14px; /* diminui o ícone */
+    height: 14px;
+  }
+}

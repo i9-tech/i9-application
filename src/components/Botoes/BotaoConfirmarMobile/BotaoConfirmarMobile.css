@@ -1,7 +1,7 @@
-.botao-confirmar-pedido {
+.botao-confirmar-pedido-mobile {
     background-color: var(--titulos-botoes-destaques);
     padding: 0.75rem 0.5rem;
-    border-radius: 6px;
+    border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,18 +14,18 @@
     /* flex-wrap: wrap; */
     
 
-    .info-pedido {
+    .info-pedido-mobile {
         color: var(--cor-para-o-texto-branco);
         display: flex;
         flex-direction: column;
         align-items: flex-start;
 
-        #qtd-itens {
+        #qtd-itens-mobile {
             opacity: 0.75;
         }
     }
 
-    .button-confirmar {
+    .button--mobile {
         background-color: var(--cor-para-o-texto-branco);
         border: none;
         color: var(--titulos-botoes-destaques);
@@ -43,12 +43,8 @@
     }
 }
 
-.botao-confirmar-pedido-footer:hover {
-    background-color: var(--detalhes-2);
-}
-
 @media (max-width: 768px) {
-  .botao-confirmar {
+  .botao-confirmar-mobile {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -62,42 +58,50 @@
     box-shadow: none;
   }
 
-  .menu-comanda .botao-confirmar {
+  .menu-comanda-mobile .botao-confirmar-mobile {
   border-top: none !important;
 }
 
-.botao-confirmar-pedido {
-         margin-left: 9px;
-         padding: 14px 20px;
-        /* gap: 11rem; */
-        width: 100%;
-        min-width: 343px;
-    } 
+  .botao-confirmar-pedido-mobile {
+    position: static;
+    /* width: calc(100vw - 2rem); */
+    max-width: 500px;
+    /* margin: auto 1rem auto;  */
+    border-radius: 6px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+    background-color: var(--titulos-botoes-destaques);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    height: 70px;
+  }
 }
 
 
-  .botao-confirmar-pedido-footer .info-pedido {
+  .botao-confirmar-pedido-mobile .info-mobile {
     font-size: 12px;
     width: 100px;
   }
 
-  .botao-confirmar-pedido-footer .info-pedido #qtd-itens {
+  .botao-confirmar-pedido-mobile .info-pedido-mobile #qtd-itens-mobile {
     opacity: 0.7;
     font-weight: 500;
   }
   
-   .botao-confirmar-pedido-footer .info-pedido #valor-total {
+   .botao-confirmar-pedido-mobile .info-pedido-mobile #valor-total-mobile {
     font-weight: 600;
     font-size: 13px;
   }
 
-  .botao-confirmar-pedido-footer .button-confirmar {
+  .botao-confirmar-pedido-mobile .button-confirmar-mobile {
     background-color: var(--cor-para-o-texto-branco);
     color: #0033cc;
     padding: 0.6rem 1.25rem;
     font-size: 13px;
     min-width: 100px;
-    border-radius: 10px;
+    border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   }

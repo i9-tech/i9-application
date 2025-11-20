@@ -133,5 +133,39 @@
         }
       }
     }
+
   }
-  
+
+ .descricao-produto-foto-mobile {
+  display: none;
+}
+
+  @media (max-width: 768px) {
+  .formulario-produto {
+    padding: 0;
+  }
+
+  .formulario-produto .linha-dupla {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .formulario-produto .botoes-produto {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .formulario-produto .btn-cadastrar-produto,
+  .formulario-produto .btn-cancelar-produto {
+    width: 100%;
+  }
+
+  .formulario-produto .descricao-produto-foto-mobile {
+    display: block;
+  }
+
+  .descricao-produto{
+    display: none;
+  }
+}
+

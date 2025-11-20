@@ -10,7 +10,7 @@ input[type="checkbox"] {
     gap: 8px;
     border: 1px solid var(--titulos-botoes-destaques);
     border-radius: 8px;
-    background-color: var(--cor-para-o-texto-branco);;
+    background-color: var(--cor-para-o-texto-branco);
     color: var(--titulos-botoes-destaques);
     height: max-content;
     font-size: 16px;
@@ -35,3 +35,8 @@ input[type="checkbox"]:checked +
 }
 
 
+@media (max-width: 768px){
+    checkbox-cozinha-label2 img{
+        width: 500px;
+    }
+}

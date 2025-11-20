@@ -1,4 +1,4 @@
-.foto-produto {
+.foto-prato {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -22,14 +22,16 @@
 }
 
 .imagem-preview {
-  width: 450px;
-  height: 450px;
+  width: 100%;
+  max-width: 450px;
+  height: auto;
   max-height: 250px;
   object-fit: contain;
   border: none;
   border-radius: 6px;
   background-color: white;
 }
+
 
 .input-escondido {
   display: none;
@@ -52,7 +54,11 @@
   }
 }
 
-.descricao-produto-foto {
+.descricao-prato-mobile{
+  display: none;
+}
+
+.descricao-prato-foto {
   display: flex;
   flex-direction: column;
 
@@ -70,5 +76,59 @@
     font-size: 15px;
     background-color: white;
     resize: vertical;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .foto-prato {
+    margin: 0 !important;
+    padding: 0;       
+  }
+
+  .bloco-imagem {
+    align-items: center;
+  }
+
+    .descricao-prato-foto {
+    display: none !important;
+  }
+
+  .descricao-prato-mobile {
+    display: block !important;
+    font-size: 14px;
+    color: var(--cor-para-texto-preto);
+    text-align: left;
+  }
+
+  .label-foto {
+    font-size: 13px;
+    text-align: center;
+    align-self: center; /* ✅ centraliza o label também */
+  }
+
+  .imagem-preview {
+    width: 100%;
+    max-width: 320px;
+    max-height: 180px;
+    height: auto;
+    margin: 0 auto; /* ✅ centraliza imagem mesmo se flex falhar */
+  }
+
+  .texto-upload {
+    font-size: 13px;
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  .descricao-produto-foto label {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .descricao-produto-foto textarea {
+    font-size: 14px;
+    padding: 10px;
+    width: 100%;
   }
 }

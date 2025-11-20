@@ -1,5 +1,4 @@
 .tabela-container-prod {
-  max-height: 72%;
   border-radius: 8px;
   overflow-y: auto;
   border: 1px solid #ccc;
@@ -31,4 +30,32 @@
   vertical-align: middle;
   text-align: center;
   background-color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .tabela-container-prod {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: none;
+    border: none;
+  }
+
+  .tabela-estoque-prod {
+    min-width: 750px; /* ativa scroll lateral sem quebrar */
+  }
+
+  .linha-produto-prod td {
+    font-size: 12px;
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+
+  .imagem-container-prod {
+    width: 60px;
+    height: 50px;
+  }
+
+  .acoes-prod button {
+    font-size: 12px;
+  }
 }

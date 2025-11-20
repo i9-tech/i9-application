@@ -40,6 +40,21 @@
     }
 
   }
+
+    @media (max-width: 768px) {
+    .titulo-kpi {
+      font-size: 0.9rem;
+    }
+
+    .valor-kpi {
+      font-size: 1.2rem !important;
+  }
+
+  .adicional-kpi {
+    font-size: 0.8rem !important;
+  }
+}
+
 }
 
 .kpi::before {

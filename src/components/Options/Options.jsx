@@ -4,6 +4,7 @@ import iconeDashboard from "../../assets/dashboard-icone-colorido-escuro.svg";
 import iconeCozinha from "../../assets/cozinha-icone-colorido-escuro.svg";
 import iconeEstoqueProduto from "../../assets/estoque-produtos.svg";
 import iconeEstoquePrato from "../../assets/estoque-pratos.svg";
+import iconePlanos from "../../assets/pagamento.svg";
 import iconeEquipe from "../../assets/equipe-icone-colorido-escuro.svg";
 import iconeSair from "../../assets/sair-icone-colorido-escuro.svg";
 import setorCategoriaIcone from "../../assets/setor-categoria-icon.svg";
@@ -30,9 +31,9 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
 
   const tooltipBase = !isNavbarOpen
     ? {
-        "data-tooltip-id": "tooltip-navbar",
-        "data-tooltip-place": "right",
-      }
+      "data-tooltip-id": "tooltip-navbar",
+      "data-tooltip-place": "right",
+    }
     : {};
 
   return (
@@ -170,6 +171,24 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
             </li>
           </NavLink>
         )}
+
+        {permissoes.includes("ROLE_PROPRIETARIO") && (
+          <NavLink
+            to={ROUTERS.PLANOS_INTERNOS}
+            className={({ isActive }) => (isActive ? "nav-link clicked" : "nav-link")}
+            {...tooltipBase}
+            data-tooltip-content="Gerenciamento de Planos"
+          >
+            <li key="planos">
+              <i>
+              <img src={iconePlanos} alt="Icone de Planos" />
+              </i>
+              <span>Meus Planos</span>
+            </li>
+          </NavLink>
+        )}
+
+
       </p>
 
       <p

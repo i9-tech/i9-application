@@ -44,6 +44,10 @@ const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
 
   return (
     <div className="foto-produto">
+      <p className="descricao-produto-mobile">
+        Preencha o formulário abaixo para adicionar um novo produto ao seu
+        estoque!
+      </p>
       <div className="bloco-imagem">
         <label className="label-foto">Foto do Produto</label>
         <img

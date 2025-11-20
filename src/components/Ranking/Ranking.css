@@ -110,3 +110,21 @@
     overflow: hidden;
   }
 }
+
+@media (max-width: 768px) {
+  .ranking-titulo {
+    font-size: 16px !important;
+  }
+
+  .tabela-resumo {
+        font-size: 13px !important;
+
+        td {
+          padding: 18px !important;
+        }
+
+        th {
+          padding: 4px !important;
+        }
+}
+}

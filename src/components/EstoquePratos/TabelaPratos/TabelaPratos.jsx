@@ -48,6 +48,7 @@ const TabelaPratos = ({
   });
 
   return (
+    <div className="tabela-estoque-scrollH">
     <div className="tabela-container">
       <table className="tabela-estoque">
         <CabecalhoPratos />
@@ -67,6 +68,7 @@ const TabelaPratos = ({
           )}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@
   font-size: 14px;
   background: #fff;
   border: 1px solid #d1d5db;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   color: #374151;
   cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -25,8 +25,8 @@
 }
 
 .drp-button span {
-  flex: 1;              
-  text-align: center;    
+  flex: 1;
+  text-align: center;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -84,4 +84,45 @@
 
 .drp-clear:hover {
   background-color: #0000004a;
+}
+@media (max-width: 768px) {
+  .drp-container {
+    width: 100%;
+  }
+
+  .drp-button {
+    width: 100%;
+    min-width: 40px;
+    height: 100%;
+    min-height: 20px;
+    padding: 8px 10px;
+    margin-bottom: -5px;
+    line-height: 1.2;
+  }
+
+  .drp-button span {
+    display: none; /* Oculta texto no mobile */
+  }
+
+  .drp-icon {
+    font-size: 22px;
+  }
+
+  .drp-popover {
+    width: 90vw;
+    left: 50%;
+    transform: translateX(-90%);
+  }
+
+  .drp-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .drp-apply,
+  .drp-clear {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+  }
 }

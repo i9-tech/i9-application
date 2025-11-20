@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 5000;
 }
 
 .modal-content {
@@ -199,4 +199,69 @@
 
 .input-escondido {
   display: none;
+}
+
+
+@media (max-width: 768px) {
+  .modal-content,
+  .modal-content-fotos {
+    width: 90%;
+    max-width: none;
+    padding: 25px;
+    border-radius: 12px;
+  }
+
+  .modal-form {
+    gap: 16px;
+  }
+
+  .modal-form h2 {
+    font-size: 1.4rem;
+  }
+
+  .modal-subtitulo {
+    font-size: 0.9rem;
+    margin-top: -12px;
+  }
+
+  .modal-form label {
+    font-size: 0.85rem;
+  }
+
+  .modal-form input[type="text"],
+  .modal-form input[type="file"] {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+
+  .modal-botoes {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn.cancelar,
+  .btn.cadastrar {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .galeria-imagens {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .imagem-opcao {
+    width: 100px;
+    height: 100px;
+  }
+
+  .imagem-preview-setor {
+    height: 100px;
+  }
+
+  .upload-imagem-customizada {
+    font-size: 13px;
+  }
 }

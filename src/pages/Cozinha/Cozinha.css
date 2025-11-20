@@ -5,6 +5,7 @@
   align-items: center;
   flex-direction: column;
   gap: 2%;
+  overflow-y: hidden;
 
   .titulo {
     width: 90%;
@@ -212,7 +213,8 @@
 .filtro-data {
   display: flex;         
   align-items: center;    
-  gap: 10px;              
+  gap: 10px;   
+  width: max-content;           
 }
 
 .tela-comandas::-webkit-scrollbar {
@@ -229,7 +231,7 @@
   border-radius: 10px;
   border: 1px solid #2b2b2b3d;
   background-clip: content-box;
-}
+};
 
 .tela-comandas::-webkit-scrollbar-thumb:hover {
   background-color: #2b2b2b28;
@@ -255,3 +257,149 @@
   background-color: var(--titulos-botoes-destaques);
   color: var(--cor-para-o-texto-branco);
 }
+
+.filtro-data {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+.filtro-data > div {
+  width: auto;
+}
+
+
+/* Versão mobile */
+@media (max-width: 768px) {
+  .filtro-data {
+    align-items: stretch;
+    width: 100%;
+    gap: 10px;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  .filtro-data > div {
+    width: 100%;
+  }
+
+  
+  html {
+    overflow-y: hidden;
+  }
+
+  .tela-comandas {
+    margin-top: 18%;
+
+     &::-webkit-scrollbar {
+      width: 8px; /* mais fino no mobile */
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(43, 43, 43, 0.2);
+      border-radius: 10px;
+      border: none;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(43, 43, 43, 0.3);
+    }
+  }
+
+  
+
+    .tela-comandas .comanda-container {
+    width: 95%;
+    margin: 0 auto 16px auto;
+  }
+
+  .comanda {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .cabecalho-comanda .cabecalho-conteudo {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .cabecalho-comanda .cabecalho-botao {
+    padding: 8px;
+    font-size: 14px !important;
+  }
+
+  .corpo-comanda {
+    padding: 6px;
+    gap: 8px;
+  }
+
+  .info-pedidoCliente {
+    font-size: 14px !important;
+    gap: 12px !important;
+  }
+
+  .corpo-conteudo .imagem {
+    width: 25% !important;
+    height: 60px !important;
+  }
+
+  .itemInfo {
+    width: 65%;
+  }
+
+  .observacao, .observacao span {
+    font-size: 14px !important;
+  }
+
+  
+
+  .imagem {
+    width: 22%;
+    height: 55px;
+  }
+
+  .itemInfo {
+    width: 63%;
+    padding-left: 4px;
+  }
+
+  .rodape-comanda {
+    padding: 8px 12px;
+  }
+
+  .cabecalho-botao {
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    gap: 6px !important;
+  }
+
+  .btn-check {
+    width: 12% !important;
+  }
+
+  .btn-check input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    cursor: pointer;
+  }
+
+  .cabecalho-comanda .cabecalho-concluir {
+    padding: 0 4px !important;
+  }
+
+  .botao-historico {
+    width: 100%;
+        height: auto;
+        font-size: 13px;
+        line-height: 1.1;
+        justify-content: center;
+        align-items: center;
+        min-width: 170px;
+        padding: 12px 0;
+  }
+}
+

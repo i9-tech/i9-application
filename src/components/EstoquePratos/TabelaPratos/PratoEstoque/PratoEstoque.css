@@ -41,6 +41,11 @@
   text-decoration: underline;
 }
 
+.acoes button + button {
+  margin-left: 8px;
+}
+
+
 
 .disponivel {
   color: green;

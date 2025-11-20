@@ -265,7 +265,7 @@ const CadastroSetoresCategorias = () => {
         />
       )}
       <LayoutTela
-        titulo="Cadastro de Setores e Categorias"
+        titulo="Setores e Categorias"
         adicional={
           <>
             {setoresFiltradasComContagem.length} Setor

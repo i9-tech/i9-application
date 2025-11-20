@@ -13,19 +13,37 @@
     display: flex;
     flex-direction: column;
     padding: 0 60px 0 120px;
+    
+
+   .content-header-wrapper {
+  display: flex;
+align-items: flex-end;
+  align-items: center;
+  width: 100%;
+  /* gap: 150px; */
+  justify-content: space-between;
+  padding-top: 20px;
+}
 
     .header-layout {
-      width: 100%;
-      height: 9vh;
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      padding-bottom: 8px;
-      /* border-bottom: 2px soli,d #000; */
+  min-height: 70px;
+  width: 100%;
+  gap: 8px; 
+  display: flex;
+  flex-wrap: column;
+
+      .adicional-header-right {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap; /* Permite quebra de linha em telas menores */
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 18px;
+        max-width: 100%;
+      }
 
       .content-header-layout {
         display: flex;
-        align-items: last baseline;
         gap: 8px;
         width: auto;
 
@@ -37,6 +55,7 @@
 
         span.adicional-header {
           width: auto !important;
+          margin-top: 12px;
           .baixar-dash {
             margin-left: 1rem;
             margin-top: -0.5rem;
@@ -57,13 +76,93 @@
       }
     }
 
-    
-
     .main-layout {
       height: 88vh;
     }
+
+    .date-picker-top-right{
+      margin-right: 15px;
+    }
   }
+
+
+  @media (max-width: 768px) {
+    .secao-layout {
+      align-items: center;
+    }
+
+    .main-layout {
+    padding-top: 5px;
+  }
+
+    .div-layout {
+      width: 100%;
+      padding: 5.5rem 0.5rem 0 0.5rem;
+    }
+
+    .header-layout h1 {
+      font-size: 20px !important;     
+      margin-bottom: -22px; 
+    }
+
+   .header-layout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  gap: 0;
+  width: 100vw;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 0 1.5rem;
+  min-height: auto;
+  margin-top: -8px;
+  z-index: 2100;
+  background-color: var(--cor-para-o-fundo-sistema);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+.content-header-layout {
+  width: 100% !important;
+  display: flex;
+  padding: 0 0 0 2.5rem;
+ flex-direction: column;
+}
+
+.menu-comanda{
+  width: 0vw !important;
+}
+
+    .adicional-header {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 12px;
+      gap: 2px;
+    }
 
 
+
+  .adicional-header-right {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+     margin-top: 16px;
+  } 
+
+   .date-picker-top-right {
+    align-self: flex-start;
+    padding-top: 8px;
+    margin-left: auto;
+  }
+
+  .filtro-date{
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  }
+}

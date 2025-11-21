@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import "./PlanosInterno.css";
 

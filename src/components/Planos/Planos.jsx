@@ -13,14 +13,10 @@ const Planos = () => {
   const [periodo, setPeriodo] = useState('mensal');
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const token = localStorage.getItem("token");
-
   useEffect(() => {
-    if (!token) return;
 
     setLoading(true);
-    api.get(`${ROUTERS.PLANOS_TEMPLATES}`, { headers: { Authorization: `Bearer ${token}` } })
+    api.get(`${ROUTERS.PLANOS_TEMPLATES}`)
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : (res.data?.content ?? res.data);
         setTemplates(Array.isArray(data) ? data : []);
@@ -30,9 +26,9 @@ const Planos = () => {
         toast.error('Não foi possível carregar os planos.');
       })
       .finally(() => setLoading(false));
-  }, [token]);
+  },[]);
 
-  const formatMoney = (value) => {
+  const formatarMoeda = (value) => {
     if (value === null || value === undefined) return '-';
     const num = typeof value === 'number' ? value : parseFloat(String(value).replace(',', '.'));
     if (Number.isNaN(num)) return '-';
@@ -44,7 +40,7 @@ const Planos = () => {
       ? tpl?.precoMensal
       : (tpl?.precoMensalComDescontoAnual ?? (tpl?.precoAnual != null ? (typeof tpl.precoAnual === 'number' ? tpl.precoAnual/12 : parseFloat(String(tpl.precoAnual).replace(',', '.'))/12) : null));
 
-    const precoFormat = preco == null ? '-' : formatMoney(preco);
+    const precoFormat = preco == null ? '-' : formatarMoeda(preco);
 
     const mensagem = `Meu interesse é no plano ${tpl?.tipo ?? 'Plano'} (${periodo}).\nValor: R$${precoFormat} / mês${periodo === 'anual' ? ' (valor anual incluso)' : ''}` +
       (tpl?.descricao ? `\nDescrição: ${tpl.descricao}` : '');
@@ -102,7 +98,7 @@ const Planos = () => {
       <div className="periodo">
         <button className={periodo === 'mensal' ? 'ativo' : ''} onClick={() => setPeriodo('mensal')}>Mensal</button>
         <button className={periodo === 'anual' ? 'ativo' : ''} onClick={() => setPeriodo('anual')}>
-          Anual <span className={`economia ${periodo === 'anual' ? 'economia-ativa' : ''}`}>(Economize até R$${formatMoney(economiaMaior())})</span>
+          Anual <span className={`economia ${periodo === 'anual' ? 'economia-ativa' : ''}`}>(Economize até R${formatarMoeda(economiaMaior())})</span>
         </button>
       </div>
 
@@ -119,12 +115,12 @@ const Planos = () => {
               <h2>{tpl.tipo}</h2>
               <p>{tpl.descricao ?? '-'}</p>
               <h3>
-                R${formatMoney(periodo === 'mensal' ? tpl.precoMensal : (tpl.precoMensalComDescontoAnual ?? tpl.precoAnual/12))}
+                R${formatarMoeda(periodo === 'mensal' ? tpl.precoMensal : (tpl.precoMensalComDescontoAnual ?? tpl.precoAnual/12))}
                 <span>/mês</span>
               </h3>
               {periodo === 'anual' && (
                 <span className="total-anual">
-                  R${tpl.precoAnual ? formatMoney(tpl.precoAnual) : '-'} / ano
+                  R${tpl.precoAnual ? formatarMoeda(tpl.precoAnual) : '-'} / ano
                 </span>
               )}
               <button className="btn-secondary" onClick={() => handleComeceGratis(tpl)}>Comece grátis</button>

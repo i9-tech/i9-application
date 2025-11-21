@@ -142,8 +142,7 @@ export function Cozinha() {
               ? "var(--cor-para-o-texto-branco)"
               : "var(--cor-para-texto-preto)",
               fontSize: window.innerWidth <= 768 ? "13px" : "14px",
-      padding: window.innerWidth <= 768 ? "6px 10px" : "8px 16px",
-            padding: "8px 16px",
+            padding: window.innerWidth <= 768 ? "6px 10px" : "8px 16px",
             cursor: "pointer",
           }),
           placeholder: (baseStyles) => ({

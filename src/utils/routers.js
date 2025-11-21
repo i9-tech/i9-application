@@ -13,4 +13,5 @@ export const ROUTERS = {
     PLANOS_INTERNOS: "/planos-internos",
     UNAUTHORIZED: "/unauthorized",
     REDEFINIR_SENHA: "/redefinir-senha",
+    PLANOS_TEMPLATES: "/plano-templates",
 }

@@ -1,46 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Planos.css';
 import IMAGEM_USER from '../../assets/usuario.svg';
 import IMAGEM_SUPERUSER from '../../assets/icon-adminn.svg';
 import IMAGEM_NAO from '../../assets/block.svg';
 import IMAGEM_CHECK from '../../assets/check.svg';
 
+import api from "../../provider/api";
+import { ENDPOINTS } from "../../utils/endpoints";
+import { toast } from "react-toastify";
+
 const Planos = () => {
   const [periodo, setPeriodo] = useState('mensal');
+  const [templates, setTemplates] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const precos = {
-    mensal: {
-      essencial: '99,00',
-      profissional: '249,00',
-      premium: '499,00',
-    },
-    anual: {
-      essencial: '69,30',
-      profissional: '174,30',
-      premium: '349,30',
-    },
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (!token) return;
+
+    setLoading(true);
+    api.get(`${ROUTERS.PLANOS_TEMPLATES}${ENDPOINTS.PLANOS_TEMPLATES_LISTAR}`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        const data = Array.isArray(res.data) ? res.data : (res.data?.content ?? res.data);
+        setTemplates(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => {
+        console.error('Erro ao buscar templates de plano:', err);
+        toast.error('Não foi possível carregar os planos.');
+      })
+      .finally(() => setLoading(false));
+  }, [token]);
+
+  const formatMoney = (value) => {
+    if (value === null || value === undefined) return '-';
+    const num = typeof value === 'number' ? value : parseFloat(String(value).replace(',', '.'));
+    if (Number.isNaN(num)) return '-';
+    return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
 
-  const handleComeceGratis = (planoNome) => {
-    const mensagem = `Meu interesse é no plano ${planoNome} (${periodo}).\nValor: R$${precos[periodo][planoNome.toLowerCase()]} / mês${
-      periodo === 'anual' ? ' (faturamento anual incluso)' : ''
-    }`;
+  const handleComeceGratis = (tpl) => {
+    const preco = periodo === 'mensal'
+      ? tpl?.precoMensal
+      : (tpl?.precoMensalComDescontoAnual ?? (tpl?.precoAnual != null ? (typeof tpl.precoAnual === 'number' ? tpl.precoAnual/12 : parseFloat(String(tpl.precoAnual).replace(',', '.'))/12) : null));
 
-    window.dispatchEvent(
-      new CustomEvent('abrirContato', {
-        detail: { plano: planoNome, periodo, mensagem },
-      })
-    );
+    const precoFormat = preco == null ? '-' : formatMoney(preco);
+
+    const mensagem = `Meu interesse é no plano ${tpl?.tipo ?? 'Plano'} (${periodo}).\nValor: R$${precoFormat} / mês${periodo === 'anual' ? ' (valor anual incluso)' : ''}` +
+      (tpl?.descricao ? `\nDescrição: ${tpl.descricao}` : '');
+
+    window.dispatchEvent(new CustomEvent('abrirContato', {
+      detail: { plano: tpl?.tipo ?? 'Plano', periodo, mensagem, planoTemplateId: tpl?.id ?? null }
+    }));
 
     const el = document.getElementById('contato');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  if (loading) {
+    return (
+      <div className="planos-container">
+        <h1 className="titulo-planos">
+          O <span className="destaque">plano ideal</span> para o seu negócio, tem na I9Tech!
+        </h1>
+        <p className="subtitulo loading">Carregando planos...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="planos-container">
       <h1 className="titulo-planos">
-        O <span className="destaque">plano ideal</span> para o seu negócio, tem
-        na I9Tech!
+        O <span className="destaque">plano ideal</span> para o seu negócio, tem na I9Tech!
       </h1>
       <p className="subtitulo">Comece a gerenciar seu negocio por um preço que cabe no seu bolso!</p>
 
@@ -58,122 +89,51 @@ const Planos = () => {
       </div>
 
       <div className="periodo">
-        <button className={periodo === 'mensal' ? 'ativo' : ''} onClick={() => setPeriodo('mensal')}>
-          Mensal
-        </button>
+        <button className={periodo === 'mensal' ? 'ativo' : ''} onClick={() => setPeriodo('mensal')}>Mensal</button>
         <button className={periodo === 'anual' ? 'ativo' : ''} onClick={() => setPeriodo('anual')}>
-          Anual <span className={`economia ${periodo === 'anual' ? 'economia-ativa' : ''}`}>(economize até R$1.796,40)</span>
+          Anual <span className={`economia ${periodo === 'anual' ? 'economia-ativa' : ''}`}>(economize)</span>
         </button>
       </div>
 
       <div className="cards">
-        <div className="card-planos">
-          <h2>Essencial</h2>
-          <p>Para quem quer fazer a gestão completa do negócio em uma única plataforma</p>
-          <h3>
-            R${precos[periodo].essencial}
-            <span>/mês</span>
-          </h3>
+        {templates.map((tpl) => (
+          <div
+            key={tpl.id}
+            className={`card-planos ${tpl.tipo?.toLowerCase() === 'profissional' ? 'destaque-card' : ''}`}
+          >
+            <h2>{tpl.tipo}</h2>
+            <p>{tpl.descricao ?? '-'}</p>
+            <h3>
+              R${formatMoney(periodo === 'mensal' ? tpl.precoMensal : (tpl.precoMensalComDescontoAnual ?? tpl.precoAnual/12))}
+              <span>/mês</span>
+            </h3>
+            {periodo === 'anual' && (
+              <span className="total-anual">
+                R${tpl.precoAnual ? formatMoney(tpl.precoAnual) : '-'} / ano
+              </span>
+            )}
+            <button className="btn-secondary" onClick={() => handleComeceGratis(tpl)}>Comece grátis</button>
 
-          {periodo === 'anual' && (
-            <span className="total-anual">
-              R${(parseFloat(precos.anual.essencial.replace(',', '.')) * 12).toFixed(2).replace('.', ',')}/ano
-            </span>
-          )}
-
-          <button className="btn-secondary" onClick={() => handleComeceGratis('Essencial')}>Comece grátis</button>
-
-          <ul>
-            <li className="feature">
-              <img src={IMAGEM_USER} alt="Usuário" className="icone" />
-              <span>10 Usuários</span>
-            </li>
-            <li className="feature">
-              <img src={IMAGEM_SUPERUSER} alt="Super Usuário" className="icone" />
-              <span>2 Super Usuários</span>
-            </li>
-            <li className="feature">
-              <img src={IMAGEM_NAO} alt="Não Disponível" className="icone" />
-              <span>Envio de relatório WhatsApp</span>
-            </li>
-            <li className="feature">
-              <img src={IMAGEM_NAO} alt="Não Disponível" className="icone" />
-              <span>Dashboard Analítica</span>
-            </li>
-          </ul>
-        </div>
-
-        <div className="card-planos destaque-card">
-          <h2>Profissional</h2>
-          <p>Para quem busca otimizar os processos da empresa com automações e dashboards</p>
-          <h3>
-            R${precos[periodo].profissional}
-            <span>/mês</span>
-          </h3>
-
-          {periodo === 'anual' && (
-            <span className="total-anual">
-              R${(parseFloat(precos.anual.profissional.replace(',', '.')) * 12).toFixed(2).replace('.', ',')}/ano
-            </span>
-          )}
-
-          <button className="btn-secondary" onClick={() => handleComeceGratis('Profissional')}>Comece grátis</button>
-
-          <ul>
-            <li className="feature">
-              <img src={IMAGEM_USER} alt="Usuário" className="icone" />
-              <span>35 Usuários</span>
-            </li>
-            <li className="feature">
-              <img src={IMAGEM_SUPERUSER} alt="Super Usuário" className="icone" />
-              <span>4 Super Usuários</span>
-            </li>
-            <li className="feature">
-              <img src={IMAGEM_NAO} alt="Não Disponível" className="icone" />
-              <span>Envio de relatório WhatsApp</span>
-            </li>
-            <li className="feature">
-              <img src={IMAGEM_CHECK} alt="Disponível" className="icone" />
-              <span>Dashboard Analítica</span>
-            </li>
-          </ul>
-        </div>
-
-        <div className="card-planos">
-          <h2>Premium</h2>
-          <p>Para quem quer crescer o negócio com recursos para alta performance</p>
-          <h3>
-            R${precos[periodo].premium}
-            <span>/mês</span>
-          </h3>
-
-          {periodo === 'anual' && (
-            <span className="total-anual">
-              R${(parseFloat(precos.anual.premium.replace(',', '.')) * 12).toFixed(2).replace('.', ',')}/ano
-            </span>
-          )}
-
-          <button className="btn-secondary" onClick={() => handleComeceGratis('Premium')}>Comece grátis</button>
-
-          <ul>
-            <li className="feature">
-              <img src={IMAGEM_USER} alt="Usuário" className="icone" />
-              <span>Ilimitados usuários</span>
-            </li>
-            <li className="feature">
-              <img src={IMAGEM_SUPERUSER} alt="Super Usuário" className="icone" />
-              <span>10 Super Usuários</span>
-            </li>
-            <li className="feature">
-              <img src={IMAGEM_CHECK} alt="Disponível" className="icone" />
-              <span>Envio de relatório WhatsApp</span>
-            </li>
-            <li className="feature">
-              <img src={IMAGEM_CHECK} alt="Disponível" className="icone" />
-              <span>Dashboard Analítica</span>
-            </li>
-          </ul>
-        </div>
+            <ul>
+              <li className="feature">
+                <img src={IMAGEM_USER} alt="Usuário" className="icone" />
+                <span>{tpl.qtdUsuarios ?? '-'} Usuários</span>
+              </li>
+              <li className="feature">
+                <img src={IMAGEM_SUPERUSER} alt="Super Usuário" className="icone" />
+                <span>{tpl.qtdSuperUsuarios ?? '-'} Super Usuários</span>
+              </li>
+              <li className="feature">
+                <img src={tpl.acessoRelatorioWhatsApp ? IMAGEM_CHECK : IMAGEM_NAO} alt={tpl.acessoRelatorioWhatsApp ? "Disponível" : "Não Disponível"} className="icone" />
+                <span>Envio de relatório WhatsApp</span>
+              </li>
+              <li className="feature">
+                <img src={tpl.acessoDashboard ? IMAGEM_CHECK : IMAGEM_NAO} alt={tpl.acessoDashboard ? "Disponível" : "Não Disponível"} className="icone" />
+                <span>Dashboard Analítica</span>
+              </li>
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   );

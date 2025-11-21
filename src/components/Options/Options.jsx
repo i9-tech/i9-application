@@ -46,7 +46,7 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
           gap: "0.5rem",
         }}
       >
-        {permissoes.includes("ROLE_PROPRIETARIO") && (
+        {permissoes.includes("PROPRIETARIO_ROLE_PLANO_ACESSO_DASHBOARD") && (
           <NavLink
             to={ROUTERS.DASHBOARD}
             className={({ isActive }) =>

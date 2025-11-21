@@ -56,5 +56,4 @@ export const ENDPOINTS = {
     VENDA_TOP_CATEGORIAS: '/vendas/top-categorias',
     VENDA_RANKING_SETORES: 'vendas/ranking-setores',
     VENDA_KPIS: 'vendas/kpis',
-    PLANOS_TEMPLATES_LISTAR: 'plano-templates',
 }

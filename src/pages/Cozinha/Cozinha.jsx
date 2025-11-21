@@ -110,78 +110,91 @@ export function Cozinha() {
         </span>
       }
       adicionalUm={
-        <div className="filtro-data">
-          <Select
-            value={optionsAreas.find((opt) => opt.value === areaSelecionada)}
-            onChange={(opt) => setAreaSelecionada(opt?.value ?? "")}
-            options={optionsAreas}
-            placeholder="Todas Áreas"
-            isSearchable={false}
-            styles={{
-              control: (baseStyles, state) => ({
-                ...baseStyles,
-                minWidth: 200,
-                maxWidth: 250,
-                borderColor: state.isFocused
-                  ? "var(--cor-para-o-texto-branco)"
-                  : "transparent",
-                boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-                "&:hover": { borderColor: "transparent" },
-              }),
-              option: (baseStyles, state) => ({
-                ...baseStyles,
-                backgroundColor: state.isSelected
-                  ? "var(--titulos-botoes-destaques)"
-                  : state.isFocused
-                    ? "var(--cinza-hover-select)"
-                    : "var(--cor-para-o-texto-branco)",
-                color: state.isSelected
-                  ? "var(--cor-para-o-texto-branco)"
-                  : "var(--cor-para-texto-preto)",
-                padding: "8px 16px",
-                cursor: "pointer",
-              }),
-              placeholder: (baseStyles) => ({
-                ...baseStyles,
-                color: "var(--cor-para-texto-preto)",
-              }),
-              singleValue: (baseStyles) => ({
-                ...baseStyles,
-                color: "var(--cor-para-texto-preto)",
-              }),
-              menuList: (base) => ({
-                ...base,
-                maxHeight: 200,
-                overflowY: "auto",
-              }),
-              menu: (base) => ({
-                ...base,
-                borderRadius: 5,
-                marginTop: 0,
-              }),
-            }}
-          />
+  <div className="filtro-data">
+    <div className="filtro-area">
+      <Select
+        value={optionsAreas.find((opt) => opt.value === areaSelecionada)}
+        onChange={(opt) => setAreaSelecionada(opt?.value ?? "")}
+        options={optionsAreas}
+        placeholder="Todas Áreas"
+        isSearchable={false}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            minHeight: window.innerWidth <= 768 ? 35 : 45,
+      fontSize: window.innerWidth <= 768 ? "13px" : "14px",
+            minWidth: 100,
+            maxWidth: 250,
+            borderColor: state.isFocused
+              ? "var(--cor-para-o-texto-branco)"
+              : "transparent",
+            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+            "&:hover": { borderColor: "transparent" },
+          }),
+          option: (baseStyles, state) => ({
+            ...baseStyles,
+            backgroundColor: state.isSelected
+              ? "var(--titulos-botoes-destaques)"
+              : state.isFocused
+              ? "var(--cinza-hover-select)"
+              : "var(--cor-para-o-texto-branco)",
+            color: state.isSelected
+              ? "var(--cor-para-o-texto-branco)"
+              : "var(--cor-para-texto-preto)",
+              fontSize: window.innerWidth <= 768 ? "13px" : "14px",
+      padding: window.innerWidth <= 768 ? "6px 10px" : "8px 16px",
+            padding: "8px 16px",
+            cursor: "pointer",
+          }),
+          placeholder: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)",
+             fontSize: window.innerWidth <= 768 ? "13px" : "14px",
+          }),
+          singleValue: (baseStyles) => ({
+            ...baseStyles,
+            color: "var(--cor-para-texto-preto)",
+             fontSize: window.innerWidth <= 768 ? "12px" : "14px",
+          }),
+          menuList: (base) => ({
+            ...base,
+            maxHeight: 200,
+            overflowY: "auto",
+          }),
+          menu: (base) => ({
+            ...base,
+            borderRadius: 5,
+            marginTop: 0,
+          }),
+        }}
+      />
+    </div>
+    <div className="filtro-botao">
+      <button
+        className={`botao-historico ${modo === "preparo" ? "ativo" : ""}`}
+        onClick={modo === "preparo" ? abrirHistorico : voltarPreparo}
+      >
+        {modo === "preparo "
+          ? "Histórico de Comandas"
+          : "Voltar Para Preparo"}
+      </button>
+    </div>
+    </div>
+}      
 
-          <button
-            className={`botao-historico ${modo === "preparo" ? "ativo" : ""}`}
-            onClick={modo === "preparo" ? abrirHistorico : voltarPreparo}
-          >
-            {modo === "preparo"
-              ? "Ir Para Histórico de Comandas"
-              : "Voltar Para Preparo"}
-          </button>
-
-          <DateRangePicker
-            maxMonths={3}
-            numberOfMonths={1}
-            selected={intervaloSelecionado}
-            onChange={(range) =>
-              setIntervaloSelecionado(range ?? { from: null, to: null })
-            }
-          />
-        </div>
-      }
-    >
+adicionalDois={
+    <div className="filtro-date">
+      <DateRangePicker
+        maxMonths={3}
+        numberOfMonths={1}
+        selected={intervaloSelecionado}
+        onChange={(range) =>
+          setIntervaloSelecionado(range ?? { from: null, to: null })
+        }
+      />
+    </div>
+}
+>
       <article className="tela-comandas">
         {[...pedidos]
           .reverse()

@@ -186,4 +186,46 @@
   }
 }
 
+@media (max-width: 768px) {
+  .formulario-funcionario {
+    max-width: 100%;
+    padding: 0 16px;
+  }
+
+  .formulario-inputs .grupo-inputs {
+    flex-direction: column;
+  }
+
+  .formulario-inputs .grupo-inputs > div {
+    width: 100% !important;
+  }
+
+  .checkboxes-funcionario {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .botoes-funcionario {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .btn-cancelar-funcionario,
+  .btn-cadastrar-funcionario {
+    width: 100% !important;
+  }
+
+  .descricao-funcionario {
+    text-align: left;
+  }
+}
+
+
+}
+
+@media (max-width: 768px) {
+  .formulario-inputs .grupo-inputs .css-13cymwt-control {
+    width: 100% !important;
+  }
 }

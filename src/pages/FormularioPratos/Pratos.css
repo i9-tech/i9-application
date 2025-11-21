@@ -10,9 +10,93 @@
   flex: 1.2;
 }
 
+.descricao-produto-foto-mobile{
+  display: none;
+}
+
 .coluna-direita {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .container-prato {
+    flex-direction: column-reverse;
+    width: 100%;
+    gap: 0;
+    padding: 0 10px 20px 10px;
+    box-sizing: border-box;
+  }
+
+  .coluna-esquerda,
+  .coluna-direita {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  .formulario-prato {
+    width: 100%;
+  }
+
+  .formulario-prato input,
+  .formulario-prato select,
+  .formulario-prato textarea {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .formulario-prato label {
+    font-size: 14px;
+  }
+
+  .formulario-prato h2 {
+    font-size: 1.5rem;
+  }
+
+  .prato-foto {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .imagem-preview-setor {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+    .descricao-produto-foto-mobile label {
+    font-size: 14px;
+    
+  font-weight: 600;
+  color: var(--cor-para-texto-preto);
+  }
+
+  .descricao-produto-foto-mobile textarea {
+    font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+border-radius: 6px;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    width: 100%;
+  }
+
+  .formulario-botoes {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .upload-imagem-customizada {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .css-1hrqwyh-control {
+    width: 100% !important;
+  }
 }

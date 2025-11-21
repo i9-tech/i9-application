@@ -40,3 +40,24 @@
     color: var(--cor-para-o-texto-branco);
 }
 
+@media (max-width: 768px) {
+  .card-total {
+    width: 100px;
+    height: 100px;
+    font-size: 14px;
+    padding: 0.7rem;
+    gap: 4px;
+  }
+
+  .card-total .lanche {
+    width: 40px;
+  }
+
+  .card-total span {
+    font-size: 13px;
+  }
+
+  .card-total small p {
+    font-size: 12px;
+  }
+}

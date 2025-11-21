@@ -284,6 +284,55 @@ const CadastroPratoFormulario = ({
     label: cat.nome,
   }));
 
+  const areaPreparoOptions = areas.map((area) => ({
+  value: area.id,
+  label: area.nome,
+}));
+
+const customSelectStyles = {
+  control: (baseStyles, state) => ({
+    ...baseStyles,
+    borderColor: state.isFocused
+      ? "var(--cor-para-o-texto-branco)"
+      : "transparent",
+    boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+    "&:hover": { borderColor: "transparent" },
+    borderRadius: 6,
+  }),
+  placeholder: (baseStyles) => ({
+    ...baseStyles,
+    color: "var(--cor-para-texto-preto)",
+  }),
+  option: (baseStyles, state) => ({
+    ...baseStyles,
+    backgroundColor: state.isSelected
+      ? "var(--titulos-botoes-destaques)"
+      : state.isFocused
+        ? "var(--cinza-hover-select)"
+        : "var(--cor-para-o-texto-branco)",
+    color: state.isSelected
+      ? "var(--cor-para-o-texto-branco)"
+      : "var(--cor-para-texto-preto)",
+    padding: 14,
+    cursor: "pointer",
+  }),
+  singleValue: (baseStyles) => ({
+    ...baseStyles,
+    color: "var(--cor-para-texto-preto)",
+  }),
+  menuList: (base) => ({
+    ...base,
+    maxHeight: 200,
+    overflowY: "auto",
+  }),
+  menu: (base) => ({
+    ...base,
+    borderRadius: 6,
+    marginTop: 0,
+  }),
+};
+
+
   return (
     <div className="formulario-prato">
       <p className="descricao-prato">
@@ -309,6 +358,19 @@ const CadastroPratoFormulario = ({
             placeholder="Prato Feito Contra-Filé"
           />
         </div>
+
+        <div className="descricao-prato-foto-mobile">
+        <label htmlFor="descricao-mobile">Descrição</label>
+        <textarea
+          id="descricao"
+          value={descricao}
+          maxLength={255}
+          onChange={(e) => setDescricao(e.target.value)}
+          rows="4"
+          placeholder="Crystal Água Mineral Sem Gás 500ml Garrafa"
+
+        />
+      </div>
 
         <div className="grupo-inputs">
           <label>
@@ -348,47 +410,7 @@ const CadastroPratoFormulario = ({
               options={categoriasOptions}
               placeholder="Selecione uma Categoria"
               isSearchable={false}
-              styles={{
-                control: (baseStyles, state) => ({
-                  ...baseStyles,
-                  borderColor: state.isFocused
-                    ? "var(--cor-para-o-texto-branco)"
-                    : "transparent",
-                  boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-                  "&:hover": { borderColor: "transparent" },
-                }),
-                placeholder: (baseStyles) => ({
-                  ...baseStyles,
-                  color: "var(--cor-para-texto-preto)",
-                }),
-                option: (baseStyles, state) => ({
-                  ...baseStyles,
-                  backgroundColor: state.isSelected
-                    ? "var(--titulos-botoes-destaques)"
-                    : state.isFocused
-                      ? "var(--cinza-hover-select)"
-                      : "var(--cor-para-o-texto-branco)",
-                  color: state.isSelected
-                    ? "var(--cor-para-o-texto-branco)"
-                    : "var(--cor-para-texto-preto)",
-                  padding: 14,
-                  cursor: "pointer",
-                }),
-                singleValue: (baseStyles) => ({
-                  ...baseStyles,
-                  color: "var(--cor-para-texto-preto)",
-                }),
-                menuList: (base) => ({
-                  ...base,
-                  maxHeight: 200,
-                  overflowY: "auto",
-                }),
-                menu: (base) => ({
-                  ...base,
-                  borderRadius: 5,
-                  marginTop: 0,
-                }),
-              }}
+              styles={customSelectStyles}
             />
           </div>
 
@@ -405,73 +427,26 @@ const CadastroPratoFormulario = ({
               options={setoresOptions}
               placeholder="Selecione um Setor"
               isSearchable={false}
-              styles={{
-                control: (baseStyles, state) => ({
-                  ...baseStyles,
-                  borderColor: state.isFocused
-                    ? "var(--cor-para-o-texto-branco)"
-                    : "transparent",
-                  boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-                  "&:hover": { borderColor: "transparent" },
-                }),
-                placeholder: (baseStyles) => ({
-                  ...baseStyles,
-                  color: "var(--cor-para-texto-preto)",
-                }),
-                option: (baseStyles, state) => ({
-                  ...baseStyles,
-                  backgroundColor: state.isSelected
-                    ? "var(--titulos-botoes-destaques)"
-                    : state.isFocused
-                      ? "var(--cinza-hover-select)"
-                      : "var(--cor-para-o-texto-branco)",
-                  color: state.isSelected
-                    ? "var(--cor-para-o-texto-branco)"
-                    : "var(--cor-para-texto-preto)",
-                  padding: 14,
-                  cursor: "pointer",
-                }),
-                singleValue: (baseStyles) => ({
-                  ...baseStyles,
-                  color: "var(--cor-para-texto-preto)",
-                }),
-                menuList: (base) => ({
-                  ...base,
-                  maxHeight: 200,
-                  overflowY: "auto",
-                }),
-                menu: (base) => ({
-                  ...base,
-                  borderRadius: 5,
-                  marginTop: 0,
-                }),
-              }}
+              styles={customSelectStyles}
             />
           </div>
 
         </div>
         <div className="grupo-inputs">
-          <label>
-            Área de Preparo na Cozinha{" "}
-            <span aria-hidden="true" style={{ color: "red" }}>
-              *
-            </span>
-          </label>
-          <select
-            value={prato.area}
-            onChange={(e) =>
-              setPrato({ ...prato, area: parseInt(e.target.value) })
-            }
-            required
-          >
-            <option value="">Selecione a área de preparo</option>
-            {areas.map((area) => (
-              <option key={area.id} value={area.id}>
-                {area.nome}
-              </option>
-            ))}
-          </select>
-        </div>
+  <label>
+    Área de Preparo na Cozinha{" "}
+    <span aria-hidden="true" style={{ color: "red" }}>*</span>
+  </label>
+  <Select
+    value={areaPreparoOptions.find((opt) => opt.value === prato.area)}
+    onChange={(opt) => setPrato({ ...prato, area: opt.value })}
+    options={areaPreparoOptions}
+    placeholder="Selecione a Área de Preparo"
+    isSearchable={false}
+    styles={customSelectStyles}
+  />
+</div>
+
 
         <div className="grupo-inputs">
           <label>

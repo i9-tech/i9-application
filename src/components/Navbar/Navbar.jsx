@@ -9,7 +9,18 @@ import { getSaudacao } from "../../utils/utils";
 export function Navbar() {
   const funcionario = getFuncionario();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
+  // ✅ Detectar se é mobile (ajusta quando redimensiona)
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // ✅ Controla clique nos itens do menu
   useEffect(() => {
     const itensMenu = document.querySelectorAll(".navbar ul li");
 
@@ -18,7 +29,9 @@ export function Navbar() {
       event.currentTarget.classList.add("clicked");
     };
 
-    itensMenu.forEach((item) => item.addEventListener("click", handleClick));
+    itensMenu.forEach((item) =>
+      item.addEventListener("click", handleClick)
+    );
 
     return () => {
       itensMenu.forEach((item) =>
@@ -29,6 +42,16 @@ export function Navbar() {
 
   return (
     <>
+      {/* ✅ Botão hamburguer visível SOMENTE no mobile E quando menu estiver fechado */}
+      {isMobile && !isNavbarOpen && (
+        <button
+          className="menu-mobile-toggle"
+          onClick={() => setIsNavbarOpen(true)}
+        >
+          ☰
+        </button>
+      )}
+
       <nav className={`navbar ${isNavbarOpen ? "aberta" : ""}`} id="navbar">
         <div className="user">
           <i
@@ -52,6 +75,15 @@ export function Navbar() {
           />
         </ul>
       </nav>
+
+      {/* ✅ Overlay escuro para fechar o menu mobile */}
+      {isMobile && isNavbarOpen && (
+        <div
+          className="overlay-navbar"
+          onClick={() => setIsNavbarOpen(false)}
+        ></div>
+      )}
+
       <Tooltip
         id="tooltip-navbar"
         place="right"

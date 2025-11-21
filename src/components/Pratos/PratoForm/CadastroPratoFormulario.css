@@ -87,6 +87,17 @@
   width: 100%;
 }
 
+.formulario-prato textarea{
+        padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 15px;
+    box-sizing: border-box;
+    width: 100%;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
 .formulario-prato .botoes-prato {
   display: flex;
   justify-content: space-between;
@@ -183,3 +194,41 @@
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
+
+
+ .descricao-prato-foto-mobile {
+  display: none;
+}
+
+
+@media (max-width: 768px) {
+  .formulario-prato {
+    padding: 0;
+  }
+
+  .formulario-prato .linha-dupla {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .formulario-prato label{
+    font-weight: 600;
+    color: var(--cor-para-texto-preto);
+  }
+
+  .formulario-prato .botoes-prato {
+    flex-direction: row;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .descricao-prato-foto-mobile {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .descricao-prato {
+    display: none !important;
+  }
+}
+

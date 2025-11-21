@@ -399,6 +399,19 @@ const CadastroProdutoFormulario = ({
           />
         </div>
 
+        <div className="descricao-produto-foto-mobile">
+        <label htmlFor="descricao-mobile">Descrição</label>
+        <textarea
+          id="descricao"
+          value={descricao}
+          maxLength={255}
+          onChange={(e) => setDescricao(e.target.value)}
+          rows="4"
+          placeholder="Crystal Água Mineral Sem Gás 500ml Garrafa"
+
+        />
+      </div>
+
         <div className="linha-dupla">
           <div className="grupo-inputs">
             <label>

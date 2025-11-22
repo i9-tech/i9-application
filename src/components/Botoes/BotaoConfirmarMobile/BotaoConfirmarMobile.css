@@ -1,7 +1,7 @@
 .botao-confirmar-pedido-mobile {
     background-color: var(--titulos-botoes-destaques);
     padding: 0.75rem 0.5rem;
-    border-radius: 10px;
+    border-radius: 6px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,7 +25,7 @@
         }
     }
 
-    .button--mobile {
+    .button-confirmar-mobile {
         background-color: var(--cor-para-o-texto-branco);
         border: none;
         color: var(--titulos-botoes-destaques);
@@ -91,15 +91,14 @@
   }
   
    .botao-confirmar-pedido-mobile .info-pedido-mobile #valor-total-mobile {
-    font-weight: 600;
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .botao-confirmar-pedido-mobile .button-confirmar-mobile {
     background-color: var(--cor-para-o-texto-branco);
-    color: #0033cc;
+    color: var(--titulos-botoes-destaques);
     padding: 0.6rem 1.25rem;
-    font-size: 13px;
+    font-size: 17px;
     min-width: 100px;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

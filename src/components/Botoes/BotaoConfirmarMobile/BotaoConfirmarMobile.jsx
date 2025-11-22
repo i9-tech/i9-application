@@ -12,7 +12,7 @@ export function BotaoConfirmarMobile(props) {
                     })}</span>
                 </div>
                 <button className="button-confirmar-mobile">
-                    Confirmar
+                    {props.textoBotao || 'Confirmar'}
                 </button>
             </div>
         </>

@@ -19,6 +19,7 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import CadastroSetoresCategorias from "./pages/CadastroSetoresCategorias/CadastroSetoresCategorias";
 import { RedefinirSenha } from "./pages/RedefinirSenha/RedefinirSenha";
+import { Cardapio } from "./pages/Cardapio/Cardapio";
 
 function App() {
 
@@ -118,6 +119,14 @@ function App() {
               </RotaPrivada>
             }
           />
+
+           <Route
+            path={ROUTERS.CARDAPIO}
+            element={
+                <Cardapio/>
+            }
+          />
+
           <Route path={ROUTERS.UNAUTHORIZED} element={<NaoAutorizado />} />
         </Routes>
       </main>

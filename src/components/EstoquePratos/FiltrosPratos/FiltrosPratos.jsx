@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import api from "../../../provider/api";
 import "./FiltrosPratos.css";
 import { useNavigate } from "react-router-dom";
@@ -31,14 +31,20 @@ function FiltrosPratos({
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
 
-  const atualizarFiltros = () => {
+  const atualizarFiltros = useCallback(() => {
     setFiltros({
       status: filtroStatus,
       categoria: categoriaSelecionada,
       setor: setorSelecionado,
       area: areaSelecionada,
     });
-  };
+  }, [
+    filtroStatus,
+    categoriaSelecionada,
+    setorSelecionado,
+    areaSelecionada,
+    setFiltros,
+  ]);
 
   const aplicarFiltro = (tipo) => {
     setFiltroStatus(tipo);
@@ -47,10 +53,11 @@ function FiltrosPratos({
 
   const limparFiltroStatus = () => {
     setFiltroStatus(null);
-    atualizarFiltros();
   };
 
   useEffect(() => {
+    if (!funcionario.userId) return;
+
     api
       .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -84,11 +91,20 @@ function FiltrosPratos({
 
   useEffect(() => {
     atualizarFiltros();
-  }, [filtroStatus, categoriaSelecionada, setorSelecionado, areaSelecionada]);
+  }, [atualizarFiltros]);
 
-  const optionsSetores = [{ value: "", label: "Todos Setores" }, ...setores.map((set) => ({ value: set.id, label: set.nome }))];
-  const optionsCategorias = [{ value: "", label: "Todas Categorias" }, ...categorias.map((cat) => ({ value: cat.id, label: cat.nome }))];
-  const optionsAreas = [{ value: "", label: "Todas Áreas" }, ...areas.map((area) => ({ value: area.id, label: area.nome }))];
+  const optionsSetores = [
+    { value: "", label: "Todos Setores" },
+    ...setores.map((set) => ({ value: set.id, label: set.nome })),
+  ];
+  const optionsCategorias = [
+    { value: "", label: "Todas Categorias" },
+    ...categorias.map((cat) => ({ value: cat.id, label: cat.nome })),
+  ];
+  const optionsAreas = [
+    { value: "", label: "Todas Áreas" },
+    ...areas.map((area) => ({ value: area.id, label: area.nome })),
+  ];
 
   return (
     <div className="top-actions">
@@ -108,15 +124,21 @@ function FiltrosPratos({
         )}
         {menuAberto && !filtroStatus && (
           <div className="menu-filtros">
-            <button onClick={() => aplicarFiltro("disponível")}>✅ Disponíveis</button>
-            <button onClick={() => aplicarFiltro("indisponível")}>🚫 Indisponíveis</button>
+            <button onClick={() => aplicarFiltro("disponível")}>
+              ✅ Disponíveis
+            </button>
+            <button onClick={() => aplicarFiltro("indisponível")}>
+              🚫 Indisponíveis
+            </button>
           </div>
         )}
       </div>
 
       {filtroStatus && (
         <button className="filtro-ativo" onClick={limparFiltroStatus}>
-          {filtroStatus === "disponível" ? "✅ Disponíveis ✕" : "🚫 Indisponíveis ✕"}
+          {filtroStatus === "disponível"
+            ? "✅ Disponíveis ✕"
+            : "🚫 Indisponíveis ✕"}
         </button>
       )}
 
@@ -132,31 +154,31 @@ function FiltrosPratos({
             minWidth: 200,
             maxWidth: 250,
             borderColor: state.isFocused
-              ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
+              ? "var(--cor-para-o-texto-branco)"
               : "transparent",
             boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-            "&:hover": { borderColor: "transparent" }, // cor do hover
+            "&:hover": { borderColor: "transparent" },
           }),
           placeholder: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
+            color: "var(--cor-para-texto-preto)",
           }),
           option: (baseStyles, state) => ({
             ...baseStyles,
             backgroundColor: state.isSelected
-              ? "var(--titulos-botoes-destaques)" // cor do item selecionado
+              ? "var(--titulos-botoes-destaques)"
               : state.isFocused
-                ? "var(--cinza-hover-select)" // cor do hover
-                : "var(--cor-para-o-texto-branco)", // cor padrão
+              ? "var(--cinza-hover-select)"
+              : "var(--cor-para-o-texto-branco)",
             color: state.isSelected
               ? "var(--cor-para-o-texto-branco)"
-              : "var(--cor-para-texto-preto)", // cor do texto
+              : "var(--cor-para-texto-preto)",
             padding: "8px 16px",
             cursor: "pointer",
           }),
           singleValue: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", // cor do texto selecionado
+            color: "var(--cor-para-texto-preto)",
           }),
           menuList: (base) => ({
             ...base,
@@ -172,7 +194,9 @@ function FiltrosPratos({
       />
 
       <Select
-        value={optionsCategorias.find((opt) => opt.value === categoriaSelecionada)}
+        value={optionsCategorias.find(
+          (opt) => opt.value === categoriaSelecionada
+        )}
         onChange={(opt) => setCategoriaSelecionada(opt.value)}
         options={optionsCategorias}
         placeholder="Todas Categorias"
@@ -183,31 +207,31 @@ function FiltrosPratos({
             minWidth: 200,
             maxWidth: 250,
             borderColor: state.isFocused
-              ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
+              ? "var(--cor-para-o-texto-branco)"
               : "transparent",
             boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-            "&:hover": { borderColor: "transparent" }, // cor do hover
+            "&:hover": { borderColor: "transparent" },
           }),
           option: (baseStyles, state) => ({
             ...baseStyles,
             backgroundColor: state.isSelected
-              ? "var(--titulos-botoes-destaques)" // cor do item selecionado
+              ? "var(--titulos-botoes-destaques)"
               : state.isFocused
-                ? "var(--cinza-hover-select)" // cor do hover
-                : "var(--cor-para-o-texto-branco)", // cor padrão
+              ? "var(--cinza-hover-select)"
+              : "var(--cor-para-o-texto-branco)",
             color: state.isSelected
               ? "var(--cor-para-o-texto-branco)"
-              : "var(--cor-para-texto-preto)", // cor do texto
+              : "var(--cor-para-texto-preto)",
             padding: "8px 16px",
             cursor: "pointer",
           }),
           placeholder: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
+            color: "var(--cor-para-texto-preto)",
           }),
           singleValue: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", // cor do texto selecionado
+            color: "var(--cor-para-texto-preto)",
           }),
           menuList: (base) => ({
             ...base,
@@ -234,31 +258,31 @@ function FiltrosPratos({
             minWidth: 200,
             maxWidth: 250,
             borderColor: state.isFocused
-              ? "var(--cor-para-o-texto-branco)" // cor da borda quando focado
+              ? "var(--cor-para-o-texto-branco)"
               : "transparent",
             boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-            "&:hover": { borderColor: "transparent" }, // cor do hover
+            "&:hover": { borderColor: "transparent" },
           }),
           option: (baseStyles, state) => ({
             ...baseStyles,
             backgroundColor: state.isSelected
-              ? "var(--titulos-botoes-destaques)" // cor do item selecionado
+              ? "var(--titulos-botoes-destaques)"
               : state.isFocused
-                ? "var(--cinza-hover-select)" // cor do hover
-                : "var(--cor-para-o-texto-branco)", // cor padrão
+              ? "var(--cinza-hover-select)"
+              : "var(--cor-para-o-texto-branco)",
             color: state.isSelected
               ? "var(--cor-para-o-texto-branco)"
-              : "var(--cor-para-texto-preto)", // cor do texto
+              : "var(--cor-para-texto-preto)",
             padding: "8px 16px",
             cursor: "pointer",
           }),
           placeholder: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", // ajuste para igualar a cor ao singleValue
+            color: "var(--cor-para-texto-preto)",
           }),
           singleValue: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", // cor do texto selecionado
+            color: "var(--cor-para-texto-preto)",
           }),
           menuList: (base) => ({
             ...base,
@@ -273,10 +297,18 @@ function FiltrosPratos({
         }}
       />
 
-      <button className="add-btn" onClick={() => setModalOpen(true)} style={{ color: "#fff", fontWeight: "bold" }}>
+      <button
+        className="add-btn"
+        onClick={() => setModalOpen(true)}
+        style={{ color: "#fff", fontWeight: "bold" }}
+      >
         + Adicionar Área
       </button>
-      <button className="add-btn" onClick={() => navigate("/pratos/formulario-pratos")} style={{ color: "#fff", fontWeight: "bold" }}>
+      <button
+        className="add-btn"
+        onClick={() => navigate("/pratos/formulario-pratos")}
+        style={{ color: "#fff", fontWeight: "bold" }}
+      >
         + Adicionar Prato
       </button>
 

@@ -49,13 +49,13 @@ export function Cardapio() {
   const [comanda, setComanda] = useState([]);
   const tokenUrl = enviroments.tokenURL;
 
-  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
-  const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
+  const [_produtoSelecionado, _setProdutoSelecionado] = useState(null);
+  const [_quantidadeSelecionada, _setQuantidadeSelecionada] = useState(0);
 
-  const [modalAberto, setModalAberto] = useState(false);
-  const [confirmarPedido, setConfirmarPedido] = useState(false);
+  const [_modalAberto, _setModalAberto] = useState(false);
+  const [_confirmarPedido, setConfirmarPedido] = useState(false);
 
-  const [itemCarrinhoIds, setItemCarrinhoIds] = useState([]);
+  const [_itemCarrinhoIds, setItemCarrinhoIds] = useState([]);
 
   const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
@@ -217,43 +217,43 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
     setComanda((prev) => prev.filter((item) => item.nome !== nomeProduto));
   }
 
-  function abrirModal(produto, quantidade) {
-    const item = comanda.find((i) => i.nome === produto);
-    setProdutoSelecionado({
-      nome: produto,
-      observacoes: item?.observacoes || [],
-    });
-    setQuantidadeSelecionada(quantidade);
-    setModalAberto(true);
-  }
+  // function abrirModal(produto, quantidade) {
+  //   const item = comanda.find((i) => i.nome === produto);
+  //   setProdutoSelecionado({
+  //     nome: produto,
+  //     observacoes: item?.observacoes || [],
+  //   });
+  //   setQuantidadeSelecionada(quantidade);
+  //   setModalAberto(true);
+  // }
 
-  function fecharModal() {
-    setModalAberto(false);
-    setProdutoSelecionado(null);
-  }
+  // function fecharModal() {
+  //   setModalAberto(false);
+  //   setProdutoSelecionado(null);
+  // }
 
   const abrirModalConfirmarPedido = () => {
     setConfirmarPedido(true);
   };
 
-  const fecharModalConfirmarPedido = () => {
-    setConfirmarPedido(false);
-  };
+  // const fecharModalConfirmarPedido = () => {
+  //   setConfirmarPedido(false);
+  // };
 
-  function salvarObservacoes(observacoesRecebidas) {
-    setComanda((prev) => {
-      return prev.map((item) => {
-        if (item.nome === produtoSelecionado.nome) {
-          return {
-            ...item,
-            observacoes: observacoesRecebidas,
-          };
-        }
-        return item;
-      });
-    });
-    fecharModal();
-  }
+  // function salvarObservacoes(observacoesRecebidas) {
+  //   setComanda((prev) => {
+  //     return prev.map((item) => {
+  //       if (item.nome === produtoSelecionado.nome) {
+  //         return {
+  //           ...item,
+  //           observacoes: observacoesRecebidas,
+  //         };
+  //       }
+  //       return item;
+  //     });
+  //   });
+  //   fecharModal();
+  // }
 
   const totalItens = comanda.reduce(
     (totalDeItens, item) => totalDeItens + item.quantidade,
@@ -333,56 +333,56 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
     });
   }, [enviarPedido, comandaExpandida, funcionario.userId, token]);
 
-  function limparComandas() {
-    setComanda([]);
-    carregarDados();
-  }
+  // function limparComandas() {
+  //   setComanda([]);
+  //   carregarDados();
+  // }
 
-  function carregarDados() {
-    const headers = { Authorization: `Bearer ${token}` };
+  // function carregarDados() {
+  //   const headers = { Authorization: `Bearer ${token}` };
 
-    const requisicaoProdutos = api.get(
-      `${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`,
-      { headers }
-    );
-    const requisicaoPratos = api.get(
-      `${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`,
-      { headers }
-    );
+  //   const requisicaoProdutos = api.get(
+  //     `${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`,
+  //     { headers }
+  //   );
+  //   const requisicaoPratos = api.get(
+  //     `${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`,
+  //     { headers }
+  //   );
 
-    Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(
-      (results) => {
-        const [produtosResult, pratosResult] = results;
+  //   Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(
+  //     (results) => {
+  //       const [produtosResult, pratosResult] = results;
 
-        let produtosComTipo = [];
-        let pratosComTipo = [];
+  //       let produtosComTipo = [];
+  //       let pratosComTipo = [];
 
-        if (produtosResult.status === "fulfilled") {
-          produtosComTipo = produtosResult.value.data.map((produto) => ({
-            ...produto,
-            tipo: "produto",
-          }));
-        } else {
-          setErrorProduto(true);
-        }
+  //       if (produtosResult.status === "fulfilled") {
+  //         produtosComTipo = produtosResult.value.data.map((produto) => ({
+  //           ...produto,
+  //           tipo: "produto",
+  //         }));
+  //       } else {
+  //         setErrorProduto(true);
+  //       }
 
-        if (pratosResult.status === "fulfilled") {
-          pratosComTipo = pratosResult.value.data.map((prato) => ({
-            ...prato,
-            tipo: "prato",
-          }));
-        } else {
-          setErrorPrato(true);
-        }
+  //       if (pratosResult.status === "fulfilled") {
+  //         pratosComTipo = pratosResult.value.data.map((prato) => ({
+  //           ...prato,
+  //           tipo: "prato",
+  //         }));
+  //       } else {
+  //         setErrorPrato(true);
+  //       }
 
-        setProdutos([...produtosComTipo, ...pratosComTipo]);
+  //       setProdutos([...produtosComTipo, ...pratosComTipo]);
 
-        setTimeout(() => {
-          setIsProdutosCarregando(false);
-        }, 1000);
-      }
-    );
-  }
+  //       setTimeout(() => {
+  //         setIsProdutosCarregando(false);
+  //       }, 1000);
+  //     }
+  //   );
+  // }
 
   useEffect(() => {
     const temResultados = categorias.some((categoria) =>

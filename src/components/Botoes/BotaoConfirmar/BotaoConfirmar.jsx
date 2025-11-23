@@ -12,7 +12,7 @@ export function BotaoConfirmar(props) {
                     })}</span>
                 </div>
                 <button className="button-confirmar">
-                    Confirmar
+                    {props.textoBotao || 'Confirmar'}
                 </button>
             </div>
         </>

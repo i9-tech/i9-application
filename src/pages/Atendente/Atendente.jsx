@@ -656,6 +656,7 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
           >
             <BotaoConfirmar
               quantidade={totalItens}
+              textoBotao="Ver Pedido"
               totalPedido={totalPedido}
               onClick={() => {
                 if (window.innerWidth > 768) {
@@ -703,6 +704,7 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
             <div className="painel-footer">
               <BotaoConfirmarMobile
                 quantidade={totalItens}
+                textoBotao="Confirmar"
                 totalPedido={totalPedido}
                 onClick={() => {
                   abrirModalConfirmarPedido();

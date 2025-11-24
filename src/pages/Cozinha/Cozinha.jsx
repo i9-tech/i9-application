@@ -110,7 +110,7 @@ export function Cozinha() {
   return (
     <LayoutTela
       titulo={
-        modo === "preparo" ? "Preparo de Pedidos" : "Histórico de Comandas"
+        modo === "preparo" ? "Preparo de Pedidos" : "Histórico"
       }
       adicional={
         <span>

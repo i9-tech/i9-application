@@ -82,7 +82,7 @@
 @media (max-width: 768px) {
 
       .dashboard {
-    padding: 8px;
+    padding: 18px 8px;
     height: auto!important;
     gap: 0 !important;
   }
@@ -112,3 +112,4 @@
     margin-left: -90px !important;
   }
 } */
+}

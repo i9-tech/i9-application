@@ -1,6 +1,7 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import iconeAtendimento from "../../assets/atendimento-icone-colorido-escuro.svg";
 import iconeDashboard from "../../assets/dashboard-icone-colorido-escuro.svg";
+import iconeConfiguracoes from "../../assets/settings-ui-svgrepo-com.svg";
 import iconeCozinha from "../../assets/cozinha-icone-colorido-escuro.svg";
 import iconeEstoqueProduto from "../../assets/estoque-produtos.svg";
 import iconeEstoquePrato from "../../assets/estoque-pratos.svg";
@@ -167,6 +168,24 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
                 <img src={iconeEquipe} alt="Icone de Equipe" />
               </i>
               <span>Equipe</span>
+            </li>
+          </NavLink>
+        )}
+
+        {permissoes.includes("ROLE_PROPRIETARIO") && (
+          <NavLink
+            to={ROUTERS.CONFIGURACOES}
+            className={({ isActive }) =>
+              isActive ? "nav-link clicked" : "nav-link"
+            }
+            {...tooltipBase}
+            data-tooltip-content="Configurações"
+          >
+            <li key="configuracoes">
+              <i>
+                <img src={iconeConfiguracoes} alt="Icone de Configurações" />
+              </i>
+              <span>Configurações</span>
             </li>
           </NavLink>
         )}

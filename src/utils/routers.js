@@ -13,4 +13,5 @@ export const ROUTERS = {
     UNAUTHORIZED: "/unauthorized",
     REDEFINIR_SENHA: "/redefinir-senha",
     CARDAPIO: "/cardapio",
+    CONFIGURACOES: "/configuracoes",
 }

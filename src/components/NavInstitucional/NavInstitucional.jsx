@@ -21,6 +21,7 @@ export default function NavInstitucional({ navegarParaSecao }) {
             Nossas Soluções
           </div>
           <div onClick={() => navegarParaSecao("sobre")}>Sobre Nós</div>
+          <div onClick={() => navegarParaSecao("planos")}>Planos</div>
           <div onClick={() => navegarParaSecao("contato")}>Contato</div>
         </span>
         <span className="entrar">
@@ -53,10 +54,9 @@ export default function NavInstitucional({ navegarParaSecao }) {
         <div className={`hamburguer-menu-content ${isMenuOpen ? "open" : ""}`}>
           <span className="opcoes-nav-mobile">
             <div onClick={() => navegarParaSecao("inicio")}>Início</div>
-            <div onClick={() => navegarParaSecao("solucoes")}>
-              Nossas Soluções
-            </div>
+            <div onClick={() => navegarParaSecao("solucoes")}>Nossas Soluções</div>
             <div onClick={() => navegarParaSecao("sobre")}>Sobre Nós</div>
+            <div onClick={() => navegarParaSecao("planos")}>Planos</div>
             <div onClick={() => navegarParaSecao("contato")}>Contato</div>
           </span>
           <span className="entrar-mobile">

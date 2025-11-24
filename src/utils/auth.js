@@ -11,10 +11,10 @@ export function getPermissoes() {
   
   if (token) {
     const tokenTraduzido = jwtDecode(token);
-    // console.log("Token traduzido:", tokenTraduzido);  
+    //console.log("Token traduzido:", tokenTraduzido);  
 
     const permissoes = tokenTraduzido.authorities ? tokenTraduzido.authorities.split(',') : [];
-    // console.log("Permissões:", permissoes);
+    //console.log("Permissões:", permissoes);
     
     return permissoes;
   }
@@ -23,7 +23,8 @@ export function getPermissoes() {
 }
 
 export function getPrimeiraRotaPermitida(permissoes) {
-  if (permissoes.includes("ROLE_PROPRIETARIO")) return ROUTERS.DASHBOARD;
+  if (permissoes.includes("PROPRIETARIO_ROLE_PLANO_ACESSO_DASHBOARD")) return ROUTERS.DASHBOARD;
+  if (permissoes.includes("ROLE_PROPRIETARIO")) return ROUTERS.ATENDENTE;
   if (permissoes.includes("ROLE_ATENDIMENTO")) return ROUTERS.ATENDENTE;
   if (permissoes.includes("ROLE_COZINHA")) return ROUTERS.COMANDAS;
   if (permissoes.includes("ROLE_ESTOQUE")) return ROUTERS.ESTOQUE_PRODUTOS;

@@ -6,6 +6,7 @@ import { Funcionarios } from "./pages/Funcionarios/Funcionarios";
 import { Estoque } from "./pages/Estoque/Estoque";
 import { Cozinha } from "./pages/Cozinha/Cozinha";
 import { Institucional } from "./pages/Institucional/Institucional";
+import PlanosInterno from "./pages/PlanosInterno/PlanosInterno"; // ✅ correto
 import { Login } from "./pages/Login/Login";
 import RotaPrivada from "./routes/RotaPrivada";
 import NaoAutorizado from "./pages/NaoAutorizado/NaoAutorizado";
@@ -115,7 +116,7 @@ function App() {
           <Route
             path={ROUTERS.DASHBOARD}
             element={
-              <RotaPrivada permissao="ROLE_PROPRIETARIO">
+              <RotaPrivada permissao="PROPRIETARIO_ROLE_PLANO_ACESSO_DASHBOARD">
                 <Dashboard />
               </RotaPrivada>
             }

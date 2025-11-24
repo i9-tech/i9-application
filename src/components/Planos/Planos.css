@@ -2,6 +2,7 @@
     text-align: center;
     padding: 40px;
     color: #1e1e1e;
+    background-color: var(--cor-para-o-fundo-site);
 
     .titulo-planos {
         font-weight: 700;
@@ -112,6 +113,19 @@
         font-size: 0.9rem;
         color: var(--texto-branco);
     }
+
+
+    .destaque-card .btn-secondary {
+        background-color: var(--cor-para-o-fundo-site);
+        color: var(--botoes-hover-destaques);
+        border: 1px solid var(--botoes-hover-destaques);
+    }
+
+    .destaque-card .btn-secondary:hover {
+        background-color: rgba(255, 255, 255, 0.926);
+        color: var(--botoes-hover-destaques);
+    }
+
 
     .btn,
     .btn-secondary {

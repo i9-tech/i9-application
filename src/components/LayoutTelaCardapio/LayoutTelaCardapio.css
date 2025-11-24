@@ -1,0 +1,166 @@
+.secao-layout-cardapio {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  background-color: var(--cor-para-o-fundo-sistema);
+
+  .div-layout-cardapio {
+    min-height: 100vh;
+    width: 100%;
+    gap: 3vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0 60px 0 120px;
+    
+
+   .content-header-wrapper-cardapio {
+  display: flex;
+align-items: flex-end;
+  align-items: center;
+  width: 100%;
+  /* gap: 150px; */
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+    .header-layout-cardapio {
+  min-height: 70px;
+  width: 100%;
+  gap: 8px; 
+  display: flex;
+  flex-wrap: column;
+
+      .adicional-header-right-cardapio {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap; /* Permite quebra de linha em telas menores */
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 18px;
+        max-width: 100%;
+      }
+
+      .content-header-layout-cardapio {
+        display: flex;
+        gap: 8px;
+        width: auto;
+
+        h1 {
+          font-size: 28px;
+          font-weight: 800;
+          color: #222;
+        }
+
+        span.adicional-header-cardapio {
+          width: auto !important;
+          margin-top: 12px;
+          .baixar-dash {
+            margin-left: 1rem;
+            margin-top: -0.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+
+            &:hover {
+              font-weight: 500;
+              background-color: #0000001f;
+              border-radius: 5px;
+              filter: brightness(0) saturate(100%) invert(39%) sepia(90%)
+                saturate(500%) hue-rotate(190deg);
+            }
+          }
+        }
+      }
+    }
+
+    .main-layout-cardapio {
+      height: 88vh;
+    }
+
+    .date-picker-top-right-cardapio{
+      margin-right: 15px;
+    }
+  }
+
+
+  @media (max-width: 768px) {
+    .secao-layout-cardapio {
+      align-items: center;
+    }
+
+    .main-layout-cardapio {
+    padding-top: 5px;
+  }
+
+    .div-layout-cardapio {
+      width: 100%;
+      padding: 5.5rem 0.5rem 0 0.5rem;
+    }
+
+    .header-layout-cardapio h1 {
+      font-size: 20px !important;     
+      margin-bottom: -22px; 
+    }
+
+   .header-layout-cardapio {
+  position: fixed;
+  top: 0;
+  left: 0;
+  gap: 0;
+  width: 100vw;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 1.5rem;
+  height: 11%;
+  z-index: 2100;
+  background-color: var(--cor-para-o-fundo-sistema);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.content-header-layout-cardapio {
+  width: 100% !important;
+  display: flex;
+  padding: 0 0 0 0;
+ flex-direction: column;
+}
+
+.menu-comanda-cardapio{
+  width: 0vw !important;
+}
+
+    .adicional-header-cardapio {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 12px;
+      gap: 2px;
+    }
+
+
+
+  .adicional-header-right-cardapio {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+  } 
+
+   .date-picker-top-right-cardapio {
+    align-self: flex-start;
+    padding-top: 8px;
+    margin-left: auto;
+  }
+
+  .filtro-date-cardapio{
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  }
+}

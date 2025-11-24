@@ -10,6 +10,9 @@ export const ROUTERS = {
     SETOR_CATEGORIA: "/setor-categoria",
     FUNCIONARIOS: "/funcionarios",
     DASHBOARD: "/dashboard",
+    PLANOS_INTERNOS: "/planos-internos",
     UNAUTHORIZED: "/unauthorized",
     REDEFINIR_SENHA: "/redefinir-senha",
+    CARDAPIO: "/cardapio",
+    CONFIGURACOES: "/configuracoes",
 }

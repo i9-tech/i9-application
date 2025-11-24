@@ -1,0 +1,120 @@
+.resumo-plano {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 2rem 2.5rem;
+  width: 100%;
+  max-width: 880px;
+  margin-top: 2rem;
+  margin-left: 0;
+}
+
+.badge-teste {
+  background-color: #fff9e6;
+  color: #a66a00;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ffe4ae;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icone-badge {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) saturate(100%) invert(29%) sepia(91%) saturate(6395%)
+    hue-rotate(36deg) brightness(75%) contrast(90%);
+}
+
+.icone {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6395%)
+    hue-rotate(236deg) brightness(85%) contrast(85%);
+}
+
+.titulo {
+  font-size: 1.25rem;
+  color: var(--cor-para-texto-preto);
+  font-weight: 600;
+  margin-bottom: 0.1rem;
+  border-bottom: 1px solid #ededed;
+  padding-bottom: 0.6rem;
+}
+
+.linha-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed #e8e8e8;
+  font-size: 0.95rem;
+  color: var(--cor-para-texto-preto);
+}
+
+.linha-info:last-child {
+  border-bottom: none;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 400;
+  color: var(--cor-para-texto-preto);
+}
+
+.valor {
+  font-weight: 400;
+  color: var(--cor-para-texto-preto);
+}
+
+.alerta {
+  background: #ffefef;
+  color: #bf0000;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+.icone-alerta {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) saturate(100%) invert(11%) sepia(94%) saturate(7034%)
+    hue-rotate(0deg) brightness(80%) contrast(98%);
+}
+
+@media (max-width: 768px) {
+  .resumo-plano {
+    padding: 1.5rem;
+    max-width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .linha-info {
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .alerta {
+    flex-direction: column;
+    font-size: 0.95rem;
+    text-align: left;
+  }
+
+  .badge-teste {
+    align-items: flex-start;
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+}

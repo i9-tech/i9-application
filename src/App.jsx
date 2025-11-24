@@ -6,6 +6,7 @@ import { Funcionarios } from "./pages/Funcionarios/Funcionarios";
 import { Estoque } from "./pages/Estoque/Estoque";
 import { Cozinha } from "./pages/Cozinha/Cozinha";
 import { Institucional } from "./pages/Institucional/Institucional";
+import PlanosInterno from "./pages/PlanosInterno/PlanosInterno"; // ✅ correto
 import { Login } from "./pages/Login/Login";
 import RotaPrivada from "./routes/RotaPrivada";
 import NaoAutorizado from "./pages/NaoAutorizado/NaoAutorizado";
@@ -19,6 +20,8 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import CadastroSetoresCategorias from "./pages/CadastroSetoresCategorias/CadastroSetoresCategorias";
 import { RedefinirSenha } from "./pages/RedefinirSenha/RedefinirSenha";
+import { Cardapio } from "./pages/Cardapio/Cardapio";
+import { Configuracoes } from "./pages/Configurações/Configuracoes";
 
 function App() {
 
@@ -113,11 +116,26 @@ function App() {
           <Route
             path={ROUTERS.DASHBOARD}
             element={
-              <RotaPrivada permissao="ROLE_PROPRIETARIO">
+              <RotaPrivada permissao="PROPRIETARIO_ROLE_PLANO_ACESSO_DASHBOARD">
                 <Dashboard />
               </RotaPrivada>
             }
           />
+          <Route
+            path={ROUTERS.CONFIGURACOES}
+            element={
+              <RotaPrivada permissao="ROLE_PROPRIETARIO">
+                <Configuracoes />
+              </RotaPrivada>
+            }
+          />
+           <Route
+            path={ROUTERS.CARDAPIO}
+            element={
+                <Cardapio/>
+            }
+          />
+
           <Route path={ROUTERS.UNAUTHORIZED} element={<NaoAutorizado />} />
         </Routes>
       </main>

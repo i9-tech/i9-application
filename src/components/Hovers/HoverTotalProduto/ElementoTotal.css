@@ -1,7 +1,7 @@
 .card-total {
     background-color: var(--cor-para-o-texto-branco);
-    width: 120px;
-    height: 120px;
+    width: auto;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,8 +42,8 @@
 
 @media (max-width: 768px) {
   .card-total {
-    width: 100px;
-    height: 100px;
+    min-width: 30%;
+    min-height: fit-content;
     font-size: 14px;
     padding: 0.7rem;
     gap: 4px;

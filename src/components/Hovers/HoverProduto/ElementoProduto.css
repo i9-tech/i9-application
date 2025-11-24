@@ -135,6 +135,10 @@
   color: #262525d6;
 }
 
+.elemento-produto .descricao:hover {
+  color: var(--cor-para-o-texto-branco);
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
   .elemento-produto {
@@ -143,6 +147,10 @@
     min-height: unset;
     padding: 2px 15px;
     position: relative;
+  }
+
+  .elemento-produto .descricao:hover {
+    color: var(--cor-para-o-texto-branco);
   }
 
   .botao-adicionar {

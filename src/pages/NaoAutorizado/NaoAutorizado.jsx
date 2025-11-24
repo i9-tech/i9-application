@@ -12,7 +12,7 @@ export default function NaoAutorizado() {
         <h1>Acesso Negado</h1>
       </div>
       <div className="container-texto-nao-autorizado">
-        <p>Você não tem permissão para acessar esta página.</p>
+        <p>Você e/ou seu plano não tem permissão para acessar esta página.</p>
         <p>Entre em contato com o administrador do sistema.</p>
       <button onClick={() => navigate("/")}>
         Voltar para a página inicial

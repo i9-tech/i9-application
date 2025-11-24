@@ -33,10 +33,3 @@ input[type="checkbox"]:checked +
 .checkbox-cozinha-label2 img {
     content: url("../../../assets/check-branco.svg");
 }
-
-
-@media (max-width: 768px){
-    checkbox-cozinha-label2 img{
-        width: 500px;
-    }
-}

@@ -50,17 +50,12 @@
   .cabecalho-estoque th:nth-child(7) {
     width: 140px;
   } /* Categoria */
-
-      .cabecalho-estoque th:nth-child(8) {
-    width: 100px;
-  } /* àrea */
   
-  
-  .cabecalho-estoque th:nth-child(9) {
-    width: 170px;
+  .cabecalho-estoque th:nth-child(8) {
+    width: 150px;
   } /* Descrição */
   
-    .cabecalho-estoque th:nth-child(10) {
-    width: 100px;
+    .cabecalho-estoque th:nth-child(9) {
+    width: 90px;
   } /* Status */
   

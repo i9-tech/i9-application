@@ -1,4 +1,4 @@
-import "./Atendente.css";
+import "./Cardapio.css";
 import BotaoConfirmar from "../../components/Botoes/BotaoConfirmar/BotaoConfirmar";
 import BotaoConfirmarMobile from "../../components/Botoes/BotaoConfirmarMobile/BotaoConfirmarMobile";
 import ElementoTotal from "../../components/Hovers/HoverTotalProduto/ElementoTotal";
@@ -15,7 +15,7 @@ import api from "../../provider/api";
 import { getFuncionario } from "../../utils/auth";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { toast } from "react-toastify";
-import LayoutTela from "../../components/LayoutTela/LayoutTela";
+import LayoutTelaCardapio from "../../components/LayoutTelaCardapio/LayoutTelaCardapio";
 import { ROUTERS } from "../../utils/routers";
 import Relogio from "../../components/Relogio/Relogio";
 import SetoresCarregamento from "../../components/Atendimento/SetoresCarregamento";
@@ -25,7 +25,7 @@ import { enviroments } from "../../utils/enviroments";
 import { imagemPadrao } from "../../assets/imagemPadrao";
 import useThrottle from "../../components/useThrottle/UseThrottle";
 
-export function Atendente() {
+export function Cardapio() {
   const permissao = getPermissoes();
   if (permissao.length === 0) {
     Navigate(ROUTERS.UNAUTHORIZED);
@@ -49,13 +49,13 @@ export function Atendente() {
   const [comanda, setComanda] = useState([]);
   const tokenUrl = enviroments.tokenURL;
 
-  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
-  const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(0);
+  const [_produtoSelecionado, _setProdutoSelecionado] = useState(null);
+  const [_quantidadeSelecionada, _setQuantidadeSelecionada] = useState(0);
 
-  const [modalAberto, setModalAberto] = useState(false);
-  const [confirmarPedido, setConfirmarPedido] = useState(false);
+  const [_modalAberto, _setModalAberto] = useState(false);
+  const [_confirmarPedido, setConfirmarPedido] = useState(false);
 
-  const [itemCarrinhoIds, setItemCarrinhoIds] = useState([]);
+  const [_itemCarrinhoIds, setItemCarrinhoIds] = useState([]);
 
   const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
@@ -217,43 +217,43 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
     setComanda((prev) => prev.filter((item) => item.nome !== nomeProduto));
   }
 
-  function abrirModal(produto, quantidade) {
-    const item = comanda.find((i) => i.nome === produto);
-    setProdutoSelecionado({
-      nome: produto,
-      observacoes: item?.observacoes || [],
-    });
-    setQuantidadeSelecionada(quantidade);
-    setModalAberto(true);
-  }
+  // function abrirModal(produto, quantidade) {
+  //   const item = comanda.find((i) => i.nome === produto);
+  //   setProdutoSelecionado({
+  //     nome: produto,
+  //     observacoes: item?.observacoes || [],
+  //   });
+  //   setQuantidadeSelecionada(quantidade);
+  //   setModalAberto(true);
+  // }
 
-  function fecharModal() {
-    setModalAberto(false);
-    setProdutoSelecionado(null);
-  }
+  // function fecharModal() {
+  //   setModalAberto(false);
+  //   setProdutoSelecionado(null);
+  // }
 
   const abrirModalConfirmarPedido = () => {
     setConfirmarPedido(true);
   };
 
-  const fecharModalConfirmarPedido = () => {
-    setConfirmarPedido(false);
-  };
+  // const fecharModalConfirmarPedido = () => {
+  //   setConfirmarPedido(false);
+  // };
 
-  function salvarObservacoes(observacoesRecebidas) {
-    setComanda((prev) => {
-      return prev.map((item) => {
-        if (item.nome === produtoSelecionado.nome) {
-          return {
-            ...item,
-            observacoes: observacoesRecebidas,
-          };
-        }
-        return item;
-      });
-    });
-    fecharModal();
-  }
+  // function salvarObservacoes(observacoesRecebidas) {
+  //   setComanda((prev) => {
+  //     return prev.map((item) => {
+  //       if (item.nome === produtoSelecionado.nome) {
+  //         return {
+  //           ...item,
+  //           observacoes: observacoesRecebidas,
+  //         };
+  //       }
+  //       return item;
+  //     });
+  //   });
+  //   fecharModal();
+  // }
 
   const totalItens = comanda.reduce(
     (totalDeItens, item) => totalDeItens + item.quantidade,
@@ -333,56 +333,56 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
     });
   }, [enviarPedido, comandaExpandida, funcionario.userId, token]);
 
-  function limparComandas() {
-    setComanda([]);
-    carregarDados();
-  }
+  // function limparComandas() {
+  //   setComanda([]);
+  //   carregarDados();
+  // }
 
-  function carregarDados() {
-    const headers = { Authorization: `Bearer ${token}` };
+  // function carregarDados() {
+  //   const headers = { Authorization: `Bearer ${token}` };
 
-    const requisicaoProdutos = api.get(
-      `${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`,
-      { headers }
-    );
-    const requisicaoPratos = api.get(
-      `${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`,
-      { headers }
-    );
+  //   const requisicaoProdutos = api.get(
+  //     `${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`,
+  //     { headers }
+  //   );
+  //   const requisicaoPratos = api.get(
+  //     `${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`,
+  //     { headers }
+  //   );
 
-    Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(
-      (results) => {
-        const [produtosResult, pratosResult] = results;
+  //   Promise.allSettled([requisicaoProdutos, requisicaoPratos]).then(
+  //     (results) => {
+  //       const [produtosResult, pratosResult] = results;
 
-        let produtosComTipo = [];
-        let pratosComTipo = [];
+  //       let produtosComTipo = [];
+  //       let pratosComTipo = [];
 
-        if (produtosResult.status === "fulfilled") {
-          produtosComTipo = produtosResult.value.data.map((produto) => ({
-            ...produto,
-            tipo: "produto",
-          }));
-        } else {
-          setErrorProduto(true);
-        }
+  //       if (produtosResult.status === "fulfilled") {
+  //         produtosComTipo = produtosResult.value.data.map((produto) => ({
+  //           ...produto,
+  //           tipo: "produto",
+  //         }));
+  //       } else {
+  //         setErrorProduto(true);
+  //       }
 
-        if (pratosResult.status === "fulfilled") {
-          pratosComTipo = pratosResult.value.data.map((prato) => ({
-            ...prato,
-            tipo: "prato",
-          }));
-        } else {
-          setErrorPrato(true);
-        }
+  //       if (pratosResult.status === "fulfilled") {
+  //         pratosComTipo = pratosResult.value.data.map((prato) => ({
+  //           ...prato,
+  //           tipo: "prato",
+  //         }));
+  //       } else {
+  //         setErrorPrato(true);
+  //       }
 
-        setProdutos([...produtosComTipo, ...pratosComTipo]);
+  //       setProdutos([...produtosComTipo, ...pratosComTipo]);
 
-        setTimeout(() => {
-          setIsProdutosCarregando(false);
-        }, 1000);
-      }
-    );
-  }
+  //       setTimeout(() => {
+  //         setIsProdutosCarregando(false);
+  //       }, 1000);
+  //     }
+  //   );
+  // }
 
   useEffect(() => {
     const temResultados = categorias.some((categoria) =>
@@ -421,16 +421,16 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
 
   return (
     <>
-      <LayoutTela
-        titulo={"Menu de Atendimento"}
+      <LayoutTelaCardapio
+        titulo={"Cardápio"}
         adicional={
           <>
             {diaAtual} - <Relogio />
           </>
         }
       >
-        <section className="menu-atendente">
-          {modalAberto && produtoSelecionado && (
+        <section className="menu-cardapio">
+          {/* {modalAberto && produtoSelecionado && (
             <ModalObservacoes
               produto={produtoSelecionado}
               quantidade={quantidadeSelecionada}
@@ -445,7 +445,7 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
               itemCarrinhoIds={itemCarrinhoIds}
               onLimparComandas={limparComandas}
             />
-          )}
+          )} */}
 
           <div className="todos-produtos">
             <h1 className="titulo-setor-categoria">Escolha o Setor</h1>
@@ -633,9 +633,9 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
                   imagem={item.imagem}
                   quantidade={item.quantidade}
                   atualizarQuantidade={atualizarQuantidade}
-                  onClick={abrirModal}
+                  // onClick={abrirModal}
                   removerProduto={removerProdutoDaComanda}
-                  tipo={item.tipo}
+                  // tipo={item.tipo}
                   quantidadeRestante={quantidadeRestante}
                 />
               );
@@ -691,9 +691,9 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
                     imagem={item.imagem}
                     quantidade={item.quantidade}
                     atualizarQuantidade={atualizarQuantidade}
-                    onClick={abrirModal}
+                    // onClick={abrirModal}
                     removerProduto={removerProdutoDaComanda}
-                    tipo={item.tipo}
+                    // tipo={item.tipo}
                   />
                 ))
               ) : (
@@ -704,11 +704,9 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
             <div className="painel-footer">
               <BotaoConfirmarMobile
                 quantidade={totalItens}
-                textoBotao="Confirmar"
+                textoBotao="Fechar"
                 totalPedido={totalPedido}
                 onClick={() => {
-                  abrirModalConfirmarPedido();
-                  setEnviarPedido(true);
                   alternarCarrinhoMobile();
                 }}
                 disabled={comandaExpandida.length === 0}
@@ -724,7 +722,7 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
             ></div>
           )}
         </aside>
-      </LayoutTela>
+      </LayoutTelaCardapio>
     </>
   );
 }

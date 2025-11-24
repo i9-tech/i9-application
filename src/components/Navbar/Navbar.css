@@ -14,6 +14,10 @@
 
   img {
     width: 40px;
+    filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6395%)
+      hue-rotate(236deg) brightness(75%) contrast(90%);
+    transition: filter 0.3s ease;
+    color: var(--titulos-botoes-destaques);
   }
 
   ul {
@@ -121,6 +125,7 @@
   .clicked {
     border-radius: 5px;
     background-color: #0000001f;
+    /* border-left: 4px solid #0F14B8; */
     filter: brightness(0) saturate(100%) invert(39%) sepia(90%) saturate(500%)
       hue-rotate(190deg);
   }
@@ -133,7 +138,6 @@
     transition: transform 0.3s ease;
   }
 }
-
 
 .navbar.aberta {
   width: 15rem;
@@ -152,11 +156,9 @@
   font-weight: 500;
   background-color: #0000001f;
   border-radius: 5px;
-  filter: brightness(0) saturate(100%) invert(39%) sepia(90%)
-          saturate(500%) hue-rotate(190deg);
+  filter: brightness(0) saturate(100%) invert(39%) sepia(90%) saturate(500%)
+    hue-rotate(190deg);
 }
-
-
 
 @media (max-width: 768px) {
   .navbar {
@@ -171,6 +173,9 @@
 
   .navbar.aberta {
     left: 0;
+  }
+  .navbar img {
+    width: 30px;
   }
 
   .menu-mobile-toggle {

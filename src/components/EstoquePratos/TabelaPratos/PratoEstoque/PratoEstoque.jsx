@@ -92,7 +92,6 @@ const PratoEstoque = ({ prato, buscar }) => {
       </td>
       <td>{prato.setor?.nome}</td>
       <td>{prato.categoria?.nome}</td>
-      <td>{prato.setor?.nome}</td>
       <td title={prato.descricao}>{prato.descricao}</td>
       <td className="acoes">
         <button onClick={() => editar(prato)}>✏️</button>

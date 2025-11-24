@@ -1,11 +1,11 @@
 .card-plano {
   border-radius: 16px;
   overflow: hidden;
+  margin-top: 47px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 400px;
   background: white;
-  font-family: "Segoe UI", sans-serif;
 }
 
 .plano-header {
@@ -116,6 +116,7 @@
   .card-plano {
     max-width: 100%;
     margin-bottom: 30px;
+    margin-top: 20px;
   }
 
   .mensal,

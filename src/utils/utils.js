@@ -39,3 +39,16 @@ export const getSaudacao = () => {
   if (hora < 18) return "Boa tarde";
   return "Boa noite";
 };
+
+export const buscarImagensUnsplash = async (query) => {
+  const clientId = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
+  const url = `https://api.unsplash.com/search/photos?query=${query}&per_page=20&client_id=${clientId}`;
+
+  const resposta = await fetch(url);
+  const data = await resposta.json();
+
+  return data.results.map((img) => ({
+    url: img.urls.small,
+    nome: img.alt_description || "Imagem",
+  }));
+};

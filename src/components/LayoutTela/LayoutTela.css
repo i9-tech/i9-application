@@ -9,7 +9,6 @@
   .div-layout {
     min-height: 100vh;
     width: 100%;
-    gap: 3vh;
     display: flex;
     flex-direction: column;
     padding: 0 60px 0 120px;

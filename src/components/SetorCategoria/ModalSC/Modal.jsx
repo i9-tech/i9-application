@@ -23,32 +23,37 @@ const Modal = ({
   const _tokenUrl = enviroments.tokenURL;
 
   const [nome, setNome] = useState("");
-  const [imagem, setImagem] = useState(null); // pode ser File ou string (URL)
+  const [imagem, setImagem] = useState(null); // File
   const [urlImagem, setUrlImagem] = useState("");
   const [modalImagensAberto, setModalImagensAberto] = useState(false);
   const [modalBuscaAberto, setModalBuscaAberto] = useState(false);
+  const [imagemSelecionada, setImagemSelecionada] = useState(""); // <- corrigido
 
-  // 🔄 Quando abre o modal, atualiza campos com dados do item
+  // 🔄 Carregar item para edição
   useEffect(() => {
     if (itemParaEditar) {
       setNome(itemParaEditar.nome || "");
+
       if (itemParaEditar.imagem) {
         setUrlImagem(itemParaEditar.imagem);
-        setImagemSelecionada(itemParaEditar.imagem);
+        setImagemSelecionada({ url: itemParaEditar.imagem });
       } else {
         setUrlImagem(imagemPadrao);
         setImagemSelecionada("");
       }
+
       setImagem(null);
     } else {
       setNome("");
       setImagem(null);
       setUrlImagem(imagemPadrao);
+      setImagemSelecionada("");
     }
   }, [itemParaEditar, isOpen]);
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+  // 📌 Submeter formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsEnviandoDados(true);
@@ -63,7 +68,7 @@ const Modal = ({
 
     const headers = {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'multipart/form-data'
+      "Content-Type": "multipart/form-data",
     };
 
     try {
@@ -77,9 +82,9 @@ const Modal = ({
         let imagemParaEnvio = null;
 
         if (imagem) {
-          imagemParaEnvio = imagem;
+          imagemParaEnvio = imagem; // File
         } else if (imagemSelecionada?.url) {
-          urlImagemFinal = imagemSelecionada.url;
+          urlImagemFinal = imagemSelecionada.url; // URL externa
         } else if (urlImagem && urlImagem !== imagemPadrao) {
           urlImagemFinal = itemParaEditar?.imagem || urlImagem;
         } else {
@@ -91,7 +96,12 @@ const Modal = ({
         const requestBlob = new Blob([JSON.stringify(dadosSetor)], {
           type: "application/json",
         });
-        formData.append(itemParaEditar ? "setorParaAtualizar" : "setorParaCadastro", requestBlob, "request.json");
+
+        formData.append(
+          itemParaEditar ? "setorParaAtualizar" : "setorParaCadastro",
+          requestBlob,
+          "request.json"
+        );
 
         if (imagemParaEnvio) {
           formData.append("imagem", imagemParaEnvio);
@@ -101,6 +111,7 @@ const Modal = ({
         await sleep(200);
 
         let response;
+
         if (itemParaEditar) {
           response = await api.patch(
             `${ENDPOINTS.SETORES}/${itemParaEditar.id}/${funcionario.userId}`,
@@ -134,6 +145,7 @@ const Modal = ({
             dadosCategoria,
             { headers }
           );
+
           toast.success("Categoria atualizada com sucesso!");
           onSalvar(response.data);
           onClose();
@@ -143,6 +155,7 @@ const Modal = ({
             dadosCategoria,
             { headers }
           );
+
           toast.success("Categoria cadastrada com sucesso!");
           onSalvar(response.data);
           setNome("");
@@ -166,12 +179,15 @@ const Modal = ({
     }
   };
 
+  // 📌 Upload do PC
   const alterarImagem = (e) => {
     const arquivoImagem = e.target.files[0];
+
     if (arquivoImagem) {
       const urlTemp = URL.createObjectURL(arquivoImagem);
       setUrlImagem(urlTemp);
-      setImagem(arquivoImagem);
+      setImagem(arquivoImagem); // File
+      setImagemSelecionada(""); // limpar seleção anterior
     }
   };
 
@@ -191,7 +207,10 @@ const Modal = ({
                   : "Cadastro de Categoria"}
               </h2>
 
-              <label>{tipo === "setor" ? "Nome do Setor:" : "Nome da Categoria:"}</label>
+              <label>
+                {tipo === "setor" ? "Nome do Setor:" : "Nome da Categoria:"}
+              </label>
+
               <input
                 type="text"
                 placeholder={tipo === "setor" ? "Pastelaria" : "Doces"}
@@ -200,29 +219,17 @@ const Modal = ({
                 required
               />
 
+              {/* ------- IMAGEM (APENAS SETOR) ------- */}
               {tipo === "setor" && (
                 <>
                   <label>Imagem:</label>
+
                   <div className="imagem-preview-wrapper-setor">
-                    {imagem ? (
-                      <img
-                        src={URL.createObjectURL(imagem)}
-                        alt="Imagem carregada localmente"
-                        className="imagem-preview-setor"
-                      />
-                    ) : urlImagem && urlImagem !== imagemPadrao ? (
-                      <img
-                        src={urlImagem}
-                        alt="Imagem do setor"
-                        className="imagem-preview-setor"
-                      />
-                    ) : (
-                      <img
-                        src={imagemPadrao}
-                        alt="Nenhuma imagem selecionada"
-                        className="imagem-preview-setor"
-                      />
-                    )}
+                    <img
+                      src={urlImagem || imagemPadrao}
+                      alt="Preview"
+                      className="imagem-preview-setor"
+                    />
                   </div>
 
                   <p className="texto-upload">
@@ -233,7 +240,9 @@ const Modal = ({
                     >
                       Escolher imagem da internet
                     </button>
+
                     <span className="ou-texto"> ou </span>
+
                     <label htmlFor="upload-setor">Upload do computador</label>
                     <input
                       id="upload-setor"
@@ -254,6 +263,7 @@ const Modal = ({
                 </>
               )}
 
+              {/* ------- BOTÕES ------- */}
               <div className="modal-botoes">
                 <button type="button" className="btn cancelar" onClick={onClose}>
                   Cancelar
@@ -267,20 +277,27 @@ const Modal = ({
         </div>
       )}
 
+      {/* Modal busca imagem internet */}
       <ModalBuscaImagem
         abrir={modalBuscaAberto}
         onFechar={() => setModalBuscaAberto(false)}
         onSelecionar={(url) => {
           setUrlImagem(url);
-          setImagem(url);
+          setImagemSelecionada({ url }); // salvar URL externa
+          setImagem(null);
           setModalBuscaAberto(false);
         }}
       />
 
+      {/* Modal catálogo INOVE */}
       {modalImagensAberto && (
-        <div className="modal-overlay-fotos" onClick={() => setModalImagensAberto(false)}>
+        <div
+          className="modal-overlay-fotos"
+          onClick={() => setModalImagensAberto(false)}
+        >
           <div className="modal-content-fotos" onClick={(e) => e.stopPropagation()}>
             <h3>Escolha uma imagem que represente o setor</h3>
+
             <div className="galeria-imagens">
               {imagens.map((src, index) => (
                 <img
@@ -288,17 +305,22 @@ const Modal = ({
                   src={src.fixa}
                   alt={`Imagem ${index + 1}`}
                   className={`imagem-opcao ${
-                    imagemSelecionada.fixa === src.fixa ? "selecionada" : ""
+                    imagemSelecionada?.fixa === src.fixa ? "selecionada" : ""
                   }`}
                   onClick={() => {
+                    setImagemSelecionada(src);
                     setUrlImagem(src.fixa);
-                    setImagem(src.fixa);
+                    setImagem(null);
                     setModalImagensAberto(false);
                   }}
                 />
               ))}
             </div>
-            <button className="btn cancelar" onClick={() => setModalImagensAberto(false)}>
+
+            <button
+              className="btn cancelar"
+              onClick={() => setModalImagensAberto(false)}
+            >
               Fechar
             </button>
           </div>

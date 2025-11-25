@@ -115,7 +115,7 @@ function App() {
           <Route
             path={ROUTERS.DASHBOARD}
             element={
-              <RotaPrivada permissao="ROLE_PROPRIETARIO">
+              <RotaPrivada permissao="PROPRIETARIO_ROLE_PLANO_ACESSO_DASHBOARD">
                 <Dashboard />
               </RotaPrivada>
             }

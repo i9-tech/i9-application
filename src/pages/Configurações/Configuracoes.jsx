@@ -7,7 +7,7 @@ import "./Configuracoes.css";
 
 export function Configuracoes() {
   const [plano, setPlano] = useState(null);
-  const [editando, setEditando] = useState(false);
+  const [_editando, setEditando] = useState(false);
   const [empresaEditada, setEmpresaEditada] = useState(null);
 
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
@@ -53,12 +53,12 @@ export function Configuracoes() {
     }));
   };
 
-  const cancelarEdicao = () => {
+  const _cancelarEdicao = () => {
     setEmpresaEditada(plano.empresa);
     setEditando(false);
   };
 
-  const salvarAlteracoes = () => {
+  const _salvarAlteracoes = () => {
     console.log("Salvar alterações:", empresaEditada);
     // Aqui no futuro fará um PUT para o backend
     setEditando(false);
@@ -78,17 +78,20 @@ export function Configuracoes() {
       ) : (
         <div className="config-container">
           <div className="coluna-esquerda">
-            <div className="card usuario">
-              <p className="descricao-plano">
+
+        <p className="descricao-plano">
                 Gerencie aqui as informações da sua empresa e o plano que você
                 adquiriu.
               </p>
+
+            <div className="card usuario">
+              
               <div className="campo">
                 <label>Nome:</label>
                 <input
                   name="nomeResponsavel"
                   value={empresaEditada.nomeResponsavel}
-                  readOnly={!editando}
+                  readOnly={true}
                   onChange={handleInputChange}
                 />
               </div>
@@ -97,7 +100,7 @@ export function Configuracoes() {
                 <input
                   name="nomeFantasia"
                   value={empresaEditada.nomeFantasia}
-                  readOnly={!editando}
+                  readOnly={true}
                   onChange={handleInputChange}
                 />
               </div>
@@ -106,32 +109,11 @@ export function Configuracoes() {
                 <input
                   name="email"
                   value={empresaEditada.email}
-                  readOnly={!editando}
+                  readOnly={true}
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="campo">
-                <label>Senha:</label>
-                <input type="password" value="**********" readOnly />
-                {!editando && (
-                  <small className="link-senha">Alterar senha</small>
-                )}
-              </div>
-
-              {!editando ? (
-                <button className="btn azul" onClick={() => setEditando(true)}>
-                  Editar
-                </button>
-              ) : (
-                <div className="botoes-edicao">
-                  <button className="btn cadastrar" onClick={salvarAlteracoes}>
-                    Salvar
-                  </button>
-                  <button className="btn cancelar" onClick={cancelarEdicao}>
-                    Cancelar
-                  </button>
-                </div>
-              )}
+             
             </div>
             <ResumoPlano plano={plano} />
           </div>

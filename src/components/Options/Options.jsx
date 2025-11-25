@@ -5,7 +5,6 @@ import iconeConfiguracoes from "../../assets/settings-ui-svgrepo-com.svg";
 import iconeCozinha from "../../assets/cozinha-icone-colorido-escuro.svg";
 import iconeEstoqueProduto from "../../assets/estoque-produtos.svg";
 import iconeEstoquePrato from "../../assets/estoque-pratos.svg";
-import iconePlanos from "../../assets/pagamento.svg";
 import iconeEquipe from "../../assets/equipe-icone-colorido-escuro.svg";
 import iconeSair from "../../assets/sair-icone-colorido-escuro.svg";
 import setorCategoriaIcone from "../../assets/setor-categoria-icon.svg";

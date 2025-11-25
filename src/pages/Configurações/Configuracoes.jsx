@@ -7,7 +7,7 @@ import "./Configuracoes.css";
 
 export function Configuracoes() {
   const [plano, setPlano] = useState(null);
-  const [editando, setEditando] = useState(false);
+  const [_editando, setEditando] = useState(false);
   const [empresaEditada, setEmpresaEditada] = useState(null);
 
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
@@ -53,12 +53,12 @@ export function Configuracoes() {
     }));
   };
 
-  const cancelarEdicao = () => {
+  const _cancelarEdicao = () => {
     setEmpresaEditada(plano.empresa);
     setEditando(false);
   };
 
-  const salvarAlteracoes = () => {
+  const _salvarAlteracoes = () => {
     console.log("Salvar alterações:", empresaEditada);
     // Aqui no futuro fará um PUT para o backend
     setEditando(false);

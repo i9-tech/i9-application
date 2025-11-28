@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { imagens } from "./imagensFixas";
 import { imagemPadrao } from "../../../assets/imagemPadrao";
 import { enviroments } from "../../../utils/enviroments";
+import ModalBuscaImagem from "../../ModalBuscaImagem/ModalBuscaImagem";
 
 const Modal = ({
   isOpen,
@@ -22,21 +23,25 @@ const Modal = ({
   const _tokenUrl = enviroments.tokenURL;
 
   const [nome, setNome] = useState("");
-  const [imagem, setImagem] = useState(null);
+  const [imagem, setImagem] = useState(null); // File
   const [urlImagem, setUrlImagem] = useState("");
-  const [imagemSelecionada, setImagemSelecionada] = useState("");
   const [modalImagensAberto, setModalImagensAberto] = useState(false);
+  const [modalBuscaAberto, setModalBuscaAberto] = useState(false);
+  const [imagemSelecionada, setImagemSelecionada] = useState(""); // <- corrigido
 
+  // 🔄 Carregar item para edição
   useEffect(() => {
     if (itemParaEditar) {
       setNome(itemParaEditar.nome || "");
+
       if (itemParaEditar.imagem) {
         setUrlImagem(itemParaEditar.imagem);
-        setImagemSelecionada(itemParaEditar.imagem);
+        setImagemSelecionada({ url: itemParaEditar.imagem });
       } else {
         setUrlImagem(imagemPadrao);
         setImagemSelecionada("");
       }
+
       setImagem(null);
     } else {
       setNome("");
@@ -48,6 +53,7 @@ const Modal = ({
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+  // 📌 Submeter formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsEnviandoDados(true);
@@ -62,7 +68,7 @@ const Modal = ({
 
     const headers = {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'multipart/form-data'
+      "Content-Type": "multipart/form-data",
     };
 
     try {
@@ -76,9 +82,9 @@ const Modal = ({
         let imagemParaEnvio = null;
 
         if (imagem) {
-          imagemParaEnvio = imagem;
+          imagemParaEnvio = imagem; // File
         } else if (imagemSelecionada?.url) {
-          urlImagemFinal = imagemSelecionada.url;
+          urlImagemFinal = imagemSelecionada.url; // URL externa
         } else if (urlImagem && urlImagem !== imagemPadrao) {
           urlImagemFinal = itemParaEditar?.imagem || urlImagem;
         } else {
@@ -90,7 +96,12 @@ const Modal = ({
         const requestBlob = new Blob([JSON.stringify(dadosSetor)], {
           type: "application/json",
         });
-        formData.append(itemParaEditar ? "setorParaAtualizar" : "setorParaCadastro", requestBlob, "request.json");
+
+        formData.append(
+          itemParaEditar ? "setorParaAtualizar" : "setorParaCadastro",
+          requestBlob,
+          "request.json"
+        );
 
         if (imagemParaEnvio) {
           formData.append("imagem", imagemParaEnvio);
@@ -100,6 +111,7 @@ const Modal = ({
         await sleep(200);
 
         let response;
+
         if (itemParaEditar) {
           response = await api.patch(
             `${ENDPOINTS.SETORES}/${itemParaEditar.id}/${funcionario.userId}`,
@@ -133,6 +145,7 @@ const Modal = ({
             dadosCategoria,
             { headers }
           );
+
           toast.success("Categoria atualizada com sucesso!");
           onSalvar(response.data);
           onClose();
@@ -142,6 +155,7 @@ const Modal = ({
             dadosCategoria,
             { headers }
           );
+
           toast.success("Categoria cadastrada com sucesso!");
           onSalvar(response.data);
           setNome("");
@@ -154,6 +168,7 @@ const Modal = ({
 
       setPorcentagemCarregamento(100);
       await sleep(200);
+      onClose();
     } catch (error) {
       console.error(`Erro ao salvar ${tipo}:`, error.response?.data || error);
       toast.error(
@@ -164,33 +179,17 @@ const Modal = ({
     }
   };
 
-  const handleImagemChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImagem(file);
-      setImagemSelecionada("");
-      setUrlImagem("");
-      setModalImagensAberto(false);
+  // 📌 Upload do PC
+  const alterarImagem = (e) => {
+    const arquivoImagem = e.target.files[0];
+
+    if (arquivoImagem) {
+      const urlTemp = URL.createObjectURL(arquivoImagem);
+      setUrlImagem(urlTemp);
+      setImagem(arquivoImagem); // File
+      setImagemSelecionada(""); // limpar seleção anterior
     }
   };
-
-  const titulo = itemParaEditar
-    ? tipo === "setor"
-      ? "Editar Setor"
-      : "Editar Categoria"
-    : tipo === "setor"
-    ? "Cadastro de Setor"
-    : "Cadastro de Categoria";
-
-  const subtitulo = itemParaEditar
-    ? tipo === "setor"
-      ? "Edite as informações do setor selecionado."
-      : "Edite as informações da categoria selecionada."
-    : tipo === "setor"
-    ? "Cadastre um novo setor da empresa. Os setores facilitam a organização operacional e a gestão dos pedidos. Exemplos: Restaurante, Lanchonete, Pastelaria..."
-    : "Cadastre novas categorias para produtos e pratos. As categorias ajudam a organizar os itens nas telas de atendente e estoque, facilitando a visualização. Exemplos: Doces, Salgados, Bebidas...";
-
-  const labelNome = tipo === "setor" ? "Nome do Setor:" : "Nome da Categoria:";
 
   return (
     <>
@@ -198,10 +197,20 @@ const Modal = ({
         <div className="modal-overlay" onClick={onClose}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <form className="modal-form" onSubmit={handleSubmit}>
-              <h2>{titulo}</h2>
-              <p className="modal-subtitulo">{subtitulo}</p>
+              <h2>
+                {itemParaEditar
+                  ? tipo === "setor"
+                    ? "Editar Setor"
+                    : "Editar Categoria"
+                  : tipo === "setor"
+                  ? "Cadastro de Setor"
+                  : "Cadastro de Categoria"}
+              </h2>
 
-              <label>{labelNome}</label>
+              <label>
+                {tipo === "setor" ? "Nome do Setor:" : "Nome da Categoria:"}
+              </label>
+
               <input
                 type="text"
                 placeholder={tipo === "setor" ? "Pastelaria" : "Doces"}
@@ -210,47 +219,53 @@ const Modal = ({
                 required
               />
 
+              {/* ------- IMAGEM (APENAS SETOR) ------- */}
               {tipo === "setor" && (
                 <>
                   <label>Imagem:</label>
+
                   <div className="imagem-preview-wrapper-setor">
-                    {imagem ? (
-                      <img
-                        src={URL.createObjectURL(imagem)}
-                        alt="Imagem carregada localmente"
-                        className="imagem-preview-setor"
-                      />
-                    ) : urlImagem && urlImagem !== imagemPadrao ? (
-                      <img
-                        src={urlImagem}
-                        alt="Imagem do setor"
-                        className="imagem-preview-setor"
-                      />
-                    ) : (
-                      <img
-                        src={imagemPadrao}
-                        alt="Nenhuma imagem selecionada"
-                        className="imagem-preview-setor"
-                      />
-                    )}
+                    <img
+                      src={urlImagem || imagemPadrao}
+                      alt="Preview"
+                      className="imagem-preview-setor"
+                    />
                   </div>
+
+                  <p className="texto-upload">
+                    <button
+                      type="button"
+                      className="botao-buscar-web"
+                      onClick={() => setModalBuscaAberto(true)}
+                    >
+                      Escolher imagem da internet
+                    </button>
+
+                    <span className="ou-texto"> ou </span>
+
+                    <label htmlFor="upload-setor">Upload do computador</label>
+                    <input
+                      id="upload-setor"
+                      type="file"
+                      accept="image/png, image/jpeg, image/jpg"
+                      onChange={alterarImagem}
+                      className="input-escondido"
+                    />
+                  </p>
 
                   <button
                     type="button"
                     onClick={() => setModalImagensAberto(true)}
                     className="btn escolher-imagem"
                   >
-                    Escolher Imagem do Setor
+                    Escolher imagem do catálogo INOVE
                   </button>
                 </>
               )}
 
+              {/* ------- BOTÕES ------- */}
               <div className="modal-botoes">
-                <button
-                  type="button"
-                  className="btn cancelar"
-                  onClick={onClose}
-                >
+                <button type="button" className="btn cancelar" onClick={onClose}>
                   Cancelar
                 </button>
                 <button type="submit" className="btn cadastrar">
@@ -262,16 +277,27 @@ const Modal = ({
         </div>
       )}
 
+      {/* Modal busca imagem internet */}
+      <ModalBuscaImagem
+        abrir={modalBuscaAberto}
+        onFechar={() => setModalBuscaAberto(false)}
+        onSelecionar={(url) => {
+          setUrlImagem(url);
+          setImagemSelecionada({ url }); // salvar URL externa
+          setImagem(null);
+          setModalBuscaAberto(false);
+        }}
+      />
+
+      {/* Modal catálogo INOVE */}
       {modalImagensAberto && (
         <div
           className="modal-overlay-fotos"
           onClick={() => setModalImagensAberto(false)}
         >
-          <div
-            className="modal-content-fotos"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal-content-fotos" onClick={(e) => e.stopPropagation()}>
             <h3>Escolha uma imagem que represente o setor</h3>
+
             <div className="galeria-imagens">
               {imagens.map((src, index) => (
                 <img
@@ -279,31 +305,21 @@ const Modal = ({
                   src={src.fixa}
                   alt={`Imagem ${index + 1}`}
                   className={`imagem-opcao ${
-                    imagemSelecionada.fixa === src.fixa ? "selecionada" : ""
+                    imagemSelecionada?.fixa === src.fixa ? "selecionada" : ""
                   }`}
                   onClick={() => {
                     setImagemSelecionada(src);
+                    setUrlImagem(src.fixa);
                     setImagem(null);
-                    setUrlImagem(src.url);
                     setModalImagensAberto(false);
                   }}
                 />
               ))}
-              <div className="upload-imagem-customizada">
-                <label className="btn">
-                  Faça upload da foto do setor (JPG, PNG, JPEG)
-                  <input
-                    type="file"
-                    accept="image/png, image/jpeg, image/jpg"
-                    onChange={handleImagemChange}
-                    className="input-escondido"
-                  />
-                </label>
-              </div>
             </div>
+
             <button
-              onClick={() => setModalImagensAberto(false)}
               className="btn cancelar"
+              onClick={() => setModalImagensAberto(false)}
             >
               Fechar
             </button>

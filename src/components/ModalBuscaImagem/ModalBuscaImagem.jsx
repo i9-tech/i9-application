@@ -34,8 +34,15 @@ const ModalBuscaImagem = ({ abrir, onFechar, onSelecionar }) => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                buscarImagens();
+              }
+            }}
             placeholder="Digite o nome da imagem"
           />
+
           <button onClick={buscarImagens}>Buscar</button>
         </div>
 

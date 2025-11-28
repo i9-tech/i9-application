@@ -17,7 +17,9 @@ export function CardPlanoAtual({ plano }) {
       </div>
 
       <div className="plano-body">
-        <span className="status ativo">Ativo</span>
+        <span className={`status ${plano.ativo ? "ativo" : "inativo"}`}>
+          {plano.ativo ? "Ativo" : "Inativo"}
+        </span>
 
         <p className="tipo">{planoTemplate.tipo}</p>
         <p className="descricao">{planoTemplate.descricao}</p>
@@ -39,12 +41,10 @@ export function CardPlanoAtual({ plano }) {
         </div>
 
         <ul className="lista-beneficios">
-          <li>✔️ {planoTemplate.qtdUsuarios} Usuários</li>
+          <li>✔️ {planoTemplate.qtdUsuarios > 10000 ? "Ilimitados" : planoTemplate.qtdUsuarios} Usuários</li>
           <li>✔️ {planoTemplate.qtdSuperUsuarios} Super Usuários</li>
-          <li>✔️ Dashboard Analítica</li>
-          <li className={planoTemplate.acessoRelatorioWhatsApp ? "" : "negado"}>
-            {planoTemplate.acessoRelatorioWhatsApp ? "✔️" : "❌"} Envio de relatório WhatsApp
-          </li>
+          <li>{planoTemplate.acessoDashboard ? "✔️" : "❌"}  Dashboard Analítica</li>
+          <li>{planoTemplate.acessoRelatorioWhatsApp ? "✔️" : "❌"} Envio de relatório WhatsApp</li>
         </ul>
 
         <button className="btn-alterar">Alterar Plano</button>

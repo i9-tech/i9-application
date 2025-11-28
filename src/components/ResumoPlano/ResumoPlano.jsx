@@ -6,32 +6,52 @@ import iconePagamento from "../../assets/card-billing-svgrepo-com.svg";
 import iconeTeste from "../../assets/gift-svgrepo-com.svg";
 import iconeAlerta from "../../assets/alert-svgrepo-com.svg";
 
-export function ResumoPlano() {
+export function ResumoPlano({ plano }) {
+  if (!plano) return null;
+
   const formatarData = (iso) => {
     if (!iso) return "Não disponível";
     const [y, m, d] = iso.split("-");
     return `${d}/${m}/${y}`;
   };
 
-  const plano = {
-    dataAdesao: "2025-11-21",
-    dataFim: "2025-12-21",
-    periodo: "ANUAL",
-    testeGratis: true,
-    diasTeste: 14,
-    ativo: false,
+  const calcularDiasRestantes = (dataInicioIso, diasTeste) => {
+    if (!dataInicioIso || !diasTeste) return 0;
+
+    const hoje = new Date();
+    const inicio = new Date(dataInicioIso);
+
+    const diffMs = hoje - inicio;
+    const diasPassados = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    return diasTeste - diasPassados;
   };
+
+
+  const diasRestantes = calcularDiasRestantes(plano.dataInicio, plano.diasTeste);
+  const testeAtivo = plano.testeGratis && diasRestantes > 0;
 
   return (
     <div className="resumo-plano">
-      {plano.testeGratis && (
+
+      {plano.testeGratis ? (
+        
         <div className="badge-teste">
-          <img
-            src={iconeTeste}
-            alt="Ícone de teste grátis"
-            className="icone-badge"
-          />
-          <strong>Teste gratuito</strong> • {plano.diasTeste} dias restantes
+          <img src={iconeTeste} alt="Teste" className="icone-badge" />
+
+          {testeAtivo ? (
+            <>
+              <strong>Teste gratuito</strong> • {diasRestantes} dias restantes
+            </>
+          ) : (
+            <strong>Período de teste gratuito expirado</strong>
+          )}
+        </div>
+      ) : (
+       
+        <div className="badge-teste">
+          <img src={iconeTeste} alt="Teste" className="icone-badge" />
+          <strong>Este plano não possui mais período de teste. O período já foi encerrado.</strong>
         </div>
       )}
 
@@ -39,7 +59,7 @@ export function ResumoPlano() {
 
       <div className="linha-info">
         <div className="label">
-          <img src={iconeCalendario} alt="Calendário" className="icone" />
+          <img src={iconeCalendario} className="icone" alt="" />
           Assinante desde
         </div>
         <div className="valor">{formatarData(plano.dataAdesao)}</div>
@@ -47,7 +67,7 @@ export function ResumoPlano() {
 
       <div className="linha-info">
         <div className="label">
-          <img src={iconeRenovacao} alt="Renovação" className="icone" />
+          <img src={iconeRenovacao} className="icone" alt="" />
           Renovação em
         </div>
         <div className="valor">{formatarData(plano.dataFim)}</div>
@@ -55,7 +75,7 @@ export function ResumoPlano() {
 
       <div className="linha-info">
         <div className="label">
-          <img src={iconePagamento} alt="Cobrança" className="icone" />
+          <img src={iconePagamento} className="icone" alt="" />
           Cobrança
         </div>
         <div className="valor">
@@ -63,12 +83,10 @@ export function ResumoPlano() {
         </div>
       </div>
 
-      {!plano.ativo && (
-        <div className="alerta">
-          <img src={iconeAlerta} alt="Alerta" className="icone-alerta" /> Seu
-          plano está inativo
-        </div>
-      )}
+      <div className={`alerta ${plano.ativo ? "ativo" : "inativo"}`}>
+        <img src={iconeAlerta} className="icone-alerta" alt="" />
+        {plano.ativo ? "Seu plano está ativo!" : "Seu plano está inativo"}
+      </div>
     </div>
   );
 }

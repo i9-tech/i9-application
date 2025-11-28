@@ -3,12 +3,17 @@ import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import Relogio from "../../components/Relogio/Relogio";
 import { CardPlanoAtual } from "../../components/CardPlanoAtual/CardPlanoAtual";
 import { ResumoPlano } from "../../components/ResumoPlano/ResumoPlano";
+import api from "../../provider/api";
+import { ENDPOINTS } from "../../utils/endpoints";
+import { getToken, getFuncionario } from "../../utils/auth";
 import "./Configuracoes.css";
 
 export function Configuracoes() {
   const [plano, setPlano] = useState(null);
-  const [_editando, setEditando] = useState(false);
-  const [empresaEditada, setEmpresaEditada] = useState(null);
+  const [empresa, setEmpresa] = useState(null);
+
+  const funcionario = getFuncionario();
+  const token = getToken();
 
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -17,52 +22,30 @@ export function Configuracoes() {
   });
 
   useEffect(() => {
-    const mock = {
-      dataInicio: "2025-11-21",
-      dataFim: "2025-12-21",
-      valorCobrado: 249.0,
-      ativo: true,
-      testeGratis: true, // <- ATIVANDO TESTE GRÁTIS
-      diasTeste: 5, // <- EXIBIR DIAS RESTANTES
-      periodo: "ANUAL",
-      empresa: {
-        nomeResponsavel: "João Silva",
-        nomeFantasia: "Tatuí Lanches",
-        email: "joao@tatui.com",
-      },
-      planoTemplate: {
-        tipo: "Profissional",
-        descricao:
-          "Para quem busca otimizar os processos da empresa com automações e dashboards",
-        qtdUsuarios: 35,
-        qtdSuperUsuarios: 4,
-        acessoDashboard: true,
-        acessoRelatorioWhatsApp: false,
-      },
-    };
+    api
+      .get(`${ENDPOINTS.GERENCIAMENTO_PLANO_EMPRESA}/${funcionario.empresaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setPlano(res.data);
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar plano da empresa:", err);
+      });
 
-    setPlano(mock);
-    setEmpresaEditada(mock.empresa);
-  }, []);
+       api
+      .get(`${ENDPOINTS.EMPRESAS}/${funcionario.empresaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setEmpresa(res.data);
+        console.log(empresa);
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar dados da empresa:", err);
+      });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEmpresaEditada((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const _cancelarEdicao = () => {
-    setEmpresaEditada(plano.empresa);
-    setEditando(false);
-  };
-
-  const _salvarAlteracoes = () => {
-    console.log("Salvar alterações:", empresaEditada);
-    // Aqui no futuro fará um PUT para o backend
-    setEditando(false);
-  };
+  }, [token]);
 
   return (
     <LayoutTela
@@ -73,47 +56,47 @@ export function Configuracoes() {
         </>
       }
     >
-      {!plano ? (
+      {!plano || !empresa ? (
         <p className="loading">Carregando...</p>
       ) : (
         <div className="config-container">
           <div className="coluna-esquerda">
-
-        <p className="descricao-plano">
-                Gerencie aqui as informações da sua empresa e o plano que você
-                adquiriu.
-              </p>
+            <p className="descricao-plano">
+              Veja as informações da sua empresa e os detalhes do plano ativo.
+            </p>
 
             <div className="card usuario">
-              
-              <div className="campo">
-                <label>Nome:</label>
-                <input
-                  name="nomeResponsavel"
-                  value={empresaEditada.nomeResponsavel}
-                  readOnly={true}
-                  onChange={handleInputChange}
-                />
-              </div>
               <div className="campo">
                 <label>Estabelecimento:</label>
                 <input
-                  name="nomeFantasia"
-                  value={empresaEditada.nomeFantasia}
+                  value={empresa.nome || "Nome da Empresa Não Informado"}
                   readOnly={true}
-                  onChange={handleInputChange}
                 />
               </div>
+
               <div className="campo">
-                <label>Email:</label>
+                <label>Endereço:</label>
                 <input
-                  name="email"
-                  value={empresaEditada.email}
+                  value={empresa.endereco || "Endereço Não Informado"}
                   readOnly={true}
-                  onChange={handleInputChange}
                 />
               </div>
-             
+
+              <div className="campo">
+                <label>CNPJ:</label>
+                <input
+                  value={empresa.cnpj || "CNPJ Não Informado"}
+                  readOnly={true}
+                />
+              </div>
+
+              <div className="campo">
+                <label>WhatsApp:</label>
+                <input
+                  value={empresa.whatsapp || "WhatsApp Não Informado"}
+                  readOnly={true}
+                />
+              </div>
             </div>
             <ResumoPlano plano={plano} />
           </div>

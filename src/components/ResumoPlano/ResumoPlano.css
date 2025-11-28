@@ -25,15 +25,13 @@
 .icone-badge {
   width: 18px;
   height: 18px;
-  filter: brightness(0) saturate(100%) invert(29%) sepia(91%) saturate(6395%)
-    hue-rotate(36deg) brightness(75%) contrast(90%);
+  filter: brightness(0) saturate(100%) invert(29%) sepia(91%) saturate(6395%) hue-rotate(36deg) brightness(75%) contrast(90%);
 }
 
 .icone {
   width: 18px;
   height: 18px;
-  filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6395%)
-    hue-rotate(236deg) brightness(85%) contrast(85%);
+  filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6395%) hue-rotate(236deg) brightness(85%) contrast(85%);
 }
 
 .titulo {
@@ -73,8 +71,6 @@
 }
 
 .alerta {
-  background: #ffefef;
-  color: #bf0000;
   padding: 12px 16px;
   border-radius: 8px;
   font-weight: 600;
@@ -86,11 +82,28 @@
   text-align: center;
 }
 
+.alerta.inativo {
+  background: #ffe0e0;
+  color: #d00000;
+}
+
+.alerta.inativo .icone-alerta {
+  filter: brightness(0) saturate(100%) invert(22%) sepia(94%) saturate(3093%) hue-rotate(344deg) brightness(92%) contrast(90%);
+}
+
+.alerta.ativo {
+  background: #d1fadf;
+  color: #067647;
+}
+
+.alerta.ativo .icone-alerta {
+  filter: brightness(0) saturate(100%) invert(45%) sepia(21%) saturate(994%) hue-rotate(74deg) brightness(90%) contrast(85%);
+}
+
 .icone-alerta {
   width: 20px;
   height: 20px;
-  filter: brightness(0) saturate(100%) invert(11%) sepia(94%) saturate(7034%)
-    hue-rotate(0deg) brightness(80%) contrast(98%);
+  filter: brightness(0) saturate(100%) invert(11%) sepia(94%) saturate(7034%) hue-rotate(0deg) brightness(80%) contrast(98%);
 }
 
 @media (max-width: 768px) {

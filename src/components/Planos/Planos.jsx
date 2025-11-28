@@ -4,10 +4,9 @@ import IMAGEM_USER from '../../assets/usuario.svg';
 import IMAGEM_SUPERUSER from '../../assets/icon-adminn.svg';
 import IMAGEM_NAO from '../../assets/block.svg';
 import IMAGEM_CHECK from '../../assets/check.svg';
-
 import api from "../../provider/api";
-import { ROUTERS } from "../../utils/routers";
 import { toast } from "react-toastify";
+import { ENDPOINTS } from '../../utils/endpoints';
 
 const Planos = () => {
   const [periodo, setPeriodo] = useState('mensal');
@@ -16,7 +15,7 @@ const Planos = () => {
   useEffect(() => {
 
     setLoading(true);
-    api.get(`${ROUTERS.PLANOS_TEMPLATES}`)
+    api.get(`${ENDPOINTS.PLANOS_TEMPLATES}`)
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data : (res.data?.content ?? res.data);
         setTemplates(Array.isArray(data) ? data : []);

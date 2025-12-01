@@ -1,18 +1,14 @@
 name: 🚀 i9 Tech CI/CD - Deploy para AWS EC2
 
 on:
- workflow_run:
-    workflows: ["🖥️ i9 Tech CD - Entrega Contínua (Docker Build + Push)"]
-    types:
-      - completed
-    branches: 
+  push:
+    branches:
       - feature/aws
 
 jobs:
   deploy:
     name: Deploy Container to EC2 via SSH
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: 🔁 Checkout do repositório
         uses: actions/checkout@v4

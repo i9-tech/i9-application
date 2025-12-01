@@ -42,3 +42,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VITE_AMBIENTE=${{ secrets.VITE_AMBIENTE }}
+            VITE_IMAGE_TOKEN_URL=${{ secrets.VITE_IMAGE_TOKEN_URL }}
+            VITE_API_BASE_URL_AWS=${{ secrets.VITE_API_BASE_URL_AWS }}
+            VITE_API_BASE_URL_LOCAL=${{ secrets.VITE_API_BASE_URL_LOCAL }}
+            VITE_API_BASE_URL_DEV=${{ secrets.VITE_API_BASE_URL_DEV }}
+            VITE_API_BASE_URL_PROD=${{ secrets.VITE_API_BASE_URL_PROD }}

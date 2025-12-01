@@ -88,6 +88,6 @@ jobs:
             sudo DOCKER_IMAGE_FULL_PATH="${DOCKER_IMAGE_FULL_PATH}" docker-compose pull
             
             # 4. Sobe o serviço: PASSAMOS A VARIÁVEL DOCKER_IMAGE_FULL_PATH EXPLICITAMENTE PARA O SUDO
-            sudo DOCKER_IMAGE_FULL_PATH="${DOCKER_IMAGE_FULL_PATH}" docker-compose up -d --force-recreate i9-website-application 
+            sudo DOCKER_IMAGE_FULL_PATH="${DOCKER_IMAGE_FULL_PATH}" docker-compose up -d --force-recreate nginx 
             
             echo "Deploy finalizado com sucesso!"

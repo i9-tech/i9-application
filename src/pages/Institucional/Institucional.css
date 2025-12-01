@@ -2686,14 +2686,19 @@
 
 .botao-voltar-inicio {
   position: fixed;
-  bottom: 40px;
+  bottom: 20px;
   right: 40px;
-  padding: 12px 18px;
+  width: 56px;
+  height: 56px;
+  padding: 0;
   border-radius: 50%;
   border: none;
   background: var(--titulos-botoes-destaques);
   color: var(--cor-para-o-texto-branco);
   font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   z-index: 20;
 }

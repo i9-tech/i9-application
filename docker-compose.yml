@@ -2,7 +2,6 @@
 
   services:
     nginx: 
-      container_name: i9-website-application
       image: ${DOCKER_IMAGE_FULL_PATH}
       ports:
         - "80:80"

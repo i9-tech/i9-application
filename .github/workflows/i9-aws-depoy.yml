@@ -3,7 +3,7 @@ name: 🚀 Deploy App Frontend to AWS EC2 (PULL Docker Image)
 on:
   push:
     branches:
-      - feature/aws
+      - feature/aws # Confirme se é a branch correta
 
 jobs:
   deploy:
@@ -15,6 +15,24 @@ jobs:
       - name: 🔁 Checkout do Repositório
         uses: actions/checkout@v4
 
+      # NOVO PASSO: Garante que a pasta existe e não é um arquivo
+      - name: 🛠️ Preparar Ambiente na EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Se 'i9-application' existir e for um arquivo, apaga ele
+            if [ -f "/home/${{ secrets.REMOTE_USER }}/i9-application" ]; then
+              rm "/home/${{ secrets.REMOTE_USER }}/i9-application"
+              echo "Arquivo incorreto removido."
+            fi
+            
+            # Cria a pasta corretamente
+            mkdir -p /home/${{ secrets.REMOTE_USER }}/i9-application/nginx
+            echo "Diretórios de deploy garantidos."
+
       # 2. Copiar o arquivo docker-compose.yml
       - name: 📦 Copiar docker-compose.yml
         uses: easingthemes/ssh-deploy@main
@@ -22,18 +40,20 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application 
+          # Agora que a pasta existe (criada no passo anterior), isso funcionará
+          TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application/
           SOURCE: "docker-compose.yml"
           ARGS: "-rltgoDzvO"
 
-      # 3. Copiar a pasta nginx (CORRIGIDO AQUI)
+      # 3. Copiar a pasta nginx
       - name: 📦 Copiar Pasta de Configuração Nginx
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application
+          # O Target é a pasta raiz. O rsync colocará a pasta 'nginx' dentro dela.
+          TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application/
           SOURCE: "nginx"
           ARGS: "-rltgoDzvO"
           
@@ -50,17 +70,16 @@ jobs:
             
             # Variável com o IP privado
             export IP_REMOTE_PRIVADO=${{ secrets.REMOTE_HOST_PRIVADO }}
-            echo "Variável de IP privado criada: $IP_REMOTE_PRIVADO"
-
+            
             cd /home/${{ secrets.REMOTE_USER }}/i9-application
             
             # Injeta o IP no template do Nginx
             envsubst '$IP_REMOTE_PRIVADO' < nginx/app.conf.template > nginx/app.conf
-            echo "Arquivo nginx/app.conf atualizado com IP privado."
+            echo "Arquivo nginx/app.conf atualizado com IP privado: $IP_REMOTE_PRIVADO"
             
             # Login e Deploy
             echo "${{ secrets.DOCKER_HUB_TOKEN}}" | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
             
             docker-compose pull
             docker-compose up -d --force-recreate i9-website-application 
-            echo "Serviço frontend reiniciado com sucesso."
+            echo "Deploy finalizado com sucesso!"

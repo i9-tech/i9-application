@@ -3,8 +3,7 @@ name: 🚀 Deploy App Frontend to AWS EC2 (PULL Docker Image)
 on:
   push:
     branches:
-      - develop
-      - main
+      - feature/aws
 
 jobs:
   deploy:
@@ -51,7 +50,7 @@ jobs:
           script: |
             set -e
             
-            # Define a variável com o IP privado do Backend (ex: 10.0.0.146)
+            # Define a variável com o IP privado do Backend 
             export IP_REMOTE_PRIVADO=${{ secrets.REMOTE_HOST_PRIVADO }}
             echo "Variável de IP privado criada: $IP_REMOTE_PRIVADO"
 

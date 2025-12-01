@@ -1,4 +1,4 @@
-name: 🚀 i9 Tech CI/CD - Deploy para AWS EC2
+name: 🚀 i9 Tech CI/CD - Build Local e Deploy na EC2
 
 on:
   push:
@@ -6,15 +6,56 @@ on:
       - feature/aws
 
 jobs:
-  deploy:
-    name: Deploy Container to EC2 via SSH
+  build_and_deploy:
+    name: Build React & Docker Deploy Local
     runs-on: ubuntu-latest
+
     steps:
+      # 1. Checkout do código
       - name: 🔁 Checkout do repositório
         uses: actions/checkout@v4
 
-      # 1) Preparar ambiente REMOTO — remove deploy antigo (garante limpeza total)
-      - name: 🧹 Limpar e preparar pasta na EC2
+      # 2. Setup do Node e Build do React (Gera a pasta dist)
+      - name: 🏗️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Instalar Dependências e Build
+        run: |
+          npm ci
+          npm run build
+        working-directory: . 
+
+      # 3. Limpeza e Preparação na EC2
+      - name: 🧹 Limpar pasta remota
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Define o diretório de destino
+            DEPLOY_DIR="/home/${{ secrets.REMOTE_USER }}/i9-application"
+            
+            # Remove a versão anterior para garantir que não haja arquivos velhos
+            rm -rf "$DEPLOY_DIR"
+            mkdir -p "$DEPLOY_DIR"
+            echo "Diretório $DEPLOY_DIR limpo e recriado."
+
+      # 4. Transferência de Arquivos (Build + Configs + Dockerfile)
+      - name: 📂 Copiar arquivos para EC2
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application
+          SOURCE: "dist/ nginx/ Dockerfile"
+          ARGS: "-rltgoDzvO"
+
+      # 5. Execução Remota: Configuração, Docker Build e Run
+      - name: 🚀 Build da Imagem e Start do Container na EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -23,101 +64,28 @@ jobs:
           script: |
             set -e
             DEPLOY_DIR="/home/${{ secrets.REMOTE_USER }}/i9-application"
-
-            # Remover tudo para evitar sobrescrita parcial (IMPORTANTE)
-            if [ -d "$DEPLOY_DIR" ]; then
-              rm -rf "$DEPLOY_DIR"
-            fi
-            mkdir -p "$DEPLOY_DIR/nginx"
-            echo "Pasta de deploy limpa e recriada em $DEPLOY_DIR"
-
-      # 2) Copiar docker-compose.yml (usamos rsync via scp action compatível)
-      - name: 📦 Copiar docker-compose.yml para EC2
-        uses: easingthemes/ssh-deploy@main
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application/
-          SOURCE: "docker-compose.yml"
-          ARGS: "-rltgoDzvO"
-
-      # 3) Copiar pasta nginx inteira
-      - name: 📦 Copiar pasta nginx para EC2
-        uses: easingthemes/ssh-deploy@main
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application/
-          SOURCE: "nginx"
-          ARGS: "-rltgoDzvO"
-
-      # 4) Executar deploy remoto (login, pull, down, up) — tudo em um script idempotente
-      - name: 🚀 Executar deploy na EC2 (docker compose)
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            set -euo pipefail
-
-            DEPLOY_DIR="/home/${{ secrets.REMOTE_USER }}/i9-application"
             cd "$DEPLOY_DIR"
 
-            # Exporta variáveis que o docker-compose.yml usa (substitua se quiser outra tag)
-            export DOCKER_IMAGE_FULL_PATH="${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest"
+            echo "--- Configurando Variáveis de Ambiente ---"
             export IP_REMOTE_PRIVADO="${{ secrets.REMOTE_HOST_PRIVADO }}"
-
-            echo "DOCKER_IMAGE_FULL_PATH=$DOCKER_IMAGE_FULL_PATH"
-
-            # Gera app.conf a partir do template
+            
             if [ -f "nginx/app.conf.template" ]; then
               envsubst '$IP_REMOTE_PRIVADO' < nginx/app.conf.template > nginx/app.conf
-              echo "nginx/app.conf gerado."
-            else
-              echo "Atenção: nginx/app.conf.template não existe! Verifique o repo."
-              exit 1
+              echo "Arquivo nginx/app.conf gerado com sucesso."
             fi
 
-            # Função para usar docker compose v2 (docker compose) quando disponível,
-            # senão cair para docker-compose (compatibilidade).
-            run_compose() {
-              if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
-                DOCKER_COMPOSE_CMD="docker compose"
-              elif command -v docker-compose >/dev/null 2>&1; then
-                DOCKER_COMPOSE_CMD="docker-compose"
-              else
-                echo "ERRO: Nem 'docker compose' nem 'docker-compose' disponíveis na EC2."
-                exit 1
-              fi
-              echo "Usando: $DOCKER_COMPOSE_CMD"
-            }
+            echo "--- Gerenciando Containers Antigos ---"
+            docker stop i9-website-container || true
+            docker rm i9-website-container || true
 
-            run_compose
+            echo "--- Iniciando Build Local da Imagem Docker ---"
+            docker build -t i9-website-image .
 
-            # Fazer login no registry como root (garante que root tem credenciais).
-            # Usamos sudo sh -c para rodar o login como root preservando stdin pipe.
-            echo "${{ secrets.DOCKER_HUB_TOKEN }}" | sudo sh -c "docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin"
-            echo "Login no registry realizado (root)."
+            echo "--- Subindo Novo Container ---"
+            docker run -d \
+              --name i9-website-container \
+              --network host \
+              --restart always \
+              i9-website-image
 
-            # Pull da imagem (com a variável injetada para docker-compose substituir)
-            # Passamos a variável POR ENV para o compose processar ${DOCKER_IMAGE_FULL_PATH}
-            sudo env DOCKER_IMAGE_FULL_PATH="$DOCKER_IMAGE_FULL_PATH" $DOCKER_COMPOSE_CMD pull
-
-            # Garantir que compose pare/remova containers antigos, volumes órfãos e metadados
-            # Usamos --remove-orphans + -v para remover volumes associados
-            sudo env DOCKER_IMAGE_FULL_PATH="$DOCKER_IMAGE_FULL_PATH" $DOCKER_COMPOSE_CMD down -v --remove-orphans || true
-
-            # (Extra) limpar containers que sobraram com nome antigo (opcional, seguro)
-            # Evita conflitos se você já usava container_name em algum momento
-            if sudo docker ps -a --format '{{.Names}}' | grep -q '^i9-website-application$'; then
-              echo "Removendo container órfão i9-website-application"
-              sudo docker rm -f i9-website-application || true
-            fi
-
-            # Sobe novamente (idempotente)
-            sudo env DOCKER_IMAGE_FULL_PATH="$DOCKER_IMAGE_FULL_PATH" $DOCKER_COMPOSE_CMD up -d --force-recreate --remove-orphans
-            echo "Deploy finalizado com sucesso!"
-
+            echo "✅ Deploy finalizado com sucesso!"

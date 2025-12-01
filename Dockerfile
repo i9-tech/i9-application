@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx:stable-alpine
 
 # Copia os arquivos estáticos gerados no estágio anterior para a pasta padrão do Nginx
-COPY --from=build /app/dist /usr/share/nginx/html/app
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # A porta que o Nginx vai escutar DENTRO do container
 EXPOSE 80

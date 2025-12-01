@@ -1,0 +1,59 @@
+name: 🚀 I9 Tech CI/CD - Deploy App Frontend na AWS EC2 
+
+on:
+  push:
+    branches:
+    #   - develop
+      - feature/aws
+
+jobs:
+  deploy:
+    name: Deploy Container to EC2 via SSH
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Checkout do código (para ter acesso ao docker-compose.yml e nginx/app.conf)
+      - name: 🔁 Checkout do Repositório
+        uses: actions/checkout@v4
+
+      # 2. Copiar arquivos de configuração Docker (docker-compose.yml, nginx/app.conf, etc.)
+      - name: 📦 Copiar Arquivos de Configuração (Docker/Nginx)
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          # TARGET: O diretório raiz da sua aplicação no EC2
+          TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application 
+          # SOURCE: Copia o docker-compose.yml e a pasta nginx inteira
+          SOURCE: "docker-compose.yml, nginx"
+          ARGS: "-rltgoDzvO --delete"
+          
+      # 3. SSH e Deploy no EC2 (PULL e UP)
+      - name: 🚀 Executar Deploy Docker Compose na EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          
+          # Script de deploy
+          script: |
+            set -e
+
+            # 1. Navegar até o diretório da aplicação no EC2
+            cd /home/${{ secrets.REMOTE_USER }}/i9-application
+
+            # 2. Login no Registry (necessário se for um repositório privado)
+            echo "${{ secrets.DOCKER_HUB_TOKEN}}" | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+            echo "Login no Docker Registry concluído."
+
+            # 3. Puxar a imagem mais recente (Força o uso da imagem mais nova)
+            IMAGE_NAME=${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            docker pull ${IMAGE_NAME}
+            echo "Nova imagem ${IMAGE_NAME} puxada."
+            
+            # 4. Subir o serviço do Nginx com Docker Compose
+            # '--force-recreate' força o uso da imagem que acabou de ser puxada
+            docker-compose up -d --force-recreate i9-website-application
+            echo "Serviço i9-website-application reiniciado com sucesso."

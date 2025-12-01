@@ -1,28 +1,17 @@
-# Estágio 1: Build da aplicação React
-FROM node:20-alpine AS build
+# Usa uma imagem leve do Nginx
+FROM nginx:alpine
 
-# Define o diretório de trabalho dentro do container
-WORKDIR /app
+# Remove a configuração padrão do Nginx para evitar conflitos
+RUN rm /etc/nginx/conf.d/default.conf
 
-# Copia o package.json e package-lock.json para o container
-COPY package*.json ./
+# Copia a pasta de build (que o GitHub Actions gerou e enviou) para o Nginx
+COPY ./dist /usr/share/nginx/html
 
-# Instala as dependências
-RUN npm install
+# Copia sua configuração personalizada do Nginx
+COPY ./nginx/app.conf /etc/nginx/conf.d/
 
-# Copia o resto do código da aplicação
-COPY . .
-
-# Gera os arquivos estáticos de produção
-RUN npm run build
-
-# Estágio 2: Servir os arquivos com Nginx
-FROM nginx:stable-alpine
-
-# Copia os arquivos estáticos gerados no estágio anterior para a pasta padrão do Nginx
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# A porta que o Nginx vai escutar DENTRO do container
+# Expõe a porta 80
 EXPOSE 80
 
-# O comando padrão do Nginx já inicia o servidor, então não precisamos de um CMD
+# Inicia o Nginx
+CMD ["nginx", "-g", "daemon off;"]

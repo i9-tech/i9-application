@@ -30,6 +30,10 @@ server {
     listen 80;
     server_name i9tech.ddns.net;
 
+    # 1. Garante que os MIME types estão carregados corretamente
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
     root /usr/share/nginx/html;
     index index.html;
 
@@ -69,10 +73,15 @@ server {
         # }
     }
 
+    # Se o arquivo não existir, vai dar erro 404 real, o que ajuda a debugar.
     location /assets/ {
-    alias /usr/share/nginx/html/assets/;
-    try_files $uri =404;
-    access_log off;
+        # O try_files aqui NÃO tem o /index.html no final
+        try_files $uri =404;
+        
+        # Cache agressivo para assets (já que os nomes têm hash)
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
     }
 
     # Bloco para fazer o Proxy Reverso para a API com Balanceamento de Carga

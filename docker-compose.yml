@@ -3,7 +3,7 @@
   services:
     nginx: 
       container_name: i9-website-application
-      image: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+      image: ${DOCKER_IMAGE_FULL_PATH}
       ports:
         - "80:80"
         # - "443:443" # Descomentar quando for configurar o HTTPS

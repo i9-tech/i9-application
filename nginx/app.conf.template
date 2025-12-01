@@ -30,6 +30,8 @@ server {
     include /etc/nginx/mime.types;
     listen 80;
     server_name 13.218.0.58;
+    root /usr/share/nginx/html;
+    index index.html;
 
     #Caminhos apontando para os certificados autoassinados criados na EC2
     # ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
@@ -56,15 +58,15 @@ server {
     # Bloco para servir o conteúdo do Frontend (React)
     location / {
         # Caminho 'root' para o diretório padrão dentro do container Docker
-        root /usr/share/nginx/html;
-        index index.html index.htm;
+        # root /usr/share/nginx/html;
+        # index index.html index.htm;
         
         # Diretiva 'try_files', ESSENCIAL para o React Router funcionar
         try_files $uri $uri/ /index.html;
 
-        location = /index.html {
-            add_header Cache-Control "no-store, no-cache, must-revalidate";
-        }
+        # location = /index.html {
+        #     add_header Cache-Control "no-store, no-cache, must-revalidate";
+        # }
     }
 
     # Bloco para fazer o Proxy Reverso para a API com Balanceamento de Carga

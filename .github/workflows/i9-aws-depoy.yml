@@ -35,8 +35,8 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application/nginx
-          SOURCE: "nginx/" # Copia o conteúdo da pasta nginx, incluindo o .template
-          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "nginx"
+          ARGS: "-rltgoDzvO"
           
       # 4. SSH e Deploy no EC2 (PULL da imagem e UP do Compose)
       - name: 🚀 Executar Deploy Docker Compose na EC2

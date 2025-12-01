@@ -15,7 +15,7 @@ jobs:
       - name: 🔁 Checkout do Repositório
         uses: actions/checkout@v4
 
-      # NOVO PASSO: Garante que a pasta existe e não é um arquivo
+      # 2. NOVO PASSO: Garante que as pastas existem na EC2
       - name: 🛠️ Preparar Ambiente na EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -23,41 +23,40 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Se 'i9-application' existir e for um arquivo, apaga ele
+            # Remove arquivo (se for o caso) e cria a pasta base
             if [ -f "/home/${{ secrets.REMOTE_USER }}/i9-application" ]; then
               rm "/home/${{ secrets.REMOTE_USER }}/i9-application"
-              echo "Arquivo incorreto removido."
             fi
             
-            # Cria a pasta corretamente
+            # Cria a estrutura de pastas
             mkdir -p /home/${{ secrets.REMOTE_USER }}/i9-application/nginx
             echo "Diretórios de deploy garantidos."
 
-      # 2. Copiar o arquivo docker-compose.yml
+
+      # 3. Copiar o arquivo docker-compose.yml (AGORA COM A TAG 'image:')
       - name: 📦 Copiar docker-compose.yml
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          # Agora que a pasta existe (criada no passo anterior), isso funcionará
           TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application/
           SOURCE: "docker-compose.yml"
           ARGS: "-rltgoDzvO"
 
-      # 3. Copiar a pasta nginx
+      # 4. Copiar a pasta nginx (TARGET corrigido)
       - name: 📦 Copiar Pasta de Configuração Nginx
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          # O Target é a pasta raiz. O rsync colocará a pasta 'nginx' dentro dela.
+          # TARGET: o caminho da pasta PAI
           TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application/
           SOURCE: "nginx"
           ARGS: "-rltgoDzvO"
           
-      # 4. SSH e Deploy no EC2
+      # 5. SSH e Deploy no EC2
       - name: 🚀 Executar Deploy Docker Compose na EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -66,26 +65,22 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           
           script: |
-            script: |
             set -e
             
-            # Variável com o IP privado
             export IP_REMOTE_PRIVADO=${{ secrets.REMOTE_HOST_PRIVADO }}
             
             cd /home/${{ secrets.REMOTE_USER }}/i9-application
             
-            # Injeta o IP no template do Nginx
+            # 1. GERA o app.conf FINAL usando a variável de ambiente (CORRETO)
             envsubst '$IP_REMOTE_PRIVADO' < nginx/app.conf.template > nginx/app.conf
             echo "Arquivo nginx/app.conf atualizado com IP privado."
             
-            # Login e Deploy
-            # Nota: O 'docker login' geralmente escreve na home do usuário, então pode rodar sem sudo,
-            # mas para garantir que o root também tenha as credenciais para o pull, podemos usar sudo ou manter assim.
-            # Se falhar o pull, adicione sudo antes do docker login também.
+            # 2. Login e Deploy
             echo "${{ secrets.DOCKER_HUB_TOKEN}}" | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
             
-            # ADICIONADO SUDO AQUI
+            # 3. Puxa a imagem (Agora o docker-compose.yml tem a tag 'image:')
             sudo docker-compose pull
-            sudo docker-compose up -d --force-recreate i9-website-application 
             
+            # 4. Sobe o serviço com a imagem e a nova configuração
+            sudo docker-compose up -d --force-recreate i9-website-application 
             echo "Deploy finalizado com sucesso!"

@@ -3,9 +3,7 @@
   services:
     nginx: 
       container_name: i9-website-application
-      build:
-        context: .
-        dockerfile: Dockerfile
+      image: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
       ports:
         - "80:80"
         # - "443:443" # Descomentar quando for configurar o HTTPS

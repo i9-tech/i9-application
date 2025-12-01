@@ -29,7 +29,8 @@ server {
     # listen 443 ssl http2; # Adicionado http2 para melhor performance
     include /etc/nginx/mime.types;
     listen 80;
-    server_name 13.218.0.58;
+    server_name _;
+
     root /usr/share/nginx/html;
     index index.html;
 

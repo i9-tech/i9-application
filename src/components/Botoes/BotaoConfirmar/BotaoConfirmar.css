@@ -79,20 +79,19 @@
   }
 }
 
-
 .botao-confirmar-pedido-footer .info-pedido {
   font-size: 12px;
   width: 100px;
 }
 
-  .botao-confirmar-pedido-footer .info-pedido #qtd-itens {
-    opacity: 0.7;
-    font-weight: 500;
-  }
-  
-   .botao-confirmar-pedido-footer .info-pedido #valor-total {
-    font-size: 14px;
-  }
+.botao-confirmar-pedido-footer .info-pedido #qtd-itens {
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+.botao-confirmar-pedido-footer .info-pedido #valor-total {
+  font-size: 14px;
+}
 .botao-confirmar-pedido-footer .info-pedido #qtd-itens {
   opacity: 0.7;
   font-weight: 500;
@@ -103,22 +102,12 @@
   font-size: 13px;
 }
 
-  .botao-confirmar-pedido-footer .button-confirmar {
-    background-color: var(--cor-para-o-texto-branco);
-    color: var(--titulos-botoes-destaques);
-    padding: 0.6rem 1.25rem;
-    font-size: 17px;
-    min-width: 100px;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
 .botao-confirmar-pedido-footer .button-confirmar {
   background-color: var(--cor-para-o-texto-branco);
-  color: #0033cc;
+  color: var(--titulos-botoes-destaques);
   padding: 0.6rem 1.25rem;
-  font-size: 13px;
+  font-size: 17px;
   min-width: 100px;
-  border-radius: 10px;
+  border-radius: 6px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
 }

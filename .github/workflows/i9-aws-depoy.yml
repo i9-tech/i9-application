@@ -1,35 +1,45 @@
-name: 🚀 I9 Tech CI/CD - Deploy App Frontend na AWS EC2 
+name: 🚀 Deploy App Frontend to AWS EC2 (PULL Docker Image)
 
 on:
   push:
     branches:
-    #   - develop
-      - feature/aws
+      - develop
+      - main
 
 jobs:
   deploy:
     name: Deploy Container to EC2 via SSH
     runs-on: ubuntu-latest
-    
+
     steps:
-      # 1. Checkout do código (para ter acesso ao docker-compose.yml e nginx/app.conf)
+      # 1. Checkout do código
       - name: 🔁 Checkout do Repositório
         uses: actions/checkout@v4
 
-      # 2. Copiar arquivos de configuração Docker (docker-compose.yml, nginx/app.conf, etc.)
-      - name: 📦 Copiar Arquivos de Configuração (Docker/Nginx)
+      # 2. Copiar o arquivo docker-compose.yml
+      # Adicionamos o passo no target para não dar erro
+      - name: 📦 Copiar docker-compose.yml
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          # TARGET: O diretório raiz da sua aplicação no EC2
           TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application 
-          # SOURCE: Copia o docker-compose.yml e a pasta nginx inteira
-          SOURCE: "docker-compose.yml, nginx"
+          SOURCE: "docker-compose.yml"
+          ARGS: "-rltgoDzvO"
+
+      # 3. Copiar a pasta nginx/app.conf.template e outros
+      - name: 📦 Copiar Pasta de Configuração Nginx
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: /home/${{ secrets.REMOTE_USER }}/i9-application/nginx
+          SOURCE: "nginx/" # Copia o conteúdo da pasta nginx, incluindo o .template
           ARGS: "-rltgoDzvO --delete"
           
-      # 3. SSH e Deploy no EC2 (PULL e UP)
+      # 4. SSH e Deploy no EC2 (PULL da imagem e UP do Compose)
       - name: 🚀 Executar Deploy Docker Compose na EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -40,20 +50,26 @@ jobs:
           # Script de deploy
           script: |
             set -e
+            
+            # Define a variável com o IP privado do Backend (ex: 10.0.0.146)
+            export IP_REMOTE_PRIVADO=${{ secrets.REMOTE_HOST_PRIVADO }}
+            echo "Variável de IP privado criada: $IP_REMOTE_PRIVADO"
 
-            # 1. Navegar até o diretório da aplicação no EC2
+            # Navegar até o diretório da aplicação no EC2
             cd /home/${{ secrets.REMOTE_USER }}/i9-application
-
-            # 2. Login no Registry (necessário se for um repositório privado)
+            
+            # Lê o template, substitui $IP_REMOTE_PRIVADO pelo valor real, e salva como app.conf
+            envsubst '$IP_REMOTE_PRIVADO' < nginx/app.conf.template > nginx/app.conf
+            echo "Arquivo nginx/app.conf atualizado com IP privado."
+            
+            # Login no Registry (necessário para puxar a imagem privada)
             echo "${{ secrets.DOCKER_HUB_TOKEN}}" | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
             echo "Login no Docker Registry concluído."
 
-            # 3. Puxar a imagem mais recente (Força o uso da imagem mais nova)
-            IMAGE_NAME=${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
-            docker pull ${IMAGE_NAME}
-            echo "Nova imagem ${IMAGE_NAME} puxada."
-            
-            # 4. Subir o serviço do Nginx com Docker Compose
-            # '--force-recreate' força o uso da imagem que acabou de ser puxada
-            docker-compose up -d --force-recreate i9-website-application
-            echo "Serviço i9-website-application reiniciado com sucesso."
+            # Puxar a imagem mais recente (se o nome da imagem estiver definido no compose)
+            docker-compose pull
+            echo "Imagens atualizadas puxadas."
+
+            # Reiniciar o serviço do Nginx (frontend)
+            docker-compose up -d --force-recreate i9-website-application 
+            echo "Serviço frontend reiniciado com sucesso."

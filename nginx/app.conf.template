@@ -1,0 +1,76 @@
+# Define um "grupo" de servidores backend para o balanceamento de carga
+upstream backend_servers {
+    # Nginx vai distribuir o tráfego entre estes servidores.
+    # Por padrão, usa o método Round Robin (um de cada vez).
+    server $IP_REMOTE_PRIVADO:8080;
+    # server 10.0.0.146:8081;
+    # server 10.0.0.146:8082;
+}
+
+# Bloco 2: Redireciona todas as solicitações HTTP para HTTPS
+# server {
+#     listen 80;
+#     server_name i9tech.ddns.net;
+
+#     # Rota para a validação do Let's Encrypt (ACME Challenge)
+#     # O Nginx servirá os arquivos a partir deste diretório
+#     location /.well-known/acme-challenge/ {
+#         root /var/www/certbot;
+#     }
+
+#     # Redirecionamento permanente para a versão HTTPS
+#     location / {
+#         return 301 https://$host$request_uri;
+#     }
+# }
+
+# Bloco 3: Configuração principal do servidor HTTPS
+server {
+    # listen 443 ssl http2; # Adicionado http2 para melhor performance
+    listen 80;
+    server_name 13.218.0.58;
+
+    #Caminhos apontando para os certificados autoassinados criados na EC2
+    # ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+    # ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+
+    # Caminhos apontando para os certificados DO LET'S ENCRYPT
+    # Estes arquivos serão criados localmente para o nginx rodar
+    # ssl_certificate /etc/letsencrypt/live/i9tech.ddns.net/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/i9tech.ddns.net/privkey.pem;
+
+    # Caminhos apontando para os certificados DO LET'S ENCRYPT
+    # Estes arquivos serão criados pelo Certbot
+    # ssl_certificate /etc/letsencrypt/live/i9tech.ddns.net-0001/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/i9tech.ddns.net-0001/privkey.pem;
+
+    # Parâmetros de segurança SSL - descomentar só quando nginx rodar e gerar o certificado
+    # include /etc/letsencrypt/options-ssl-nginx.conf;
+    # ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    # NOVOS certificados assinados pela sua CA
+    # ssl_certificate /etc/ssl/certs/i9tech.com.crt;
+    # ssl_certificate_key /etc/ssl/private/i9tech.com.key;
+
+    # Bloco para servir o conteúdo do Frontend (React)
+    location / {
+        # Caminho 'root' para o diretório padrão dentro do container Docker
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+        
+        # Diretiva 'try_files', ESSENCIAL para o React Router funcionar
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Bloco para fazer o Proxy Reverso para a API com Balanceamento de Carga
+    location /api/ {
+        # Aponta para o grupo 'upstream' que definimos no topo do arquivo
+        proxy_pass http://backend_servers/;
+        
+        # Headers para passar informações corretas para o backend
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

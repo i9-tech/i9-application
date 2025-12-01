@@ -66,12 +66,28 @@ jobs:
             DEPLOY_DIR="/home/${{ secrets.REMOTE_USER }}/i9-application"
             cd "$DEPLOY_DIR"
 
+            echo "--- 🔍 Debug: Listando arquivos transferidos ---"
+            ls -R
+
             echo "--- Configurando Variáveis de Ambiente ---"
             export IP_REMOTE_PRIVADO="${{ secrets.REMOTE_HOST_PRIVADO }}"
             
+            # Tenta gerar o arquivo a partir do template (se ele existir)
             if [ -f "nginx/app.conf.template" ]; then
               envsubst '$IP_REMOTE_PRIVADO' < nginx/app.conf.template > nginx/app.conf
-              echo "Arquivo nginx/app.conf gerado com sucesso."
+              echo "✅ Arquivo nginx/app.conf gerado via template."
+            
+            # Caso contrário, verifica se existe um default.conf e o renomeia
+            elif [ -f "nginx/default.conf" ]; then
+              cp nginx/default.conf nginx/app.conf
+              echo "⚠️ Template não encontrado. Usando nginx/default.conf existente."
+
+            # Se nenhum dos dois existir, para o deploy
+            elif [ ! -f "nginx/app.conf" ]; then
+               echo "❌ ERRO CRÍTICO: Nenhum arquivo de configuração nginx encontrado (app.conf, default.conf ou templates)."
+               echo "Conteúdo da pasta nginx:"
+               ls -la nginx/
+               exit 1
             fi
 
             echo "--- Gerenciando Containers Antigos ---"
@@ -79,6 +95,7 @@ jobs:
             docker rm i9-website-container || true
 
             echo "--- Iniciando Build Local da Imagem Docker ---"
+            # O build vai usar o nginx/app.conf que garantimos existir acima
             docker build -t i9-website-image .
 
             echo "--- Subindo Novo Container ---"

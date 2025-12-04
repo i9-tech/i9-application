@@ -231,7 +231,7 @@
   border-radius: 10px;
   border: 1px solid #2b2b2b3d;
   background-clip: content-box;
-};
+}
 
 .tela-comandas::-webkit-scrollbar-thumb:hover {
   background-color: #2b2b2b28;

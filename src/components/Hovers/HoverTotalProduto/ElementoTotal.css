@@ -41,8 +41,7 @@
 }
 @media (max-width: 768px) {
   .card-total {
-    width: 100px;       
-    height: 100px;       
+    min-width: auto;
     font-size: 14px;
     padding: 0.7rem;
     gap: 4px;

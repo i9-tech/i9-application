@@ -137,10 +137,10 @@ export function Cozinha() {
               styles={{
                 control: (baseStyles, state) => ({
                   ...baseStyles,
-                  minHeight: isMobile ? 35 : 45,
+                  minHeight: isMobile ? 39 : 45,
                   fontSize: isMobile ? "13px" : "14px",
                   minWidth: 100,
-                  maxWidth: 250,
+                  // maxWidth: 250,
                   borderColor: state.isFocused
                     ? "var(--cor-para-o-texto-branco)"
                     : "transparent",
@@ -178,7 +178,7 @@ export function Cozinha() {
                 }),
                 menu: (base) => ({
                   ...base,
-                  borderRadius: 5,
+                  borderRadius: 6,
                   marginTop: 0,
                 }),
               }}

@@ -226,13 +226,11 @@
   }
 }
 
-/* Hover só funciona quando NÃO estiver desabilitado */
 .elemento-produto:not(.desabilitado):hover .conteudo-card,
 .elemento-produto:not(.desabilitado):hover .conteudo-card * {
   color: var(--cor-para-o-texto-branco) !important;
 }
 
-/* Exceção: R$ continua vermelho */
 .elemento-produto:not(.desabilitado):hover .conteudo-card .rs {
   color: #fd3333 !important;
 }

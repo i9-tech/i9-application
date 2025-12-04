@@ -135,10 +135,6 @@
   color: #262525d6;
 }
 
-.elemento-produto .descricao:hover {
-  color: var(--cor-para-o-texto-branco);
-}
-
 /* Responsivo */
 @media (max-width: 768px) {
   .elemento-produto {
@@ -230,11 +226,13 @@
   }
 }
 
-.elemento-produto:hover .conteudo-card,
-.elemento-produto:hover .conteudo-card * {
+/* Hover só funciona quando NÃO estiver desabilitado */
+.elemento-produto:not(.desabilitado):hover .conteudo-card,
+.elemento-produto:not(.desabilitado):hover .conteudo-card * {
   color: var(--cor-para-o-texto-branco) !important;
 }
 
-.elemento-produto:hover .conteudo-card .rs {
+/* Exceção: R$ continua vermelho */
+.elemento-produto:not(.desabilitado):hover .conteudo-card .rs {
   color: #fd3333 !important;
 }

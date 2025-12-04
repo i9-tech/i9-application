@@ -1,7 +1,7 @@
 .card-total {
     background-color: var(--cor-para-o-texto-branco);
-    width: auto;
-    height: auto;
+    width: 120px;
+    height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,11 +39,10 @@
     background-color: var(--titulos-botoes-destaques);
     color: var(--cor-para-o-texto-branco);
 }
-
 @media (max-width: 768px) {
   .card-total {
-    min-width: 30%;
-    min-height: fit-content;
+    width: 100px;       
+    height: 100px;       
     font-size: 14px;
     padding: 0.7rem;
     gap: 4px;
@@ -59,5 +58,18 @@
 
   .card-total small p {
     font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-total {
+    width: 90px;
+    height: 90px;
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+
+  .card-total .lanche {
+    width: 35px;
   }
 }

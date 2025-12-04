@@ -37,6 +37,17 @@ export function Atendente() {
     year: "numeric",
   });
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const funcionario = getFuncionario();
   const token = getToken();
   const [produtos, setProdutos] = useState([]);
@@ -61,8 +72,8 @@ export function Atendente() {
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
 
   // Estado e função para o carrinho mobile
-const [carrinhoAberto, setCarrinhoAberto] = useState(false);
-const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
+    const [carrinhoAberto, setCarrinhoAberto] = useState(false);
+    const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
 
   const [errorPrato, setErrorPrato] = useState(false);
   const [errorProduto, setErrorProduto] = useState(false);
@@ -656,7 +667,7 @@ const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
           >
             <BotaoConfirmar
               quantidade={totalItens}
-              textoBotao="Ver Pedido"
+              textoBotao={windowWidth > 768 ? "Confirmar Pedido" : "Ver Pedido"}
               totalPedido={totalPedido}
               onClick={() => {
                 if (window.innerWidth > 768) {

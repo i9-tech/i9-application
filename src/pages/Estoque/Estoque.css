@@ -3,7 +3,13 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  height: 100%;
+  /* height: 100%; */
+  min-height: calc(100vh - 80px);
   box-sizing: border-box;
-  background-color: var(--cor-para-o-fundo-sistema) !important;
 }
+
+.paginacao-wrapper {
+  margin-top: auto;
+  margin-bottom: 5px;
+}
+

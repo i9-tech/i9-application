@@ -667,7 +667,7 @@ export function Atendente() {
           >
             <BotaoConfirmar
               quantidade={totalItens}
-              textoBotao={windowWidth > 768 ? "Confirmar Pedido" : "Ver Pedido"}
+              textoBotao={windowWidth > 768 ? "Confirmar" : "Ver Pedido"}
               totalPedido={totalPedido}
               onClick={() => {
                 if (window.innerWidth > 768) {

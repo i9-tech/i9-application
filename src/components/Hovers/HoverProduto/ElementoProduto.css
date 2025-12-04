@@ -229,3 +229,12 @@
     color: #00000088;
   }
 }
+
+.elemento-produto:hover .conteudo-card,
+.elemento-produto:hover .conteudo-card * {
+  color: var(--cor-para-o-texto-branco) !important;
+}
+
+.elemento-produto:hover .conteudo-card .rs {
+  color: #fd3333 !important;
+}

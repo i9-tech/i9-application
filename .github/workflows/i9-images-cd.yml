@@ -49,3 +49,4 @@ jobs:
             VITE_API_BASE_URL_LOCAL=${{ secrets.VITE_API_BASE_URL_LOCAL }}
             VITE_API_BASE_URL_DEV=${{ secrets.VITE_API_BASE_URL_DEV }}
             VITE_API_BASE_URL_PROD=${{ secrets.VITE_API_BASE_URL_PROD }}
+            VITE_UNSPLASH_ACCESS_KEY=${{ secrets.VITE_UNSPLASH_ACCESS_KEY }}

@@ -135,10 +135,6 @@
   color: #262525d6;
 }
 
-.elemento-produto .descricao:hover {
-  color: var(--cor-para-o-texto-branco);
-}
-
 /* Responsivo */
 @media (max-width: 768px) {
   .elemento-produto {
@@ -228,4 +224,13 @@
     font-size: 13px;
     color: #00000088;
   }
+}
+
+.elemento-produto:not(.desabilitado):hover .conteudo-card,
+.elemento-produto:not(.desabilitado):hover .conteudo-card * {
+  color: var(--cor-para-o-texto-branco) !important;
+}
+
+.elemento-produto:not(.desabilitado):hover .conteudo-card .rs {
+  color: #fd3333 !important;
 }

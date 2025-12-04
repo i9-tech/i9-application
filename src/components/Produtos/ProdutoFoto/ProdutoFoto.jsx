@@ -14,7 +14,7 @@ const ProdutoFoto = ({ imagem, descricao, setDescricao, setImagem }) => {
 
   useEffect(() => {
     if (!uploadFeito) {
-      if (typeof imagem === "string" && imagem.trim() !== "") {
+      if (typeof imagem === "string" && imagem.trim() !== "" && imagem !== null) {
         if (enviroments.ambiente === "jsonserver") {
           setPreviewImagem(imagem);
         } else {

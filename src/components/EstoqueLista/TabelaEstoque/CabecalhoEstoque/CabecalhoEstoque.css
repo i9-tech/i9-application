@@ -11,7 +11,6 @@
   text-align: left;
   color: var(--cor-para-texto-preto);
   border-bottom: none;
-  /* white-space: nowrap; */
   vertical-align: middle;
   text-align: center;
 }
@@ -57,3 +56,19 @@
 } /* Status */
 
 
+@media (max-width: 768px) {
+  .cabecalho-estoque-prod th:nth-child(3) {
+    position: sticky;
+    left: 0;
+    background-color: var(--titulos-botoes-destaques);
+    z-index: 3;
+    text-align: left;
+    min-width: 180px;
+    max-width: 180px;
+  }
+
+  .cabecalho-estoque-prod th:nth-child(3) {
+    padding-left: 20px;
+    padding-right: 12px;
+  }
+}

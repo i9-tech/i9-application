@@ -109,7 +109,7 @@
   }
 
   .drp-popover {
-    width: 90vw;
+    /* width: 90vw; */
     left: 50%;
     transform: translateX(-90%);
   }

@@ -10,6 +10,8 @@ import Swal from "sweetalert2";
 import { imagemPadrao } from "../../../../assets/imagemPadrao";
 import { corrigirDataISO } from "../../../../utils/utils";
 
+
+
 const ProdutoEstoque = ({ produto, buscar }) => {
   const funcionario = getFuncionario();
 

@@ -56,3 +56,20 @@
   color: red;
   font-weight: bold;
 }
+
+@media (max-width: 768px) {
+  .linha-prato td:nth-child(3) {
+    position: sticky;
+    left: 0;
+    background-color: #fff;
+    z-index: 1;
+    text-align: left;
+
+  }
+
+  .linha-prato td:nth-child(3) {
+    padding-left: 20px;
+    padding-right: 12px;
+  }
+
+}

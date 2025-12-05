@@ -13,3 +13,9 @@
   margin-bottom: 5px;
 }
 
+@media (max-width: 600px) {
+  .paginacao-wrapper {
+    margin-bottom: 10px;
+
+}
+}

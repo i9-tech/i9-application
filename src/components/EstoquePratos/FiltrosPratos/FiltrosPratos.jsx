@@ -125,10 +125,10 @@ function FiltrosPratos({
         {menuAberto && !filtroStatus && (
           <div className="menu-filtros">
             <button onClick={() => aplicarFiltro("disponível")}>
-              ✅ Disponíveis
+              ✅ Ativos
             </button>
             <button onClick={() => aplicarFiltro("indisponível")}>
-              🚫 Indisponíveis
+              🚫 Inativos
             </button>
           </div>
         )}

@@ -89,7 +89,6 @@
 }
 
 .galeria-imagens img:hover {
-  transform: scale(1.05);
   border-color: var(--titulos-botoes-destaques, #4caf50);
 }
 

@@ -70,15 +70,14 @@
   .filtro-data-dashboard {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;   
+  width: max-content; 
   flex-wrap: nowrap;
 }
 .filtro-data-dashboard > div {
   width: auto;
 }
 
-
-/* Versão mobile */
 @media (max-width: 768px) {
 
       .dashboard {

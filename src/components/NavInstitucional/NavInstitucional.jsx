@@ -65,7 +65,7 @@ export default function NavInstitucional({ navegarParaSecao }) {
                 Entre em contato conosco
               </hov>
             </div>
-            <div className="botao-enter">
+            <div className="botao-enter" onClick={() => navigate(ROUTERS.LOGIN)}>
               <p style={{paddingBottom: '2.9px'}}>Entrar</p> <FaAngleRight size={22} />
             </div>
           </span>

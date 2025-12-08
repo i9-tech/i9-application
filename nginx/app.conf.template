@@ -3,8 +3,8 @@ upstream backend_servers {
     # Nginx vai distribuir o tráfego entre estes servidores.
     # Por padrão, usa o método Round Robin (um de cada vez).
     server $IP_REMOTE_PRIVADO:8080;
-    # server 10.0.0.146:8081;
-    # server 10.0.0.146:8082;
+    server $IP_REMOTE_PRIVADO:8081;
+    server $IP_REMOTE_PRIVADO:8082;
 }
 
 # Bloco 2: Redireciona todas as solicitações HTTP para HTTPS
@@ -28,7 +28,7 @@ upstream backend_servers {
 server {
     # listen 443 ssl http2; # Adicionado http2 para melhor performance
     listen 80;
-    server_name _;
+    server_name i9tech.ddns.net;
     include /etc/nginx/mime.types;
 
     #Caminhos apontando para os certificados autoassinados criados na EC2
@@ -73,5 +73,6 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+        add_header X-Backend-Responsavel $upstream_addr;
     }
 }

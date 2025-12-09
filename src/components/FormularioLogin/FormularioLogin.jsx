@@ -6,6 +6,7 @@ import ModalRedefinirPrimeiroAcesso from "../RedefinicaoSenhaAutomatica/ModalRed
 import { useState } from "react";
 import { useBloqueioTemporario } from "../useBloqueioTemporario/useBloqueioTemporario.jsx";
 import ModalBloqueio from "../EsqueceuSenha/ModalBloqueio.jsx";
+import { criarFiltros } from "../../utils/filters.js";
 export default function FormularioLogin({
   isSenhaEsquecida,
   setIsSenhaEsquecida,
@@ -52,6 +53,7 @@ export default function FormularioLogin({
         const funcionario = res.data;
         localStorage.setItem("token", token);
         localStorage.setItem("funcionario", JSON.stringify(funcionario));
+        criarFiltros();
 
         if (funcionario.primeiroAcesso) {
           setMostrarModalSenha(true);

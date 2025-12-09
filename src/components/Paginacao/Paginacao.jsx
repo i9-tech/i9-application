@@ -1,6 +1,12 @@
 import "./Paginacao.css";
 
-export function Paginacao({ pagina, totalPaginas, quantidadePorPagina, onChangePagina, onChangeQuantidadePorPagina }) {
+export function Paginacao({
+  pagina,
+  totalPaginas,
+  quantidadePorPagina,
+  onChangePagina,
+  onChangeQuantidadePorPagina,
+}) {
   if (totalPaginas <= 1 && !quantidadePorPagina) return null;
 
   const paginas = Array.from({ length: totalPaginas }, (_, i) => i);
@@ -42,7 +48,7 @@ export function Paginacao({ pagina, totalPaginas, quantidadePorPagina, onChangeP
           value={quantidadePorPagina}
           onChange={(e) => onChangeQuantidadePorPagina(Number(e.target.value))}
         >
-          <option value="">Itens por Página</option>
+          <option value="" disabled>Itens por Página</option>
           {opcoesQuantidade.map((qtd) => (
             <option key={qtd} value={qtd}>
               {qtd} Itens

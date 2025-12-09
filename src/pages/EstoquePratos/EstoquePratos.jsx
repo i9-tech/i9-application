@@ -9,29 +9,38 @@ import api from "../../provider/api";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario, getToken } from "../../utils/auth";
 import { Paginacao } from "../../components/Paginacao/Paginacao";
+import { getFiltrosPratos, setFiltrosPratos } from "../../utils/filters";
 
 export function EstoquePratos() {
   const token = getToken();
   const funcionario = getFuncionario();
   const [termoBusca, setTermoBusca] = useState("");
-  const [setorSelecionado, setSetorSelecionado] = useState("");
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
-  const [filtros, setFiltros] = useState({ status: null, categoria: "", setor: "" });
   const [quantidadeTotalPratos, setQuantidadeTotalPratos] = useState(0);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [pratos, setPratos] = useState([]);
   const [resumo, setResumo] = useState([{}]);
-  const [areaSelecionada, setAreaSelecionada] = useState("");
 
+  const filtros = getFiltrosPratos();
+  const [setorSelecionado, setSetorSelecionado] = useState(filtros.setor);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState(
+    filtros.categoria
+  );
+  const [areaSelecionada, setAreaSelecionada] = useState(filtros.area);
+  const [filtroStatus, setFiltroStatus] = useState(filtros.status);
 
-  const [pagina, setPagina] = useState(0);
-  const [quantidadePorPagina, setQuantidadePorPagina] = useState(5);
+  const [pagina, setPagina] = useState(filtros.pagina);
+  const [quantidadePorPagina, setQuantidadePorPagina] = useState(
+    filtros.quantidadePorPagina
+  );
   const [totalPaginas, setTotalPaginas] = useState(0);
   const [ordem] = useState("asc");
 
   const buscarPratos = useCallback(() => {
     setIsLoadingData(true);
-    const termoSemAcento = (termoBusca || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    const termoSemAcento = (termoBusca || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
 
     api
       .get(`${ENDPOINTS.PRATOS_PAGINADO}/${funcionario.userId}`, {
@@ -41,10 +50,17 @@ export function EstoquePratos() {
           quantidadePorPagina,
           ordem,
           termoBusca: termoSemAcento,
-          disponivel: filtros.status === "disponível" ? true : filtros.status === "indisponível" ? false : undefined,
+          disponivel:
+            filtroStatus === "disponível"
+              ? true
+              : filtroStatus === "indisponível"
+              ? false
+              : undefined,
           setorId: setorSelecionado ? Number(setorSelecionado) : undefined,
-          categoriaId: categoriaSelecionada ? Number(categoriaSelecionada) : undefined,
-          areaId: areaSelecionada ? Number(areaSelecionada) : undefined
+          categoriaId: categoriaSelecionada
+            ? Number(categoriaSelecionada)
+            : undefined,
+          areaId: areaSelecionada ? Number(areaSelecionada) : undefined,
         },
       })
       .then((res) => {
@@ -58,8 +74,18 @@ export function EstoquePratos() {
         console.error("Erro ao buscar pratos:", err);
         setIsLoadingData(false);
       });
-  }, [funcionario.userId, token, pagina, quantidadePorPagina, ordem, termoBusca, setorSelecionado, categoriaSelecionada, areaSelecionada, filtros.status]);
-
+  }, [
+    funcionario.userId,
+    token,
+    pagina,
+    quantidadePorPagina,
+    ordem,
+    termoBusca,
+    filtroStatus,
+    setorSelecionado,
+    categoriaSelecionada,
+    areaSelecionada,
+  ]);
 
   const buscarQuantidadePratos = useCallback(() => {
     api
@@ -67,7 +93,9 @@ export function EstoquePratos() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setQuantidadeTotalPratos(res.data))
-      .catch((err) => console.error("Erro ao buscar quantidade de pratos:", err));
+      .catch((err) =>
+        console.error("Erro ao buscar quantidade de pratos:", err)
+      );
   }, [funcionario.userId, token]);
 
   useEffect(() => {
@@ -75,27 +103,33 @@ export function EstoquePratos() {
   }, [buscarQuantidadePratos]);
 
   useEffect(() => {
-    setPagina(0);
-  }, [termoBusca, filtros.status, setorSelecionado, categoriaSelecionada]);
+    setPagina(pagina);
+  }, [termoBusca, filtroStatus, setorSelecionado, categoriaSelecionada]);
 
   useEffect(() => {
     buscarPratos();
   }, [pagina, buscarPratos]);
 
   return (
-    <LayoutTela titulo="Estoque de Pratos" adicional={`${quantidadeTotalPratos} itens cadastrados`}>
+    <LayoutTela
+      titulo="Estoque de Pratos"
+      adicional={`${quantidadeTotalPratos} itens cadastrados`}
+    >
       <div className="estoque">
         <FiltrosPratos
-          filtros={filtros}
-          setFiltros={setFiltros}
+          filtroStatus={filtroStatus}
+          setFiltroStatus={setFiltroStatus}
+          setFiltros={setFiltrosPratos}
           termoBusca={termoBusca}
           setTermoBusca={setTermoBusca}
           setorSelecionado={setorSelecionado}
           setSetorSelecionado={setSetorSelecionado}
           categoriaSelecionada={categoriaSelecionada}
           setCategoriaSelecionada={setCategoriaSelecionada}
-          areaSelecionada={areaSelecionada}         
-          setAreaSelecionada={setAreaSelecionada} 
+          areaSelecionada={areaSelecionada}
+          setAreaSelecionada={setAreaSelecionada}
+          pagina={pagina}
+          quantidadePorPagina={quantidadePorPagina}
         />
         <ResumoPratos {...resumo} />
         <TabelaPratos
@@ -117,7 +151,10 @@ export function EstoquePratos() {
           totalPaginas={totalPaginas}
           quantidadePorPagina={quantidadePorPagina}
           onChangePagina={(novaPagina) => setPagina(novaPagina)}
-          onChangeQuantidadePorPagina={(novaQtd) => setQuantidadePorPagina(novaQtd)}
+          onChangeQuantidadePorPagina={(novaQtd) => {
+            setQuantidadePorPagina(novaQtd);
+            setPagina(pagina);
+          }}
         />
       </div>
     </LayoutTela>

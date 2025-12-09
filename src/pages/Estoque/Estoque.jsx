@@ -9,29 +9,37 @@ import api from "../../provider/api";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario } from "../../utils/auth";
 import { Paginacao } from "../../components/Paginacao/Paginacao";
+import { getFiltrosProdutos } from "../../utils/filters";
 
 export function Estoque() {
   const token = localStorage.getItem("token");
   const funcionario = getFuncionario();
   const [termoBusca, setTermoBusca] = useState("");
-  const [setorSelecionado, setSetorSelecionado] = useState("");
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
-
-  const [filtros, setFiltros] = useState({ status: null, categoria: "", setor: "" })
-
-  const [quantidadeTotalProdutos, setQuantidadeTotalProdutos] = useState(0);
   const [produtos, setProdutos] = useState([]);
   const [resumo, setResumo] = useState([{}]);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
-  const [pagina, setPagina] = useState(0);
-  const [quantidadePorPagina, setQuantidadePorPagina] = useState(5);
+  const filtros = getFiltrosProdutos();
+  const [setorSelecionado, setSetorSelecionado] = useState(filtros.setor);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState(
+    filtros.categoria
+  );
+  const [filtroStatus, setFiltroStatus] = useState(filtros.status);
+
+  const [quantidadeTotalProdutos, setQuantidadeTotalProdutos] = useState(0);
+  const [pagina, setPagina] = useState(filtros.pagina);
+  const [quantidadePorPagina, setQuantidadePorPagina] = useState(
+    filtros.quantidadePorPagina
+  );
   const [totalPaginas, setTotalPaginas] = useState(0);
   const [ordem] = useState("asc");
 
   const buscarProdutos = useCallback(() => {
     setIsLoadingData(true);
-    const termoSemAcento = (termoBusca || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    const termoSemAcento = (termoBusca || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
 
     api
       .get(`${ENDPOINTS.PRODUTOS_PAGINADO}/${funcionario.userId}`, {
@@ -41,9 +49,11 @@ export function Estoque() {
           quantidadePorPagina,
           ordem,
           termoBusca: termoSemAcento,
-          statusEstoque: filtros.status,
+          statusEstoque: filtroStatus,
           setorId: setorSelecionado ? Number(setorSelecionado) : undefined,
-          categoriaId: categoriaSelecionada ? Number(categoriaSelecionada) : undefined
+          categoriaId: categoriaSelecionada
+            ? Number(categoriaSelecionada)
+            : undefined,
         },
       })
       .then((res) => {
@@ -57,7 +67,17 @@ export function Estoque() {
         console.error("Erro ao buscar pratos:", err);
         setIsLoadingData(false);
       });
-  }, [funcionario.userId, token, pagina, quantidadePorPagina, ordem, termoBusca, filtros.status, setorSelecionado, categoriaSelecionada]);
+  }, [
+    funcionario.userId,
+    token,
+    pagina,
+    quantidadePorPagina,
+    ordem,
+    termoBusca,
+    filtroStatus,
+    setorSelecionado,
+    categoriaSelecionada,
+  ]);
 
   const buscarQuantidadeProdutos = useCallback(() => {
     api
@@ -65,7 +85,9 @@ export function Estoque() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setQuantidadeTotalProdutos(res.data))
-      .catch((err) => console.error("Erro ao buscar quantidade de pratos:", err));
+      .catch((err) =>
+        console.error("Erro ao buscar quantidade de pratos:", err)
+      );
   }, [funcionario.userId, token]);
 
   useEffect(() => {
@@ -73,8 +95,8 @@ export function Estoque() {
   }, [buscarQuantidadeProdutos]);
 
   useEffect(() => {
-    setPagina(0);
-  }, [termoBusca, filtros.status, setorSelecionado, categoriaSelecionada]);
+    setPagina(pagina);
+  }, [termoBusca, filtroStatus, setorSelecionado, categoriaSelecionada]);
 
   useEffect(() => {
     buscarProdutos();
@@ -88,14 +110,16 @@ export function Estoque() {
       >
         <div className="estoque">
           <FiltrosEstoque
-            filtros={filtros}
-            setFiltros={setFiltros}
+            filtroStatus={filtroStatus}
+            setFiltroStatus={setFiltroStatus}
             termoBusca={termoBusca}
             setTermoBusca={setTermoBusca}
             setorSelecionado={setorSelecionado}
             setSetorSelecionado={setSetorSelecionado}
             categoriaSelecionada={categoriaSelecionada}
             setCategoriaSelecionada={setCategoriaSelecionada}
+            pagina={pagina}
+            quantidadePorPagina={quantidadePorPagina}
           />
           <ResumoEstoque {...resumo} />
           <TabelaEstoque
@@ -112,8 +136,11 @@ export function Estoque() {
             totalPaginas={totalPaginas}
             quantidadePorPagina={quantidadePorPagina}
             onChangePagina={(novaPagina) => setPagina(novaPagina)}
-            onChangeQuantidadePorPagina={(novaQtd) => setQuantidadePorPagina(novaQtd)}
-        />
+            onChangeQuantidadePorPagina={(novaQtd) => {
+              setQuantidadePorPagina(novaQtd);
+              setPagina(pagina);
+            }}
+          />
         </div>
       </LayoutTela>
     </>

@@ -13,6 +13,26 @@ RUN npm install
 # Copia o resto do código da aplicação
 COPY . .
 
+# ---------------------------
+# 1. Declarar que aceitamos esses argumentos na hora do build
+ARG VITE_AMBIENTE
+ARG VITE_IMAGE_TOKEN_URL
+ARG VITE_API_BASE_URL_AWS
+ARG VITE_API_BASE_URL_LOCAL
+ARG VITE_API_BASE_URL_DEV
+ARG VITE_API_BASE_URL_PROD
+ARG VITE_UNSPLASH_ACCESS_KEY
+
+# 2. Transformar os argumentos em variáveis de ambiente para o Linux do container
+ENV VITE_AMBIENTE=$VITE_AMBIENTE
+ENV VITE_IMAGE_TOKEN_URL=$VITE_IMAGE_TOKEN_URL
+ENV VITE_API_BASE_URL_AWS=$VITE_API_BASE_URL_AWS
+ENV VITE_API_BASE_URL_LOCAL=$VITE_API_BASE_URL_LOCAL
+ENV VITE_API_BASE_URL_DEV=$VITE_API_BASE_URL_DEV
+ENV VITE_API_BASE_URL_PROD=$VITE_API_BASE_URL_PROD
+ENV VITE_UNSPLASH_ACCESS_KEY=$VITE_UNSPLASH_ACCESS_KEY
+# ---------------------------
+
 # Gera os arquivos estáticos de produção
 RUN npm run build
 

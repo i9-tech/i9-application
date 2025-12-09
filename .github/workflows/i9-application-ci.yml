@@ -2,9 +2,9 @@ name: 🖥️ i9 Tech CI - Integração Contínua (Lint + Build)
 
 on:
   push:
-    branches: [develop, main]
+    branches: [develop, main, feature/aws]
   pull_request:
-    branches: [develop, main]
+    branches: [develop, main, feature/aws]
 
 jobs:
   build:

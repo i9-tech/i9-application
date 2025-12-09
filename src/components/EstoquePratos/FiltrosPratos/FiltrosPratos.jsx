@@ -21,7 +21,7 @@ function FiltrosPratos({
   areaSelecionada,
   setAreaSelecionada,
   pagina,
-  quantidadePorPagina
+  quantidadePorPagina,
 }) {
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
@@ -34,7 +34,7 @@ function FiltrosPratos({
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
 
-  const atualizarFiltros = () => {
+  const atualizarFiltros = useCallback(() => {
     setFiltrosPratos({
       status: filtroStatus,
       categoria: categoriaSelecionada,
@@ -43,7 +43,18 @@ function FiltrosPratos({
       pagina: pagina,
       quantidadePorPagina: quantidadePorPagina,
     });
-  };
+  }, [
+    filtroStatus,
+    categoriaSelecionada,
+    setorSelecionado,
+    areaSelecionada,
+    pagina,
+    quantidadePorPagina,
+  ]);
+
+  useEffect(() => {
+    atualizarFiltros();
+  }, [atualizarFiltros]);
 
   useEffect(() => {
     if (!funcionario.userId) return;
@@ -78,17 +89,6 @@ function FiltrosPratos({
         toast.error("Erro ao buscar áreas!");
       });
   }, [funcionario.userId, token]);
-
-  useEffect(() => {
-    atualizarFiltros();
-  }, [
-    filtroStatus,
-    categoriaSelecionada,
-    setorSelecionado,
-    areaSelecionada,
-    pagina,
-    quantidadePorPagina,
-  ]);
 
   const optionsSetores = [
     { value: "", label: "Todos Setores" },
@@ -132,7 +132,6 @@ function FiltrosPratos({
       </div>
 
       {filtroStatus && (
-
         <button
           className="filtro-ativo"
           onClick={() => {
@@ -140,9 +139,7 @@ function FiltrosPratos({
             setMenuAberto(false);
           }}
         >
-          {filtroStatus === "disponível"
-            ? "✅ Ativos ✕"
-            : "🚫 Inativos ✕"}
+          {filtroStatus === "disponível" ? "✅ Ativos ✕" : "🚫 Inativos ✕"}
         </button>
       )}
 
@@ -161,11 +158,11 @@ function FiltrosPratos({
               ? "var(--cor-para-o-texto-branco)"
               : "transparent",
             boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-            "&:hover": { borderColor: "transparent" }, 
+            "&:hover": { borderColor: "transparent" },
           }),
           placeholder: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", 
+            color: "var(--cor-para-texto-preto)",
           }),
           option: (baseStyles, state) => ({
             ...baseStyles,
@@ -182,7 +179,7 @@ function FiltrosPratos({
           }),
           singleValue: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", 
+            color: "var(--cor-para-texto-preto)",
           }),
           menuList: (base) => ({
             ...base,
@@ -219,23 +216,23 @@ function FiltrosPratos({
           option: (baseStyles, state) => ({
             ...baseStyles,
             backgroundColor: state.isSelected
-              ? "var(--titulos-botoes-destaques)" 
+              ? "var(--titulos-botoes-destaques)"
               : state.isFocused
-              ? "var(--cinza-hover-select)" 
-              : "var(--cor-para-o-texto-branco)", 
+              ? "var(--cinza-hover-select)"
+              : "var(--cor-para-o-texto-branco)",
             color: state.isSelected
               ? "var(--cor-para-o-texto-branco)"
-              : "var(--cor-para-texto-preto)", 
+              : "var(--cor-para-texto-preto)",
             padding: "8px 16px",
             cursor: "pointer",
           }),
           placeholder: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", 
+            color: "var(--cor-para-texto-preto)",
           }),
           singleValue: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", 
+            color: "var(--cor-para-texto-preto)",
           }),
           menuList: (base) => ({
             ...base,
@@ -262,21 +259,21 @@ function FiltrosPratos({
             minWidth: 200,
             maxWidth: 250,
             borderColor: state.isFocused
-              ? "var(--cor-para-o-texto-branco)" 
+              ? "var(--cor-para-o-texto-branco)"
               : "transparent",
             boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
-            "&:hover": { borderColor: "transparent" }, 
+            "&:hover": { borderColor: "transparent" },
           }),
           option: (baseStyles, state) => ({
             ...baseStyles,
             backgroundColor: state.isSelected
-              ? "var(--titulos-botoes-destaques)" 
+              ? "var(--titulos-botoes-destaques)"
               : state.isFocused
-              ? "var(--cinza-hover-select)" 
-              : "var(--cor-para-o-texto-branco)", 
+              ? "var(--cinza-hover-select)"
+              : "var(--cor-para-o-texto-branco)",
             color: state.isSelected
               ? "var(--cor-para-o-texto-branco)"
-              : "var(--cor-para-texto-preto)", 
+              : "var(--cor-para-texto-preto)",
             padding: "8px 16px",
             cursor: "pointer",
           }),
@@ -286,7 +283,7 @@ function FiltrosPratos({
           }),
           singleValue: (baseStyles) => ({
             ...baseStyles,
-            color: "var(--cor-para-texto-preto)", 
+            color: "var(--cor-para-texto-preto)",
           }),
           menuList: (base) => ({
             ...base,

@@ -9,7 +9,7 @@ import api from "../../provider/api";
 import { ENDPOINTS } from "../../utils/endpoints";
 import { getFuncionario, getToken } from "../../utils/auth";
 import { Paginacao } from "../../components/Paginacao/Paginacao";
-import { getFiltrosPratos, setFiltrosPratos } from "../../utils/filters";
+import { getFiltrosPratos } from "../../utils/filters";
 
 export function EstoquePratos() {
   const token = getToken();
@@ -104,7 +104,7 @@ export function EstoquePratos() {
 
   useEffect(() => {
     setPagina(pagina);
-  }, [termoBusca, filtroStatus, setorSelecionado, categoriaSelecionada]);
+  }, [termoBusca, filtroStatus, setorSelecionado, categoriaSelecionada, pagina]);
 
   useEffect(() => {
     buscarPratos();

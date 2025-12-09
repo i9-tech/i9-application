@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import api from "../../../provider/api";
 import "./FiltrosEstoque.css";
 import { getFuncionario } from "../../../utils/auth";
@@ -30,7 +30,7 @@ function FiltrosEstoque({
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
 
-  const atualizarFiltros = () => {
+  const atualizarFiltros = useCallback(() => {
     setFiltrosProdutos({
       status: filtroStatus,
       categoria: categoriaSelecionada,
@@ -38,7 +38,17 @@ function FiltrosEstoque({
       pagina: pagina,
       quantidadePorPagina: quantidadePorPagina,
     });
-  };
+  }, [
+    filtroStatus,
+    categoriaSelecionada,
+    setorSelecionado,
+    pagina,
+    quantidadePorPagina,
+  ]);
+
+  useEffect(() => {
+    atualizarFiltros();
+  }, [atualizarFiltros]);
 
   useEffect(() => {
     api
@@ -61,16 +71,6 @@ function FiltrosEstoque({
         toast.error("Erro ao buscar categorias!");
       });
   }, [funcionario.userId, token]);
-
-  useEffect(() => {
-    atualizarFiltros();
-  }, [
-    filtroStatus,
-    categoriaSelecionada,
-    setorSelecionado,
-    pagina,
-    quantidadePorPagina,
-  ]);
 
   const optionsSetores = [
     { value: "", label: "Todos Setores" },

@@ -96,7 +96,7 @@ export function Estoque() {
 
   useEffect(() => {
     setPagina(pagina);
-  }, [termoBusca, filtroStatus, setorSelecionado, categoriaSelecionada]);
+  }, [termoBusca, filtroStatus, setorSelecionado, categoriaSelecionada, pagina]);
 
   useEffect(() => {
     buscarProdutos();

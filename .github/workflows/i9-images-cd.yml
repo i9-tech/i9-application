@@ -12,6 +12,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      actions: write
 
     steps:
       - name: 🔁 Checkout do código
@@ -53,6 +54,7 @@ jobs:
 
       - name: 🔁 Disparar workflow de deploy
         uses: actions/github-script@v7
+        if: ${{ success() }}
         with:
           script: |
             github.rest.actions.createWorkflowDispatch({

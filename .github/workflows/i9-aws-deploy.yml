@@ -2,6 +2,8 @@ name: 🚀 i9 Tech CI/CD - Deploy para AWS EC2
 
 on:
   workflow_call:
+  push:
+    branches: [feature/aws]  
 
 jobs:
   deploy:

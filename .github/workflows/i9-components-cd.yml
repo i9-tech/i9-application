@@ -2,9 +2,9 @@ name: 🖥️ i9 Tech CI - Verificação de Vulnerabilidades
 
 on:
   push:
-    branches: [develop, feature/aws]
+    branches: [main, develop, feature/aws]
   pull_request:
-    branches: [develop, feature/aws]
+    branches: [main, develop, feature/aws]
   schedule:
     - cron: '0 0 * * 0' # roda domingo meia noite
 

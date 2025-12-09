@@ -1,8 +1,8 @@
 # 🖥️ Aplicação i9
-![CI](https://github.com/i9-tech/i9-application/actions/workflows/i9-application-ci.yml/badge.svg?branch=develop)
-![CI](https://github.com/i9-tech/i9-application/actions/workflows/i9-components-cd.yml/badge.svg?branch=develop)
-![CD](https://github.com/i9-tech/i9-application/actions/workflows/i9-images-cd.yml/badge.svg?branch=develop)
-![CD](https://github.com/i9-tech/i9-application/actions/workflows/i9-aws-depoy.yml/badge.svg?branch=feature/aws)
+![CI](https://github.com/i9-tech/i9-application/actions/workflows/i9-application-ci.yml/badge.svg?branch=main)
+![CI](https://github.com/i9-tech/i9-application/actions/workflows/i9-components-cd.yml/badge.svg?branch=main)
+![CD](https://github.com/i9-tech/i9-application/actions/workflows/i9-images-cd.yml/badge.svg?branch=main)
+![CD](https://github.com/i9-tech/i9-application/actions/workflows/i9-aws-deploy.yml/badge.svg?branch=main)
 
 -----
 

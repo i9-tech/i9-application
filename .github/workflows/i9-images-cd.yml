@@ -50,3 +50,15 @@ jobs:
             VITE_API_BASE_URL_DEV=${{ secrets.VITE_API_BASE_URL_DEV }}
             VITE_API_BASE_URL_PROD=${{ secrets.VITE_API_BASE_URL_PROD }}
             VITE_UNSPLASH_ACCESS_KEY=${{ secrets.VITE_UNSPLASH_ACCESS_KEY }}
+
+      - name: 🔁 Disparar workflow de deploy
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "i9-aws-deploy.yml",
+              ref: "main"
+            });
+          

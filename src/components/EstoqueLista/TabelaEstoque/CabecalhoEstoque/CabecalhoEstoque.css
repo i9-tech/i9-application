@@ -1,8 +1,7 @@
 .cabecalho-estoque-prod {
-  background-color: #f9f9f9;
+  background-color: var(--cor-para-o-texto-branco);
   position: sticky;
   top: 0;
-  z-index: 1;
 }
 
 .cabecalho-estoque-prod th {
@@ -10,9 +9,8 @@
   font-weight: 600;
   font-size: 14px;
   text-align: left;
-  color: #333;
-  border-bottom: 2px solid #ccc;
-  /* white-space: nowrap; */
+  color: var(--cor-para-texto-preto);
+  border-bottom: none;
   vertical-align: middle;
   text-align: center;
 }
@@ -56,3 +54,21 @@
 .cabecalho-estoque-prod th:nth-child(9) {
   width: 100px;
 } /* Status */
+
+
+@media (max-width: 768px) {
+  .cabecalho-estoque-prod th:nth-child(3) {
+    position: sticky;
+    left: 0;
+    background-color: var(--titulos-botoes-destaques);
+    z-index: 3;
+    text-align: left;
+    min-width: 180px;
+    max-width: 180px;
+  }
+
+  .cabecalho-estoque-prod th:nth-child(3) {
+    padding-left: 20px;
+    padding-right: 12px;
+  }
+}

@@ -1,0 +1,128 @@
+.drp-container {
+  position: relative;
+  display: inline-block;
+}
+
+.drp-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  font-family: "Inter", sans-serif;
+  color: #374151;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.drp-button:hover {
+  border-color: var(--titulos-botoes-destaques);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.drp-button span {
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.drp-icon {
+  font-size: 20px;
+  color: #374151;
+}
+
+.drp-popover {
+  position: absolute;
+  top: 110%;
+  margin-top: 0.5rem;
+  z-index: 50;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.drp-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.drp-apply {
+  background-color: #2563eb;
+  color: white;
+  font-size: 14px;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.drp-apply:hover {
+  background-color: #1d4ed8;
+}
+
+.drp-clear {
+  background-color: #0000002a;
+  color: rgb(0, 0, 0);
+  font-size: 14px;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.drp-clear:hover {
+  background-color: #0000004a;
+}
+@media (max-width: 768px) {
+  .drp-container {
+    width: 100%;
+  }
+
+  .drp-button {
+    width: 100%;
+    min-width: 40px;
+    height: 100%;
+    min-height: 20px;
+    padding: 8px 10px;
+    margin-bottom: -5px;
+    line-height: 1.2;
+  }
+
+  .drp-button span {
+    display: none; /* Oculta texto no mobile */
+  }
+
+  .drp-icon {
+    font-size: 22px;
+  }
+
+  .drp-popover {
+    /* width: 90vw; */
+    left: 50%;
+    transform: translateX(-90%);
+  }
+
+  .drp-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .drp-apply,
+  .drp-clear {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+  }
+}

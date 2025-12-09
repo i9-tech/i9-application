@@ -2,7 +2,6 @@
     background-color: #f9f9f9;
     position: sticky;
     top: 0;
-    z-index: 1;
   }
   
   .cabecalho-estoque th {
@@ -10,8 +9,8 @@
     font-weight: 600;
     font-size: 14px;
     text-align: center;
-    color: #333;
-    border-bottom: 2px solid #ccc;
+    color: var(--cor-para-texto-preto);
+    border-bottom: none;
     /* white-space: nowrap; */
     vertical-align: middle;
   }
@@ -21,7 +20,8 @@
   }
   
   .cabecalho-estoque th:nth-child(1) {
-    width: 100px;
+    width: 70px;
+
   } /* Cód. */
   
   .cabecalho-estoque th:nth-child(2) {
@@ -33,29 +33,45 @@
   } /* Nome */
   
   .cabecalho-estoque th:nth-child(4) {
-    width: 120px;
-    /* Descrição */
+    width: 100px;
+    /* preco */
   }
   
   .cabecalho-estoque th:nth-child(5) {
     width: 110px;
-    /* Preço */
+    /* disponibilidade */
     
   } 
   
   .cabecalho-estoque th:nth-child(6) {
-    width: 110px;
-  } /* Disponibilidade */
+    width: 100px;
+  } /* setor */
   
   .cabecalho-estoque th:nth-child(7) {
-    width: 110px;
+    width: 140px;
   } /* Categoria */
   
   .cabecalho-estoque th:nth-child(8) {
-    width: 160px;
-  } /* Setor */
+    width: 150px;
+  } /* Descrição */
   
     .cabecalho-estoque th:nth-child(9) {
-    width: 100px;
+    width: 90px;
   } /* Status */
   
+  @media (max-width: 768px) {
+  .cabecalho-estoque th:nth-child(3) {
+    position: sticky;
+    left: 0;
+    background-color: var(--titulos-botoes-destaques);
+    z-index: 3;
+    text-align: left;
+    min-width: 180px;
+    max-width: 180px;
+  }
+
+  .cabecalho-estoque th:nth-child(3) {
+    padding-left: 20px;
+    padding-right: 12px;
+  }
+}

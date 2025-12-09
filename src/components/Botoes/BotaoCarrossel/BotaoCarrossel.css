@@ -5,8 +5,8 @@
     font-size: 16px;
     cursor: pointer;
     font-weight: 500;
-    color: white;
-    background-color: var(--destaque);
+    color: var(--cor-para-o-texto-branco);
+    background-color: var(--titulos-botoes-destaques);
 
     img {
         width: 20px;
@@ -16,5 +16,5 @@
 }
 
 .botao-carrossel:hover {
-    background-color: var(--hovers);
+    background-color: var(--botoes-hover-destaques);
 }

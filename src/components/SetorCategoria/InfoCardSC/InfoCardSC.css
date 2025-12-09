@@ -9,41 +9,83 @@
 }
 
 .info-sc-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 16px;
 }
+/* .info-sc-card__header-action {
+  align-self: flex-start;
+} */
 
 .info-sc-card__title {
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 700;
   color: #111827;
   margin: 0 0 4px 0;
 }
 
+.add-btn {
+  background: var(--titulos-botoes-destaques);
+  color: var(--cor-para-o-texto-branco);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.add-btn:hover {
+  background-color: var(--detalhes-2);
+}
+
 .info-sc-card__description {
-  font-size: 0.95rem;
+  font-size: 16px;
   color: #6b7280;
   margin: 0;
 }
 
 .info-sc-card__search {
   margin-bottom: 16px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
 }
 
 .info-sc-card__input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .info-sc-card__input {
   width: 100%;
-  padding: 10px 38px 10px 12px;
-  border: 1px solid #d1d5db;
+  padding: 10px;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 14px;
   color: #374151;
   background-color: #ffffff;
+
 }
+
+  .lupa-pesquisa {
+    background-color: var(--titulos-botoes-destaques);
+    border: none;
+    border-radius: 10px;
+    align-items: center;
+    display: flex;
+    padding: 8px;
+    margin-left: 8px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .lupa-pesquisa:hover {
+    background-color: var(--detalhes-2);
+  } 
 
 .info-sc-card__input::placeholder {
   color: #9ca3af;
@@ -51,7 +93,7 @@
 
 .info-sc-card__input:focus {
   outline: none;
-  border-color: var(--azul-escuro);
+  border-color: var(--titulos-botoes-destaques);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
@@ -59,5 +101,5 @@
   position: absolute;
   right: 12px;
   font-size: 1.1rem;
-  color:  var(--azul-escuro); 
+  color:  var(--titulos-botoes-destaques); 
 }

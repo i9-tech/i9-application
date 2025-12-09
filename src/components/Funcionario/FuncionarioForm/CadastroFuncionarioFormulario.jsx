@@ -6,12 +6,72 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import CarregamentoFormulario from "../../Carregamento/CarregamentoFormulario";
+import Select from "react-select";
+
+const tipoLoginOptions = [
+  { value: "", label: "Selecione a forma de login" },
+  { value: "CPF", label: "CPF" },
+  { value: "EMAIL", label: "E-mail" },
+  { value: "TELEFONE", label: "Telefone" },
+  { value: "MATRICULA", label: "Matrícula" }
+];
 
 const CadastroFuncionarioFormulario = ({
   funcionarioSelecionado,
   setFuncionarioSelecionado,
   atualizarListaFuncionarios,
 }) => {
+  const atualizarLoginAutomatico = (tipo) => {
+    switch (tipo) {
+      case "CPF":
+        setLogin(cpfFuncionario);
+        break;
+      case "EMAIL":
+        setLogin(emailFuncionario);
+        break;
+      case "TELEFONE":
+      case "MATRICULA":
+      default:
+        setLogin("");
+        break;
+    }
+  };
+
+  const handleSetorChange = (setor, marcado) => {
+    const atualizado = { ...setorFuncionario, [setor]: marcado };
+
+    if (!atualizado.cozinha || !atualizado.estoque || !atualizado.atendimento) {
+      atualizado.acessoTotal = false;
+    }
+
+    setSetorFuncionario(atualizado);
+  };
+
+  const handleAcessoTotalChange = (marcado) => {
+    setSetorFuncionario({
+      cozinha: marcado,
+      estoque: marcado,
+      atendimento: marcado,
+      acessoTotal: marcado,
+    });
+  };
+
+  const handleCpfChange = (valor) => {
+    const cpfFormatado = formatarCpf(valor);
+    setCpfFuncionario(cpfFormatado);
+
+    if (tipoLogin === "CPF") {
+      setLogin(cpfFormatado);
+    }
+  };
+
+  const handleEmailChange = (valor) => {
+    setEmailFuncionario(valor);
+    if (tipoLogin === "EMAIL") {
+      setLogin(valor);
+    }
+  };
+
   const funcionario = getFuncionario();
   const [loading, setLoading] = useState(false);
   const [porcentagemCarregamento, setPorcentagemCarregamento] = useState(0);
@@ -19,22 +79,30 @@ const CadastroFuncionarioFormulario = ({
 
   const [nomeFuncionario, setNomeFuncionario] = useState("");
   const [cpfFuncionario, setCpfFuncionario] = useState("");
+  const [emailFuncionario, setEmailFuncionario] = useState("");
+  const [tipoLogin, setTipoLogin] = useState("");
+  const [login, setLogin] = useState("");
   const [dataAdmissao, setDataAdmissao] = useState("");
   const [setorFuncionario, setSetorFuncionario] = useState({
     cozinha: false,
     estoque: false,
     atendimento: false,
+    acessoTotal: false,
   });
   const [_errorSetor, setErrorSetor] = useState(false);
 
   const limparFormulario = () => {
     setNomeFuncionario("");
     setCpfFuncionario("");
+    setEmailFuncionario("")
+    setTipoLogin("");
+    setLogin("");
     setDataAdmissao("");
     setSetorFuncionario({
       cozinha: false,
       estoque: false,
       atendimento: false,
+      acessoTotal: false,
     });
     setFuncionarioSelecionado(null);
   };
@@ -43,11 +111,15 @@ const CadastroFuncionarioFormulario = ({
     if (funcionarioSelecionado) {
       setNomeFuncionario(funcionarioSelecionado.nome);
       setCpfFuncionario(funcionarioSelecionado.cpf);
+      setEmailFuncionario(funcionarioSelecionado.email || "");
+      setTipoLogin(funcionarioSelecionado.identificadorPrincipal);
+      setLogin(funcionarioSelecionado.login);
       setDataAdmissao(funcionarioSelecionado.dataAdmissao);
       setSetorFuncionario({
         cozinha: funcionarioSelecionado.acessoSetorCozinha,
         estoque: funcionarioSelecionado.acessoSetorEstoque,
         atendimento: funcionarioSelecionado.acessoSetorAtendimento,
+        acessoTotal: funcionarioSelecionado.proprietario,
       });
     }
   }, [funcionarioSelecionado]);
@@ -65,15 +137,30 @@ const CadastroFuncionarioFormulario = ({
       return false;
     }
 
+    if (tipoLogin === "EMAIL") {
+      if (!login.includes("@") || !login.includes(".")) {
+        toast.error("Informe um e-mail válido!");
+        return false;
+      }
+    }
+
+    if (tipoLogin === "TELEFONE") {
+      const regexTelefone = /^\d{2}\d{8,9}$/;
+      if (!regexTelefone.test(login)) {
+        toast.error("Informe um telefone válido! Ex: 11999999999");
+        return false;
+      }
+    }
+
     if (funcionarioSelecionado) {
-      editarFuncionario(nome, cpf, data, setores, cpfSemFormatacao);
+      editarFuncionario(nome, cpf, emailFuncionario, tipoLogin, login, data, setores, cpfSemFormatacao);
     } else {
-      cadastrarFuncionario(nome, cpf, data, setores, cpfSemFormatacao);
+      cadastrarFuncionario(nome, cpf, emailFuncionario, tipoLogin, login, data, setores, cpfSemFormatacao);
     }
     return true;
   };
 
-  const cadastrarFuncionario = (nome, cpf, data, setores, cpfSemFormatacao) => {
+  const cadastrarFuncionario = (nome, cpf, emailFuncionario, tipoLogin, login, data, setores, cpfSemFormatacao) => {
     setLoading(true);
     setPorcentagemCarregamento(0);
 
@@ -86,6 +173,7 @@ const CadastroFuncionarioFormulario = ({
 
     const token = localStorage.getItem("token");
 
+
     api
       .post(
         `${ENDPOINTS.FUNCIONARIOS}/${funcionario.empresaId}`,
@@ -93,12 +181,16 @@ const CadastroFuncionarioFormulario = ({
           nome: nome,
           cpf: cpf,
           cargo: "Funcionário",
+          identificadorPrincipal: tipoLogin,
+          login: login,
           dataAdmissao: data,
           acessoSetorCozinha: setores.cozinha,
           acessoSetorEstoque: setores.estoque,
           acessoSetorAtendimento: setores.atendimento,
-          proprietario: false,
+          proprietario: setorFuncionario.acessoTotal,
           senha: `${cpfSemFormatacao}@taua`,
+          email: emailFuncionario,
+          primeiroAcesso: true
         },
         {
           headers: {
@@ -115,12 +207,14 @@ const CadastroFuncionarioFormulario = ({
       })
       .catch((error) => {
         clearInterval(interval);
-        toast.error("Erro ao cadastrar funcionário! CPF Já cadastrado!");
+        toast.error(`Erro ao cadastrar funcionário! ${error.response?.data?.message || ""}`);
         console.error("Erro ao cadastrar funcionário!", error);
-         console.log('Mensagem exata do backend:', error.response.data);
+        console.log('Mensagem exata do backend:', error.response.data);
       })
       .finally(() => {
         setLoading(false);
+        console.log("Enviando email:", emailFuncionario);
+
       });
   };
 
@@ -135,6 +229,8 @@ const CadastroFuncionarioFormulario = ({
       setPorcentagemCarregamento(progresso);
     }, 400);
 
+
+
     const token = localStorage.getItem("token");
     api
       .patch(
@@ -142,12 +238,15 @@ const CadastroFuncionarioFormulario = ({
         {
           nome: nomeFuncionario,
           cpf: cpfFuncionario,
+          identificadorPrincipal: tipoLogin,
+          login: login,
           cargo: "Funcionario",
           dataAdmissao: dataAdmissao,
           acessoSetorCozinha: setorFuncionario.cozinha,
           acessoSetorEstoque: setorFuncionario.estoque,
           acessoSetorAtendimento: setorFuncionario.atendimento,
-          proprietario: false,
+          proprietario: setorFuncionario.acessoTotal,
+          email: emailFuncionario,
         },
         {
           headers: {
@@ -223,26 +322,127 @@ const CadastroFuncionarioFormulario = ({
           />
         </div>
 
-        <div className="grupo-inputs">
-          <label htmlFor="cpf">
-            CPF do Funcionário{" "}
-            <span aria-hidden="true" style={{ color: "red" }}>
-              *
-            </span>{" "}
-          </label>
 
-          <input
-            id="cpf"
-            type="text"
-            placeholder="000.000.000-00"
-            value={cpfFuncionario}
-            onChange={(e) => setCpfFuncionario(formatarCpf(e.target.value))}
-            required
-            pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
-            disabled={!!funcionarioSelecionado}
-            maxLength={14}
-            minLength={14}
-          />
+        <div className="grupo-inputs" style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
+            <label htmlFor="cpf">
+              CPF do Funcionário{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>{" "}
+            </label>
+
+            <input
+              id="cpf"
+              type="text"
+              placeholder="000.000.000-00"
+              value={cpfFuncionario}
+              onChange={(e) => handleCpfChange(e.target.value)}
+              required
+              pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+              disabled={!!funcionarioSelecionado}
+              maxLength={14}
+              minLength={14}
+            />
+
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
+            <label htmlFor="email">
+              Email do Funcionário{" "}
+            </label>
+
+            <input
+              id="email"
+              type="text"
+              placeholder="usuario@email.com"
+              value={emailFuncionario}
+              onChange={(e) => handleEmailChange(e.target.value)}
+            />
+
+          </div>
+        </div>
+
+        <div className="grupo-inputs" style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
+            <label htmlFor="formaLogin">
+              Forma de Login{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
+            <Select
+              inputId="tipoLogin"
+              value={tipoLoginOptions.find(opt => opt.value === tipoLogin)}
+              onChange={opt => {
+                setTipoLogin(opt.value);
+                atualizarLoginAutomatico(opt.value);
+              }}
+              options={tipoLoginOptions}
+              placeholder="Selecione a forma de login"
+              isSearchable={false}
+              isDisabled={!!funcionarioSelecionado}
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  borderColor: state.isFocused
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "transparent",
+                  boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+                  "&:hover": { borderColor: "transparent" },
+                }),
+                placeholder: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                option: (baseStyles, state) => ({
+                  ...baseStyles,
+                  backgroundColor: state.isSelected
+                    ? "var(--titulos-botoes-destaques)"
+                    : state.isFocused
+                      ? "var(--cinza-hover-select)" 
+                      : "var(--cor-para-o-texto-branco)",
+                  color: state.isSelected
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "var(--cor-para-texto-preto)",
+                  padding: "8px 16px", 
+                  cursor: "pointer",
+                }),
+                singleValue: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  maxHeight: 200, // <--- ESTILO IGUALADO
+                  overflowY: "auto",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  borderRadius: 5,
+                  marginTop: 0,
+                }),
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", width: "50%" }}>
+            <label htmlFor="login">
+              Login{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>{" "}
+            </label>
+            <input
+              id="login"
+              value={login}
+              type="text"
+              required
+              maxLength={20}
+              minLength={5}
+              disabled={tipoLogin === "CPF" || tipoLogin === "EMAIL" || !!funcionarioSelecionado}
+              placeholder="Informe o login do funcionário"
+              onChange={(e) => setLogin(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="grupo-inputs">
@@ -267,45 +467,40 @@ const CadastroFuncionarioFormulario = ({
         <div className="grupo-checkbox">
           <span>Setor do Funcionário *</span>
           <div className="checkboxes-funcionario">
+
             <label>
               <input
                 type="checkbox"
                 checked={setorFuncionario.cozinha}
-                onChange={(e) =>
-                  setSetorFuncionario({
-                    ...setorFuncionario,
-                    cozinha: e.target.checked,
-                  })
-                }
-              />{" "}
-              Cozinha
+                onChange={(e) => handleSetorChange("cozinha", e.target.checked)}
+              /> Cozinha
             </label>
+
             <label>
               <input
                 type="checkbox"
                 checked={setorFuncionario.estoque}
-                onChange={(e) =>
-                  setSetorFuncionario({
-                    ...setorFuncionario,
-                    estoque: e.target.checked,
-                  })
-                }
-              />{" "}
-              Estoque
+                onChange={(e) => handleSetorChange("estoque", e.target.checked)}
+              /> Estoque
             </label>
+
             <label>
               <input
                 type="checkbox"
                 checked={setorFuncionario.atendimento}
-                onChange={(e) =>
-                  setSetorFuncionario({
-                    ...setorFuncionario,
-                    atendimento: e.target.checked,
-                  })
-                }
-              />{" "}
-              Atendimento
+                onChange={(e) => handleSetorChange("atendimento", e.target.checked)}
+              /> Atendimento
             </label>
+
+            <label className="acesso-total-label">
+              <input
+                type="checkbox"
+                checked={setorFuncionario.acessoTotal}
+                onChange={(e) => handleAcessoTotalChange(e.target.checked)}
+              /> Acesso Total
+            </label>
+
+
           </div>
         </div>
 

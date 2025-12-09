@@ -14,9 +14,10 @@ import { formatarMoeda } from "../../utils/utils";
 import Relogio from "../../components/Relogio/Relogio";
 import { LiaFileDownloadSolid } from "react-icons/lia";
 import html2canvas from "html2canvas";
-import { Tooltip } from "react-tooltip";
+import { DateRangePicker } from "../../components/Calendario/DateRangePicker";
 
 export function Dashboard() {
+  const [intervaloSelecionado, setIntervaloSelecionado] = useState({ startDate: null, endDate: null });
   const funcionario = getFuncionario();
   const token = getToken();
   const [dadosPratos, setDadosPratos] = useState([]);
@@ -28,13 +29,55 @@ export function Dashboard() {
   const [isDadosDisponiveis, setIsDadosDisponiveis] = useState(false);
   const [lucroBruto, setLucroBruto] = useState(0);
   const [diferencaBruto, setDiferencaBruto] = useState(0);
-  const [isLucroMaior, setIsLucroMaior] = useState(false);
+  const [_isLucroMaior, setIsLucroMaior] = useState(false);
   const [lucroLiquido, setLucroLiquido] = useState(0);
   const [liquidoMercadoria, setLiquidoMercadoria] = useState(0);
   const [quantidadeTotalVendida, setQuantidadeTotalVendida] = useState(0);
   const [diferencaVenda, setDiferencaVenda] = useState(0);
   const [isVendaMaior, setIsVendaMaior] = useState(false);
   const [isKpiProduto, setIsKpiProduto] = useState(false);
+
+  const formatarData = (date) => {
+    if (!date) return null;
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
+  const formatarDataPT = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const [dataInicioAnterior, setDataInicioAnterior] = useState(null);
+  const [dataFimAnterior, setDataFimAnterior] = useState(null);
+
+  useEffect(() => {
+    const hoje = new Date();
+
+    if (!intervaloSelecionado || !intervaloSelecionado.from || !intervaloSelecionado.to) {
+      setDataInicioAnterior(hoje);
+      setDataFimAnterior(hoje);
+      return;
+    }
+
+    const inicio = new Date(intervaloSelecionado.from);
+    const fim = new Date(intervaloSelecionado.to);
+
+    const diasDoPeriodo = Math.floor((fim - inicio) / (1000 * 60 * 60 * 24)) + 1;
+
+    const fimAnterior = new Date(inicio.getTime() - 24 * 60 * 60 * 1000);
+    const inicioAnterior = new Date(fimAnterior.getTime() - (diasDoPeriodo - 1) * 24 * 60 * 60 * 1000);
+
+    setDataInicioAnterior(inicioAnterior);
+    setDataFimAnterior(fimAnterior);
+  }, [intervaloSelecionado]);
 
   const diaAtual = new Date().toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -43,10 +86,16 @@ export function Dashboard() {
   });
 
   useEffect(() => {
-    api
-      .get(`${ENDPOINTS.VENDA_KPIS}/${funcionario.empresaId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    if (!funcionario?.empresaId) return;
+
+    const params = {};
+    if (intervaloSelecionado?.from) params.dataInicio = formatarData(intervaloSelecionado.from);
+    if (intervaloSelecionado?.to) params.dataFim = formatarData(intervaloSelecionado.to);
+
+    api.get(`${ENDPOINTS.VENDA_KPIS}/${funcionario.empresaId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      params
+    })
       .then((res) => {
         // console.log("Valores de KPI recuperados: ", res.data[0]);
         tratarKpis(res.data[0]);
@@ -58,6 +107,7 @@ export function Dashboard() {
     api
       .get(`${ENDPOINTS.VENDA_TOP_PRATOS}/${funcionario.empresaId}`, {
         headers: { Authorization: `Bearer ${token}` },
+        params
       })
       .then((res) => {
         setDadosPratos(res.data);
@@ -71,6 +121,7 @@ export function Dashboard() {
     api
       .get(`${ENDPOINTS.VENDA_TOP_PRODUTOS}/${funcionario.empresaId}`, {
         headers: { Authorization: `Bearer ${token}` },
+        params
       })
       .then((res) => {
         setDadosProdutos(res.data);
@@ -84,6 +135,7 @@ export function Dashboard() {
     api
       .get(`${ENDPOINTS.VENDA_TOP_CATEGORIAS}/${funcionario.empresaId}`, {
         headers: { Authorization: `Bearer ${token}` },
+        params
       })
       .then((res) => {
         setDadosCategorias(res.data);
@@ -95,6 +147,7 @@ export function Dashboard() {
     api
       .get(`${ENDPOINTS.VENDA_RANKING_SETORES}/${funcionario.empresaId}`, {
         headers: { Authorization: `Bearer ${token}` },
+        params
       })
       .then((res) => {
         const setoresFormatados = res.data.map(
@@ -111,7 +164,7 @@ export function Dashboard() {
       });
 
     setIsDadosDisponiveis(true);
-  }, [isDadosDisponiveis, token, funcionario.empresaId]);
+  }, [intervaloSelecionado, isDadosDisponiveis, token, funcionario.empresaId]);
 
   const tratarKpis = (kpi) => {
     if (!kpi) return;
@@ -121,8 +174,6 @@ export function Dashboard() {
     const lucroLiquidoDiario = Number(kpi.lucroLiquidoDiario ?? 0);
     const totalMercadoriaDiario = Number(kpi.totalMercadoriaDiario ?? 0);
     const vendasDiaria = Number(kpi.vendasDiaria ?? 0);
-    console.log(kpi.vendasDiaria);
-    console.log(kpi.vendasDiariaOntem);
     const vendasDiariaOntem = Number(kpi.vendasDiariaOntem ?? 0);
 
     const diferencaBruto = lucroDiario - lucroDiarioOntem;
@@ -141,16 +192,28 @@ export function Dashboard() {
   };
 
   const pratoMaisComprado = (pratos) => {
+    if (!pratos || pratos.length === 0) {
+      setPratoMaisVendido({ nome: "Nenhum", quantidadeVendida: 0 });
+      return;
+    }
+
     const maisVendido = pratos.reduce((maior, atual) =>
       atual.quantidadeVendida > maior.quantidadeVendida ? atual : maior
     );
+
     setPratoMaisVendido(maisVendido);
   };
 
   const produtoMaisComprado = (produtos) => {
+    if (!produtos || produtos.length === 0) {
+      setProdutoMaisVendido({ nome: "Nenhum", quantidadeVendida: 0 });
+      return;
+    }
+
     const maisVendido = produtos.reduce((maior, atual) =>
       atual.quantidadeVendida > maior.quantidadeVendida ? atual : maior
     );
+
     setProdutoMaisVendido(maisVendido);
   };
 
@@ -160,7 +223,7 @@ export function Dashboard() {
     if (!elemento) return;
 
     html2canvas(elemento, {
-      backgroundColor: "#f0f0f0",
+      backgroundColor: '#f0f0f0',
       scrollX: 0,
       scrollY: 0,
     }).then((originalCanvas) => {
@@ -185,47 +248,63 @@ export function Dashboard() {
   return (
     <>
       <LayoutTela
-        titulo="Dashboard"
+        titulo="Dashboard "
         adicional={
           <>
             {diaAtual} - <Relogio />
             <button
-              onClick={baixarImagemDashboard}
+              title="Baixar imagem da Dashboard"
               className="baixar-dash"
-              data-tooltip-id="tooltip-dash"
-              data-tooltip-content="Baixar Imagem da Dashboard"
+              onClick={baixarImagemDashboard}
+              style={{
+                marginLeft: "1rem",
+                marginTop: "-0.5rem",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                position: "absolute"
+              }}
             >
               <LiaFileDownloadSolid size={30} />
             </button>
-            <Tooltip
-              id="tooltip-dash"
-              place="right"
-              style={{
-                width: "auto",
-                zIndex: 2,
+          </>
+        }
+        adicionalUm={
+          <div className="filtro-data-dashboard">
+            <DateRangePicker
+              maxMonths={3}
+              numberOfMonths={1}
+              onChange={(range) => {
+                console.log("Intervalo selecionado:", range)
+                setIntervaloSelecionado(range)
               }}
             />
-          </>
+          </div>
         }
       >
         <article className="dashboard">
           <section className="kpis">
             <Kpi
               key={"abss"}
-              titulo={"Lucro Bruto"}
+              titulo={"Faturamento Estimado"}
               valor={formatarMoeda(lucroBruto)}
-              adicional={`${
-                isLucroMaior && diferencaBruto > 0
-                  ? "+"
-                  : diferencaBruto > 0
-                  ? "-"
-                  : ""
-              }${formatarMoeda(diferencaBruto)} em relação ao dia anterior`}
+              adicional={
+                <>
+                  {diferencaBruto >= 0 ? "+" : "-"}
+                  {formatarMoeda(Math.abs(diferencaBruto))} em relação ao período anterior
+                  <br />
+                  {dataInicioAnterior && dataFimAnterior
+                    ? dataInicioAnterior.getTime() === dataFimAnterior.getTime()
+                      ? "(1 dia atrás)"
+                      : `(${formatarDataPT(dataInicioAnterior)} a ${formatarDataPT(dataFimAnterior)})`
+                    : "(1 dia atrás)"}
+                </>
+              }
               indicador={"#6f6df1"}
             />
             <Kpi
               key={"abssss"}
-              titulo={"Lucro Liquido"}
+              titulo={"Lucro Bruto"}
               valor={formatarMoeda(lucroLiquido)}
               adicional={`${formatarMoeda(liquidoMercadoria)} em mercadorias`}
               indicador={"#f0b731"}
@@ -233,16 +312,20 @@ export function Dashboard() {
             <Kpi
               key={"absdass"}
               titulo={"Vendas Realizadas"}
-              valor={`${quantidadeTotalVendida || 0} venda${
-                quantidadeTotalVendida !== 1 ? "s" : ""
-              }`}
-              adicional={`${
-                isVendaMaior && diferencaVenda > 0
-                  ? "+"
-                  : diferencaVenda > 0
-                  ? "-"
-                  : ""
-              }${diferencaVenda} em relação ao dia anterior`}
+              valor={`${quantidadeTotalVendida || 0} venda${quantidadeTotalVendida !== 1 ? "s" : ""
+                }`}
+              adicional={
+                <>
+                  {isVendaMaior && diferencaVenda > 0 ? "+" : diferencaVenda > 0 ? "-" : ""}
+                  {diferencaVenda} em relação ao período anterior
+                  <br />
+                  {dataInicioAnterior && dataFimAnterior
+                    ? dataInicioAnterior.getTime() === dataFimAnterior.getTime()
+                      ? "(1 dia atrás)"
+                      : `(${formatarDataPT(dataInicioAnterior)} a ${formatarDataPT(dataFimAnterior)})`
+                    : "(1 dia atrás)"}
+                </>
+              }
               indicador={"#41c482"}
             />
             <Kpi
@@ -263,11 +346,10 @@ export function Dashboard() {
                   ? produtoMaisVendido.nome || "Nenhum"
                   : pratoMaisVendido.nome || "Nenhum"
               }
-              adicional={`${
-                isKpiProduto
-                  ? produtoMaisVendido.quantidadeVendida || 0
-                  : pratoMaisVendido.quantidadeVendida || 0
-              } unidades`}
+              adicional={`${isKpiProduto
+                ? produtoMaisVendido.quantidadeVendida || 0
+                : pratoMaisVendido.quantidadeVendida || 0
+                } unidades`}
               indicador={"#d35757"}
               cursor={"pointer"}
               onClick={() => {
@@ -290,7 +372,7 @@ export function Dashboard() {
             </Grafico>
           </section>
         </article>
-      </LayoutTela>
+      </LayoutTela >
     </>
   );
 }

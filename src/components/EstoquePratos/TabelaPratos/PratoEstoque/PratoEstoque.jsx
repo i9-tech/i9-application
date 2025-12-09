@@ -90,11 +90,12 @@ const PratoEstoque = ({ prato, buscar }) => {
           <span className="indisponível">🚫 Inativo</span>
         )}
       </td>
-      <td>{prato.categoria?.nome}</td>
       <td>{prato.setor?.nome}</td>
+      <td>{prato.categoria?.nome}</td>
       <td title={prato.descricao}>{prato.descricao}</td>
       <td className="acoes">
-        <button onClick={() => editar(prato)}>✏️</button> |
+        <button onClick={() => editar(prato)}>✏️</button>
+        <span> | </span>
         <button onClick={() => deletar(prato.id)}>🗑️</button>
       </td>
     </tr>

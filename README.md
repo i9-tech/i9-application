@@ -1,232 +1,159 @@
 # 🖥️ Aplicação i9
 ![CI](https://github.com/i9-tech/i9-application/actions/workflows/i9-application-ci.yml/badge.svg?branch=develop)
-[![💻 Serviço de App Web Estático da Azure CI/CD](https://github.com/i9-tech/i9-application/actions/workflows/azure-static-web-apps-happy-bay-092f1780f.yml/badge.svg)](https://github.com/i9-tech/i9-application/actions/workflows/azure-static-web-apps-happy-bay-092f1780f.yml)
+![CI](https://github.com/i9-tech/i9-application/actions/workflows/i9-components-cd.yml/badge.svg?branch=develop)
+![CD](https://github.com/i9-tech/i9-application/actions/workflows/i9-images-cd.yml/badge.svg?branch=develop)
+![CD](https://github.com/i9-tech/i9-application/actions/workflows/i9-aws-depoy.yml/badge.svg?branch=feature/aws)
 
-***
+-----
 
-### 🌟 Boas-vindas!
-Esse é o repositório da **i9 Tech** responsável pelo desenvolvimento da interface do nosso sistema. Este repositório tem como propósito **concentrar** toda a **construção visual da aplicação**, com foco em usabilidade, **responsividade** e **integração com o back-end**. Cada nova funcionalidade é desenvolvida em uma branch separada, garantindo organização e evitando conflitos. A **branch principal** sempre conterá a versão mais atualizada e homologada da aplicação.
+### 🌟 Boas-vindas\!
 
-***
+Esse é o repositório da **i9 Tech** responsável pelo desenvolvimento da interface do nosso sistema de Ponto de Venda (PDV) e gestão. Este repositório concentra toda a **construção visual da aplicação**, com foco em usabilidade, **responsividade** e **integração com o back-end**.
 
-## 📋 Requisitos de Uso
-Para rodar a interface da aplicação em sua máquina, é necessário instalar os seguintes softwares:
-- Visual Studio Code - IDE para desenvolvimento de códigos
-- JavaScript
-- Node.js com npm
-- React com Vite (já incluído nas dependências do projeto)
-- Navegador Web
+A aplicação é projetada para ser uma solução completa para restaurantes, mercados e outros estabelecimentos, oferecendo controle total sobre o negócio.
 
-<br/>
+-----
 
-***
+## ✨ Funcionalidades Principais
 
-## 🧳 Dependências
-Além das ferramentas de desenvolvimento, o projeto utiliza as seguintes dependências principais para sua execução e organização:
-- React
-- Vite
-- React SOM
-- React Router DOM
-- React Hooks
-- Axios
-- Motion
+A plataforma conta com um ecossistema robusto de módulos para diferentes perfis de usuário:
 
-<br/>
+  * **📈 Dashboard (Proprietário):** Visualização de KPIs (Key Performance Indicators), gráficos de faturamento, lucro, produtos e pratos mais vendidos, e ranking de setores.
+  * **🛒 Atendimento (PDV):** Interface de ponto de venda para atendentes registrarem pedidos, selecionando produtos por setores e categorias de forma rápida e intuitiva.
+  * **🍳 Gestão de Cozinha:** Tela para a cozinha visualizar comandas de pratos pendentes em tempo real, com filtros por data e área de preparo, e marcar pedidos como concluídos.
+  * **📦 Gestão de Estoque (Produtos e Pratos):** Módulo completo para CRUD (Criação, Leitura, Atualização e Deleção) de produtos e pratos, com formulários detalhados e upload de imagens.
+  * **📑 Paginação e Filtros:** Todas as tabelas de estoque possuem sistema de **paginação**, filtros por status (disponível, estoque baixo) e busca por nome.
+  * **👥 Gestão de Funcionários (Proprietário):** Cadastro e edição de funcionários, definindo suas permissões de acesso ao sistema.
+  * **🏷️ Gestão de Setores e Categorias:** Gerenciamento centralizado de setores (ex: Lanchonete, Restaurante) e categorias (ex: Bebidas, Sobremesas) que organizam todo o sistema.
+  * **🔐 Controle de Acesso (RBAC):** O sistema utiliza rotas privadas que validam o token JWT do usuário e suas permissões (`ROLE_PROPRIETARIO`, `ROLE_ATENDIMENTO`, `ROLE_COZINHA`, `ROLE_ESTOQUE`) para acessar cada módulo.
+  * **🔑 Recuperação de Senha & Primeiro Acesso:** Fluxo seguro de recuperação de senha via e-mail e redefinição obrigatória de senha no primeiro login de um novo funcionário.
 
-***
+-----
 
-## 🔑 Acesso a Aplicação
-Para executar a aplicação localmente, siga os passos abaixo:
-1. Clone o repositório:
-```sh
-git clone https://github.com/SeuUsuario/i9-application.git
-```
+## 🚀 Tecnologias Utilizadas
 
-2. Acesse o diretório do projeto:
-```sh
-cd i9-application
-```
+O projeto é construído com as seguintes tecnologias:
 
-3. Instale as dependências do projeto:
-```sh
-npm install
-```
+  * **Core:** React 19+ e Vite
+  * **Roteamento:** React Router DOM
+  * **Requisições HTTP:** Axios (para integração com a API Spring Boot)
+  * **Gráficos:** ApexCharts e React ApexCharts
+  * **Estilização:** CSS Puro com Variáveis
+  * **Componentes:** React Select, React Day Picker, React Icons, React Toastify
+  * **Deployment:** Docker, Docker Compose, Nginx
 
-4. Configure as variáveis de ambiente em um arquivo **.env.local**:
-```sh
-VITE_AMBIENTE=
-VITE_IMAGE_TOKEN_URL=
-VITE_API_BASE_URL_LOCAL=
-VITE_API_BASE_URL_DEV=
-VITE_API_BASE_URL_PROD=
-```
+-----
 
-👉 Agora, basta escolher qual ambiente deseja rodar a aplicação para prosseguir com os passos
+## infrastucture 🐳 Arquitetura de Implantação (AWS)
 
-<br/>
+A aplicação está configurada para implantação em produção utilizando **Docker** e **Nginx**, com foco em escalabilidade e segurança.
 
-***
+### 1\. Docker
 
-## 🔧 Para rodar em  ambiente de DEV:
+Utilizamos um `Dockerfile` multi-stage para otimizar a imagem final:
 
-5. Preencha `VITE_AMBIENTE` como `spring` ou `jsonserver`:
-```sh
-VITE_AMBIENTE=spring
-OU 
-VITE_AMBIENTE=jsonserver
-```
+1.  **Estágio `build`:** Usa uma imagem `node:20-alpine` para instalar as dependências (`npm install`) e gerar os arquivos estáticos de produção (`npm run build`).
+2.  **Estágio Final:** Usa uma imagem leve `nginx:stable-alpine` e copia apenas os arquivos estáticos da pasta `dist` (do estágio anterior) para a pasta padrão do Nginx (`/usr/share/nginx/html`).
 
-6. Rode o server:
-```sh
-npm run dev
-```
+### 2\. Nginx e Balanceamento de Carga
 
-7. Endereço de exibição:
-```sh
-http://localhost:5173
-```
+O arquivo `nginx/app.conf` gerencia o tráfego da aplicação:
 
-<br/>
+  * **Balanceamento de Carga:** O bloco `upstream backend_servers` define um pool de servidores da API (backend). O Nginx distribui o tráfego entre eles (ex: `10.0.0.167:8080`, `10.0.0.167:8081`).
+  * **Proxy Reverso:** Requisições para `/api/` são encaminhadas para o `upstream backend_servers`, atuando como um proxy reverso para a API.
+  * **Roteamento do React:** A diretiva `try_files $uri $uri/ /index.html` garante que todas as rotas do React Router funcionem corretamente, servindo o `index.html` em caso de "não encontrado" (erro 404).
+  * **SSL (HTTPS):** A configuração escuta na porta `443 ssl` e redireciona todo o tráfego `http` (porta 80) para `https`.
 
-***
+### 3\. Docker Compose
 
-## 🚀 Para rodar em  ambiente de PROD:
+O `docker-compose.yml` orquestra os contêineres necessários para a aplicação:
 
-5. Preencha `VITE_AMBIENTE` como `spring` ou `prod`:
-```sh
-VITE_AMBIENTE=spring
-OU
-VITE_AMBIENTE=prod
-```
+  * **Serviço `nginx`:** Constrói a imagem do `Dockerfile` e mapeia as portas 80 e 443. Ele monta os volumes do Nginx (`app.conf`) e dos certificados SSL (obtidos pelo Certbot).
+  * **Serviço `certbot`:** Utiliza a imagem `certbot/certbot` para gerenciar e renovar automaticamente os certificados SSL da Let's Encrypt, compartilhando os volumes de certificados com o serviço `nginx`.
 
-6. Instale o Ttg server:
-```sh
-npm build + npm install -tg server
-```
+-----
 
-7. Rode o server:
-```sh
-serve -s dist
-```
+## ⚙️ Rodando Localmente
 
-8. Endereço de exibição:
-```sh
-http://localhost:80
-```
-*`(ou a porta que definir nas configurações de prod)`*
+Para executar a aplicação localmente em modo de desenvolvimento:
 
-<br/>
+1.  Clone o repositório:
+    ```sh
+    git clone https://github.com/i9-tech/i9-application.git
+    ```
+2.  Acesse o diretório do projeto:
+    ```sh
+    cd i9-application
+    ```
+3.  Instale as dependências do projeto:
+    ```sh
+    npm install
+    ```
+4.  Execute a aplicação (Vite):
+    ```sh
+    npm run dev
+    ```
+5.  Acesse no navegador:
+    `http://localhost:5173`
 
-***
+📌 **Nota:** Para que a aplicação funcione, é necessário estar executando o back-end (`i9-server`) simultaneamente. Certifique-se de configurar o arquivo `.env` com a URL correta da sua API local (ex: `VITE_API_BASE_URL_LOCAL=http://localhost:8080`).
 
-## 🔐 Variáveis de Ambiente no Frontend
+-----
 
-As variáveis de ambiente são utilizadas para configurar o ambiente de execução (dev, prod, etc.), definir URLs de APIs e armazenar tokens e credenciais (como o token de imagem da Azure).
+## 📂 Estrutura de Pastas
 
-### Frontend (Vite)
-
-As variáveis ficam em arquivos `.env` e precisam seguir o padrão do Vite: `VITE_NOME_DA_VARIAVEL`.
-
-Exemplo no arquivo `.env`:
-
-```env
-VITE_AMBIENTE=spring
-VITE_IMAGE_TOKEN_URL=https://...
-```
-Essas variáveis são consumidas no código usando `import.meta.env`:
-
-```javascript
-const token = import.meta.env.VITE_IMAGE_TOKEN_URL;
-```
-Para facilitar, o projeto centraliza essas configurações no arquivo `src/utils/enviroments.js`, que faz o mapeamento das variáveis e, com base no ambiente (`VITE_AMBIENTE`), define a URL da API correspondente (ex: JSON Server, Spring Boot, Produção).
-
-**💡 Dica:** mantenha o arquivo `.env` com valores genéricos no repositório e use o `.env.local` com os dados reais apenas localmente (esse arquivo deve estar listado no `.gitignore`).
-
-### ⚠️ Atenção às variáveis!
-Nunca suba arquivos com variáveis sensíveis preenchidas para o repositório.
-
-Certifique-se de que arquivos como `.env.local` estejam listados no seu `.gitignore`.
-<br/>
-***
-
-## ⚠️ ATENÇÃO
-Para acessar qualquer função dentro da nossa aplicação, será necessário informar um `token de segurança` a partir de um **login**. Existe um usuário padrão que é criado para testes, é possível utilizar seu login com as credenciais:
-
-**CPF:** 000.000.000-00
-
-**Email:** 00000000000@teste
-
-Esse usuário é apenas para fins de desenvolvimento e não representa dados reais ou clientes da aplicação.
-
-<br/>
-
-***
-
-## 📚 Estrutura de Telas
-A interface contém as seguintes principais seções (módulos):
-- Login e autenticação
-- Tela inicial do sistema
-- Área de atendimento
-- Cadastro e gerenciamento de funcionários
-- Visualização e controle de pedidos
-- Edição de permissões e informações da empresa
-- Integração visual com API e rotas protegidas
-
-<br/>
-
-***
-
-## 📂 Pastas
 As principais pastas da aplicação são:
 
-`components/` – Componentes reutilizáveis da interface.
+`nginx/` – Contém os arquivos de configuração do Nginx para produção.
 
-`pages/` – Telas completas organizadas por funcionalidades.
+`src/components/` – Componentes reutilizáveis (Navbar, Gráficos, Modais, Paginação, etc).
 
-`services/` – Configurações e chamadas HTTP (Axios).
+`src/pages/` – Telas completas organizadas por funcionalidades (Dashboard, Login, Atendente, Cozinha, etc).
 
-`contexts/` – Armazenamento de dados em memória via Context API.
+`src/provider/` – Configuração central do Axios (`api.js`).
 
-`routes/` – Definição das rotas com controle de acesso.
+`src/routes/` – Definição das rotas e componentes de rota privada (`RotaPrivada.jsx`).
 
-`utils/` – Arquivos auxiliares.
+`src/utils/` – Arquivos auxiliares (autenticação, endpoints da API, rotas, etc).
 
-`assets/` – Imagens, ícones e arquivos visuais.
+`src/assets/` – Imagens, ícones e arquivos visuais.
 
+`Dockerfile` – Instruções para buildar a imagem Docker da aplicação.
+
+`docker-compose.yml` – Orquestração dos serviços de Nginx e Certbot.
+
+-----
+
+## 🔄 CI/CD
+
+O projeto utiliza GitHub Actions para Integração Contínua (CI). O workflow definido em `.github/workflows/i9-application-ci.yml` é disparado em todo `push` ou `pull_request` para as branches `develop` e `main`.
+
+Ele executa os seguintes passos:
+
+1.  Checkout do código.
+2.  Setup do Node.js 20.
+3.  Instalação de dependências (`npm ci`).
+4.  **Análise de Lint** (`npm run lint`).
+5.  **Build de Produção** (`npm run build`).
+
+Isso garante que o código nessas branches esteja sempre saudável e pronto para deploy.
+
+-----
+
+## 🔑 Autenticação
+
+Para acessar qualquer função interna da nossa aplicação, será necessário informar um `token de segurança` a partir de um **login**. Existe um usuário padrão criado pelo back-end para testes:
 <br/>
-
-***
-
-## 🧪 Exemplos de Uso
-Ao interagir com a interface, o usuário poderá:
-
-1. Realizar login com autenticação segura
-2. Visualizar pedidos e produtos disponíveis
-3. Navegar entre as áreas da empresa (ex: cozinha, atendimento)
-4. Gerenciar cadastros e permissões de funcionários
-5. Receber mensagens de erro e sucesso com feedback visual
-6. Usar a aplicação de forma intuitiva e responsiva em diferentes dispositivos
-
+**CPF:** `000.000.000-00`<br/>
+**Email:** `00000000000@teste`<br/>
+*(A senha inicial geralmente é definida pelo back-end, como `00000000000@taua`)*
 <br/>
+**Primeiro Acesso:** Ao fazer login pela primeira vez com um novo usuário, o sistema exigirá a redefinição imediata da senha, garantindo a segurança da conta.
 
-***
-
-## 🔗 Integração
-A comunicação entre a interface e o servidor é feita por requisições HTTP via Axios. As rotas protegidas exigem envio do token JWT no cabeçalho da requisição, e a resposta do servidor é manipulada para exibir mensagens visuais ao usuário.
-
-Caso deseje testar a aplicação com a geração de dados por meio de requisições e respostas em um servidor, a i9 oferece um repositório com toda a aplicação desenvolvida para o back-end do projeto. Se deseja clonar o repositório, acesse o link: 
-
-https://github.com/i9-tech/i9-server
-
-Nele, é possível ler o passo a passo de como realizar a instalação do repositório e rodar localmente.
-
-<br/>
-
-***
+-----
 
 ## 📜 Licença
+
 Este projeto está licenciado sob a Licença MIT. Isso significa que você pode usá-lo, modificá-lo e distribuí-lo livremente, desde que mantenha os avisos de copyright e a licença original.
-
-Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.
-
-i9 Tech 2025 &copy; Todos os direitos reservados.
+<br/>
+i9 Tech 2025 © Todos os direitos reservados.i9 Tech 2025 &copy; Todos os direitos reservados.

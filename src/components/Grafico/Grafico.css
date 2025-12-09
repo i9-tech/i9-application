@@ -18,7 +18,7 @@
   background-color: white;
   box-shadow: 0px 0px 4px -2px rgba(0, 0, 0, 0.65);
   display: flex;
-  width: 47%;
+  width: 49.25%;
   height: 47%;
   margin-bottom: 1%;
   border-radius: 0.6rem;
@@ -35,6 +35,7 @@
 
     .grafico-titulo {
       padding-left: 20px;
+      font-size: 18px;
     }
 
     .grafico-wrapper {
@@ -168,6 +169,7 @@
             height: 95%;
             width: 65%;
             border-radius: 20rem;
+            
           }
         }
       }
@@ -192,4 +194,16 @@
       text-align: center;
     }
   }
+
+  @media (max-width: 768px) {
+      .grafico-titulo {
+      font-size: 16px !important;
+    }
+
+
+    .grafico-container {
+      padding-bottom: 5px !important;
+  }
+
+}
 }

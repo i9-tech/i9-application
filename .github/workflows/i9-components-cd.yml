@@ -1,0 +1,45 @@
+name: 🖥️ i9 Tech CI - Verificação de Vulnerabilidades
+
+on:
+  push:
+    branches: [develop, feature/aws]
+  pull_request:
+    branches: [develop, feature/aws]
+  schedule:
+    - cron: '0 0 * * 0' # roda domingo meia noite
+
+jobs:
+  npm-audit:
+    name: 🛡️ Auditoria de Segurança NPM
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔁 Checkout do código
+        uses: actions/checkout@v4
+
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      - name: 🔍 Executar auditoria do NPM
+        run: npm audit --audit-level=high
+
+  trivy-scan:
+    name: 🕵️ Escaneamento de Arquivos (Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔁 Checkout do código
+        uses: actions/checkout@v4
+
+      - name: 🚨 Executar scanner de vulnerabilidades Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'

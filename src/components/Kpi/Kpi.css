@@ -1,7 +1,7 @@
 .kpi {
-  background-color: white;
+  background-color: var(--cor-para-o-texto-branco);
   display: flex;
-  width: 22%;
+  width: 24%;
   height: 100%;
   border-radius: 0.6rem;
   box-sizing: border-box;
@@ -28,7 +28,7 @@
     .valor-kpi {
       color: #000;
       width: 100%;
-      font-size: 30px;
+      font-size: 26px;
       text-align: center;
     }
 
@@ -40,6 +40,21 @@
     }
 
   }
+
+    @media (max-width: 768px) {
+    .titulo-kpi {
+      font-size: 0.9rem;
+    }
+
+    .valor-kpi {
+      font-size: 1.2rem !important;
+  }
+
+  .adicional-kpi {
+    font-size: 0.8rem !important;
+  }
+}
+
 }
 
 .kpi::before {

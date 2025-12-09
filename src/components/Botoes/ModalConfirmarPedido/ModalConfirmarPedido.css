@@ -11,7 +11,7 @@
   z-index: 99;
 
   .modal {
-    background-color: white;
+    background-color: var(--cor-para-o-texto-branco);
     border-radius: 8px;
     padding: 20px;
     width: 500px;
@@ -20,9 +20,10 @@
     position: relative;
     z-index: 999;
     overflow: auto;
+
   }
 
-  .modal.confirmar {
+  .modal.confirmar{
     display: none;
   }
 
@@ -35,24 +36,20 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
-    padding: 4px 11px;
-    border: 1px solid var(--azul-claro);
+    padding: 5px 15px ;
+    border: 1px solid var(--titulos-botoes-destaques);
     border-radius: 100%;
-    color: var(--azul-claro);
-
-    &:disabled {
-      background-color: #6a6a6a77;
-      cursor: not-allowed;
-    }
+    color: var(--titulos-botoes-destaques);
   }
 
-  .botao-fechar:not([disabled]):hover {
-    color: white;
-    background-color: var(--azul-escuro);
+  .botao-fechar:hover{
+    color: var(--cor-para-o-texto-branco);
+    background-color: var(--titulos-botoes-destaques);
   }
   .modal-header {
     text-align: center;
     margin-bottom: 20px;
+
   }
 
   #observacoes-container {
@@ -77,12 +74,7 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-bottom: 8px;
-
-    &:disabled {
-      background-color: #6a6a6a77;
-      cursor: not-allowed;
-    }
+    margin-bottom: 8px; /* espaçamento entre os campos */
   }
 
   .botoes-modal {

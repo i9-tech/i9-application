@@ -8,7 +8,7 @@ import { ROUTERS } from "../../../utils/routers";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { getFuncionario, getToken } from "../../../utils/auth";
 import { enviroments } from "../../../utils/enviroments";
-
+import Select from "react-select";
 
 const CadastroPratoFormulario = ({
   setPorcentagemCarregamento,
@@ -23,15 +23,17 @@ const CadastroPratoFormulario = ({
   const navigate = useNavigate();
   const funcionario = getFuncionario();
   const token = getToken();
-  const [urlImagemTemporaria, setUrlImagemTemporaria] = useState("");
+  const [urlImagemTemporaria, _setUrlImagemTemporaria] = useState("");
   const [categorias, setCategorias] = useState([]);
   const [setores, setSetores] = useState([]);
+  const [areas, setAreasPreparo] = useState([]);
 
   const [prato, setPrato] = useState({
     nome: "",
     venda: 0,
     setor: "",
     categoria: "",
+    area: "",
     disponivel: true,
   });
 
@@ -42,11 +44,12 @@ const CadastroPratoFormulario = ({
         nome: pratoSelecionado.nome || "",
         venda:
           pratoSelecionado.valorVenda !== undefined &&
-          pratoSelecionado.valorVenda !== ""
+            pratoSelecionado.valorVenda !== ""
             ? parseFloat(pratoSelecionado.valorVenda).toFixed(2)
             : "",
         setor: pratoSelecionado.setor?.id || "",
         categoria: pratoSelecionado.categoria?.id || "",
+        area: pratoSelecionado.areaPreparo?.id || "",
         disponivel: pratoSelecionado.disponivel ?? true,
       });
     }
@@ -84,6 +87,23 @@ const CadastroPratoFormulario = ({
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
       });
+
+    api
+      .get(`${ENDPOINTS.AREA_PREPARO}/${funcionario.userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setAreasPreparo(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar areas de preparo:", err);
+        toast.error("Erro ao buscar areas de preparo!");
+      });
+
   }, [funcionario.userId, token]);
 
   const validarCampos = () => {
@@ -100,6 +120,7 @@ const CadastroPratoFormulario = ({
       venda: "",
       setor: "",
       categoria: "",
+      area: "",
       disponivel: true,
     });
     setDescricao("");
@@ -117,85 +138,101 @@ const CadastroPratoFormulario = ({
     e.preventDefault();
     if (validarCampos()) {
       setIsSendingData(true);
-      buscarURLImagem();
+      salvarPrato(imagem);
     }
   };
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const buscarURLImagem = async () => {
-    setPorcentagemCarregamento(10);
-    await sleep(200);
-    if (enviroments.ambiente === "jsonserver") {
-      const urlJsonServer = URL.createObjectURL(imagem);
-      setPorcentagemCarregamento(30);
-      await sleep(200);
-      setUrlImagemTemporaria(urlJsonServer);
-      salvarPrato(urlJsonServer);
-    } else {
-      const formData = new FormData();
-      formData.append("file", imagem);
-      setPorcentagemCarregamento(20);
-      await sleep(200);
+  // const buscarURLImagem = async () => {
+  //   setPorcentagemCarregamento(10);
+  //   await sleep(200);
+  //   if (enviroments.ambiente === "jsonserver") {
+  //     const urlJsonServer = URL.createObjectURL(imagem);
+  //     setPorcentagemCarregamento(30);
+  //     await sleep(200);
+  //     setUrlImagemTemporaria(urlJsonServer);
+  //     salvarPrato(urlJsonServer);
+  //   } else {
+  //     const formData = new FormData();
+  //     formData.append("file", imagem);
+  //     setPorcentagemCarregamento(20);
+  //     await sleep(200);
 
-      api
-        .post(ENDPOINTS.AZURE_IMAGEM, formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(async (res) => {
-          setPorcentagemCarregamento(40);
-          await sleep(200);
-          salvarPrato(res.data.imageUrl);
-        })
-        .catch(async (err) => {
-          if (imagem) {
-            setPorcentagemCarregamento(40);
-            await sleep(200);
-            salvarPrato(imagem);
-            return;
-          }
-          if (imagem == "") {
-            salvarPrato("");
-            setPorcentagemCarregamento(40);
-            await sleep(200);
-            return;
-          }
-          console.log("erro ao adicionar imagem ao blob storage: ", err);
-          setTimeout(() => {
-            setIsSendingData(false);
-          }, 2500);
-        });
-    }
-  };
+  //     api
+  //       .post(ENDPOINTS.AZURE_IMAGEM, formData, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       })
+  //       .then(async (res) => {
+  //         setPorcentagemCarregamento(40);
+  //         await sleep(200);
+  //         salvarPrato(res.data.imageUrl);
+  //       })
+  //       .catch(async (err) => {
+  //         if (imagem) {
+  //           setPorcentagemCarregamento(40);
+  //           await sleep(200);
+  //           salvarPrato(imagem);
+  //           return;
+  //         }
+  //         if (imagem == "") {
+  //           salvarPrato("");
+  //           setPorcentagemCarregamento(40);
+  //           await sleep(200);
+  //           return;
+  //         }
+  //         console.log("erro ao adicionar imagem ao blob storage: ", err);
+  //         setTimeout(() => {
+  //           setIsSendingData(false);
+  //         }, 2500);
+  //       });
+  //   }
+  // };
 
-  const salvarPrato = async (urlImagem) => {
+ const salvarPrato = async (arquivoImagem) => {
     setPorcentagemCarregamento(60);
     await sleep(200);
-    const dados = {
-      nome: prato.nome,
-      valorVenda: parseFloat(prato.venda),
-      descricao: descricao,
-      imagem: urlImagem,
-      disponivel: prato.disponivel,
-      funcionario: { id: funcionario.userId },
-      setor: { id: prato.setor },
-      categoria: { id: prato.categoria },
+
+    const dadosPrato = {
+        nome: prato.nome,
+        valorVenda: parseFloat(prato.venda),
+        descricao: descricao,
+        disponivel: prato.disponivel,
+        funcionario: { id: funcionario.userId }, 
+        setor: { id: prato.setor },
+        categoria: { id: prato.categoria },
+        areaPreparo: { id: prato.area },
     };
+
+    const formData = new FormData();
+
+    const requestBlob = new Blob([JSON.stringify(dadosPrato)], { type: 'application/json' });
+    formData.append('request', requestBlob, 'request.json'); 
+
+    if (arquivoImagem) {
+        formData.append('imagem', arquivoImagem); 
+    }
+    
     setPorcentagemCarregamento(80);
+
+    const url = pratoSelecionado ? `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}` : `${ENDPOINTS.PRATOS}/${funcionario.userId}`;
+    
     const metodo = pratoSelecionado
-      ? api.patch(
-          `${ENDPOINTS.PRATOS}/${pratoSelecionado.id}/${funcionario.userId}`,
-          dados,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-      : api.post(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, dados, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+          ? api.patch(url, formData, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+              },
+            })
+          : api.post(url, formData, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+              },
+            });
 
     metodo
       .then(async () => {
@@ -213,8 +250,8 @@ const CadastroPratoFormulario = ({
         console.error("Erro ao salvar prato:", error.response?.data || error);
         toast.error("Erro ao salvar prato!");
         setTimeout(() => {
-            setIsSendingData(false);
-          }, 2500);
+          setIsSendingData(false);
+        }, 2500);
       });
   };
 
@@ -237,10 +274,69 @@ const CadastroPratoFormulario = ({
       .join(" ");
   };
 
+  const setoresOptions = setores.map((set) => ({
+    value: set.id,
+    label: set.nome,
+  }));
+
+  const categoriasOptions = categorias.map((cat) => ({
+    value: cat.id,
+    label: cat.nome,
+  }));
+
+  const areaPreparoOptions = areas.map((area) => ({
+  value: area.id,
+  label: area.nome,
+}));
+
+const customSelectStyles = {
+  control: (baseStyles, state) => ({
+    ...baseStyles,
+    borderColor: state.isFocused
+      ? "var(--cor-para-o-texto-branco)"
+      : "transparent",
+    boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+    "&:hover": { borderColor: "transparent" },
+    borderRadius: 6,
+  }),
+  placeholder: (baseStyles) => ({
+    ...baseStyles,
+    color: "var(--cor-para-texto-preto)",
+  }),
+  option: (baseStyles, state) => ({
+    ...baseStyles,
+    backgroundColor: state.isSelected
+      ? "var(--titulos-botoes-destaques)"
+      : state.isFocused
+        ? "var(--cinza-hover-select)"
+        : "var(--cor-para-o-texto-branco)",
+    color: state.isSelected
+      ? "var(--cor-para-o-texto-branco)"
+      : "var(--cor-para-texto-preto)",
+    padding: 14,
+    cursor: "pointer",
+  }),
+  singleValue: (baseStyles) => ({
+    ...baseStyles,
+    color: "var(--cor-para-texto-preto)",
+  }),
+  menuList: (base) => ({
+    ...base,
+    maxHeight: 200,
+    overflowY: "auto",
+  }),
+  menu: (base) => ({
+    ...base,
+    borderRadius: 6,
+    marginTop: 0,
+  }),
+};
+
+
   return (
     <div className="formulario-prato">
       <p className="descricao-prato">
-        Preencha os dados do prato que deseja adicionar ao cardápio 🍽️
+        Preencha o formulário abaixo para adicionar um novo prato ao seu estoque!
       </p>
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>
@@ -262,6 +358,19 @@ const CadastroPratoFormulario = ({
             placeholder="Prato Feito Contra-Filé"
           />
         </div>
+
+        <div className="descricao-prato-foto-mobile">
+        <label htmlFor="descricao-mobile">Descrição</label>
+        <textarea
+          id="descricao"
+          value={descricao}
+          maxLength={255}
+          onChange={(e) => setDescricao(e.target.value)}
+          rows="4"
+          placeholder="Crystal Água Mineral Sem Gás 500ml Garrafa"
+
+        />
+      </div>
 
         <div className="grupo-inputs">
           <label>
@@ -285,51 +394,59 @@ const CadastroPratoFormulario = ({
           />
         </div>
 
-        <div className="grupo-inputs">
-          <label>
-            Categoria{" "}
-            <span aria-hidden="true" style={{ color: "red" }}>
-              *
-            </span>{" "}
-          </label>
-          <select
-            value={prato.categoria}
-            onChange={(e) =>
-              setPrato({ ...prato, categoria: parseInt(e.target.value) })
-            }
-            required
-          >
-            <option value="">Selecione uma Categoria</option>
-            {categorias.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.nome}
-              </option>
-            ))}
-          </select>
-        </div>
+        <div className="linha-dupla">
+          <div className="grupo-inputs">
+            <label>
+              Categoria{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>{" "}
+            </label>
+            <Select
+              value={categoriasOptions.find(
+                (opt) => opt.value === prato.categoria
+              )}
+              onChange={(opt) => setPrato({ ...prato, categoria: opt.value })}
+              options={categoriasOptions}
+              placeholder="Selecione uma Categoria"
+              isSearchable={false}
+              styles={customSelectStyles}
+            />
+          </div>
 
-        <div className="grupo-inputs">
-          <label>
-            Setor{" "}
-            <span aria-hidden="true" style={{ color: "red" }}>
-              *
-            </span>
-          </label>
-          <select
-            value={prato.setor}
-            onChange={(e) =>
-              setPrato({ ...prato, setor: parseInt(e.target.value) })
-            }
-            required
-          >
-            <option value="">Selecione um Setor</option>
-            {setores.map((set) => (
-              <option key={set.id} value={set.id}>
-                {set.nome}
-              </option>
-            ))}
-          </select>
+          <div className="grupo-inputs">
+            <label>
+              Setor{" "}
+              <span aria-hidden="true" style={{ color: "red" }}>
+                *
+              </span>
+            </label>
+            <Select
+              value={setoresOptions.find((opt) => opt.value === prato.setor)}
+              onChange={(opt) => setPrato({ ...prato, setor: opt.value })}
+              options={setoresOptions}
+              placeholder="Selecione um Setor"
+              isSearchable={false}
+              styles={customSelectStyles}
+            />
+          </div>
+
         </div>
+        <div className="grupo-inputs">
+  <label>
+    Área de Preparo na Cozinha{" "}
+    <span aria-hidden="true" style={{ color: "red" }}>*</span>
+  </label>
+  <Select
+    value={areaPreparoOptions.find((opt) => opt.value === prato.area)}
+    onChange={(opt) => setPrato({ ...prato, area: opt.value })}
+    options={areaPreparoOptions}
+    placeholder="Selecione a Área de Preparo"
+    isSearchable={false}
+    styles={customSelectStyles}
+  />
+</div>
+
 
         <div className="grupo-inputs">
           <label>
@@ -367,11 +484,11 @@ const CadastroPratoFormulario = ({
         </div>
 
         <div className="botoes-prato">
-          <button type="button" onClick={limparFormulario}>
-            Cancelar
-          </button>
           <button type="submit">
             {pratoSelecionado ? "Editar" : "Cadastrar"}
+          </button>
+          <button type="button" onClick={limparFormulario}>
+            Cancelar
           </button>
         </div>
       </form>

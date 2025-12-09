@@ -1,8 +1,9 @@
 .tabela-container-prod {
-  max-height: 72%;
   border-radius: 8px;
   overflow-y: auto;
   border: 1px solid #ccc;
+  height: 100%;
+  max-height: 450px;
 }
 
 .tabela-estoque-prod {
@@ -14,15 +15,52 @@
 .cabecalho-estoque-prod th {
   position: sticky;
   top: 0;
-  color: white;
-  background-color: #0000cc;
+  color: var(--cor-para-o-texto-branco);
+  background-color: var(--titulos-botoes-destaques);
   z-index: 1;
   padding: 8px;
   text-align: center;
 }
 
 .linha-produto-prod td {
-  text-align: center;
+  padding: 9px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+  color: #222;
+  white-space: nowrap;
+  justify-content: space-between;
   vertical-align: middle;
-  padding: 6px;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+
+
+@media (max-width: 768px) {
+  .tabela-container-prod {
+    overflow-x: auto;
+    max-height: 500px;
+    border: none;
+    -webkit-overflow-scrolling: touch; 
+  }
+
+  .tabela-estoque-prod {
+    min-width: 200px;
+  }
+
+  .linha-produto-prod td {
+    font-size: 13px;
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+
+  .imagem-container-prod {
+    width: 60px;
+    height: 50px;
+  }
+
+  .acoes-prod button {
+    font-size: 12px;
+  }
+
 }

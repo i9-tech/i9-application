@@ -6,14 +6,14 @@
   .titulo-funcionario {
     font-size: 28px;
     font-weight: 800;
-    color: #222;
+    color: var(--cor-para-texto-preto);
     margin-bottom: 8px;
   }
 
   .descricao-funcionario {
-    font-size: 18px;
-    color: #555;
-    margin-bottom: 40px;
+    font-size: 16px;
+    color: var(--cor-para-texto-preto);
+    margin-bottom: 25px;
     text-align: left;
   }
 
@@ -21,7 +21,7 @@
     width: 100%;
 
     .grupo-inputs {
-      margin-bottom: 30px;
+      margin-bottom: 15px;
 
       label {
         font-weight: 600;
@@ -30,27 +30,48 @@
         font-size: 15px;
       }
 
+      select,
       input[type="text"],
       input[type="date"] {
         width: 100%;
         padding: 12px;
-        border: 1px solid #ccc;
+        border: none;
         border-radius: 6px;
         font-size: 16px;
-        background-color: #f9f9f9;
+        background-color: white;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      select:disabled,
+      input:disabled {
+        background-color: white;
+        color: var(--cor-para-texto-preto);
+        cursor: not-allowed;
+        border: none;
+      }
+
+      input[type="text"],
+      input[type="date"] {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+          color: var(--cor-para-texto-preto);
+        background-color: white;
       }
     }
 
     input:disabled {
-      background-color: #f2f2f2;
-      color: #999;
+      background-color: white;
+      color: var(--cor-para-texto-preto);
       cursor: not-allowed;
-      border: 1px solid #ccc;
+      border: none;
     }
   }
 
   .grupo-checkbox {
-    margin: 40px 0 30px;
+    margin: 10px 0 5px;
 
     span {
       display: block;
@@ -76,7 +97,7 @@
           -webkit-appearance: none;
           width: 20px;
           height: 20px;
-          border: 2px solid #0000cc;
+          border: 2px solid var(--titulos-botoes-destaques);
           border-radius: 4px;
           background-color: white;
           cursor: pointer;
@@ -84,8 +105,8 @@
           transition: all 0.2s ease;
 
           &:checked {
-            background-color: #0000cc;
-            border-color: #0000cc;
+            background-color: var(--titulos-botoes-destaques);
+            border-color: var(--titulos-botoes-destaques);
 
             &::after {
               content: "✓";
@@ -112,29 +133,99 @@
       padding: 14px;
       font-size: 17px;
       font-weight: bold;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .btn-cancelar-funcionario {
       background: none;
-      border: 1px solid #000;
-      color: #000;
+      border: 1px solid var(--cor-para-texto-preto);
+      color: var(--cor-para-texto-preto);
 
       &:hover {
-        background-color: #f2f2f2;
+        background-color: var(--cinza-hover-select);
       }
     }
 
     .btn-cadastrar-funcionario {
-      background-color: #0000cc;
-      color: white;
+      background-color: var(--titulos-botoes-destaques);
+      color: var(--cor-para-o-texto-branco);
       border: none;
 
       &:hover {
-        background-color: #003bb3;
+        background-color: var(--detalhes-2);
       }
     }
+  }
+
+.acesso-total-label.disabled {
+  color: red;
+
+  input[type="checkbox"] {
+    display: block;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid red !important; /* borda vermelha */
+    background-color: #ffe5e5; /* fundo clarinho vermelho */
+    cursor: not-allowed;
+
+    &:checked {
+      background-color: red; /* fundo vermelho se marcado */
+      border-color: red;
+
+      &::after {
+        content: "✓";
+        color: white;
+        font-size: 14px;
+        position: absolute;
+        bottom: 0;
+        right: 4px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .formulario-funcionario {
+    max-width: 100%;
+    padding: 0 16px;
+  }
+
+  .formulario-inputs .grupo-inputs {
+    flex-direction: column;
+  }
+
+  .formulario-inputs .grupo-inputs > div {
+    width: 100% !important;
+  }
+
+  .checkboxes-funcionario {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .botoes-funcionario {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .btn-cancelar-funcionario,
+  .btn-cadastrar-funcionario {
+    width: 100% !important;
+  }
+
+  .descricao-funcionario {
+    text-align: left;
+  }
+}
+
+
+}
+
+@media (max-width: 768px) {
+  .formulario-inputs .grupo-inputs .css-13cymwt-control {
+    width: 100% !important;
   }
 }

@@ -4,15 +4,15 @@
   justify-content: center;
   padding: 16px;
   gap: 8px;
-  border: 1px solid var(--destaque);
+  border: 1px solid var(--titulos-botoes-destaques);
   border-radius: 8px;
-  background-color: var(--color-font);
-  color: var(--destaque);
+  background-color: var(--cor-para-o-texto-branco);
+  color: var(--titulos-botoes-destaques);
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 1px solid var(--destaque);
+  border: 1px solid var(--titulos-botoes-destaques);
 }
 
 .checkbox-cozinha-label.ativo img {
@@ -22,4 +22,27 @@
 .checkbox-cozinha-label:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.checkbox-cozinha-label.feito {
+  background-color: var(--titulos-botoes-destaques);
+  color: var(--cor-para-o-texto-branco);
+}
+
+.checkbox-cozinha-label.feito img.icone-feito {
+  content: url("../../../assets/check-branco.svg");
+}
+
+@media (max-width: 768px) {
+  .checkbox-cozinha-label {
+    padding: 10px 12px; 
+    font-size: 13px; 
+    gap: 6px; 
+    border-radius: 6px;
+  }
+
+  .checkbox-cozinha-label img {
+    width: 14px; /* diminui o ícone */
+    height: 14px;
+  }
 }

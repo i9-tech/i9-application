@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 90;
 }
 
 .modal-content {
@@ -21,7 +21,7 @@
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .modal-form h2 {
@@ -34,7 +34,7 @@
 .modal-subtitulo {
   font-size: 1rem;
   color: #6b7280;
-  margin-top: -8px;
+  margin-top: -18px;
 }
 
 .modal-form label {
@@ -46,11 +46,13 @@
 .modal-form input[type="text"],
 .modal-form input[type="file"] {
   width: 100%;
+  margin-top: -15px;
   padding: 12px 16px;
   font-size: 1rem;
-  border: 1px solid #e5e7eb;
   border-radius: 8px;
-  background-color: #f9fafb;
+  background-color: #ffffff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
 }
 
 .modal-form input::placeholder {
@@ -61,29 +63,58 @@
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 12px;
 }
 
 .btn {
   flex: 1;
-  padding: 12px;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
 }
 
+.btn:hover{
+  color: var(--titulos-botoes-destaques);
+  text-decoration: underline;
+}
+
 .btn.cancelar {
-  background-color: white;
-  color: black;
-  border: 1.5px solid black;
+  width: 48%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: none;
+  border: 1px solid var(--cor-para-texto-preto);
+  color: var(--cor-para-texto-preto);
+}
+
+.btn.cancelar:hover {
+  background-color: #f0f0f0;
+  border: 1px solid var(--cor-para-texto-preto);
+  color: var(--cor-para-texto-preto);
+  text-decoration: none;
 }
 
 .btn.cadastrar {
-  background-color: #0000cc;
-  color: white;
+  width: 48%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: var(--titulos-botoes-destaques);
   border: none;
+  color: var(--cor-para-o-texto-branco);
+}
+
+.btn.cadastrar:hover {
+  background-color: var(--detalhes-2);
+  text-decoration: none;
 }
 
 .galeria-imagens {
@@ -157,16 +188,124 @@
   cursor: pointer;
 }
 
-
 .upload-imagem-customizada label {
   cursor: pointer;
   text-decoration: underline;
 
   &:hover {
-    color: var(--destaque);
+    color: var(--titulos-botoes-destaques);
   }
 }
 
 .input-escondido {
   display: none;
+}
+
+
+@media (max-width: 768px) {
+  .modal-content,
+  .modal-content-fotos {
+    width: 90%;
+    max-width: none;
+    padding: 25px;
+    border-radius: 12px;
+  }
+
+  .modal-form {
+    gap: 16px;
+  }
+
+  .modal-form h2 {
+    font-size: 1.4rem;
+  }
+
+  .modal-subtitulo {
+    font-size: 0.9rem;
+    margin-top: -12px;
+  }
+
+  .modal-form label {
+    font-size: 0.85rem;
+  }
+
+  .modal-form input[type="text"],
+  .modal-form input[type="file"] {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+
+  .modal-botoes {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn.cancelar,
+  .btn.cadastrar {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .galeria-imagens {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .imagem-opcao {
+    width: 100px;
+    height: 100px;
+  }
+
+  .imagem-preview-setor {
+    height: 100px;
+  }
+
+  .upload-imagem-customizada {
+    font-size: 13px;
+  }
+}
+
+.texto-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.botao-buscar-web {
+  background: none;
+  border: none;
+  color: var(--titulos-botoes-destaques);
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.botao-catalogo {
+  background: none;
+  border: none;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  color: #666;
+}
+
+.texto-upload label {
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 500;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.ou-texto {
+  color: #999;
+  font-size: 14px;
 }

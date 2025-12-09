@@ -1,0 +1,152 @@
+.card-plano {
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 22px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 400px;
+  background: white;
+}
+
+.plano-header {
+  background: linear-gradient(180deg, #d3d4ff 0%, #fff 100%);
+  padding: 14px;
+  text-align: center;
+}
+
+.plano-header h3 {
+  color: #3a3abf;
+  margin: 0;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.plano-body {
+  padding: 24px;
+  gap: 10px;
+    display: flex;
+    flex-direction: column; 
+}
+
+.status {
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  display: inline-block;
+  margin-bottom: 1rem;
+  width: fit-content;
+}
+
+.status.ativo {
+  background: #d1fadf;
+  color: #067647;
+}
+
+.status.inativo {
+  background: #ffe0e0;
+  color: #d00000;
+}
+
+
+.tipo {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.descricao {
+  color: #444;
+  margin: 8px 0 16px;
+}
+
+.mensal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  /* gap: 170px; */
+}
+
+.mensal strong {
+  color: #2c2cd6;
+}
+
+.datas {
+  display: flex;
+  justify-content: space-between;
+  /* gap: 150px; */
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  font-weight: 500;
+  color: #aaa;
+}
+
+.lista-beneficios {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  font-size: 0.95rem;
+  color: var(--cor-para-texto-preto);
+}
+
+.lista-beneficios li {
+  margin-bottom: 8px;
+}
+
+.lista-beneficios .negado {
+  color: #d00000;
+}
+
+.btn-alterar {
+  background-color: var(--titulos-botoes-destaques);
+  color: var(--cor-para-o-texto-branco);
+  padding: 14px;
+  font-size: 16px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-alterar:hover {
+  background-color: var(--detalhes-2);
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .card-plano {
+    max-width: 100%;
+    margin-bottom: 30px;
+    margin-top: 20px;
+  }
+
+  .mensal,
+  .datas {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .plano-body {
+    padding: 1.5rem;
+    gap: 0.1rem;
+  }
+
+  .btn-alterar {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .lista-beneficios {
+    padding-left: 0;
+  }
+}
+

@@ -1,8 +1,8 @@
 .linha-prato td {
-  padding: 10px 16px;
+  padding: 9px 16px;
   font-size: 14px;
-  border-bottom: 1px solid #ddd;
-  color: #222;
+  border-bottom: 1px solid #99999941;
+  color: var(--cor-para-texto-preto);
   white-space: nowrap;
   justify-content: space-between;
   vertical-align: middle;
@@ -14,7 +14,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #999;
+  border: 1px solid #99999941;
   border-radius: 8px;
   padding: 4px;
   height: 60px;
@@ -32,7 +32,7 @@
 .acoes button {
   background: none;
   border: none;
-  color: #0077cc;
+  color: var(--titulos-botoes-destaques);
   cursor: pointer;
   font-size: 14px;
 }
@@ -41,59 +41,11 @@
   text-decoration: underline;
 }
 
-/* Cód. */
-.linha-prato td:nth-child(1) {
-  width: 100px;
-  
+.acoes button + button {
+  margin-left: 8px;
 }
 
-/* Imagem */
-.linha-prato td:nth-child(2) {
-  width: 100px;
-  
-}
 
-/* Nome */
-.linha-prato td:nth-child(3) {
-  width: 130px;
-  
-}
-
-.linha-prato td:nth-child(4) {
-  width: 220px;
-  text-align: center;
-  vertical-align: middle;
-  padding: 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-}
-
-/* preco */
-.linha-prato td:nth-child(5) {
-  width: 100px;
-}
-
-/* Status */
-.linha-prato td:nth-child(6) {
-  width: 130px;
-}
-
-/* Registro */
-.linha-prato td:nth-child(7) {
-  width: 140px;
-}
-
-/* Descrição */
-.linha-prato td:nth-child(8) {
-  width: 110px;
-}
-
-/* Ações */
-.linha-prato td:nth-child(9) {
-  width: 100px;
-}
 
 .disponivel {
   color: green;
@@ -103,4 +55,21 @@
 .indisponivel {
   color: red;
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .linha-prato td:nth-child(3) {
+    position: sticky;
+    left: 0;
+    background-color: #fff;
+    z-index: 1;
+    text-align: left;
+
+  }
+
+  .linha-prato td:nth-child(3) {
+    padding-left: 20px;
+    padding-right: 12px;
+  }
+
 }

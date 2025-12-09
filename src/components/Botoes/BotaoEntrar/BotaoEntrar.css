@@ -1,6 +1,6 @@
 .botao-institucional {
-    background-color: var(--destaque);
-    color:var(--color-font);
+    background-color: var(--titulos-botoes-destaques);
+    color:var(--cor-para-o-texto-branco);
     padding: 12px 24px;
     border: none;
     border-radius: 5px;
@@ -11,5 +11,5 @@
 }
 
 .botao-institucional:hover {
-    background-color: var(--hovers); 
+    background-color: var(--botoes-hover-destaques); 
 }

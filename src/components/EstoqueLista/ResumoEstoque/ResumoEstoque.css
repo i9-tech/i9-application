@@ -1,51 +1,56 @@
 .resumo-bloco-prod {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 12px;
   flex-wrap: wrap;
+  gap: 20px; /* espaçamento entre os blocos */
+  width: 100%;
+  align-items: center;
 }
 
 .resumo-container-prod {
+  flex: 1 1 300px; /* ocupa espaço, mas respeita largura mínima */
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  justify-content: space-between;
+  padding: 10px 0;
 }
 
 .resumo-item-prod {
+  flex: 1 1 200px; /* cada item cresce ou encolhe */
   background-color: #ffffff;
   border-radius: 12px;
   padding: 12px 18px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  min-width: 200px;
-  text-align: center;
 }
 
 .resumo-kpi-bloco-prod {
+  flex: 1 1 300px; /* ele também divide espaço com o container */
   background-color: #ffffff;
   border-radius: 12px;
   padding: 12px 18px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  margin: 20px 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .kpi-linha-prod {
   display: flex;
   justify-content: space-around;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 20px;
+}
+
+.resumo-total-prod{
+  display: flex;
+  gap: 10px;
 }
 
 .kpi-coluna-prod {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 220px;
+  width: auto;
 }
 
 .resumo-valor-prod {
@@ -62,6 +67,7 @@
   color: #666;
   margin-top: 4px;
 }
+
 
 .bolinha-prod {
   width: 10px;
@@ -89,4 +95,60 @@
   margin-left: -5px;
   cursor: pointer;
   vertical-align: middle; 
+}
+
+@media (max-width: 768px) {
+  .resumo-bloco-prod {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem 0.5rem 2rem 0.5rem;
+    gap: 0;
+  }
+
+  .resumo-item-prod {
+    height: auto;
+  }
+
+  .resumo-container-prod,
+  .resumo-kpi-bloco-prod {
+    width: 100%;
+
+    box-sizing: border-box;
+    flex: none;
+  }
+
+  .resumo-kpi-bloco-prod {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  .kpi-linha-prod {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .kpi-coluna-prod {
+    flex: 1;
+    text-align: center;
+  }
+
+  .resumo-label-prod {
+    font-size: 12px;
+  }
+
+  .resumo-valor-prod {
+    font-size: 16px;
+  }
+
+  .bolinha-prod {
+    width: 8px;
+    height: 8px;
+  }
+
+  .icone-ajuda {
+    width: 14px;
+    height: 14px;
+  }
 }

@@ -8,41 +8,43 @@ import NoDataEstoque from "../../Estoque/NoDataEstoque";
 const TabelaEstoque = ({
   isLoadingData,
   produtos,
-  filtroStatus,
   termoBusca,
   buscarProdutos,
   setorSelecionado,
   categoriaSelecionada,
 }) => {
-  const listaProdutos = Array.isArray(produtos) ? produtos : [produtos];
 
-  const produtosFiltrados = listaProdutos.filter((p) => {
-    const normalize = (str) =>
-      (str || "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .trim()
-      .toLowerCase();
+  function removeAccents(str = "") {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+  }
 
-    const nomeMatch = normalize(p.nome).includes(normalize(termoBusca));
+  const produtosFiltrados = (produtos ?? []).filter((p) => {
+    // Filtro por nome
+    if (
+      termoBusca &&
+      !removeAccents(p?.nome || "").toLowerCase().includes(removeAccents(termoBusca).toLowerCase())
+    ) {
+      return false;
+    }
 
-    const statusMatch =
-      !filtroStatus ||
-      (filtroStatus === "sem" && p.quantidade === 0) ||
-      (filtroStatus === "baixo" &&
-        p.quantidade < p.quantidadeMin &&
-        p.quantidade > 0);
+    // Filtro por categoria
+    if (categoriaSelecionada && categoriaSelecionada !== "") {
+      const categoriaId = p.categoria?.id ?? p.categoria;
+      if (String(categoriaId) !== String(categoriaSelecionada)) return false;
+    }
 
-    const setorMatch =
-      !setorSelecionado || String(p.setor?.id) === String(setorSelecionado);
+    // Filtro por setor
+    if (setorSelecionado && setorSelecionado !== "") {
+      const setorId = p.setor?.id ?? p.setor;
+      if (String(setorId) !== String(setorSelecionado)) return false;
+    }
 
-       const categoriaMatch =
-      !categoriaSelecionada || String(p.categoria?.id) === String(categoriaSelecionada);
-
-    return nomeMatch && statusMatch && setorMatch && categoriaMatch;
+    return true;
   });
 
+
   return (
+    <div className="tabela-estoque-scrollH-prod">
     <div className="tabela-container-prod">
       <table className="tabela-estoque-prod">
         <CabecalhoEstoque />
@@ -50,7 +52,7 @@ const TabelaEstoque = ({
           {isLoadingData ? (
             <CarregamentoEstoque colunas={9} temImagem={true} />
           ) : produtosFiltrados.length > 0 ? (
-            [...produtosFiltrados].reverse().map((produto) => (
+            [...produtosFiltrados].map((produto) => (
               <ProdutoEstoque
                 key={produto.id}
                 produto={produto}
@@ -62,6 +64,7 @@ const TabelaEstoque = ({
           )}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

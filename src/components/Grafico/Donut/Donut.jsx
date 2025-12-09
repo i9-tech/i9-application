@@ -111,6 +111,7 @@ export default function Donut({ dados }) {
   return (
     <div className="grafico-wrapper">
       <ReactApexChart
+        key={JSON.stringify(valores)}
         options={options}
         series={valores}
         type="donut"

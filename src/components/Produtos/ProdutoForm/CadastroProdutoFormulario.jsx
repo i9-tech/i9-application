@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 import { enviroments } from "../../../utils/enviroments";
+import Select from "react-select";
 
 const CadastroProdutoFormulario = ({
   setPorcentagemCarregamento,
@@ -23,7 +24,7 @@ const CadastroProdutoFormulario = ({
   const funcionario = getFuncionario();
   const hoje = new Date().toISOString().split("T")[0];
   const token = localStorage.getItem("token");
-  const [urlImagemTemporaria, setUrlImagemTemporaria] = useState("");
+  const [urlImagemTemporaria, _setUrlImagemTemporaria] = useState("");
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
 
@@ -139,56 +140,56 @@ const CadastroProdutoFormulario = ({
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const buscarURLImagem = async () => {
-    setPorcentagemCarregamento(10);
-    await sleep(200);
+  // const buscarURLImagem = async () => {
+  //   setPorcentagemCarregamento(10);
+  //   await sleep(200);
 
-    if (enviroments.ambiente === "jsonserver") {
-      const urlJsonServer = URL.createObjectURL(imagem);
-      setPorcentagemCarregamento(30);
-      await sleep(200);
-      setUrlImagemTemporaria(urlJsonServer);
-      salvarProduto(urlJsonServer);
-    } else {
-      const formData = new FormData();
-      formData.append("file", imagem);
-      setPorcentagemCarregamento(20);
-      await sleep(200);
+  //   if (enviroments.ambiente === "jsonserver") {
+  //     const urlJsonServer = URL.createObjectURL(imagem);
+  //     setPorcentagemCarregamento(30);
+  //     await sleep(200);
+  //     setUrlImagemTemporaria(urlJsonServer);
+  //     salvarProduto(urlJsonServer);
+  //   } else {
+  //     const formData = new FormData();
+  //     formData.append("file", imagem);
+  //     setPorcentagemCarregamento(20);
+  //     await sleep(200);
 
-      api
-        .post(ENDPOINTS.AZURE_IMAGEM, formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(async (res) => {
-          setPorcentagemCarregamento(40);
-          await sleep(200);
-          salvarProduto(res.data.imageUrl);
-        })
-        .catch(async (err) => {
-          console.log("erro ao adicionar imagem ao blob storage: ", err);
+  //     api
+  //       .post(ENDPOINTS.AZURE_IMAGEM, formData, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       })
+  //       .then(async (res) => {
+  //         setPorcentagemCarregamento(40);
+  //         await sleep(200);
+  //         salvarProduto(res.data.imageUrl);
+  //       })
+  //       .catch(async (err) => {
+  //         console.log("erro ao adicionar imagem ao blob storage: ", err);
 
-          if (imagem) {
-            setPorcentagemCarregamento(40);
-            await sleep(200);
-            salvarProduto(imagem);
-          } else {
-            setPorcentagemCarregamento(40);
-            await sleep(200);
-            salvarProduto("");
-          }
+  //         if (imagem) {
+  //           setPorcentagemCarregamento(40);
+  //           await sleep(200);
+  //           salvarProduto(imagem);
+  //         } else {
+  //           setPorcentagemCarregamento(40);
+  //           await sleep(200);
+  //           salvarProduto("");
+  //         }
 
-          console.log("erro ao adicionar imagem ao blob storage: ", err);
-          setTimeout(() => {
-            setIsSendingData(false);
-          }, 2500);
-        });
-    }
-  };
+  //         console.log("erro ao adicionar imagem ao blob storage: ", err);
+  //         setTimeout(() => {
+  //           setIsSendingData(false);
+  //         }, 2500);
+  //       });
+  //   }
+  // };
 
-  const salvarProduto = async (urlImagem) => {
+  const salvarProduto = async (arquivoImagem) => {
     setPorcentagemCarregamento(60);
     await sleep(200);
     const dados = {
@@ -201,62 +202,59 @@ const CadastroProdutoFormulario = ({
       quantidadeMax: parseInt(produto.quantidadeMax),
       descricao: descricao,
       dataRegistro: produto.dataRegistro ? produto.dataRegistro : hoje,
-      imagem: urlImagem,
       categoria: { id: produto.categoria },
       setor: { id: produto.setor },
       funcionario: { id: funcionario.userId },
     };
 
-    if (enviroments.ambiente === "jsonserver") {
-      const metodo = produtoSelecionado
-        ? api.patch(`${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}`, dados, {})
-        : api.post(ENDPOINTS.PRODUTOS, dados, {});
-      metodo
-        .then(() => {
-          toast.success(
-            produtoSelecionado
-              ? "Produto editado com sucesso!"
-              : "Produto cadastrado com sucesso!"
-          );
-          limparFormulario();
-        })
-        .catch((error) => {
-          console.error("Erro ao salvar produto:", error);
-          toast.error("Erro ao salvar produto!");
-        });
-    } else {
-      setPorcentagemCarregamento(80);
-      const metodo = produtoSelecionado
-        ? api.patch(
-            `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}`,
-            dados,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          )
-        : api.post(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, dados, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-      metodo
-        .then(async () => {
-          setPorcentagemCarregamento(90);
-          await sleep(200);
-          setPorcentagemCarregamento(100);
-          toast.success(
-            produtoSelecionado
-              ? "Produto editado com sucesso!"
-              : "Produto cadastrado com sucesso!"
-          );
-          limparFormulario();
-        })
-        .catch((error) => {
-          console.error("Erro ao salvar produto:", error);
-          toast.error("Erro ao salvar produto!");
-          setTimeout(() => {
-            setIsSendingData(false);
-          }, 2000);
-        });
+    const formData = new FormData();
+
+    const requestBlob = new Blob([JSON.stringify(dados)], {
+      type: "application/json",
+    });
+    formData.append(produtoSelecionado ? "produtoParaEditar" : "produtoParaCadastrar", requestBlob, "request.json");
+
+    if (arquivoImagem) {
+      formData.append("imagem", arquivoImagem);
     }
+
+    setPorcentagemCarregamento(80);
+
+    const url = produtoSelecionado ? `${ENDPOINTS.PRODUTOS}/${produtoSelecionado.id}/${funcionario.userId}` : `${ENDPOINTS.PRODUTOS}/${funcionario.userId}`;
+
+    const metodo = produtoSelecionado
+      ? api.patch(url, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+      : api.post(url, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+    metodo
+      .then(async () => {
+        setPorcentagemCarregamento(90);
+        await sleep(200);
+        setPorcentagemCarregamento(100);
+        toast.success(
+          produtoSelecionado
+            ? "Produto editado com sucesso!"
+            : "Produto cadastrado com sucesso!"
+        );
+        limparFormulario();
+      })
+      .catch((error) => {
+        console.error("Erro ao salvar produto:", error.response?.data || error);
+        toast.error("Erro ao salvar produto!");
+        setTimeout(() => {
+          setIsSendingData(false);
+        }, 2500);
+      });
   };
 
   useEffect(() => {
@@ -297,7 +295,7 @@ const CadastroProdutoFormulario = ({
     e.preventDefault();
     if (validarCampos()) {
       setIsSendingData(true);
-      buscarURLImagem();
+      salvarProduto(imagem);
     }
   };
 
@@ -320,11 +318,21 @@ const CadastroProdutoFormulario = ({
       .join(" ");
   };
 
+  const setoresOptions = setores.map((set) => ({
+    value: set.id,
+    label: set.nome,
+  }));
+
+  const categoriasOptions = categorias.map((cat) => ({
+    value: cat.id,
+    label: cat.nome,
+  }));
+
   return (
     <div className="formulario-produto">
       <p className="descricao-produto">
-        Preencha o formulário abaixo para adicionar novos produtos e informações
-        ao seu estoque!
+        Preencha o formulário abaixo para adicionar um novo produto ao seu
+        estoque!
       </p>
 
       <form className="formulario-inputs" onSubmit={handleSubmit}>
@@ -391,6 +399,19 @@ const CadastroProdutoFormulario = ({
           />
         </div>
 
+        <div className="descricao-produto-foto-mobile">
+        <label htmlFor="descricao-mobile">Descrição</label>
+        <textarea
+          id="descricao"
+          value={descricao}
+          maxLength={255}
+          onChange={(e) => setDescricao(e.target.value)}
+          rows="4"
+          placeholder="Crystal Água Mineral Sem Gás 500ml Garrafa"
+
+        />
+      </div>
+
         <div className="linha-dupla">
           <div className="grupo-inputs">
             <label>
@@ -399,20 +420,54 @@ const CadastroProdutoFormulario = ({
                 *
               </span>
             </label>
-            <select
-              value={produto.setor}
-              onChange={(e) =>
-                setProduto({ ...produto, setor: parseInt(e.target.value) })
-              }
-              required
-            >
-              <option value="">Selecione um Setor </option>
-              {setores.map((set) => (
-                <option key={set.id} value={set.id}>
-                  {set.nome}
-                </option>
-              ))}
-            </select>
+            <Select
+              value={setoresOptions.find((opt) => opt.value === produto.setor)}
+              onChange={(opt) => setProduto({ ...produto, setor: opt.value })}
+              options={setoresOptions}
+              placeholder="Selecione um Setor"
+              isSearchable={false}
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  borderColor: state.isFocused
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "transparent",
+                  boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+                  "&:hover": { borderColor: "transparent" },
+                }),
+                placeholder: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                option: (baseStyles, state) => ({
+                  ...baseStyles,
+                  backgroundColor: state.isSelected
+                    ? "var(--titulos-botoes-destaques)"
+                    : state.isFocused
+                    ? "var(--cinza-hover-select)"
+                    : "var(--cor-para-o-texto-branco)",
+                  color: state.isSelected
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "var(--cor-para-texto-preto)",
+                  padding: 14,
+                  cursor: "pointer",
+                }),
+                singleValue: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  maxHeight: 200,
+                  overflowY: "auto",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  borderRadius: 5,
+                  marginTop: 0,
+                }),
+              }}
+            />
           </div>
 
           <div className="grupo-inputs">
@@ -422,20 +477,58 @@ const CadastroProdutoFormulario = ({
                 *
               </span>
             </label>
-            <select
-              value={produto.categoria}
-              onChange={(e) =>
-                setProduto({ ...produto, categoria: parseInt(e.target.value) })
+            <Select
+              value={categoriasOptions.find(
+                (opt) => opt.value === produto.categoria
+              )}
+              onChange={(opt) =>
+                setProduto({ ...produto, categoria: opt.value })
               }
-              required
-            >
-              <option value="">Selecione uma Categoria</option>
-              {categorias.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.nome}
-                </option>
-              ))}
-            </select>
+              options={categoriasOptions}
+              placeholder="Selecione uma Categoria"
+              isSearchable={false}
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  borderColor: state.isFocused
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "transparent",
+                  boxShadow: "0 3px 8px rgba(0, 0, 0, 0.15)",
+                  "&:hover": { borderColor: "transparent" },
+                }),
+                placeholder: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                option: (baseStyles, state) => ({
+                  ...baseStyles,
+                  backgroundColor: state.isSelected
+                    ? "var(--titulos-botoes-destaques)"
+                    : state.isFocused
+                    ? "var(--cinza-hover-select)"
+                    : "var(--cor-para-o-texto-branco)",
+                  color: state.isSelected
+                    ? "var(--cor-para-o-texto-branco)"
+                    : "var(--cor-para-texto-preto)",
+                  padding: 14,
+                  cursor: "pointer",
+                }),
+                singleValue: (baseStyles) => ({
+                  ...baseStyles,
+                  color: "var(--cor-para-texto-preto)",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  maxHeight: 200,
+                  overflowY: "auto",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  borderRadius: 5,
+                  marginTop: 0,
+                }),
+              }}
+            />
           </div>
         </div>
 
@@ -522,15 +615,15 @@ const CadastroProdutoFormulario = ({
         </div>
 
         <div className="botoes-produto">
+          <button type="submit" className="btn-cadastrar-produto">
+            {produtoSelecionado ? "Editar" : "Cadastrar"}
+          </button>
           <button
             type="button"
             className="btn-cancelar-produto"
             onClick={limparFormulario}
           >
             Cancelar
-          </button>
-          <button type="submit" className="btn-cadastrar-produto">
-            {produtoSelecionado ? "Editar" : "Cadastrar"}
           </button>
         </div>
       </form>

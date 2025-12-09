@@ -11,7 +11,7 @@
 }
 
 :root {
-  --carregamento: #d5d5d5;
+  --carregamento: var(--carregamento);
 }
 
 .setores-carregamento {

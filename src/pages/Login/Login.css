@@ -38,7 +38,7 @@
           align-items: center;
           justify-content: space-around;
           font-size: 16px;
-          color: var(--destaque);
+          color: var(--titulos-botoes-destaques);
           background-color: #ffffffcc;
           transition: all 0.3s;
 
@@ -109,6 +109,13 @@
         flex-direction: column;
         justify-content: center;
 
+        .desabilitado {
+          input {
+            background-color: grey;
+            cursor: not-allowed;
+          }
+        }
+
         input {
           height: 45%;
           width: 100%;
@@ -126,8 +133,9 @@
           font-weight: bold;
           color: red;
           display: none;
-        }
 
+        }
+        
         .visivel {
           display: flex;
         }
@@ -152,12 +160,24 @@
           display: flex;
         }
 
+        .botao-desabilitado {
+          background-color: grey;
+          cursor: not-allowed;
+          display: none;
+          
+          &:hover {
+            cursor: not-allowed;
+            opacity: 1;
+            background-color: grey;
+          }
+        }
+
         button {
           width: 48%;
           height: 40%;
           font-size: 20px;
           border-radius: 8px;
-          background-color: var(--destaque);
+          background-color: var(--titulos-botoes-destaques);
           opacity: 1;
           color: #fff;
           font-weight: bold;
@@ -167,8 +187,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: var(--destaque);
-            opacity: 0.8;
+            background-color: var(--botoes-hover-destaques);
           }
         }
 
@@ -245,7 +264,7 @@
           align-items: center;
           justify-content: space-around;
           font-size: 16px;
-          color: var(--destaque);
+          color: var(--titulos-botoes-destaques);
           background-color: #ffffffcc;
           transition: all 0.3s;
 
@@ -310,6 +329,13 @@
         flex-direction: column;
         justify-content: center;
 
+        .desabilitado {
+          input {
+            background-color: grey;
+            cursor: not-allowed;
+          }
+        }
+
         input {
           height: 45%;
           width: 100%;
@@ -353,12 +379,24 @@
           display: flex;
         }
 
+        .botao-desabilitado {
+          background-color: grey;
+          cursor: not-allowed;
+          display: none;
+          
+          &:hover {
+            cursor: not-allowed;
+            opacity: 1;
+            background-color: grey;
+          }
+        }
+
         button {
           width: 48%;
           height: 40%;
           font-size: 20px;
           border-radius: 8px;
-          background-color: var(--destaque);
+          background-color: var(--titulos-botoes-destaques);
           opacity: 1;
           color: #fff;
           font-weight: bold;
@@ -368,7 +406,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: var(--destaque);
+            background-color: var(--titulos-botoes-destaques);
             opacity: 0.8;
           }
         }
@@ -431,7 +469,7 @@
           align-items: center;
           justify-content: space-around;
           font-size: 16px;
-          color: var(--destaque);
+          color: var(--titulos-botoes-destaques);
           background-color: #ffffffcc;
           transition: all 0.3s;
 
@@ -499,6 +537,13 @@
         flex-direction: column;
         justify-content: center;
 
+        .desabilitado {
+          input {
+            background-color: grey;
+            cursor: not-allowed;
+          }
+        }
+
         input {
           height: 45%;
           width: 100%;
@@ -552,12 +597,24 @@
           display: flex;
         }
 
+        .botao-desabilitado {
+          background-color: grey;
+          cursor: not-allowed;
+          display: none;
+          
+          &:hover {
+            cursor: not-allowed;
+            opacity: 1;
+            background-color: grey;
+          }
+        }
+
         button {
           width: 48%;
           height: 40%;
           font-size: 20px;
           border-radius: 8px;
-          background-color: var(--destaque);
+          background-color: var(--titulos-botoes-destaques);
           opacity: 1;
           color: #fff;
           font-weight: bold;
@@ -567,7 +624,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: var(--destaque);
+            background-color: var(--titulos-botoes-destaques);
             opacity: 0.8;
           }
         }

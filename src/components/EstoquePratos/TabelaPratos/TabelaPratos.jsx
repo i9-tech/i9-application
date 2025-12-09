@@ -48,6 +48,7 @@ const TabelaPratos = ({
   });
 
   return (
+    <div className="tabela-estoque-scrollH">
     <div className="tabela-container">
       <table className="tabela-estoque">
         <CabecalhoPratos />
@@ -55,7 +56,7 @@ const TabelaPratos = ({
           {isLoadingData ? (
             <CarregamentoEstoque colunas={9} temImagem={true} />
           ) : pratosFiltrados.length > 0 ? (
-            [...pratosFiltrados].reverse().map((prato) => (
+            [...pratosFiltrados].map((prato) => (
               <PratoEstoque
                 key={prato.id}
                 prato={prato}
@@ -67,6 +68,7 @@ const TabelaPratos = ({
           )}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

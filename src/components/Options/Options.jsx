@@ -1,6 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import iconeAtendimento from "../../assets/atendimento-icone-colorido-escuro.svg";
 import iconeDashboard from "../../assets/dashboard-icone-colorido-escuro.svg";
+import iconeConfiguracoes from "../../assets/settings-ui-svgrepo-com.svg";
 import iconeCozinha from "../../assets/cozinha-icone-colorido-escuro.svg";
 import iconeEstoqueProduto from "../../assets/estoque-produtos.svg";
 import iconeEstoquePrato from "../../assets/estoque-pratos.svg";
@@ -28,6 +29,13 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
     setIsNavbarOpen(!isNavbarOpen);
   }
 
+  const tooltipBase = !isNavbarOpen
+    ? {
+      "data-tooltip-id": "tooltip-navbar",
+      "data-tooltip-place": "right",
+    }
+    : {};
+
   return (
     <>
       <p
@@ -38,15 +46,14 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
           gap: "0.5rem",
         }}
       >
-        {permissoes.includes("ROLE_PROPRIETARIO") && (
-          <Link
+        {permissoes.includes("PROPRIETARIO_ROLE_PLANO_ACESSO_DASHBOARD") && (
+          <NavLink
             to={ROUTERS.DASHBOARD}
-            {...(!isNavbarOpen
-              ? {
-                "data-tooltip-id": "tooltip-navbar",
-                "data-tooltip-content": "Dashboard",
-              }
-              : {})}
+            className={({ isActive }) =>
+              isActive ? "nav-link clicked" : "nav-link"
+            }
+            {...tooltipBase}
+            data-tooltip-content="Dashboard"
           >
             <li key="dashboard">
               <i>
@@ -54,17 +61,17 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
               </i>
               <span>Dashboard</span>
             </li>
-          </Link>
+          </NavLink>
         )}
+
         {permissoes.includes("ROLE_ATENDIMENTO") && (
-          <Link
+          <NavLink
             to={ROUTERS.ATENDENTE}
-            {...(!isNavbarOpen
-              ? {
-                "data-tooltip-id": "tooltip-navbar",
-                "data-tooltip-content": "Atendimento",
-              }
-              : {})}
+            className={({ isActive }) =>
+              isActive ? "nav-link clicked" : "nav-link"
+            }
+            {...tooltipBase}
+            data-tooltip-content="Atendimento"
           >
             <li key="atendente">
               <i>
@@ -72,17 +79,17 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
               </i>
               <span>Atendimento</span>
             </li>
-          </Link>
+          </NavLink>
         )}
+
         {permissoes.includes("ROLE_COZINHA") && (
-          <Link
+          <NavLink
             to={ROUTERS.COMANDAS}
-            {...(!isNavbarOpen
-              ? {
-                "data-tooltip-id": "tooltip-navbar",
-                "data-tooltip-content": "Cozinha",
-              }
-              : {})}
+            className={({ isActive }) =>
+              isActive ? "nav-link clicked" : "nav-link"
+            }
+            {...tooltipBase}
+            data-tooltip-content="Cozinha"
           >
             <li key="cozinha">
               <i>
@@ -90,74 +97,71 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
               </i>
               <span>Cozinha</span>
             </li>
-          </Link>
+          </NavLink>
         )}
+
         {permissoes.includes("ROLE_ESTOQUE") && (
-          <Link
+          <NavLink
             to={ROUTERS.ESTOQUE_PRODUTOS}
-            {...(!isNavbarOpen
-              ? {
-                "data-tooltip-id": "tooltip-navbar",
-                "data-tooltip-content": "Estoque de Produtos",
-              }
-              : {})}
+            className={({ isActive }) =>
+              isActive ? "nav-link clicked" : "nav-link"
+            }
+            {...tooltipBase}
+            data-tooltip-content="Estoque de Produtos"
           >
             <li key="estoque">
               <i>
-                <img src={iconeEstoqueProduto} alt="Icone de Estoque" />
+                <img src={iconeEstoqueProduto} alt="Icone de Estoque de Produtos" />
               </i>
               <span>Estoque de Produtos</span>
             </li>
-          </Link>
+          </NavLink>
         )}
+
         {permissoes.includes("ROLE_ESTOQUE") && (
-          <Link
+          <NavLink
             to={ROUTERS.ESTOQUE_PRATOS}
-            {...(!isNavbarOpen
-              ? {
-                "data-tooltip-id": "tooltip-navbar",
-                "data-tooltip-content": "Estoque de Pratos",
-              }
-              : {})}
+            className={({ isActive }) =>
+              isActive ? "nav-link clicked" : "nav-link"
+            }
+            {...tooltipBase}
+            data-tooltip-content="Estoque de Pratos"
           >
             <li key="estoque-pratos">
               <i>
-                <img src={iconeEstoquePrato} alt="Icone de Estoque" />
+                <img src={iconeEstoquePrato} alt="Icone de Estoque de Pratos" />
               </i>
               <span>Estoque de Pratos</span>
             </li>
-          </Link>
+          </NavLink>
         )}
+
         {permissoes.includes("ROLE_PROPRIETARIO") && (
-          <Link
+          <NavLink
             to={ROUTERS.SETOR_CATEGORIA}
-            {...(!isNavbarOpen
-              ? {
-                "data-tooltip-id": "tooltip-navbar",
-                "data-tooltip-content": "Setores e Categorias",
-              }
-              : {})}
+            className={({ isActive }) =>
+              isActive ? "nav-link clicked" : "nav-link"
+            }
+            {...tooltipBase}
+            data-tooltip-content="Setores e Categorias"
           >
             <li key="setor-categoria">
               <i>
-                <img
-                  src={setorCategoriaIcone}
-                  alt="Icone de Setor e Categoria"
-                />
+                <img src={setorCategoriaIcone} alt="Icone de Setor e Categoria" />
               </i>
               <span>Setores e Categorias</span>
             </li>
-          </Link>
+          </NavLink>
         )}
+
         {permissoes.includes("ROLE_PROPRIETARIO") && (
-          <Link
+          <NavLink
             to={ROUTERS.FUNCIONARIOS}
-            {...(!isNavbarOpen
-              ? {
-                "data-tooltip-id": "tooltip-navbar",
-                "data-tooltip-content": "Equipe",
-              }
-              : {})}
+            className={({ isActive }) =>
+              isActive ? "nav-link clicked" : "nav-link"
+            }
+            {...tooltipBase}
+            data-tooltip-content="Equipe"
           >
             <li key="funcionarios">
               <i>
@@ -165,30 +169,50 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
               </i>
               <span>Equipe</span>
             </li>
-          </Link>
+          </NavLink>
+        )}
+
+        {permissoes.includes("ROLE_PROPRIETARIO") && (
+          <NavLink
+            to={ROUTERS.CONFIGURACOES}
+            className={({ isActive }) =>
+              isActive ? "nav-link clicked" : "nav-link"
+            }
+            {...tooltipBase}
+            data-tooltip-content="Configurações"
+          >
+            <li key="configuracoes">
+              <i>
+                <img src={iconeConfiguracoes} alt="Icone de Configurações" />
+              </i>
+              <span>Configurações</span>
+            </li>
+          </NavLink>
         )}
       </p>
+
       <p
         style={{
           display: "flex",
           height: "20%",
           gap: "0.5rem",
-
           flexDirection: "column",
           justifyContent: "end",
           width: "100%",
         }}
       >
+        {/* Logout com Link e evento */}
         <Link
           to={ROUTERS.LOGIN}
+          onClick={handleLogout}
           {...(!isNavbarOpen
             ? {
-              "data-tooltip-id": "tooltip-navbar",
-              "data-tooltip-content": "Sair",
-            }
+                "data-tooltip-id": "tooltip-navbar",
+                "data-tooltip-content": "Sair",
+              }
             : {})}
         >
-          <li key="sair" onClick={handleLogout}>
+          <li key="sair">
             <i>
               <img src={iconeSair} alt="Icone de Sair" />
             </i>
@@ -196,24 +220,27 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
           </li>
         </Link>
 
+        {/* Toggle do menu com Link (sem to, mas estilizado corretamente) */}
         <Link
           onClick={handleNavbar}
           {...(!isNavbarOpen
             ? {
-              "data-tooltip-id": "tooltip-navbar",
-              "data-tooltip-content": "Abrir Menu",
-            }
+                "data-tooltip-id": "tooltip-navbar",
+                "data-tooltip-content": "Abrir/Fechar Menu",
+              }
             : {})}
+          style={{ cursor: "pointer" }}
         >
-          <li key="atendente">
+          <li key="toggle-menu">
             <i className="seta-nav">
               <MdOutlineKeyboardDoubleArrowRight />
             </i>
-            <span>Fechar Menu</span>
+            <span>{isNavbarOpen ? "Fechar Menu" : "Abrir Menu"}</span>
           </li>
         </Link>
-
       </p>
     </>
   );
 }
+
+export default Options;

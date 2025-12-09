@@ -1,5 +1,6 @@
 import "./Atendente.css";
 import BotaoConfirmar from "../../components/Botoes/BotaoConfirmar/BotaoConfirmar";
+import BotaoConfirmarMobile from "../../components/Botoes/BotaoConfirmarMobile/BotaoConfirmarMobile";
 import ElementoTotal from "../../components/Hovers/HoverTotalProduto/ElementoTotal";
 import LupaPesquisa from "../../assets/lupa-pesquisa.svg";
 import ElementoProduto from "../../components/Hovers/HoverProduto/ElementoProduto";
@@ -36,6 +37,17 @@ export function Atendente() {
     year: "numeric",
   });
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const funcionario = getFuncionario();
   const token = getToken();
   const [produtos, setProdutos] = useState([]);
@@ -53,10 +65,15 @@ export function Atendente() {
 
   const [modalAberto, setModalAberto] = useState(false);
   const [confirmarPedido, setConfirmarPedido] = useState(false);
-  const [isEnviandoPedido, setIsEnviandoPedido] = useState(false);
+
+  const [itemCarrinhoIds, setItemCarrinhoIds] = useState([]);
 
   const [isSetoresCarregando, setIsSetoresCarregando] = useState(true);
   const [isProdutosCarregando, setIsProdutosCarregando] = useState(true);
+
+  // Estado e função para o carrinho mobile
+    const [carrinhoAberto, setCarrinhoAberto] = useState(false);
+    const alternarCarrinhoMobile = () => setCarrinhoAberto((p) => !p);
 
   const [errorPrato, setErrorPrato] = useState(false);
   const [errorProduto, setErrorProduto] = useState(false);
@@ -107,11 +124,11 @@ export function Atendente() {
     const headers = { Authorization: `Bearer ${token}` };
 
     const requisicaoProdutos = api.get(
-      `${ENDPOINTS.PRODUTOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
     const requisicaoPratos = api.get(
-      `${ENDPOINTS.PRATOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
 
@@ -150,6 +167,7 @@ export function Atendente() {
   }, [funcionario.userId, token]);
 
   const adicionarNaComanda = useCallback((produto) => {
+    console.log(`Produto ${produto} adicionado`);
     setComanda((prev) => {
       const index = prev.findIndex(
         (item) => item.id === produto.id && item.tipo === produto.tipo
@@ -226,7 +244,6 @@ export function Atendente() {
   }
 
   const abrirModalConfirmarPedido = () => {
-    setEnviarPedido(true);
     setConfirmarPedido(true);
   };
 
@@ -282,55 +299,50 @@ export function Atendente() {
   }, [funcionario.userId, comanda]);
   const [enviarPedido, setEnviarPedido] = useState(false);
 
-  const enviarItensCarrinho = async () => {
-     if (!enviarPedido || comandaExpandida.length === 0) return;
+  useEffect(() => {
+    if (!enviarPedido || comandaExpandida.length === 0) return;
 
-    try {
-      const promises = comandaExpandida.map(async (item) => {
-        const url =
-          item.tipo === "produto"
-            ? `${ENDPOINTS.CARRINHO_PRODUTO}/${funcionario.userId}`
-            : `${ENDPOINTS.CARRINHO_PRATO}/${funcionario.userId}`;
+    const promises = comandaExpandida.map(async (item) => {
+      const url =
+        item.tipo === "produto"
+          ? `${ENDPOINTS.CARRINHO_PRODUTO}/${funcionario.userId}`
+          : `${ENDPOINTS.CARRINHO_PRATO}/${funcionario.userId}`;
 
-        const body =
-          item.tipo === "produto"
-            ? {
-                venda: "venda5",
-                produto: { id: item.id },
-                funcionario: { id: funcionario.userId },
-              }
-            : {
-                venda: "venda5",
-                prato: { id: item.id },
-                ...(item.observacao ? { observacao: item.observacao } : {}),
-                funcionario: { id: funcionario.userId },
-              };
+      const body =
+        item.tipo === "produto"
+          ? {
+              venda: "venda5",
+              produto: { id: item.id },
+              funcionario: { id: funcionario.userId },
+            }
+          : {
+              venda: "venda5",
+              prato: { id: item.id },
+              ...(item.observacao ? { observacao: item.observacao } : {}),
+              funcionario: { id: funcionario.userId },
+            };
 
-        return api
-          .post(url, body, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-          .then((res) => res.data.id)
-          .catch((err) => {
-            console.error("Erro ao enviar item ao carrinho:", err);
-            toast.error("Erro ao enviar item ao carrinho!");
-            return null;
-          });
-      });
+      return api
+        .post(url, body, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          return res.data.id;
+        })
+        .catch((err) => {
+          console.error("Erro ao enviar item ao carrinho:", err);
+          toast.error("Erro ao enviar item ao carrinho!");
+          return null;
+        });
+    });
 
-      const ids = await Promise.all(promises);
+    Promise.all(promises).then((ids) => {
       const idsValidos = ids.filter((id) => id !== null);
-
-      if (idsValidos.length === 0) {
-        throw new Error("Nenhum item do carrinho foi adicionado com sucesso.");
-      }
-
-      return idsValidos;
-    } catch (error) {
-      console.error("Erro ao enviar itens ao carrinho:", error);
-      throw error; 
-    }
-  };
+      setItemCarrinhoIds(idsValidos);
+      setConfirmarPedido(true);
+      setEnviarPedido(false);
+    });
+  }, [enviarPedido, comandaExpandida, funcionario.userId, token]);
 
   function limparComandas() {
     setComanda([]);
@@ -341,11 +353,11 @@ export function Atendente() {
     const headers = { Authorization: `Bearer ${token}` };
 
     const requisicaoProdutos = api.get(
-      `${ENDPOINTS.PRODUTOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
     const requisicaoPratos = api.get(
-      `${ENDPOINTS.PRATOS}/${funcionario.userId}`,
+      `${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`,
       { headers }
     );
 
@@ -441,15 +453,13 @@ export function Atendente() {
             <ModalConfirmarPedido
               onClose={fecharModalConfirmarPedido}
               statusModal={setConfirmarPedido}
+              itemCarrinhoIds={itemCarrinhoIds}
               onLimparComandas={limparComandas}
-              setIsEnviandoPedido={setIsEnviandoPedido}
-              isEnviandoPedido={isEnviandoPedido}
-              enviarItensCarrinho={enviarItensCarrinho}
             />
           )}
 
           <div className="todos-produtos">
-            <h1>Escolha o Setor</h1>
+            <h1 className="titulo-setor-categoria">Escolha o Setor</h1>
             <div className="setores">
               {isSetoresCarregando && !errorSetor ? (
                 <SetoresCarregamento quantidadeCards={7} />
@@ -486,7 +496,7 @@ export function Atendente() {
             </div>
 
             <div className="header-container">
-              <h1> Setor: {setorSelecionado} </h1>
+              <h1 className="titulo-setor"> Setor: {setorSelecionado} </h1>
               <div className="barra-pesquisa">
                 <input
                   type="text"
@@ -544,7 +554,7 @@ export function Atendente() {
 
                   return (
                     <div key={categoria.id} className="categoria">
-                      <h1>{categoria.nome}</h1>
+                      <h1 className="titulo-setor-categoria">{categoria.nome}</h1>
                       <div className="produtos-da-categoria">
                         {produtosFiltrados.map((produto) => {
                           const itemComanda = comanda.find(
@@ -608,7 +618,8 @@ export function Atendente() {
           </div>
         </section>
 
-        <aside className="menu-comanda">
+        {/* === COMANDA (DESKTOP E MOBILE) === */}
+        <aside className={`menu-comanda ${carrinhoAberto ? "aberto" : ""}`}>
           <header className="header-comanda">
             <h1>Comandas</h1>
           </header>
@@ -616,15 +627,14 @@ export function Atendente() {
           <div className="produtos-adicionados-comanda">
             {comanda.map((item, index) => {
               const produtoEstoque = produtos.find((p) => p.nome === item.nome);
-
               const itemComanda = comanda.find(
-                (item) => item.nome === produtoEstoque.nome
+                (item) => item.nome === produtoEstoque?.nome
               );
               const quantidadeNaComanda = itemComanda
                 ? itemComanda.quantidade
                 : 0;
               const quantidadeRestante =
-                produtoEstoque.quantidade - quantidadeNaComanda;
+                produtoEstoque?.quantidade - quantidadeNaComanda;
 
               return (
                 <ProdutoComanda
@@ -643,17 +653,87 @@ export function Atendente() {
             })}
           </div>
 
-          <section className="botao-confirmar">
+          {/* === BOTÃO FIXO === */}
+          <section
+            className="botao-confirmar"
+            onClick={() => {
+              if (window.innerWidth <= 768) {
+                alternarCarrinhoMobile();
+              } else {
+                abrirModalConfirmarPedido();
+                setEnviarPedido(true);
+              }
+            }}
+          >
             <BotaoConfirmar
               quantidade={totalItens}
+              textoBotao={windowWidth > 768 ? "Confirmar" : "Ver Pedido"}
               totalPedido={totalPedido}
               onClick={() => {
-                abrirModalConfirmarPedido();
-                enviarItensCarrinho();
+                if (window.innerWidth > 768) {
+                  abrirModalConfirmarPedido();
+                  setEnviarPedido(true);
+                }
               }}
               disabled={comandaExpandida.length === 0}
             />
           </section>
+
+          {/* === PAINEL MOBILE (DESLIZANTE) === */}
+          <div
+            className={`painel-carrinho-mobile ${
+              carrinhoAberto ? "visivel" : ""
+            }`}
+          >
+            <div className="painel-header">
+              <h2>Meu Pedido</h2>
+              <button className="fechar" onClick={alternarCarrinhoMobile}>
+                ✕
+              </button>
+            </div>
+
+            <div className="painel-itens">
+              {comanda.length > 0 ? (
+                comanda.map((item, index) => (
+                  <ProdutoComanda
+                    key={index}
+                    produto={item.nome}
+                    preco={item.preco}
+                    imagem={item.imagem}
+                    quantidade={item.quantidade}
+                    atualizarQuantidade={atualizarQuantidade}
+                    onClick={abrirModal}
+                    removerProduto={removerProdutoDaComanda}
+                    tipo={item.tipo}
+                  />
+                ))
+              ) : (
+                <p className="vazio">Nenhum item adicionado</p>
+              )}
+            </div>
+
+            <div className="painel-footer">
+              <BotaoConfirmarMobile
+                quantidade={totalItens}
+                textoBotao="Confirmar"
+                totalPedido={totalPedido}
+                onClick={() => {
+                  abrirModalConfirmarPedido();
+                  setEnviarPedido(true);
+                  alternarCarrinhoMobile();
+                }}
+                disabled={comandaExpandida.length === 0}
+              />
+            </div>
+          </div>
+
+          {/* === OVERLAY (FUNDO ESCURO) === */}
+          {carrinhoAberto && (
+            <div
+              className="overlay-carrinho"
+              onClick={alternarCarrinhoMobile}
+            ></div>
+          )}
         </aside>
       </LayoutTela>
     </>

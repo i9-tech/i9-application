@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./CadastroSetoresCategorias.css";
 import InfoCardSCCard from "../../components/SetorCategoria/InfoCardSC/InfoCardSC";
 import DadosTabela from "../../components/SetorCategoria/DadosTabela/DadosTabela";
-import FloatingAddButton from "../../components/SetorCategoria/FloatingAddButton/FloatingAddButton";
 import LayoutTela from "../../components/LayoutTela/LayoutTela";
 import Modal from "../../components/SetorCategoria/ModalSC/Modal";
 import { ENDPOINTS } from "../../utils/endpoints";
@@ -11,7 +10,6 @@ import api from "../../provider/api";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import CarregamentoFormulario from "../../components/Carregamento/CarregamentoFormulario";
-import { Tooltip } from "react-tooltip";
 
 const CadastroSetoresCategorias = () => {
   const funcionario = getFuncionario();
@@ -27,7 +25,6 @@ const CadastroSetoresCategorias = () => {
 
   const [modalAberto, setModalAberto] = useState(false);
   const [tipoCadastro, setTipoCadastro] = useState(null);
-  const [open, setOpen] = useState(false);
 
   const [isLoadingData, setIsLoadingData] = useState(true);
 
@@ -46,13 +43,11 @@ const CadastroSetoresCategorias = () => {
 
   const handleCadastrarSetor = () => {
     setTipoCadastro("setor");
-    setOpen(false);
     setModalAberto(true);
   };
 
   const handleCadastrarCategoria = () => {
     setTipoCadastro("categoria");
-    setOpen(false);
     setModalAberto(true);
   };
 
@@ -97,7 +92,7 @@ const CadastroSetoresCategorias = () => {
           }),
 
         api
-          .get(`${ENDPOINTS.PRODUTOS}/${funcionario.userId}`, { headers })
+          .get(`${ENDPOINTS.PRODUTOS_TODOS}/${funcionario.userId}`, { headers })
           .then((res) => {
             setProdutos(res.data);
             if (Array.isArray(res.data) && res.data.length === 0)
@@ -108,7 +103,7 @@ const CadastroSetoresCategorias = () => {
           }),
 
         api
-          .get(`${ENDPOINTS.PRATOS}/${funcionario.userId}`, { headers })
+          .get(`${ENDPOINTS.PRATOS_TODOS}/${funcionario.userId}`, { headers })
           .then((res) => {
             setPratos(res.data);
             if (Array.isArray(res.data) && res.data.length === 0)
@@ -270,15 +265,25 @@ const CadastroSetoresCategorias = () => {
         />
       )}
       <LayoutTela
-        titulo="Cadastro de Setores e Categorias"
+        titulo="Setores e Categorias"
         adicional={
           <>
-            {setores.length} Setor
-            {setores.length !== 1 ? "es" : ""} e{" "}
-            {categorias.length} Categoria
-            {categorias.length !== 1 ? "s" : ""}
+            {setoresFiltradasComContagem.length} Setor
+            {setoresFiltradasComContagem.length !== 1 ? "es" : ""} e{" "}
+            {categoriasFiltradasComContagem.length} Categoria
+            {categoriasFiltradasComContagem.length !== 1 ? "s" : ""}
           </>
         }
+        // adicionalUm={
+        //   <div className="main-actions">
+        //     <button className="add-btn" onClick={handleCadastrarSetor} style={{ color: "#fff", fontWeight: "bold" }}>
+        //       + Cadastrar Setor
+        //     </button>
+        //     <button className="add-btn" onClick={handleCadastrarCategoria} style={{ color: "#fff", fontWeight: "bold" }}>
+        //       + Cadastrar Categoria
+        //     </button>
+        //   </div>
+        // }
       >
         <div className="pagina-container">
           <div className="cadastro-container">
@@ -287,6 +292,11 @@ const CadastroSetoresCategorias = () => {
               description="Visualize, edite e organize os setores cadastrados."
               placeholder="Procurar Setor"
               onSearch={handleBuscaSetor}
+              action={
+                <button className="add-btn" onClick={handleCadastrarSetor} style={{ color: "#fff", fontWeight: "bold" }}>
+                 + Novo Setor
+                </button>
+              }
             >
               <DadosTabela
                 isLoadingData={isLoadingData}
@@ -302,6 +312,11 @@ const CadastroSetoresCategorias = () => {
               description="Visualize, edite e organize as categorias cadastradas."
               placeholder="Procurar Categoria"
               onSearch={handleBuscaCategoria}
+              action={
+                <button className="add-btn" onClick={handleCadastrarCategoria} style={{ color: "#fff", fontWeight: "bold" }}>
+                 + Nova Categoria
+                </button>
+              }
             >
               <DadosTabela
                 isLoadingData={isLoadingData}
@@ -312,23 +327,6 @@ const CadastroSetoresCategorias = () => {
               />
             </InfoCardSCCard>
           </div>
-
-          <>
-            <FloatingAddButton
-              onSetor={handleCadastrarSetor}
-              onCategoria={handleCadastrarCategoria}
-              open={open}
-              setOpen={setOpen}
-            />
-            <Tooltip
-              id="tooltip-cad-set"
-              place="left"
-              style={{
-                width: "auto",
-                zIndex: 2,
-              }}
-            />
-          </>
 
           <Modal
             isOpen={modalAberto}

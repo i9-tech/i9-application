@@ -22,10 +22,10 @@ export default function ModalNotificacao({onClose}) {
             Enviamos um e-mail com um link para você criar uma nova senha.
           </p>
           <p>
-            Basta abrir o e-mail e clicar no link.
+            Basta abrir o e-mail e clicar no link de redefinição de senha.
           </p>
           <small>
-            *O e-mail vai para o dono do negócio. Não é possível recuperar a senha de outro jeito.
+            *O e-mail será enviado para o dono do negócio ou para o e-mail do funcionário. Não é possível recuperar a senha de outra forma.
           </small>
         </div>
       </article>

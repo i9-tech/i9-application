@@ -253,6 +253,7 @@ export function Dashboard() {
           <>
             {diaAtual} - <Relogio />
             <button
+              title="Baixar imagem da Dashboard"
               className="baixar-dash"
               onClick={baixarImagemDashboard}
               style={{
@@ -263,7 +264,6 @@ export function Dashboard() {
                 cursor: "pointer",
                 position: "absolute"
               }}
-              title="Baixar imagem da Dashboard"
             >
               <LiaFileDownloadSolid size={30} />
             </button>

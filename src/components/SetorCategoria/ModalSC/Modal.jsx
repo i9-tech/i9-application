@@ -232,6 +232,14 @@ const Modal = ({
                     />
                   </div>
 
+                    <button
+                    type="button"
+                    onClick={() => setModalImagensAberto(true)}
+                    className="botao-catalogo"
+                  >
+                    Catálogo I9
+                  </button>
+
                   <p className="texto-upload">
                     <button
                       type="button"
@@ -253,13 +261,7 @@ const Modal = ({
                     />
                   </p>
 
-                  <button
-                    type="button"
-                    onClick={() => setModalImagensAberto(true)}
-                    className="btn escolher-imagem"
-                  >
-                    Escolher imagem do catálogo INOVE
-                  </button>
+                
                 </>
               )}
 

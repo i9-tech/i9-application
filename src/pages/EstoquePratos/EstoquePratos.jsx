@@ -115,11 +115,10 @@ export function EstoquePratos() {
       titulo="Estoque de Pratos"
       adicional={`${quantidadeTotalPratos} itens cadastrados`}
     >
-      <div className="estoque">
+      <div className="estoque-pratos">
         <FiltrosPratos
           filtroStatus={filtroStatus}
           setFiltroStatus={setFiltroStatus}
-          setFiltros={setFiltrosPratos}
           termoBusca={termoBusca}
           setTermoBusca={setTermoBusca}
           setorSelecionado={setorSelecionado}
@@ -143,19 +142,21 @@ export function EstoquePratos() {
           setSetorSelecionado={setSetorSelecionado}
           categoriaSelecionada={categoriaSelecionada}
           setCategoriaSelecionada={setCategoriaSelecionada}
-          areaSelecionada={areaSelecionada}         
-          setAreaSelecionada={setAreaSelecionada} 
+          areaSelecionada={areaSelecionada}
+          setAreaSelecionada={setAreaSelecionada}
         />
-        <Paginacao
-          pagina={pagina}
-          totalPaginas={totalPaginas}
-          quantidadePorPagina={quantidadePorPagina}
-          onChangePagina={(novaPagina) => setPagina(novaPagina)}
-          onChangeQuantidadePorPagina={(novaQtd) => {
-            setQuantidadePorPagina(novaQtd);
-            setPagina(pagina);
-          }}
-        />
+
+        <div className="paginacao-wrapper">
+          <Paginacao
+            pagina={pagina}
+            totalPaginas={totalPaginas}
+            quantidadePorPagina={quantidadePorPagina}
+            onChangePagina={(novaPagina) => setPagina(novaPagina)}
+            onChangeQuantidadePorPagina={(novaQtd) =>
+              setQuantidadePorPagina(novaQtd)
+            }
+          />
+        </div>
       </div>
     </LayoutTela>
   );

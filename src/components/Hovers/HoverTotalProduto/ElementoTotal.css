@@ -1,7 +1,7 @@
 .card-total {
     background-color: var(--cor-para-o-texto-branco);
-    width: auto;
-    height: auto;
+    width: 120px;
+    height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,18 +32,19 @@
 
 .card-total .lanche {
     width: 50px;
+    height: 50px;       
+    object-fit: cover; 
     border-radius: 100%;
 }
+
 
 .card-total:hover {
     background-color: var(--titulos-botoes-destaques);
     color: var(--cor-para-o-texto-branco);
 }
-
 @media (max-width: 768px) {
   .card-total {
-    min-width: 30%;
-    min-height: fit-content;
+    min-width: auto;
     font-size: 14px;
     padding: 0.7rem;
     gap: 4px;
@@ -51,6 +52,8 @@
 
   .card-total .lanche {
     width: 40px;
+    height: 40px;  
+    object-fit: cover;
   }
 
   .card-total span {
@@ -61,3 +64,19 @@
     font-size: 12px;
   }
 }
+
+@media (max-width: 480px) {
+  .card-total {
+    width: 90px;
+    height: 90px;
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+
+  .card-total .lanche {
+    width: 35px;
+    height: 35px; 
+    object-fit: cover;
+  }
+}
+

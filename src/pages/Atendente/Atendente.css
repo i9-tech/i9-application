@@ -16,6 +16,7 @@
   flex-wrap: wrap;
   gap: 0.8rem;
   justify-content: flex-start;
+          width: 100%;
   }
 
   .header-container {

@@ -131,16 +131,15 @@ export function Estoque() {
             categoriaSelecionada={categoriaSelecionada}
             buscarProdutos={buscarProdutos}
           />
-          <Paginacao
-            pagina={pagina}
-            totalPaginas={totalPaginas}
-            quantidadePorPagina={quantidadePorPagina}
-            onChangePagina={(novaPagina) => setPagina(novaPagina)}
-            onChangeQuantidadePorPagina={(novaQtd) => {
-              setQuantidadePorPagina(novaQtd);
-              setPagina(pagina);
-            }}
-          />
+           <div className="paginacao-wrapper">
+                    <Paginacao
+                    pagina={pagina}
+                    totalPaginas={totalPaginas}
+                    quantidadePorPagina={quantidadePorPagina}
+                    onChangePagina={(novaPagina) => setPagina(novaPagina)}
+                    onChangeQuantidadePorPagina={(novaQtd) => setQuantidadePorPagina(novaQtd)}
+                  />
+                  </div>
         </div>
       </LayoutTela>
     </>

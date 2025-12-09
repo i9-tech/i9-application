@@ -21,7 +21,7 @@ function FiltrosPratos({
   areaSelecionada,
   setAreaSelecionada,
   pagina,
-  quantidadePorPagina,
+  quantidadePorPagina
 }) {
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
@@ -34,7 +34,7 @@ function FiltrosPratos({
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
 
-  const atualizarFiltros = useCallback(() => {
+  const atualizarFiltros = () => {
     setFiltrosPratos({
       status: filtroStatus,
       categoria: categoriaSelecionada,
@@ -43,13 +43,7 @@ function FiltrosPratos({
       pagina: pagina,
       quantidadePorPagina: quantidadePorPagina,
     });
-  }, [
-    filtroStatus,
-    categoriaSelecionada,
-    setorSelecionado,
-    areaSelecionada,
-    setFiltrosPratos,
-  ]);
+  };
 
   useEffect(() => {
     if (!funcionario.userId) return;

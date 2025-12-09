@@ -10,6 +10,8 @@ import Swal from "sweetalert2";
 import { imagemPadrao } from "../../../../assets/imagemPadrao";
 import { corrigirDataISO } from "../../../../utils/utils";
 
+
+
 const ProdutoEstoque = ({ produto, buscar }) => {
   const funcionario = getFuncionario();
 
@@ -117,7 +119,8 @@ const ProdutoEstoque = ({ produto, buscar }) => {
         <td>{dataFormatada}</td>
         <td title={produto.descricao}>{produto.descricao}</td>
         <td className="acoes-prod">
-          <button onClick={() => editar(produto)}>✏️</button> |
+          <button onClick={() => editar(produto)}>✏️</button> 
+          <span> | </span>
           <button onClick={() => deletar(produto.id)}>🗑️</button>
         </td>
       </tr>

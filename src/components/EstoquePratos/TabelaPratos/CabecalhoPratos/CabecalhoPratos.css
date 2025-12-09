@@ -59,3 +59,19 @@
     width: 90px;
   } /* Status */
   
+  @media (max-width: 768px) {
+  .cabecalho-estoque th:nth-child(3) {
+    position: sticky;
+    left: 0;
+    background-color: var(--titulos-botoes-destaques);
+    z-index: 3;
+    text-align: left;
+    min-width: 180px;
+    max-width: 180px;
+  }
+
+  .cabecalho-estoque th:nth-child(3) {
+    padding-left: 20px;
+    padding-right: 12px;
+  }
+}

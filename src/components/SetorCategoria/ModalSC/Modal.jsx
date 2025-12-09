@@ -66,13 +66,12 @@ const Modal = ({
       return;
     }
 
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-    };
-
     try {
       if (tipo === "setor") {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        };
         setPorcentagemCarregamento(20);
         await sleep(200);
 
@@ -136,6 +135,9 @@ const Modal = ({
       } else if (tipo === "categoria") {
         const dadosCategoria = { nome };
 
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
         setPorcentagemCarregamento(60);
         await sleep(200);
 
@@ -232,7 +234,7 @@ const Modal = ({
                     />
                   </div>
 
-                    <button
+                  <button
                     type="button"
                     onClick={() => setModalImagensAberto(true)}
                     className="botao-catalogo"
@@ -260,14 +262,16 @@ const Modal = ({
                       className="input-escondido"
                     />
                   </p>
-
-                
                 </>
               )}
 
               {/* ------- BOTÕES ------- */}
               <div className="modal-botoes">
-                <button type="button" className="btn cancelar" onClick={onClose}>
+                <button
+                  type="button"
+                  className="btn cancelar"
+                  onClick={onClose}
+                >
                   Cancelar
                 </button>
                 <button type="submit" className="btn cadastrar">
@@ -297,7 +301,10 @@ const Modal = ({
           className="modal-overlay-fotos"
           onClick={() => setModalImagensAberto(false)}
         >
-          <div className="modal-content-fotos" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="modal-content-fotos"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3>Escolha uma imagem que represente o setor</h3>
 
             <div className="galeria-imagens">

@@ -111,7 +111,7 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
           >
             <li key="estoque">
               <i>
-                <img src={iconeEstoqueProduto} alt="Icone de Estoque" />
+                <img src={iconeEstoqueProduto} alt="Icone de Estoque de Produtos" />
               </i>
               <span>Estoque de Produtos</span>
             </li>
@@ -129,7 +129,7 @@ export function Options({ isNavbarOpen, setIsNavbarOpen }) {
           >
             <li key="estoque-pratos">
               <i>
-                <img src={iconeEstoquePrato} alt="Icone de Estoque" />
+                <img src={iconeEstoquePrato} alt="Icone de Estoque de Pratos" />
               </i>
               <span>Estoque de Pratos</span>
             </li>

@@ -45,7 +45,7 @@ export function Configuracoes() {
         console.error("Erro ao buscar dados da empresa:", err);
       });
 
-  }, [token]);
+  }, [token, empresa, funcionario.empresaId]);
 
   return (
     <LayoutTela

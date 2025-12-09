@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import api from "../../../provider/api";
 import "./FiltrosEstoque.css";
 import { getFuncionario } from "../../../utils/auth";
@@ -8,49 +8,54 @@ import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../utils/endpoints";
 import { ROUTERS } from "../../../utils/routers";
 import Select from "react-select";
+import { setFiltrosProdutos } from "../../../utils/filters";
 
 function FiltrosEstoque({
-  filtros,
-  setFiltros,
+  filtroStatus,
+  setFiltroStatus,
   termoBusca,
   setTermoBusca,
   setorSelecionado,
   setSetorSelecionado,
   categoriaSelecionada,
   setCategoriaSelecionada,
+  pagina,
+  quantidadePorPagina,
 }) {
   const funcionario = getFuncionario();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+
   const [menuAberto, setMenuAberto] = useState(false);
-
-  // Limpar filtro de status
-  const limparFiltro = () => {
-    setFiltros({ ...filtros, status: null });
-    setMenuAberto(false);
-  };
-
-  // Aplicar filtro de status
-  const aplicarFiltro = (tipo) => {
-    setFiltros({ ...filtros, status: tipo });
-    setMenuAberto(false);
-  };
-
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
+
+  const atualizarFiltros = useCallback(() => {
+    setFiltrosProdutos({
+      status: filtroStatus,
+      categoria: categoriaSelecionada,
+      setor: setorSelecionado,
+      pagina: pagina,
+      quantidadePorPagina: quantidadePorPagina,
+    });
+  }, [
+    filtroStatus,
+    categoriaSelecionada,
+    setorSelecionado,
+    pagina,
+    quantidadePorPagina,
+  ]);
+
+  useEffect(() => {
+    atualizarFiltros();
+  }, [atualizarFiltros]);
 
   useEffect(() => {
     api
       .get(`${ENDPOINTS.SETORES}/${funcionario.userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          setSetores(res.data);
-        }
-      })
+      .then((res) => Array.isArray(res.data) && setSetores(res.data))
       .catch((err) => {
         console.error("Erro ao buscar setores:", err);
         toast.error("Erro ao buscar setores!");
@@ -58,15 +63,9 @@ function FiltrosEstoque({
 
     api
       .get(`${ENDPOINTS.CATEGORIAS}/${funcionario.userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          setCategorias(res.data);
-        }
-      })
+      .then((res) => Array.isArray(res.data) && setCategorias(res.data))
       .catch((err) => {
         console.error("Erro ao buscar categorias:", err);
         toast.error("Erro ao buscar categorias!");
@@ -75,18 +74,12 @@ function FiltrosEstoque({
 
   const optionsSetores = [
     { value: "", label: "Todos Setores" },
-    ...setores.map((set) => ({
-      value: set.id,
-      label: set.nome,
-    })),
+    ...setores.map((set) => ({ value: set.id, label: set.nome })),
   ];
 
   const optionsCategorias = [
     { value: "", label: "Todas Categorias" },
-    ...categorias.map((cat) => ({
-      value: cat.id,
-      label: cat.nome,
-    })),
+    ...categorias.map((cat) => ({ value: cat.id, label: cat.nome })),
   ];
 
   return (
@@ -100,7 +93,7 @@ function FiltrosEstoque({
       />
 
       <div className="filtros-dropdown-prod">
-        {!filtros.status && (
+        {!filtroStatus && (
           <button
             className="filtro-prod"
             onClick={() => setMenuAberto(!menuAberto)}
@@ -109,18 +102,28 @@ function FiltrosEstoque({
           </button>
         )}
 
-        {menuAberto && !filtros.status && (
+        {menuAberto && !filtroStatus && (
           <div className="menu-filtros-prod">
-            <button onClick={() => aplicarFiltro("baixo")}>⚠️ Estoque Baixo</button>
-            <button onClick={() => aplicarFiltro("sem")}>❌ Sem Estoque</button>
+            <button onClick={() => setFiltroStatus("baixo")}>
+              ⚠️ Estoque Baixo
+            </button>
+            <button onClick={() => setFiltroStatus("sem")}>
+              ❌ Sem Estoque
+            </button>
           </div>
         )}
       </div>
 
-      {filtros.status && (
-        <button className="filtro-ativo-prod" onClick={limparFiltro}>
-          {filtros.status === "baixo" && "⚠️ Estoque Baixo ✕"}
-          {filtros.status === "sem" && "❌ Sem Estoque ✕"}
+      {filtroStatus && (
+        <button
+          className="filtro-ativo-prod"
+          onClick={() => {
+            setFiltroStatus(null);
+            setMenuAberto(false);
+          }}
+        >
+          {filtroStatus === "baixo" && "⚠️ Estoque Baixo ✕"}
+          {filtroStatus === "sem" && "❌ Sem Estoque ✕"}
         </button>
       )}
 
@@ -176,7 +179,9 @@ function FiltrosEstoque({
       />
 
       <Select
-        value={optionsCategorias.find((opt) => opt.value === categoriaSelecionada)}
+        value={optionsCategorias.find(
+          (opt) => opt.value === categoriaSelecionada
+        )}
         onChange={(opt) => setCategoriaSelecionada(opt.value)}
         options={optionsCategorias}
         placeholder="Todas Categorias"

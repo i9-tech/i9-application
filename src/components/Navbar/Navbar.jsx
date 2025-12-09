@@ -5,6 +5,7 @@ import LOGO_I9 from "../../assets/logo-i9.png";
 import { getFuncionario } from "../../utils/auth";
 import { Tooltip } from "react-tooltip";
 import { getSaudacao } from "../../utils/utils";
+import { clearFiltrosPratos, clearFiltrosProdutos } from "../../utils/filters";
 
 export function Navbar() {
   const funcionario = getFuncionario();
@@ -27,6 +28,13 @@ export function Navbar() {
     const handleClick = (event) => {
       itensMenu.forEach((i) => i.classList.remove("clicked"));
       event.currentTarget.classList.add("clicked");
+
+      if(event.target.alt != "Icone de Estoque de Produtos") {
+        clearFiltrosProdutos();
+      }
+      if(event.target.alt != "Icone de Estoque de Pratos") {
+        clearFiltrosPratos();
+      }
     };
 
     itensMenu.forEach((item) =>

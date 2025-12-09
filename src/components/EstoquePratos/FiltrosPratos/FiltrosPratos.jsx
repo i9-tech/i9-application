@@ -7,9 +7,11 @@ import { getFuncionario } from "../../../utils/auth";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import ModalArea from "../../CadastroArea/ModalArea";
+import { setFiltrosPratos } from "../../../utils/filters";
 
 function FiltrosPratos({
-  setFiltros,
+  filtroStatus,
+  setFiltroStatus,
   termoBusca,
   setTermoBusca,
   setorSelecionado,
@@ -18,10 +20,11 @@ function FiltrosPratos({
   setCategoriaSelecionada,
   areaSelecionada,
   setAreaSelecionada,
+  pagina,
+  quantidadePorPagina,
 }) {
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
-  const [filtroStatus, setFiltroStatus] = useState(null);
   const [setores, setSetores] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [areas, setAreas] = useState([]);
@@ -32,28 +35,26 @@ function FiltrosPratos({
   const token = localStorage.getItem("token");
 
   const atualizarFiltros = useCallback(() => {
-    setFiltros({
+    setFiltrosPratos({
       status: filtroStatus,
       categoria: categoriaSelecionada,
       setor: setorSelecionado,
       area: areaSelecionada,
+      pagina: pagina,
+      quantidadePorPagina: quantidadePorPagina,
     });
   }, [
     filtroStatus,
     categoriaSelecionada,
     setorSelecionado,
     areaSelecionada,
-    setFiltros,
+    pagina,
+    quantidadePorPagina,
   ]);
 
-  const aplicarFiltro = (tipo) => {
-    setFiltroStatus(tipo);
-    setMenuAberto(false);
-  };
-
-  const limparFiltroStatus = () => {
-    setFiltroStatus(null);
-  };
+  useEffect(() => {
+    atualizarFiltros();
+  }, [atualizarFiltros]);
 
   useEffect(() => {
     if (!funcionario.userId) return;
@@ -89,10 +90,6 @@ function FiltrosPratos({
       });
   }, [funcionario.userId, token]);
 
-  useEffect(() => {
-    atualizarFiltros();
-  }, [atualizarFiltros]);
-
   const optionsSetores = [
     { value: "", label: "Todos Setores" },
     ...setores.map((set) => ({ value: set.id, label: set.nome })),
@@ -124,10 +121,10 @@ function FiltrosPratos({
         )}
         {menuAberto && !filtroStatus && (
           <div className="menu-filtros">
-            <button onClick={() => aplicarFiltro("disponível")}>
+            <button onClick={() => setFiltroStatus("disponível")}>
               ✅ Ativos
             </button>
-            <button onClick={() => aplicarFiltro("indisponível")}>
+            <button onClick={() => setFiltroStatus("indisponível")}>
               🚫 Inativos
             </button>
           </div>
@@ -135,10 +132,14 @@ function FiltrosPratos({
       </div>
 
       {filtroStatus && (
-        <button className="filtro-ativo" onClick={limparFiltroStatus}>
-          {filtroStatus === "disponível"
-            ? "✅ Disponíveis ✕"
-            : "🚫 Indisponíveis ✕"}
+        <button
+          className="filtro-ativo"
+          onClick={() => {
+            setFiltroStatus(null);
+            setMenuAberto(false);
+          }}
+        >
+          {filtroStatus === "disponível" ? "✅ Ativos ✕" : "🚫 Inativos ✕"}
         </button>
       )}
 
